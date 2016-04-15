@@ -1,0 +1,38 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.fshoes.logicanegocio;
+
+import com.fshoes.accesodatos.TrabajadorAD;
+import com.fshoes.entidades.Trabajador;
+
+/**
+ *
+ * @author Geovanny Rìos Abarca
+ */
+public class TrabajadorLN {
+    //Singleton
+    public static TrabajadorLN _Instancia;
+    private TrabajadorLN(){};
+    public static TrabajadorLN Instancia(){
+            if(_Instancia==null){			
+                    _Instancia = new TrabajadorLN();
+            }
+            return _Instancia;
+    }
+    // end Singleton
+
+    //Metodos
+    public Trabajador lfVerificarAcceso(String usuario, String contrasena) 
+                    throws Exception{
+            try{
+                    return TrabajadorAD.Instancia().verificarAcceso(usuario, contrasena); 
+            }catch(Exception ex){
+                    throw ex;
+            }
+
+    }
+    
+}
