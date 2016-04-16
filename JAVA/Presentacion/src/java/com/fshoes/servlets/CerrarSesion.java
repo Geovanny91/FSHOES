@@ -5,8 +5,6 @@
  */
 package com.fshoes.servlets;
 
-import com.fshoes.entidades.Trabajador;
-import com.fshoes.logicanegocio.TrabajadorLN;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -20,8 +18,8 @@ import javax.servlet.http.HttpSession;
  *
  * @author Geovanny Rìos Abarca
  */
-@WebServlet(name = "VerificarAcesso", urlPatterns = {"/VerificarAcesso"})
-public class VerificarAcesso extends HttpServlet {
+@WebServlet(name = "CerrarSesion", urlPatterns = {"/CerrarSesion"})
+public class CerrarSesion extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,10 +38,10 @@ public class VerificarAcesso extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet VerificarAcesso</title>");            
+            out.println("<title>Servlet CerrarSesion</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet VerificarAcesso at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet CerrarSesion at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -61,7 +59,7 @@ public class VerificarAcesso extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        //processRequest(request, response);
     }
 
     /**
@@ -75,25 +73,13 @@ public class VerificarAcesso extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //processRequest(request, response);
         response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();        
-        
-        String usuario = request.getParameter("usuario");
-        String contrasena = request.getParameter("contrasena");
-        
-        try {
-            Trabajador t = TrabajadorLN.Instancia().lfVerificarAcceso(usuario, contrasena);
-            if(t!=null){
-                HttpSession ses = request.getSession();
-                ses.setAttribute("trabajador", t);                    
-                response.sendRedirect("frmPrincipal.jsp");
-            }else{
-                   out.println("Usuario incorrecto");
-            }
-        } catch (Exception ex) {
-            ex.getMessage();
-        }                  
+        //PrintWriter out = response.getWriter();
+        HttpSession session = request.getSession(false);        
+        session.removeAttribute("trabajador");
+        session.getMaxInactiveInterval();
+        response.sendRedirect("index.html");   
+        //out.println("Sesion mal"); 
     }
 
     /**
@@ -106,6 +92,4 @@ public class VerificarAcesso extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    
-    
 }
