@@ -25,7 +25,7 @@
   <link href="../fonts/css/font-awesome.min.css" rel="stylesheet">  
 
   <!-- Custom styling plus plugins -->
-  <link href="../css/custom.css" rel="stylesheet">  
+  <link href="../css/custom.css" rel="stylesheet">
 
   <!--[if lt IE 9]>
         <script src="../assets/js/ie8-responsive-file-warning.js"></script>
@@ -160,7 +160,7 @@
                   </li>                  
                   <li><a href="#" id="salir"><span>
                               <span>
-                                  <form id="formlogout" method="POST" action="CerrarSesion" > 
+                                  <form id="formlogout" method="POST" action="../CerrarSesion" > 
                                        <!--<button class="btn btn-sm btn-default" ><i class="fa fa-sign-out pull-right"></i>Salir</button>-->
                                   </form>
                               <i class="fa fa-sign-out pull-right"></i> Salir

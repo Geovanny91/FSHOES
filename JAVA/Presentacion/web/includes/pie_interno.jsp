@@ -16,7 +16,7 @@
   <script src="../js/progressbar/bootstrap-progressbar.min.js"></script>
   <!-- daterangepicker -->  
   <script type="text/javascript" src="../js/datepicker/daterangepicker.js"></script>
-  <script src="../js/custom.js"></script>  
+  <script src="../js/custom.js"></script>
   <script>
   <!-- skycons -->
   <script src="../js/skycons/skycons.min.js"></script>
@@ -36,18 +36,28 @@
 
     icons.play();
   </script>
-
   <script type="text/javascript">
     $(document).ready(function() {
         logout();
-
+        listarClientes();
     });
- 
     
     function logout() {
         $("#salir").on("click", function (){
            document.getElementById("formlogout").submit(); 
-        });
+        });        
+    }
+    
+    function listarClientes(valor){        
+       // $("#buscar-cliente").on("click", function(){
+            $.ajax({
+                method: "POST",
+                url: "../Scliente",
+                data: {"valor": valor}
+            }).done(function(data){                
+                $("#tabla-cliente").html(data);                
+            });
+        //});        
     }
     
   </script>

@@ -16,6 +16,7 @@ import java.sql.ResultSet;
  * @author Geovanny Rìos Abarca
  */
 public class TrabajadorAD {
+    // singleton
     public static TrabajadorAD _Instancia;
 	private TrabajadorAD(){};
 	public static TrabajadorAD Instancia(){
@@ -44,7 +45,7 @@ public class TrabajadorAD {
                             t.setApe_materno(rs.getString("ape_materno"));
                             Proceso p = new Proceso();
                                     p.setCodigoproceso(rs.getString("codigoproceso"));
-                                    p.setDescripccion(rs.getString("descripcion"));
+                                    p.setDescripcion(rs.getString("descripcion"));
                                     //p.setIdmateriales(rs.getInt("idmateriales"));					
                                 t.setCodigoproceso(p);
                     }			

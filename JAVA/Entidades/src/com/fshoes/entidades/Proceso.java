@@ -11,13 +11,13 @@ package com.fshoes.entidades;
  */
 public class Proceso {
     private String codigoproceso;
-    private String descripccion;
+    private String descripcion;
     private int idmateriales;
 
     
     public Proceso(String codigoproceso, String descripccion, int idmateriales) {
         this.codigoproceso = codigoproceso;
-        this.descripccion = descripccion;
+        this.descripcion = descripccion;
         this.idmateriales = idmateriales;
     }
     
@@ -33,12 +33,12 @@ public class Proceso {
         this.codigoproceso = codigoproceso;
     }
 
-    public String getDescripccion() {
-        return descripccion;
+    public String getDescripcion() {
+        return descripcion;
     }
 
-    public void setDescripccion(String descripccion) {
-        this.descripccion = descripccion;
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 
     public int getIdmateriales() {
