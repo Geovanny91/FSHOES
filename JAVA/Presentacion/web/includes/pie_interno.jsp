@@ -9,17 +9,17 @@
     <div id="notif-group" class="tabbed_notifications"></div>
   </div>
 
-  <script src="js/jquery.min.js"></script>
-  <script src="js/nprogress.js"></script>
-  <script src="js/bootstrap.min.js"></script>  
+  <script src="../js/jquery.min.js"></script>
+  <script src="../js/nprogress.js"></script>
+  <script src="../js/bootstrap.min.js"></script>  
   <!-- bootstrap progress js -->
-  <script src="js/progressbar/bootstrap-progressbar.min.js"></script>
+  <script src="../js/progressbar/bootstrap-progressbar.min.js"></script>
   <!-- daterangepicker -->  
-  <script type="text/javascript" src="js/datepicker/daterangepicker.js"></script>
-  <script src="js/custom.js"></script>  
+  <script type="text/javascript" src="../js/datepicker/daterangepicker.js"></script>
+  <script src="../js/custom.js"></script>  
   <script>
   <!-- skycons -->
-  <script src="js/skycons/skycons.min.js"></script>
+  <script src="../js/skycons/skycons.min.js"></script>
   <script>
     var icons = new Skycons({
         "color": "#73879C"

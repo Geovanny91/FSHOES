@@ -20,12 +20,12 @@
 
   <!-- Bootstrap core CSS -->
 
-  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link href="../css/bootstrap.min.css" rel="stylesheet">
 
-  <link href="fonts/css/font-awesome.min.css" rel="stylesheet">  
+  <link href="../fonts/css/font-awesome.min.css" rel="stylesheet">  
 
   <!-- Custom styling plus plugins -->
-  <link href="css/custom.css" rel="stylesheet">  
+  <link href="../css/custom.css" rel="stylesheet">  
 
   <!--[if lt IE 9]>
         <script src="../assets/js/ie8-responsive-file-warning.js"></script>
@@ -51,7 +51,7 @@
         <div class="left_col scroll-view">
 
           <div class="navbar nav_title" style="border: 0;">
-              <a href="frmPrincipal.jsp" class="site_title"><i class="fa fa-paw"></i> <span>FHOES System</span></a>
+              <a href="../frmPrincipal.jsp" class="site_title"><i class="fa fa-paw"></i> <span>FHOES System</span></a>
           </div>
           <div class="clearfix"></div>
 
@@ -69,7 +69,7 @@
           
           <div class="profile">
             <div class="profile_pic">
-              <img src="images/img.jpg" alt="..." class="img-circle profile_img">
+              <img src="../images/img.jpg" alt="..." class="img-circle profile_img">
             </div>
             <div class="profile_info">
               <span>Bienvenido,</span>
@@ -85,24 +85,24 @@
 
             <div class="menu_section">
               <h3>General</h3>
-              <ul class="nav side-menu">                
+              <ul class="nav side-menu">
                 <li><a><i class="fa fa-desktop"></i> Modelo <span class="fa fa-chevron-down"></span></a>
                   <ul class="nav child_menu" style="display: none">
-                      <li><a href="fmodelo/mantenedorModelo.jsp">Registrar</a>
+                      <li><a href="../fmodelo/mantenedorModelo.jsp">Registrar</a>
                     </li>
-                    <li><a href="#">Media Gallery</a>
+                    <li><a href="media_gallery.html">Media Gallery</a>
                     </li>                    
                   </ul>
                 </li>
                 <li><a><i class="fa fa-table"></i> Material <span class="fa fa-chevron-down"></span></a>
                   <ul class="nav child_menu" style="display: none">
-                      <li><a href="fmaterial/mantenedorMaterial.jsp">Registrar</a>
+                      <li><a href="../fmaterial/mantenedorMaterial.jsp">Registrar</a>
                     </li>                    
                   </ul>
                 </li>
                 <li><a><i class="fa fa-bar-chart-o"></i> Orden <span class="fa fa-chevron-down"></span></a>
                   <ul class="nav child_menu" style="display: none">
-                      <li><a href="forden/mantenedorOrden.jsp">Registrar</a>
+                      <li><a href="../forden/mantenedorOrden.jsp">Registrar</a>
                     </li>                    
                   </ul>
                 </li>
@@ -113,13 +113,13 @@
               <ul class="nav side-menu">
                 <li><a><i class="fa fa-bug"></i> Proveedor <span class="fa fa-chevron-down"></span></a>
                   <ul class="nav child_menu" style="display: none">
-                      <li><a href="fproveedor/mantenedorProveedor.jsp">Registrar</a>
+                      <li><a href="../fproveedor/mantenedorProveedor.jsp">Registrar</a>
                     </li>                    
                   </ul>
                 </li>
                 <li><a><i class="fa fa-edit"></i> Cliente <span class="fa fa-chevron-down"></span></a>
                   <ul class="nav child_menu" style="display: none">
-                      <li><a href="fcliente/mantenedorClientes.jsp">Registrar</a>
+                      <li><a href="../fcliente/mantenedorClientes.jsp">Registrar</a>
                     </li>
                     <li><a href="#">Advanced Components</a>
                     </li>
@@ -147,7 +147,7 @@
             <ul class="nav navbar-nav navbar-right">
               <li class="">
                 <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                  <img src="images/img.jpg" alt=""><%=usuario%>
+                  <img src="../images/img.jpg" alt=""><%=usuario%>
                   <span class=" fa fa-angle-down"></span>
                 </a>
                 <ul class="dropdown-menu dropdown-usermenu animated fadeInDown pull-right">

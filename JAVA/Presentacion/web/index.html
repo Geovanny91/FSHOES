@@ -25,10 +25,9 @@ and open the template in the editor.
 
   <!-- Custom styling plus plugins -->
   <link href="css/custom.css" rel="stylesheet">
-  <link href="css/icheck/flat/green.css" rel="stylesheet">
-
-
-  <script src="js/jquery.min.js"></script>
+  <link href="css/icheck/flat/green.css" rel="stylesheet">  
+  
+  <link rel="stylesheet" type="text/css" href="css/progressbar/bootstrap-progressbar-3.3.0.css">
 
   <!--[if lt IE 9]>
         <script src="../assets/js/ie8-responsive-file-warning.js"></script>
@@ -67,7 +66,7 @@ and open the template in the editor.
             <div class="separator">
 
               <p class="change_link">¿Nuevo en el Sistema?
-                <a href="#toregister" class="to_register"> Crear nuevo Trabajador</a>
+                <a href="#toregister" class="to_register"> Registrar nuevo trabajador</a>
               </p>
               <div class="clearfix"></div>
               <br />
@@ -82,19 +81,53 @@ and open the template in the editor.
       </div>
       <div id="register" class="animate form">
         <section class="login_content">
-          <form>
-            <h1>Crear Cuenta</h1>
+            <form id="frmTrabajador">
+            <h1>Nuevo Trabajador</h1>
             <div>
-              <input type="text" class="form-control" placeholder="Username" required="" />
+                <input type="text" name="dni" id="dni" class="form-control" placeholder="Dni" required="" />
+            </div>            
+            <div>
+                <input type="text" name="nombres" id="nombres" class="form-control" placeholder="Nombres" required="" />
             </div>
             <div>
-              <input type="email" class="form-control" placeholder="Email" required="" />
+                <input type="text" name="ape_paterno" id="paterno" class="form-control" placeholder="Apellido Paterno" required="" />
             </div>
             <div>
-              <input type="password" class="form-control" placeholder="Password" required="" />
+              <input type="text" name="ape_materno" id="ape_materno" class="form-control" placeholder="Apellido Materno" required="" />
             </div>
             <div>
-              <a class="btn btn-default submit" href="index.html">Submit</a>
+              <input type="text" name="direccion" id="direccion" class="form-control" placeholder="Dirección" required="" />
+            </div>
+            <div>
+                <input type="text" name="telefono" id="telefono" class="form-control" placeholder="Teléfono" required="" />
+            </div>
+            <div>
+              <input type="text" name="celular" id="celular" class="form-control" placeholder="Celular" required="" />
+            </div>
+            <div>
+                <input type="text" name="fecha_nacimiento" id="fecha_nacimiento" class="form-control" placeholder="Fecha. Nacimiento" required="" />
+            </div>
+            <div>
+              <input type="text" name="usuario" id="usuario" class="form-control" placeholder="Usuario" required="" />
+            </div>
+            <div>
+              <input type="password" name="contrasena" id="contrasena" class="form-control" placeholder="Contraseña" required="" />
+            </div>            
+            <div>
+              <input type="text" name="estado" id="estado" class="form-control" placeholder="Estado" required="" />
+            </div>
+            <div>
+              <input type="text" name="proceso" id="proceso" class="form-control" placeholder="Codigo Proceso" required="" />
+            </div>
+            <!--Agregar esta notificación mediante Ajax cuando se registra y los datos se han registrado correctamente si no emplear notif. error-->
+            <button class="btn btn-default source" onclick="new PNotify({
+                                title: 'Regular Success',
+                                text: 'That thing that you were trying to do worked!',
+                                type: 'success'
+                            });">Success</button>
+            
+            <div>
+                <button class="btn btn-default submit">Guardar</button>
             </div>
             <div class="clearfix"></div>
             <div class="separator">
@@ -115,7 +148,117 @@ and open the template in the editor.
       </div>
     </div>
   </div>
+    
+  <script src="js/jquery.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
 
+  <!-- bootstrap progress js -->
+  <script src="js/progressbar/bootstrap-progressbar.min.js"></script>
+  <!-- icheck -->
+  <script src="js/icheck/icheck.min.js"></script>
+
+  <script src="js/custom.js"></script>
+  <!-- pace -->
+  <script src="js/pace/pace.min.js"></script>
+   <!-- PNotify -->
+  <script type="text/javascript" src="js/notify/pnotify.core.js"></script>
+  <script type="text/javascript" src="js/notify/pnotify.buttons.js"></script>
+  <script type="text/javascript" src="js/notify/pnotify.nonblock.js"></script>
+  
+   <script>
+    $(function() {
+      var cnt = 10; //$("#custom_notifications ul.notifications li").length + 1;
+      TabbedNotification = function(options) {
+        var message = "<div id='ntf" + cnt + "' class='text alert-" + options.type + "' style='display:none'><h2><i class='fa fa-bell'></i> " + options.title +
+          "</h2><div class='close'><a href='javascript:;' class='notification_close'><i class='fa fa-close'></i></a></div><p>" + options.text + "</p></div>";
+
+        if (document.getElementById('custom_notifications') == null) {
+          alert('doesnt exists');
+        } else {
+          $('#custom_notifications ul.notifications').append("<li><a id='ntlink" + cnt + "' class='alert-" + options.type + "' href='#ntf" + cnt + "'><i class='fa fa-bell animated shake'></i></a></li>");
+          $('#custom_notifications #notif-group').append(message);
+          cnt++;
+          CustomTabs(options);
+        }
+      }
+
+      CustomTabs = function(options) {
+        $('.tabbed_notifications > div').hide();
+        $('.tabbed_notifications > div:first-of-type').show();
+        $('#custom_notifications').removeClass('dsp_none');
+        $('.notifications a').click(function(e) {
+          e.preventDefault();
+          var $this = $(this),
+            tabbed_notifications = '#' + $this.parents('.notifications').data('tabbed_notifications'),
+            others = $this.closest('li').siblings().children('a'),
+            target = $this.attr('href');
+          others.removeClass('active');
+          $this.addClass('active');
+          $(tabbed_notifications).children('div').hide();
+          $(target).show();
+        });
+      }
+
+      CustomTabs();
+
+      var tabid = idname = '';
+      $(document).on('click', '.notification_close', function(e) {
+        idname = $(this).parent().parent().attr("id");
+        tabid = idname.substr(-2);
+        $('#ntf' + tabid).remove();
+        $('#ntlink' + tabid).parent().remove();
+        $('.notifications a').first().addClass('active');
+        $('#notif-group div').first().css('display', 'block');
+      });
+    })
+  </script>
+  
+  <script type="text/javascript">
+  /*Esta alerta es la que sale al inicio en esta plantilla login*/
+    /*var permanotice, tooltip, _alert;
+    
+    $(function() {
+      new PNotify({
+        title: "PNotify",
+        type: "dark",
+        text: "Welcome. Try hovering over me. You can click things behind me, because I'm non-blocking.",
+        nonblock: {
+          nonblock: true
+        },
+        before_close: function(PNotify) {
+          // You can access the notice's options with this. It is read only.
+          //PNotify.options.text;
+
+          // You can change the notice's options after the timer like this:
+          PNotify.update({
+            title: PNotify.options.title + " - Enjoy your Stay",
+            before_close: null
+          });
+          PNotify.queueRemove();
+          return false;
+        }
+      });
+
+    });*/
+  </script>
+  <script>
+     $(document).on("ready",function (){
+        registrarTrabjador();
+     });
+     
+     function registrarTrabjador(){
+         
+         $("#frmTrabajador").on("submit", function(e){
+            var frm = $("#frmTrabajador").serialize();
+            console.log(frm);
+            e.preventDefault();
+         });
+         
+         
+     }
+     
+  </script>
+  
 </body>
 
 </html>
