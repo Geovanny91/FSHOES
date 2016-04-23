@@ -40,6 +40,7 @@
     $(document).ready(function() {
         logout();
         listarClientes();
+        
     });
     
     function logout() {
@@ -58,6 +59,49 @@
                 $("#tabla-cliente").html(data);                
             });
         //});        
+    }
+    
+    function seleccionar(x){
+        var id = x.childNodes[1].lastChild.value,
+            razon_social= x.childNodes[2].innerHTML;        
+        var rz_cliente = $("#cliente").val(razon_social),
+            id_cliente = $("#id-cliente").val(id);        
+        console.log(x.childNodes);
+    }
+    
+    function listarProveedores(valor){
+        $.ajax({
+            method: "POST",
+            url: "../Sproveedor",
+            data: {"valor": valor}
+        }).done(function(data){                
+            $("#tabla-proveedor").html(data);                
+        });
+    }
+    
+    function seleccionarProveedor(x){
+        var id = x.childNodes[1].lastChild.value,
+            razon_social= x.childNodes[2].innerHTML;        
+        var rz_cliente = $("#proveedor").val(razon_social),
+            id_cliente = $("#id-proveedor").val(id);        
+        console.log(x.childNodes);
+    }
+    
+    function agregarSerie() {
+        var table = document.getElementById("tabla-serie");
+        var row = table.insertRow(0);        
+        var cell1 = row.insertCell(0);
+        var cell2 = row.insertCell(1);
+        var cell3 = row.insertCell(2);
+        cell1.innerHTML = $("#talla").val();
+        cell2.innerHTML = $("#par").val();
+        cell3.innerHTML = "<a href='#' onclick='eliminar(this);' ><i class='fa fa-remove'></i></a>"
+    }
+    
+    function eliminar(valor){        
+        var i = valor.parentNode.parentNode.rowIndex;
+        console.log(i);
+        document.getElementById("tabla-serie").deleteRow(i-1);
     }
     
   </script>

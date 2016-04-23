@@ -5,13 +5,11 @@
  */
 package com.fshoes.servlets;
 
-import com.fshoes.entidades.Cliente;
-import com.fshoes.logicanegocio.ClienteLN;
+import com.fshoes.entidades.Proveedor;
+import com.fshoes.logicanegocio.ProveedorLN;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -22,8 +20,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author flores
  */
-@WebServlet(name = "Scliente", urlPatterns = {"/Scliente"})
-public class Scliente extends HttpServlet {
+@WebServlet(name = "Sproveedor", urlPatterns = {"/Sproveedor"})
+public class Sproveedor extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -42,10 +40,10 @@ public class Scliente extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet Scliente</title>");            
+            out.println("<title>Servlet Sproveedor</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet Scliente at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet Sproveedor at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -80,16 +78,16 @@ public class Scliente extends HttpServlet {
         //processRequest(request, response);
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();        
-        ArrayList<Cliente> lista = new ArrayList<>();
+        ArrayList<Proveedor> lista = new ArrayList<>();
         String valor = request.getParameter("valor");
         try {
-            lista = ClienteLN.Instancia().listarClientes(valor);
+            lista = ProveedorLN.Instancia().listarProveedores(valor);
             
             for (int i = 0; i < lista.size(); i++) {
                 out.println(
                         //"<tr id='cliente"+i+"' onclick='seleccionar(\"cliente"+i+"\");' ><th scope='row'>"+(i+1)+"</th>"+
-                        "<tr  onclick='seleccionar(this);' ><th scope='row'>"+(i+1)+"</th>"+
-                        "<td><input class='id-cliente' type='hidden' value='"+lista.get(i).getIdcliente()+"' /></td>"+        
+                        "<tr  onclick='seleccionarProveedor(this);' ><th scope='row'>"+(i+1)+"</th>"+
+                        "<td><input class='id-proveedor' type='hidden' value='"+lista.get(i).getIdproveedor()+"' /></td>"+        
                         "<td>"+lista.get(i).getRazonsocial()+"</td>"+
                         "<td>"+lista.get(i).getRuc()+"</td>"+
                         "<td>"+lista.get(i).getDireccion()+"</td>"+                        
@@ -97,18 +95,8 @@ public class Scliente extends HttpServlet {
                 );
             }            
         } catch (Exception ex) {
-            Logger.getLogger(Scliente.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        
-        /*try {
-            lista = ClienteLN.Instancia().listarClientes();
-            for (int i = 0; i < lista.size(); i++) {
-                out.println("<option value='"+lista.get(i).getCodigoproceso()+"'>"+lista.get(i).getDescripcion()+"</option>");                
-            }            
-        } catch (Exception ex) {
             ex.getMessage();
-        } */
+        }
     }
 
     /**

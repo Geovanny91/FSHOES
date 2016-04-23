@@ -35,7 +35,7 @@
                         </div>                    -->
                         <div class="form-group">
                             <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">    
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg" ><i class="fa fa-search"></i> Cliente</button>
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg" ><i class="fa fa-search"></i> Buscar Cliente</button>
                             </div>
 
                             <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
@@ -74,6 +74,7 @@
                                                                 <thead>
                                                                     <tr>
                                                                         <th>#</th>
+                                                                        <th></th>  
                                                                         <th>R. Social</th>
                                                                         <th>Ruc</th>
                                                                         <th>Dirección</th>
@@ -91,12 +92,17 @@
                                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                                                 <button type="button" class="btn btn-primary">Save changes</button>
                                             </div>-->
-
+                                                
                                         </div>
                                     </div>
                                 </div>
-
-
+                            </div>
+                            <input type="hidden" class="form-control" name="id-cliente" id="id-cliente" value="">
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Cliente</label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input type="text" class="form-control" name="cliente" id="cliente" value="" readonly>
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12">Horma</label>
