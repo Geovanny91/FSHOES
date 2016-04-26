@@ -40,7 +40,7 @@ public class Sproveedor extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet Sproveedor</title>");            
+            out.println("<title>Servlet Sproveedor</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet Sproveedor at " + request.getContextPath() + "</h1>");
@@ -77,36 +77,61 @@ public class Sproveedor extends HttpServlet {
             throws ServletException, IOException {
         //processRequest(request, response);
         response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();        
+        PrintWriter out = response.getWriter();
         ArrayList<Proveedor> lista = new ArrayList<>();
+        boolean rptProveedor;
+        Proveedor objProveedor;
+        
         String valor = request.getParameter("valor");
-        try {
-            lista = ProveedorLN.Instancia().listarProveedores(valor);
-            
-            for (int i = 0; i < lista.size(); i++) {
-                out.println(
-                        //"<tr id='cliente"+i+"' onclick='seleccionar(\"cliente"+i+"\");' ><th scope='row'>"+(i+1)+"</th>"+
-                        "<tr  onclick='seleccionarProveedor(this);' ><th scope='row'>"+(i+1)+"</th>"+
-                        "<td><input class='id-proveedor' type='hidden' value='"+lista.get(i).getIdproveedor()+"' /></td>"+        
-                        "<td>"+lista.get(i).getRazonsocial()+"</td>"+
-                        "<td>"+lista.get(i).getRuc()+"</td>"+
-                        "<td>"+lista.get(i).getDireccion()+"</td>"+                        
-                        "<td><a href='#' class=\"close\" data-dismiss=\"modal\" ><i class=\"fa fa-hand-o-left\"></i></a></td></tr>"                
-                );
-            }            
-        } catch (Exception ex) {
-            ex.getMessage();
+        String parametro = request.getParameter("parametro");
+
+        switch (parametro) {
+            case "listarProveedor": {
+                try {
+                    lista = ProveedorLN.Instancia().listarProveedores(valor, parametro);
+                    for (int i = 0; i < lista.size(); i++) {
+                        out.println(
+                                //"<tr id='cliente"+i+"' onclick='seleccionar(\"cliente"+i+"\");' ><th scope='row'>"+(i+1)+"</th>"+
+                                "<tr  onclick='seleccionarProveedor(this);' ><th scope='row'>" + (i + 1) + "</th>"
+                                + "<td><input class='id-proveedor' type='hidden' value='" + lista.get(i).getIdproveedor() + "' /></td>"
+                                + "<td>" + lista.get(i).getRazonsocial() + "</td>"
+                                + "<td>" + lista.get(i).getRuc() + "</td>"
+                                + "<td>" + lista.get(i).getDireccion() + "</td>"
+                                + "<td><a href='#' class=\"close\" data-dismiss=\"modal\" ><i class=\"fa fa-hand-o-left\"></i></a></td></tr>"
+                        );
+                    }
+                } catch (Exception ex) {
+                    ex.getMessage();
+                }
+            }break;
+            case "registrarProveedor": {
+                try {
+                    String razon_social = request.getParameter("razon"),
+                            ruc         = request.getParameter("ruc"),
+                            direccion   = request.getParameter("direccion");
+                    boolean estado      = Boolean.valueOf(request.getParameter("estado"));
+
+                    objProveedor = new Proveedor(0, razon_social, ruc, direccion, estado);
+                    rptProveedor = ProveedorLN.Instancia().registrarCliente(objProveedor, parametro);
+                    out.println("Se registraron los datos?" + rptProveedor);
+                } catch (Exception ex) {
+                    ex.getMessage();
+                }
+            }
+            break;
         }
     }
 
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
+        /**
+         * Returns a short description of the servlet.
+         *
+         * @return a String containing servlet description
+         */
+        @Override
+        public String getServletInfo
+        
+            () {
         return "Short description";
-    }// </editor-fold>
+        }// </editor-fold>
 
-}
+    }

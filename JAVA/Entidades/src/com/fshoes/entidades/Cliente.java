@@ -15,9 +15,9 @@ public class Cliente {
     private String razonsocial;
     private String ruc;
     private String direccion;
-    private int estado;
+    private boolean estado;
 
-    public Cliente(int idcliente, String razonsocial, String ruc, String direccion, int estado) {
+    public Cliente(int idcliente, String razonsocial, String ruc, String direccion, boolean estado) {
         this.idcliente = idcliente;
         this.razonsocial = razonsocial;
         this.ruc = ruc;
@@ -26,7 +26,7 @@ public class Cliente {
     }
 
     public Cliente() {
-        this(0, "", "", "", 0);
+        this(0, "", "", "", false);
     }
 
     public int getIdcliente() {
@@ -61,13 +61,15 @@ public class Cliente {
         this.direccion = direccion;
     }
 
-    public int getEstado() {
+    public boolean isEstado() {
         return estado;
     }
 
-    public void setEstado(int estado) {
+    public void setEstado(boolean estado) {
         this.estado = estado;
     }
+
+    
 
     
     

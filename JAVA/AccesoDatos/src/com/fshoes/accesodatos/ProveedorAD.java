@@ -27,12 +27,17 @@ public class ProveedorAD {
 	}
 	// end Singleton
         
-    public ArrayList<Proveedor> listarProveedores(String valor) throws Exception{
+    public ArrayList<Proveedor> listarProveedores(String valor, String prm) throws Exception{
         Connection cn = Conexion.Instancia().getConexion();
         ArrayList<Proveedor> Lista = null;
         try{
-            CallableStatement cst = cn.prepareCall("{call pa_proveedor(?)}");
-            cst.setString(1, valor);
+            CallableStatement cst = cn.prepareCall("{call pa_proveedor(?,?,?,?,?,?)}");
+            cst.setString(1, valor);            
+            cst.setString(2, prm);
+            cst.setString(3, "");
+            cst.setString(4, "");
+            cst.setString(5, "");
+            cst.setBoolean(6, false);
             ResultSet tabla = cst.executeQuery();
             Lista = new ArrayList<Proveedor>();
             while(tabla.next()){
@@ -47,5 +52,26 @@ public class ProveedorAD {
                 throw e;
         }finally{cn.close();}
         return Lista;
+    }
+    
+    public boolean registrarProveedor(Proveedor objProveedor, String prm) throws Exception{
+        Connection cn = Conexion.Instancia().getConexion();
+        boolean rpt = false;
+        try {
+            CallableStatement cst = cn.prepareCall("{call pa_proveedor(?,?,?,?,?,?)}");
+            cst.setString(1, "");
+            cst.setString(2, prm);
+            cst.setString(3, objProveedor.getRazonsocial());
+            cst.setString(4, objProveedor.getRuc());
+            cst.setString(5, objProveedor.getDireccion());
+            cst.setBoolean(6, objProveedor.isEstado());
+            cst.execute();
+            rpt = true;
+        } catch (Exception e) {
+            throw e;
+        }finally{
+            cn.close();            
+        }
+        return rpt;
     }
 }

@@ -42,7 +42,7 @@ public class Scliente extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet Scliente</title>");            
+            out.println("<title>Servlet Scliente</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet Scliente at " + request.getContextPath() + "</h1>");
@@ -79,28 +79,50 @@ public class Scliente extends HttpServlet {
             throws ServletException, IOException {
         //processRequest(request, response);
         response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();        
+        PrintWriter out = response.getWriter();
         ArrayList<Cliente> lista = new ArrayList<>();
+        boolean rptCliente;
+        Cliente objCliente;
+
+        String parametro = request.getParameter("parametro");
         String valor = request.getParameter("valor");
-        try {
-            lista = ClienteLN.Instancia().listarClientes(valor);
-            
-            for (int i = 0; i < lista.size(); i++) {
-                out.println(
-                        //"<tr id='cliente"+i+"' onclick='seleccionar(\"cliente"+i+"\");' ><th scope='row'>"+(i+1)+"</th>"+
-                        "<tr  onclick='seleccionar(this);' ><th scope='row'>"+(i+1)+"</th>"+
-                        "<td><input class='id-cliente' type='hidden' value='"+lista.get(i).getIdcliente()+"' /></td>"+        
-                        "<td>"+lista.get(i).getRazonsocial()+"</td>"+
-                        "<td>"+lista.get(i).getRuc()+"</td>"+
-                        "<td>"+lista.get(i).getDireccion()+"</td>"+                        
-                        "<td><a href='#' class=\"close\" data-dismiss=\"modal\" ><i class=\"fa fa-hand-o-left\"></i></a></td></tr>"                
-                );
-            }            
-        } catch (Exception ex) {
-            Logger.getLogger(Scliente.class.getName()).log(Level.SEVERE, null, ex);
+
+        switch (parametro) {
+            case "listarCliente": {
+                try {
+                    lista = ClienteLN.Instancia().listarClientes(valor, parametro);
+                    for (int i = 0; i < lista.size(); i++) {
+                        out.println(
+                                "<tr  onclick='seleccionar(this);' ><th scope='row'>" + (i + 1) + "</th>"
+                                + "<td><input class='id-cliente' type='hidden' value='" + lista.get(i).getIdcliente() + "' /></td>"
+                                + "<td>" + lista.get(i).getRazonsocial() + "</td>"
+                                + "<td>" + lista.get(i).getRuc() + "</td>"
+                                + "<td>" + lista.get(i).getDireccion() + "</td>"
+                                + "<td><a href='#' class=\"close\" data-dismiss=\"modal\" ><i class=\"fa fa-hand-o-left\"></i></a></td></tr>"
+                        );
+                    }
+                } catch (Exception ex) {
+                    ex.getMessage();
+                }
+            }
+            break;
+            case "registrarCliente": {
+                try {
+                    String razon_social = request.getParameter("razon"),
+                            ruc = request.getParameter("ruc"),
+                            direccion = request.getParameter("direccion");
+                    boolean estado = Boolean.valueOf(request.getParameter("estado"));
+
+                    objCliente = new Cliente(0, razon_social, ruc, direccion, estado);
+                    rptCliente = ClienteLN.Instancia().registrarCliente(objCliente, parametro);
+                    out.println(rptCliente);
+                } catch (Exception ex) {
+                    ex.getMessage();
+                }
+            }
+            break;
         }
-        
-        
+
         /*try {
             lista = ClienteLN.Instancia().listarClientes();
             for (int i = 0; i < lista.size(); i++) {

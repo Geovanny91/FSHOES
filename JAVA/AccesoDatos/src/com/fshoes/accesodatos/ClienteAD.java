@@ -27,12 +27,18 @@ public class ClienteAD {
 	}
 	// end Singleton
         
-    public ArrayList<Cliente> listarClientes(String valor) throws Exception{
+    public ArrayList<Cliente> listarClientes(String valor, String prm) throws Exception{
         Connection cn = Conexion.Instancia().getConexion();
         ArrayList<Cliente> Lista = null;
         try{
-            CallableStatement cst = cn.prepareCall("{call pa_cliente(?)}");
+            CallableStatement cst = cn.prepareCall("{call pa_cliente(?,?,?,?,?,?)}");
             cst.setString(1, valor);
+            cst.setString(2, prm);
+            cst.setString(3, "");
+            cst.setString(4, "");
+            cst.setString(5, "");
+            cst.setBoolean(6, false);
+            
             ResultSet tabla = cst.executeQuery();
             Lista = new ArrayList<Cliente>();
             while(tabla.next()){
@@ -48,4 +54,26 @@ public class ClienteAD {
         }finally{cn.close();}
         return Lista;
     }
+    
+    public boolean registrarCliente(Cliente objCliente, String prm) throws Exception{
+        Connection cn = Conexion.Instancia().getConexion();
+        boolean rpt = false;
+        try {
+            CallableStatement cst = cn.prepareCall("{call pa_cliente(?,?,?,?,?,?)}");
+            cst.setString(1, "");
+            cst.setString(2, prm);
+            cst.setString(3, objCliente.getRazonsocial());
+            cst.setString(4, objCliente.getRuc());
+            cst.setString(5, objCliente.getDireccion());
+            cst.setBoolean(6, objCliente.isEstado());
+            cst.execute();
+            rpt = true;
+        } catch (Exception e) {
+            throw e;
+        }finally{
+            cn.close();            
+        }
+        return rpt;
+    }
+    
 }

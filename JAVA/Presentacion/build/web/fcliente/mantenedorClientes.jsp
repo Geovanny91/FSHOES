@@ -1,4 +1,17 @@
 <jsp:include page="../includes/cabecera_interna.jsp"></jsp:include>
+<%@page import="com.fshoes.entidades.Trabajador" %>
+      <!-- page content -->
+
+<%
+    String usuario = "";
+    HttpSession ses = request.getSession();    
+    if(ses.getAttribute("trabajador")!=null){
+        Trabajador u = (Trabajador)ses.getAttribute("trabajador");
+        usuario = u.getNombreCompleto();
+    }else{
+        response.sendRedirect("../index.html");
+    }
+%>
       <!-- page content -->
       <div class="right_col" role="main">        
           
@@ -21,18 +34,18 @@
                 </div>
                 <div class="x_content">
                   <br>
-                  <form action="" method="POST" class="form-horizontal form-label-left">
+                  <form id="frmCliente" class="form-horizontal form-label-left">
 
                     <div class="form-group">
                       <label class="control-label col-md-3 col-sm-3 col-xs-12">Razon Social</label>
                       <div class="col-md-6 col-sm-6 col-xs-12">
-                        <input type="text" class="form-control" name="razon-social" id="razon-social" placeholder="Razón Social">
+                          <input type="text" class="form-control"  name="razon" id="razon" placeholder="Razón Social">
                       </div>
                     </div>                    
                     <div class="form-group">
                       <label class="control-label col-md-3 col-sm-3 col-xs-12">Ruc</label>
                       <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" class="form-control" name="ruc" id="ruc" value="" placeholder="Ruc">
+                          <input type="text" class="form-control" maxlength="11" name="ruc" id="ruc" value="" placeholder="Ruc">
                       </div>
                     </div>
                     <div class="form-group">
@@ -47,7 +60,7 @@
                       <div class="col-md-9 col-sm-9 col-xs-12">
                         <div class="checkbox">
                           <label>
-                            <input type="checkbox" value=""> Opción para habilitar a un cliente.
+                              <input type="checkbox" name="estado" id="estado"> Opción para habilitar a un cliente.
                           </label>
                         </div>                        
                       </div>

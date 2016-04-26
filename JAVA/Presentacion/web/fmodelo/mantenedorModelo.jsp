@@ -1,4 +1,17 @@
 <jsp:include page="../includes/cabecera_interna.jsp"></jsp:include>
+<%@page import="com.fshoes.entidades.Trabajador" %>
+      <!-- page content -->
+
+<%
+    String usuario = "";
+    HttpSession ses = request.getSession();    
+    if(ses.getAttribute("trabajador")!=null){
+        Trabajador u = (Trabajador)ses.getAttribute("trabajador");
+        usuario = u.getNombreCompleto();
+    }else{
+        response.sendRedirect("../index.html");
+    }
+%>
     <!-- page content -->
     <div class="right_col" role="main">        
 

@@ -14,9 +14,9 @@ public class Proveedor {
     private String razonsocial;
     private String ruc;
     private String direccion;
-    private int estado;
+    private boolean estado;
 
-    public Proveedor(int idproveedor, String razonsocial, String ruc, String direccion, int estado) {
+    public Proveedor(int idproveedor, String razonsocial, String ruc, String direccion, boolean estado) {
         this.idproveedor = idproveedor;
         this.razonsocial = razonsocial;
         this.ruc = ruc;
@@ -25,7 +25,7 @@ public class Proveedor {
     }
 
     public Proveedor() {
-        this(0, "", "", "", 0);        
+        this(0, "", "", "", false);        
     }
 
     public int getIdproveedor() {
@@ -60,13 +60,12 @@ public class Proveedor {
         this.direccion = direccion;
     }
 
-    public int getEstado() {
+    public boolean isEstado() {
         return estado;
     }
 
-    public void setEstado(int estado) {
+    public void setEstado(boolean estado) {
         this.estado = estado;
     }
-    
         
 }

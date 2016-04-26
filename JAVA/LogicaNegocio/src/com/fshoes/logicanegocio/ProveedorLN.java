@@ -25,11 +25,23 @@ public class ProveedorLN {
     }
     // end Singleton
     
-    public ArrayList<Proveedor> listarProveedores(String valor) throws Exception{
+    public ArrayList<Proveedor> listarProveedores(String valor, String prm) throws Exception{
         try{
-            return ProveedorAD.Instancia().listarProveedores(valor);
+            return ProveedorAD.Instancia().listarProveedores(valor, prm);
         }catch(Exception ex){
             throw ex;
         }        
+    }
+    
+    public boolean registrarCliente(Proveedor objProveedor, String prm) throws Exception{
+        try {            
+            if(objProveedor != null && !(prm.equals(""))){
+                return ProveedorAD.Instancia().registrarProveedor(objProveedor, prm);
+            }else{
+                return false;
+            }            
+        } catch (Exception e) {
+            throw e;
+        }
     }
 }

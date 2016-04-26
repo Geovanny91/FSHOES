@@ -22,11 +22,24 @@
 
   <link href="../css/bootstrap.min.css" rel="stylesheet">
 
-  <link href="../fonts/css/font-awesome.min.css" rel="stylesheet">  
+  <link href="../fonts/css/font-awesome.min.css" rel="stylesheet">
+  <link href="../css/animate.min.css" rel="stylesheet">
 
   <!-- Custom styling plus plugins -->
   <link href="../css/custom.css" rel="stylesheet">
+  <link href="../css/icheck/flat/green.css" rel="stylesheet">
+      <!-- ion_range -->
+  <link rel="stylesheet" href="../css/normalize.css" />
+  <link rel="stylesheet" href="../css/ion.rangeSlider.css" />
+  <link rel="stylesheet" href="../css/ion.rangeSlider.skinFlat.css" />
 
+  
+  <!-- colorpicker -->
+  <link href="../css/colorpicker/bootstrap-colorpicker.min.css" rel="stylesheet">
+  
+
+  
+  
   <!--[if lt IE 9]>
         <script src="../assets/js/ie8-responsive-file-warning.js"></script>
         <![endif]-->

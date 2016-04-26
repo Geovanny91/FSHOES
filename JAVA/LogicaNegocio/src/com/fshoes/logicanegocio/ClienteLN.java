@@ -25,11 +25,23 @@ public class ClienteLN {
     }
     // end Singleton
     
-    public ArrayList<Cliente> listarClientes(String valor) throws Exception{
+    public ArrayList<Cliente> listarClientes(String valor, String prm) throws Exception{
         try{
-            return ClienteAD.Instancia().listarClientes(valor);
+            return ClienteAD.Instancia().listarClientes(valor, prm);
         }catch(Exception ex){
             throw ex;
         }        
+    }
+    
+    public boolean registrarCliente(Cliente objCliente, String prm) throws Exception{
+        try {            
+            if(objCliente != null && !(prm.equals(""))){
+                return ClienteAD.Instancia().registrarCliente(objCliente, prm);
+            }else{
+                return false;
+            }            
+        } catch (Exception e) {
+            throw e;
+        }
     }
 }

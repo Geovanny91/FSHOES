@@ -1,29 +1,42 @@
 <jsp:include page="../includes/cabecera_interna.jsp"></jsp:include>
+<%@page import="com.fshoes.entidades.Trabajador" %>
+      <!-- page content -->
+
+<%
+    String usuario = "";
+    HttpSession ses = request.getSession();    
+    if(ses.getAttribute("trabajador")!=null){
+        Trabajador u = (Trabajador)ses.getAttribute("trabajador");
+        usuario = u.getNombreCompleto();
+    }else{
+        response.sendRedirect("../index.html");
+    }
+%>
     <!-- page content -->
     <div class="right_col" role="main">        
 
         <div class="row">
             <!-- Cliente -->
             <form action="" method="POST" class="form-horizontal form-label-left">
-            <div class="col-md-6 col-sm-6 col-xs-12">
-                <div class="x_panel">
-                    <div class="x_title">
-                        <h2>Formulario Orden <small>registrar datos.</small></h2>
-                        <ul class="nav navbar-right panel_toolbox">
-                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                            </li>
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2>Formulario Orden <small>registrar datos.</small></h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                </li>
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
 
-                            </li>
-                            <li><a class="close-link"><i class="fa fa-close"></i></a>
-                            </li>
-                        </ul>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="x_content">
-                        <br>
-                        
+                                </li>
+                                <li><a class="close-link"><i class="fa fa-close"></i></a>
+                                </li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content">
+                            <br>
+
                             <input type="hidden" class="form-control" name="id-proveedor" id="id-proveedor" value="">
                             <div class="form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12">Código de Orden</label>
@@ -37,18 +50,28 @@
                                     <input type="text" class="form-control" name="orden-pedido" id="orden-pedido" value="" placeholder="Orden de pedido">
                                 </div>
                             </div>
+                            
+
+                            <!--INICIO-->
                             <div class="form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12">Fecha emision</label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input type="text" name="fecha-emision" id="fecha-emision" class="form-control" placeholder="Fecha emision">                        
+                                    <input type="text" class="form-control has-feedback-left" id="fecha-emision" name="fecha-emision" placeholder="Fecha emisión">
+                                    <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
                                 </div>
-                            </div>
+                            </div>                            
+                            <div class="daterangepicker picker_2 single opensright show-calendar"></div>
+                            
+                            <!--FIN-->
+
                             <div class="form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12">Fecha entrega</label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input type="text" class="form-control" name="fecha-entrega" id="fecha-entrega" value="" placeholder="Fecha entrega">
+                                    <input type="text" class="form-control has-feedback-left" name="fecha-entrega" id="fecha-entrega" value="" placeholder="Fecha entrega">
+                                    <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
                                 </div>
                             </div>
+                            <div class="daterangepicker picker_2 single opensright show-calendar"></div>
 
                             <div class="form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12">Total</label>
@@ -63,36 +86,36 @@
                                     <button type="submit" class="btn btn-success">Guardar</button>
                                 </div>
                             </div>
-                        <!--</form>-->
+                            <!--</form>-->
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-6 col-sm-6 col-xs-12">
-                <div class="x_panel">
-                    <div class="x_title">
-                        <h2>Formulario Serie <small>agregar datos.</small></h2>
-                        <ul class="nav navbar-right panel_toolbox">
-                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                            </li>
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2>Formulario Serie <small>agregar datos.</small></h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                </li>
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
 
-                            </li>
-                            <li><a class="close-link"><i class="fa fa-close"></i></a>
-                            </li>
-                        </ul>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="x_content">
-                        
+                                </li>
+                                <li><a class="close-link"><i class="fa fa-close"></i></a>
+                                </li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content">
+
                             <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Talla</label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                     <input type="text" class="form-control" name="talla" id="talla" value="" placeholder="Ingresar n° talla">                                
                                 </div>
                             </div>
                             <div class="form-group ">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Pares</label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                     <input type="text" class="form-control" name="par" id="par" value="" placeholder="Ingresar n° pares ">                                
                                 </div>
@@ -132,12 +155,12 @@
                                 </div>
                             </div>
 
-                        
+
+                        </div>
                     </div>
+                    <!-- Cliente -->
                 </div>
-                <!-- Cliente -->
-            </div>
-                </form>
+            </form>
         </div>
         <!-- /page content -->
     <jsp:include page="../includes/pie_interno.jsp"></jsp:include>
