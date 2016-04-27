@@ -171,5 +171,9 @@
             <!-- Cliente -->
         </div>        
     </div>
+    <div class="row">
+        
+    </div>
+        
     <!-- /page content -->
 <jsp:include page="../includes/pie_interno.jsp"></jsp:include>

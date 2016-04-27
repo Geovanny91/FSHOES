@@ -121,8 +121,9 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">                                                    
-                                    <button type="button" onclick="agregarSerie();" class="btn btn-success">Agregar</button>
+                                <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
+                                    <button type="button" onclick="agregarSerie();" class="btn btn-default"><i class="fa fa-plus-square"></i> Agregar</button>
+                                    <button type="button" name="terminar-serie" id="terminar-serie" class="btn btn-default"><i class="fa fa-check-square"></i> Terminar</button>
                                 </div>
                             </div>
 
@@ -140,7 +141,7 @@
                                         <div class="clearfix"></div>
                                     </div>
                                     <div class="x_content">
-                                        <table class="table table-hover">
+                                        <table id="tabla-general-serie" class="table table-hover">
                                             <thead>
                                                 <tr>                                                    
                                                     <th>Talla</th>

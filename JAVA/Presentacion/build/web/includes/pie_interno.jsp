@@ -59,7 +59,51 @@
         fechas("#fecha-entrega");
         registrarcliente();
         registrarProveedor();
+        series();
     });
+
+    function series() {
+        $("#terminar-serie").on("click", function () {
+            /*var datajson = {
+             "nombre":"Geovanny",
+             "apellidos":"Rios Abarca",
+             "carrera":"Ing. sistemas"
+             };*/
+            //var myData = JSON.stringify(datajson);
+            var cabecera = "#tabla-general-serie thead th",
+                cuerpo   = "#tabla-general-serie tbody tr";
+            var data = {"series": obtenerDataTabla(cabecera, cuerpo)};
+            var objJson = JSON.stringify(data);
+            console.log(data);
+            console.log(objJson);
+            $.ajax({
+               method:"POST",
+               url:"../SOrden",
+               data:{"detalle":objJson}
+            }).done(function(data){
+                console.log(data);
+            });            
+        });
+    }
+
+    function obtenerDataTabla(cabecera, cuerpo) {
+        var columna = $(cabecera).map(function () {
+            return $(this).text();
+        });
+
+        var tablaObjecto = $(cuerpo).map(function (i) {
+            var fila = {};
+            $(this).find('td').each(function (i) {
+                var nombre_fila = columna[i];
+                fila[nombre_fila] = $(this).text();
+            });
+            return fila;
+            // Don't forget .get() to convert the jQuery set to a regular array. || Igual ponerlo o no, es lo mismo
+        }).get();
+        
+        return tablaObjecto;
+        //console.log(tablaObjecto); 
+    }
 
     function logout() {
         $("#salir").on("click", function () {
@@ -72,34 +116,32 @@
         $.ajax({
             method: "POST",
             url: "../Scliente",
-            data: {"valor": valor, "parametro":"listarCliente"}
+            data: {"valor": valor, "parametro": "listarCliente"}
         }).done(function (data) {
             $("#tabla-cliente").html(data);
         });
         //});        
     }
-    
-    function registrarcliente(){
-        $("#frmCliente").on("submit", function(e){
+
+    function registrarcliente() {
+        $("#frmCliente").on("submit", function (e) {
             e.preventDefault();
             var estado = document.getElementById("estado").checked;
             var razon = $("#razon").val(),
-                ruc = $("#ruc").val(),
-                direccion = $("#direccion").val();            
+                    ruc = $("#ruc").val(),
+                    direccion = $("#direccion").val();
             $.ajax({
-                method:"POST",
-                url:"../Scliente",
-                data:{"parametro":"registrarCliente", "estado": estado, "razon":razon, "ruc":ruc, "direccion": direccion}
-            }).done(function(data){
+                method: "POST",
+                url: "../Scliente",
+                data: {"parametro": "registrarCliente", "estado": estado, "razon": razon, "ruc": ruc, "direccion": direccion}
+            }).done(function (data) {
                 console.log("Se registro" + data);
                 var arreglo = ["#razon", "#ruc", "#direccion"];
                 limpiar(arreglo);
-            })            
+            })
         });
     }
-    
-    
-    
+
     function seleccionar(x) {
         var id = x.childNodes[1].lastChild.value,
                 razon_social = x.childNodes[2].innerHTML;
@@ -112,7 +154,7 @@
         $.ajax({
             method: "POST",
             url: "../Sproveedor",
-            data: {"valor": valor, "parametro":"listarProveedor"}
+            data: {"valor": valor, "parametro": "listarProveedor"}
         }).done(function (data) {
             $("#tabla-proveedor").html(data);
         });
@@ -125,23 +167,23 @@
                 id_cliente = $("#id-proveedor").val(id);
         console.log(x.childNodes);
     }
-    
-    function registrarProveedor(){
-        $("#frmProveedor").on("submit", function(e){
+
+    function registrarProveedor() {
+        $("#frmProveedor").on("submit", function (e) {
             e.preventDefault();
             var estado = document.getElementById("estado").checked;
             var razon = $("#razon").val(),
-                ruc = $("#ruc").val(),
-                direccion = $("#direccion").val();            
+                    ruc = $("#ruc").val(),
+                    direccion = $("#direccion").val();
             $.ajax({
-                method:"POST",
-                url:"../Sproveedor",
-                data:{"parametro":"registrarProveedor", "estado": estado, "razon":razon, "ruc":ruc, "direccion": direccion}
-            }).done(function(data){
+                method: "POST",
+                url: "../Sproveedor",
+                data: {"parametro": "registrarProveedor", "estado": estado, "razon": razon, "ruc": ruc, "direccion": direccion}
+            }).done(function (data) {
                 console.log("Se registro" + data);
                 var arreglo = ["#razon", "#ruc", "#direccion"];
                 limpiar(arreglo);
-            })            
+            })
         });
     }
 
@@ -168,28 +210,28 @@
         $(valor).daterangepicker({
             singleDatePicker: true,
             calender_style: "picker_2",
-            locale:{
+            locale: {
                 daysOfWeek: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa'],
                 monthNames: ['Enero', 'Febreri', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
             }
         }, function (start, end, label) {
             console.log(start.toISOString(), end.toISOString(), label);
         });
-        
+
         /*$('#fecha-entrega').daterangepicker({
-            singleDatePicker: true,
-            calender_style: "picker_2",
-            locale:{
-                daysOfWeek: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa'],
-                monthNames: ['Enero', 'Febreri', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
-            }
-        }, function (start, end, label) {
-            console.log(start.toISOString(), end.toISOString(), label);
-        });*/
+         singleDatePicker: true,
+         calender_style: "picker_2",
+         locale:{
+         daysOfWeek: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa'],
+         monthNames: ['Enero', 'Febreri', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
+         }
+         }, function (start, end, label) {
+         console.log(start.toISOString(), end.toISOString(), label);
+         });*/
     }
-    
-    function limpiar(arr){
-        for(var i=0; i<arr.length; i++){
+
+    function limpiar(arr) {
+        for (var i = 0; i < arr.length; i++) {
             $(arr[i]).val("");
         }
     }
