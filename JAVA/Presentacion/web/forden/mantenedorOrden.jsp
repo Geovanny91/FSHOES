@@ -17,7 +17,7 @@
 
         <div class="row">
             <!-- Cliente -->
-            <form action="" method="POST" class="form-horizontal form-label-left">
+            <!--<form id="frmOrden" method="POST" class="form-horizontal form-label-left">-->
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="x_panel">
                         <div class="x_title">
@@ -35,19 +35,20 @@
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content">
+                            <form id="frmOrden" method="POST" class="form-horizontal form-label-left">
                             <br>
 
                             <input type="hidden" class="form-control" name="id-proveedor" id="id-proveedor" value="">
                             <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Código de Orden</label>
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Orden de Producciòn</label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input type="text" class="form-control" name="codigo-orden" id="codigo-orden" placeholder="Código de Orden">
+                                    <input type="text" class="form-control" name="orden" id="orden" placeholder="Orden de Producción" required="">
                                 </div>
                             </div>                    
                             <div class="form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12">Orden de pedido</label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input type="text" class="form-control" name="orden-pedido" id="orden-pedido" value="" placeholder="Orden de pedido">
+                                    <input type="text" class="form-control" name="pedido" id="pedido" value="" placeholder="Orden de pedido" required="">
                                 </div>
                             </div>
                             
@@ -56,7 +57,7 @@
                             <div class="form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12">Fecha emision</label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input type="text" class="form-control has-feedback-left" id="fecha-emision" name="fecha-emision" placeholder="Fecha emisión">
+                                    <input type="text" class="form-control has-feedback-left" id="f_emision" name="f_emision" placeholder="Fecha emisión" required="">
                                     <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
                                 </div>
                             </div>                            
@@ -67,7 +68,7 @@
                             <div class="form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12">Fecha entrega</label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input type="text" class="form-control has-feedback-left" name="fecha-entrega" id="fecha-entrega" value="" placeholder="Fecha entrega">
+                                    <input type="text" class="form-control has-feedback-left" name="f_entrega" id="f_entrega" value="" placeholder="Fecha entrega" required="">
                                     <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
                                 </div>
                             </div>
@@ -76,17 +77,17 @@
                             <div class="form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12">Total</label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input type="text" class="form-control" name="total" id="total" value="" placeholder="Total">
+                                    <input type="text" class="form-control" name="total" id="total" value="" placeholder="Total" readonly="">
                                 </div>
                             </div>                        
                             <div class="ln_solid"></div>
                             <div class="form-group">
                                 <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
                                     <button type="reset" class="btn btn-primary">Cancelar</button>
-                                    <button type="submit" class="btn btn-success">Guardar</button>
+                                    <button type="submit" id="guardarOrden" class="btn btn-success">Guardar</button>
                                 </div>
                             </div>
-                            <!--</form>-->
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -107,23 +108,22 @@
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content">
-
+                            <form class="form-horizontal form-label-left">
                             <div class="form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12">Talla</label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input type="text" class="form-control" name="talla" id="talla" value="" placeholder="Ingresar n° talla">                                
+                                    <input type="text" class="form-control" name="talla" id="talla" value="" placeholder="Ingresar n° talla" required="">                                
                                 </div>
                             </div>
                             <div class="form-group ">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12">Pares</label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input type="text" class="form-control" name="par" id="par" value="" placeholder="Ingresar n° pares ">                                
+                                    <input type="text" class="form-control" name="par" id="par" value="" placeholder="Ingresar n° pares " required="">                                
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
-                                    <button type="button" onclick="agregarSerie();" class="btn btn-default"><i class="fa fa-plus-square"></i> Agregar</button>
-                                    <button type="button" name="terminar-serie" id="terminar-serie" class="btn btn-default"><i class="fa fa-check-square"></i> Terminar</button>
+                                    <button type="button" onclick="agregarSerie();" class="btn btn-default"><i class="fa fa-plus-square"></i> Agregar</button>                                    
                                 </div>
                             </div>
 
@@ -156,12 +156,12 @@
                                 </div>
                             </div>
 
-
+                        </form>
                         </div>
                     </div>
                     <!-- Cliente -->
                 </div>
-            </form>
+            <!--</form>-->
         </div>
         <!-- /page content -->
     <jsp:include page="../includes/pie_interno.jsp"></jsp:include>

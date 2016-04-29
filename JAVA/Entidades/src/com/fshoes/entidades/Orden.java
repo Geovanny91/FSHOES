@@ -14,11 +14,11 @@ import java.util.Date;
 public class Orden {
     private String codigoorden;
     private String orden_pedido;
-    private Date fecha_emision;
-    private Date fecha_entrega;
+    private String fecha_emision;
+    private String fecha_entrega;
     private float total;
 
-    public Orden(String codigoorden, String orden_pedido, Date fecha_emision, Date fecha_entrega, float total) {
+    public Orden(String codigoorden, String orden_pedido, String fecha_emision, String fecha_entrega, float total) {
         this.codigoorden = codigoorden;
         this.orden_pedido = orden_pedido;
         this.fecha_emision = fecha_emision;
@@ -27,7 +27,7 @@ public class Orden {
     }
 
     public Orden() {
-        this("", "", new Date(), new Date(), 0);
+        this("", "", "", "", 0);
     }
     
     
@@ -48,21 +48,21 @@ public class Orden {
         this.orden_pedido = orden_pedido;
     }
 
-    public Date getFecha_emision() {
+    public String getFecha_emision() {
         return fecha_emision;
     }
 
-    public void setFecha_emision(Date fecha_emision) {
+    public void setFecha_emision(String fecha_emision) {
         this.fecha_emision = fecha_emision;
     }
 
-    public Date getFecha_entrega() {
+    public String getFecha_entrega() {
         return fecha_entrega;
     }
 
-    public void setFecha_entrega(Date fecha_entrega) {
+    public void setFecha_entrega(String fecha_entrega) {
         this.fecha_entrega = fecha_entrega;
-    }
+    }    
 
     public float getTotal() {
         return total;

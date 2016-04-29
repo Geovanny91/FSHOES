@@ -35,7 +35,8 @@ public class SerieAD {
             cst.setString(2, prm);
             cst.setInt(3, objserie.getTallas());
             cst.setInt(4, objserie.getPares());            
-            cst.setString(5, objserie.getCodigoorden().getCodigoorden());            
+            cst.setString(5, objserie.getCodigoorden().getCodigoorden()); 
+            
             cst.execute();
             rpt = true;
         } catch (Exception e) {

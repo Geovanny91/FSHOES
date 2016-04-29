@@ -55,21 +55,22 @@
     $(document).ready(function () {
         logout();
         listarClientes();
-        fechas("#fecha-emision");
-        fechas("#fecha-entrega");
+        fechas("#f_emision");
+        fechas("#f_entrega");
         registrarcliente();
         registrarProveedor();
         series();
     });
 
     function series() {
-        $("#terminar-serie").on("click", function () {
-            /*var datajson = {
-             "nombre":"Geovanny",
-             "apellidos":"Rios Abarca",
-             "carrera":"Ing. sistemas"
-             };*/
-            //var myData = JSON.stringify(datajson);
+        $("#frmOrden").on("submit", function (e) {
+            e.preventDefault();
+            var orden       = $("#orden").val(),
+                pedido      = $("#pedido").val(),
+                f_emision   = $("#f_emision").val(),
+                f_entrega   = $("#f_entrega").val(),
+                total       = $("#total").val();
+            
             var cabecera = "#tabla-general-serie thead th",
                 cuerpo   = "#tabla-general-serie tbody tr";
             var data = {"series": obtenerDataTabla(cabecera, cuerpo)};
@@ -79,7 +80,7 @@
             $.ajax({
                method:"POST",
                url:"../SOrden",
-               data:{"detalle":objJson}
+               data:{"detalle":objJson, "orden": orden, "pedido":pedido, "f_emision":f_emision, "f_entrega":f_entrega, "total":"15", "parametro":"registrarOrden"}
             }).done(function(data){
                 console.log(data);
             });            
@@ -90,7 +91,6 @@
         var columna = $(cabecera).map(function () {
             return $(this).text();
         });
-
         var tablaObjecto = $(cuerpo).map(function (i) {
             var fila = {};
             $(this).find('td').each(function (i) {
@@ -99,8 +99,7 @@
             });
             return fila;
             // Don't forget .get() to convert the jQuery set to a regular array. || Igual ponerlo o no, es lo mismo
-        }).get();
-        
+        }).get();        
         return tablaObjecto;
         //console.log(tablaObjecto); 
     }
@@ -216,6 +215,7 @@
             }
         }, function (start, end, label) {
             console.log(start.toISOString(), end.toISOString(), label);
+            //$(valor).val(start.toString());
         });
 
         /*$('#fecha-entrega').daterangepicker({

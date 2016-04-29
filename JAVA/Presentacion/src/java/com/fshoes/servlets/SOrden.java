@@ -11,6 +11,8 @@ import com.fshoes.logicanegocio.OrdenLN;
 import com.fshoes.logicanegocio.SerieLN;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -91,7 +93,7 @@ public class SOrden extends HttpServlet {
 
         String parametro = request.getParameter("parametro");
         String valor = request.getParameter("valor");
-        boolean rptOrden;
+        boolean rptRegistro;
         //AQUI VAMOS A PROBAR EL DETALLE DE SERIES
         String json_detalle_serie = request.getParameter("detalle");
         
@@ -114,18 +116,20 @@ public class SOrden extends HttpServlet {
                 }*/
             }
             break;
-            case "registrarSerie": {
+            case "registrarOrden": {
                 try {
-                    String razon_social = request.getParameter("razon"),
-                            ruc = request.getParameter("ruc"),
-                            direccion = request.getParameter("direccion");
-                    boolean estado = Boolean.valueOf(request.getParameter("estado"));
+                    String orden       = request.getParameter("orden"),
+                           pedido      = request.getParameter("pedido"),
+                           f_emision   = request.getParameter("f_emision"),
+                           f_entrega   =request.getParameter("f_entrega");
+                    int    total       = Integer.parseInt(request.getParameter("total"));                    
                     
-                    Orden objOrden = new Orden();
-                    objOrden.setCodigoorden("");//lo que venga del input codigoorden            
+                    Orden objOrden = new Orden(orden, pedido, f_emision, f_entrega, total);
+                    
+                    //objOrden.setCodigoorden("");//lo que venga del input codigoorden            
                     /*AQUI PARA REGISTRAR LA ORDEN*/
-                    rptOrden = OrdenLN.Instancia().registrarOrden(objOrden, parametro);//Esto debe registrase en el Servlet orden
-                    
+                    rptRegistro = OrdenLN.Instancia().registrarOrden(objOrden, parametro);//Esto debe registrase en el Servlet orden
+                    System.out.println("Registro Orden correcto? " + rptRegistro);
                     parametro = "registrarSerie";//modificar el parámentro        
                     decodicarJson(json_detalle_serie, objOrden, parametro);
                     
@@ -134,35 +138,29 @@ public class SOrden extends HttpServlet {
                 }
             }
             break;
-        }
-        
-        
-        
-        //decodicarJson(detalle);
-        
-        
+        }        
     }
 
     public void decodicarJson(String cadena_json, Orden objOrden, String parametro){
         JSONParser serie_parser = new JSONParser();
-        boolean rptSerie;
+        boolean rptSerie = false;
         Serie objSerie;
         try {
             System.out.println("DECODE\n");
             JSONObject objSeries = (JSONObject) serie_parser.parse(cadena_json.toString());
             //System.out.println("Data Obtenida: "+ objSeries);
             JSONArray arrSerie =  (JSONArray) objSeries.get("series");
-            //System.out.println("Arreglo: " +arrSerie);            
+            System.out.println("Arreglo: " +arrSerie);            
             for(int i=0; i< arrSerie.size(); i++){
                 JSONObject serie = (JSONObject) arrSerie.get(i);
                 talla = Integer.parseInt(serie.get("Talla").toString());
                 pares = Integer.parseInt(serie.get("Pares").toString());
-                //System.out.println("Talla: " + talla + " Pares: " + pares);
+                System.out.println("Talla: " + talla + " Pares: " + pares);
                 
                 objSerie = new Serie(0, talla, pares, objOrden);
                 try {
                     rptSerie = SerieLN.Instancia().registrarSerie(objSerie, parametro);
-                    //out.println(rptSerie);
+                    System.out.println("Registro Serie correcto? " + i + " : "+rptSerie);
                 } catch (Exception ex) {
                     Logger.getLogger(SOrden.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -170,6 +168,7 @@ public class SOrden extends HttpServlet {
         } catch (ParseException ex) {
             Logger.getLogger(SOrden.class.getName()).log(Level.SEVERE, null, ex);
         }
+        //return rptSerie;
     }
     
     /**
