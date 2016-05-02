@@ -21,13 +21,13 @@ public class Trabajador {
     private String direccion;
     private String telefono;
     private String celular;
-    private Date fecha_nacimiento;
+    private String fecha_nacimiento;
     private String usuario;
     private String contrasena;
-    private int estado;
+    private boolean estado;
     private Proceso codigoproceso;
 
-    public Trabajador(int idempleado, String dni, String nombres, String ape_paterno, String ape_materno, String direccion, String telefono, String celular, Date fecha_nacimiento, String usuario, String contrasena, int estado, Proceso codigoproceso) {
+    public Trabajador(int idempleado, String dni, String nombres, String ape_paterno, String ape_materno, String direccion, String telefono, String celular, String fecha_nacimiento, String usuario, String contrasena, boolean estado, Proceso codigoproceso) {
         this.idempleado = idempleado;
         this.dni = dni;
         this.nombres = nombres;
@@ -44,7 +44,7 @@ public class Trabajador {
     }
 
     public Trabajador() {
-        this(0, "", "", "", "", "", "", "", new Date(), "", "", 0, new Proceso());
+        this(0, "", "", "", "", "", "", "", "", "", "", false, new Proceso());
     }
 
     public int getIdempleado() {
@@ -111,13 +111,13 @@ public class Trabajador {
         this.celular = celular;
     }
 
-    public Date getFecha_nacimiento() {
+    public String getFecha_nacimiento() {
         return fecha_nacimiento;
     }
 
-    public void setFecha_nacimiento(Date fecha_nacimiento) {
+    public void setFecha_nacimiento(String fecha_nacimiento) {
         this.fecha_nacimiento = fecha_nacimiento;
-    }
+    }    
 
     public String getUsuario() {
         return usuario;
@@ -135,13 +135,13 @@ public class Trabajador {
         this.contrasena = contrasena;
     }
 
-    public int getEstado() {
+    public boolean isEstado() {
         return estado;
     }
 
-    public void setEstado(int estado) {
+    public void setEstado(boolean estado) {
         this.estado = estado;
-    }
+    }    
 
     public Proceso getCodigoproceso() {
         return codigoproceso;

@@ -125,14 +125,10 @@ public class SOrden extends HttpServlet {
                     int    total       = Integer.parseInt(request.getParameter("total"));                    
                     
                     Orden objOrden = new Orden(orden, pedido, f_emision, f_entrega, total);
-                    
-                    //objOrden.setCodigoorden("");//lo que venga del input codigoorden            
-                    /*AQUI PARA REGISTRAR LA ORDEN*/
-                    rptRegistro = OrdenLN.Instancia().registrarOrden(objOrden, parametro);//Esto debe registrase en el Servlet orden
+                    rptRegistro = OrdenLN.Instancia().registrarOrden(objOrden, parametro);
                     System.out.println("Registro Orden correcto? " + rptRegistro);
                     parametro = "registrarSerie";//modificar el parámentro        
-                    decodicarJson(json_detalle_serie, objOrden, parametro);
-                    
+                    decodicarJson(json_detalle_serie, objOrden, parametro);                    
                 } catch (Exception ex) {
                     ex.getMessage();
                 }

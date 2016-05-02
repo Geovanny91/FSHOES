@@ -84,13 +84,13 @@ and open the template in the editor.
                         <form id="frmTrabajador">
                             <h1>Nuevo Trabajador</h1>
                             <div>
-                                <input type="text" name="dni" id="dni" class="form-control" placeholder="Dni" required="" />
+                                <input type="text" name="dni" id="dni" class="form-control" placeholder="Dni" required="" maxlength="8"/>
                             </div>            
                             <div>
                                 <input type="text" name="nombres" id="nombres" class="form-control" placeholder="Nombres" required="" />
                             </div>
                             <div>
-                                <input type="text" name="ape_paterno" id="paterno" class="form-control" placeholder="Apellido Paterno" required="" />
+                                <input type="text" name="ape_paterno" id="ape_paterno" class="form-control" placeholder="Apellido Paterno" required="" />
                             </div>
                             <div>
                                 <input type="text" name="ape_materno" id="ape_materno" class="form-control" placeholder="Apellido Materno" required="" />
@@ -119,7 +119,7 @@ and open the template in the editor.
                             </div>
                             <br>
                             <div>
-                                <button class="btn btn-default submit">Guardar</button>
+                                <button class="btn btn-default submit" type="submit">Guardar</button>
                             </div>
                             <div class="clearfix"></div>
                             <div class="separator">
@@ -241,17 +241,58 @@ and open the template in the editor.
 
             function registrarTrabjador() {
                 $("#frmTrabajador").on("submit", function (e) {
-                    var frm = $("#frmTrabajador").serialize();
-                    console.log(frm);
-                    
+                    e.preventDefault();                                        
+                    var proceso = $("#cboproceso option:selected").val(),                   
+                        dni = $("#dni").val(),
+                        nombres = $("#nombres").val(),
+                        ape_paterno = $("#ape_paterno").val(),
+                        ape_materno = $("#ape_materno").val(),
+                        direccion = $("#direccion").val(),
+                        telefono = $("#telefono").val(),
+                        celular = $("#celular").val(),
+                        fecha_nacimiento = $("#fecha_nacimiento").val(),
+                        usuario = $("#usuario").val(),
+                        contrasena = $("#contrasena").val();
+                    var datos = {"parametro":"registrarTrabajador", "dni":dni, "nombres":nombres, "ape_paterno":ape_paterno, "ape_materno":ape_materno, "direccion":direccion, 
+                                "telefono":telefono, "celular":celular, "fecha_nacimiento":fecha_nacimiento, "usuario":usuario, "contrasena":contrasena, 
+                                "proceso":proceso }  
+                    $.ajax({
+                        method:"POST",
+                        url:"Strabajador",
+                        data: datos
+                    }).done(function(data){
+                        console.log(data)
+                        if(data === true){
+                            new PNotify({//ver lo de la notificación
+                                title: 'Mensaje de éxito',
+                                text: 'Se guardaron los datos satisfactoriamente.',
+                                type: 'success'
+                            });
+                            limpiarCampos();
+                        }
+                    });                    
                     /*new PNotify({ //si funciona 
                                             title: 'Regular Success',
                                             text: 'Guardar Datos',
                                             type: 'success'
                                         });*/
                     
-                    e.preventDefault();
+                    
                 });
+            }
+            
+            function limpiarCampos(){
+                //$("#cboproceso").val();
+                $("#dni").val("");
+                $("#nombres").val("");
+                $("#ape_paterno").val("");
+                $("#ape_materno").val("");
+                $("#direccion").val("");
+                $("#telefono").val("");
+                $("#celular").val("");
+                $("#fecha_nacimiento").val("");
+                $("#usuario").val("");
+                $("#contrasena").val("");
             }
             
             function comboProceso(){

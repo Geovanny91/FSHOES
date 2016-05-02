@@ -17,22 +17,33 @@ public class TrabajadorLN {
     public static TrabajadorLN _Instancia;
     private TrabajadorLN(){};
     public static TrabajadorLN Instancia(){
-            if(_Instancia==null){			
-                    _Instancia = new TrabajadorLN();
-            }
-            return _Instancia;
+        if(_Instancia==null){			
+                _Instancia = new TrabajadorLN();
+        }
+        return _Instancia;
     }
     // end Singleton
 
     //Metodos
     public Trabajador lfVerificarAcceso(String usuario, String contrasena) 
                     throws Exception{
-            try{
-                    return TrabajadorAD.Instancia().verificarAcceso(usuario, contrasena); 
-            }catch(Exception ex){
-                    throw ex;
-            }
-
+        try{
+                return TrabajadorAD.Instancia().verificarAcceso(usuario, contrasena); 
+        }catch(Exception ex){
+                throw ex;
+        }
+    }
+    
+    public boolean registrarTrabajador(Trabajador objtrabajador, String prm) throws Exception{
+        try {            
+            if(objtrabajador != null && !(prm.equals(""))){
+                return TrabajadorAD.Instancia().registrarTrabajador(objtrabajador, prm);
+            }else{
+                return false;
+            }            
+        } catch (Exception e) {
+            throw e;
+        }
     }
     
 }

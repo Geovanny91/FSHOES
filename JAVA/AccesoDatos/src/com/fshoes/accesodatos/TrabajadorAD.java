@@ -54,4 +54,33 @@ public class TrabajadorAD {
             }finally{cn.close();}
             return t;
     }
+    
+    public boolean registrarTrabajador(Trabajador objTrabajador, String prm) throws Exception{
+        Connection cn = Conexion.Instancia().getConexion();
+        boolean rpt = false;
+        try {
+            CallableStatement cst = cn.prepareCall("{call pa_trabajador(?,?,?,?,?,?,?,?,?,?,?,?,?,?)}");
+            cst.setString(1, "");
+            cst.setString(2, prm);            
+            cst.setString(3, objTrabajador.getDni());
+            cst.setString(4, objTrabajador.getNombres());
+            cst.setString(5, objTrabajador.getApe_paterno());
+            cst.setString(6, objTrabajador.getApe_materno());
+            cst.setString(7, objTrabajador.getDireccion());
+            cst.setString(8, objTrabajador.getTelefono());
+            cst.setString(9, objTrabajador.getCelular());
+            cst.setString(10, objTrabajador.getFecha_nacimiento());
+            cst.setString(11, objTrabajador.getUsuario());
+            cst.setString(12, objTrabajador.getContrasena());            
+            cst.setBoolean(13, objTrabajador.isEstado());
+            cst.setString(14, objTrabajador.getCodigoproceso().getCodigoproceso());
+            cst.execute();
+            rpt = true;
+        } catch (Exception e) {
+            throw e;
+        }finally{
+            cn.close();            
+        }
+        return rpt;
+    }
 }
