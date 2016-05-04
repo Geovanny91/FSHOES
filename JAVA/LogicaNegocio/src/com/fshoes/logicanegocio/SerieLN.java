@@ -27,7 +27,9 @@ public class SerieLN {
     public boolean registrarSerie(Serie objSerie, String prm) throws Exception{
         try {            
             if(objSerie != null && !(prm.equals(""))){
-                return SerieAD.Instancia().registrarSerie(objSerie, prm);
+                if(!objSerie.getCodigoorden().getCodigoorden().equals("") && objSerie.getTallas()!= 0 && objSerie.getPares()!=0)
+                    return SerieAD.Instancia().registrarSerie(objSerie, prm);
+                else return false;
             }else{
                 return false;
             }            

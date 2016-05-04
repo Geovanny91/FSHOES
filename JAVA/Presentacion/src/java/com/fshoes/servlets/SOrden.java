@@ -93,9 +93,9 @@ public class SOrden extends HttpServlet {
 
         String parametro = request.getParameter("parametro");
         String valor = request.getParameter("valor");
-        boolean rptRegistro;
+        boolean rptorden = false, rptSerie = false;
         //AQUI VAMOS A PROBAR EL DETALLE DE SERIES
-        String json_detalle_serie = request.getParameter("detalle");
+        String json_detalle_serie = request.getParameter("detalle");//Aqui ver esto posiblemente ya no salen las notificaciones por la cache
         
         switch (parametro) {
             case "listarSerie": {
@@ -122,13 +122,24 @@ public class SOrden extends HttpServlet {
                            pedido      = request.getParameter("pedido"),
                            f_emision   = request.getParameter("f_emision"),
                            f_entrega   =request.getParameter("f_entrega");
-                    int    total       = Integer.parseInt(request.getParameter("total"));                    
+                    int    total       = Integer.parseInt(request.getParameter("total"));
                     
-                    Orden objOrden = new Orden(orden, pedido, f_emision, f_entrega, total);
-                    rptRegistro = OrdenLN.Instancia().registrarOrden(objOrden, parametro);
-                    System.out.println("Registro Orden correcto? " + rptRegistro);
-                    parametro = "registrarSerie";//modificar el parámentro        
-                    decodicarJson(json_detalle_serie, objOrden, parametro);                    
+                    System.out.println("Detalle json: " + json_detalle_serie);
+                    if( !json_detalle_serie.equals("{\"series\":[]}") ){
+                        Orden objOrden = new Orden(orden, pedido, f_emision, f_entrega, total);
+                        rptorden = OrdenLN.Instancia().registrarOrden(objOrden, parametro);
+                        System.out.println("Registro Orden correcto? " + rptorden);
+                        parametro = "registrarSerie";//modificar el parámentro
+                        
+                        rptSerie = decodicarJson(json_detalle_serie, objOrden, parametro);
+                        parametro = "";//reset parametro
+                    }                    
+                    
+                    if(rptorden == true && rptSerie == true)
+                        out.println(true);
+                    else    out.append(null);
+                    //out.println(rptorden);
+                    
                 } catch (Exception ex) {
                     ex.getMessage();
                 }
@@ -137,7 +148,7 @@ public class SOrden extends HttpServlet {
         }        
     }
 
-    public void decodicarJson(String cadena_json, Orden objOrden, String parametro){
+    public boolean decodicarJson(String cadena_json, Orden objOrden, String parametro){
         JSONParser serie_parser = new JSONParser();
         boolean rptSerie = false;
         Serie objSerie;
@@ -160,11 +171,13 @@ public class SOrden extends HttpServlet {
                 } catch (Exception ex) {
                     Logger.getLogger(SOrden.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            }            
+            }
+            System.out.println("Respuesta final serie: " + rptSerie);
+            return rptSerie;
         } catch (ParseException ex) {
             Logger.getLogger(SOrden.class.getName()).log(Level.SEVERE, null, ex);
         }
-        //return rptSerie;
+        return rptSerie;
     }
     
     /**

@@ -42,7 +42,7 @@
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Orden de Producciòn</label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input type="text" class="form-control" name="orden" id="orden" placeholder="Orden de Producción" required="">
+                                <input type="text" class="form-control" name="orden" id="orden" placeholder="Orden de Producción" >
                             </div>
                         </div>                    
                         <div class="form-group">
@@ -112,13 +112,13 @@
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Talla</label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input type="number" class="form-control" name="talla" id="talla" value="" placeholder="Ingresar n° talla" min="34" max="40" required="">                                
+                                <input type="number" class="form-control" name="talla" id="talla" value="0" placeholder="Ingresar n° talla" min="34" max="40" required="">                                
                             </div>
                         </div>
                         <div class="form-group ">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Pares</label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input type="text" class="form-control" name="par" id="par" value="" placeholder="Ingresar n° pares " required="">                                
+                                <input type="text" class="form-control" name="par" id="par" value="0" placeholder="Ingresar n° pares " required="">                                
                             </div>
                         </div>
                         <div class="form-group">

@@ -119,14 +119,15 @@ public class Strabajador extends HttpServlet {
                             usuario = request.getParameter("usuario"),
                             contrasena = request.getParameter("contrasena"),                            
                             codigoproceso = request.getParameter("proceso");
-                    boolean estado = true;                    
+                    boolean estado = true;
                     
                     Proceso objproceso = new Proceso();
                             objproceso.setCodigoproceso(codigoproceso);
                     
                     objTrabajador = new Trabajador(0, dni, nombres, ape_paterno, ape_materno, direccion, telefono, celular, fecha_nacimiento, usuario, contrasena, estado, objproceso);
                     rptTrabajador = TrabajadorLN.Instancia().registrarTrabajador(objTrabajador, parametro);
-                    out.println(rptTrabajador);
+                    if(rptTrabajador) out.println(rptTrabajador);
+                    else    out.append(null);
                 } catch (Exception ex) {
                     ex.getMessage();
                 }    

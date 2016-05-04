@@ -84,7 +84,7 @@ and open the template in the editor.
                         <form id="frmTrabajador">
                             <h1>Nuevo Trabajador</h1>
                             <div>
-                                <input type="text" name="dni" id="dni" class="form-control" placeholder="Dni" required="" maxlength="8"/>
+                                <input type="text" name="dni" id="dni" class="form-control" placeholder="Dni" maxlength="8"/>
                             </div>            
                             <div>
                                 <input type="text" name="nombres" id="nombres" class="form-control" placeholder="Nombres" required="" />
@@ -255,14 +255,20 @@ and open the template in the editor.
                         contrasena = $("#contrasena").val();
                     var datos = {"parametro":"registrarTrabajador", "dni":dni, "nombres":nombres, "ape_paterno":ape_paterno, "ape_materno":ape_materno, "direccion":direccion, 
                                 "telefono":telefono, "celular":celular, "fecha_nacimiento":fecha_nacimiento, "usuario":usuario, "contrasena":contrasena, 
-                                "proceso":proceso }  
+                                "proceso":proceso };  
                     $.ajax({
                         method:"POST",
                         url:"Strabajador",
                         data: datos
-                    }).done(function(data){
-                        console.log(data)
-                        if(data === true){
+                    }).done(function (info) {
+                        console.log(typeof info);
+                        if(info == "null"){                            
+                            new PNotify({//ver lo de la notificación
+                                title: 'Mensaje de Advertencia',
+                                text: 'Ingrese todos los datos solicitados',
+                                hide: false
+                            });                            
+                        }else if(info){ 
                             new PNotify({//ver lo de la notificación
                                 title: 'Mensaje de éxito',
                                 text: 'Se guardaron los datos satisfactoriamente.',
@@ -270,14 +276,7 @@ and open the template in the editor.
                             });
                             limpiarCampos();
                         }
-                    });                    
-                    /*new PNotify({ //si funciona 
-                                            title: 'Regular Success',
-                                            text: 'Guardar Datos',
-                                            type: 'success'
-                                        });*/
-                    
-                    
+                    });
                 });
             }
             

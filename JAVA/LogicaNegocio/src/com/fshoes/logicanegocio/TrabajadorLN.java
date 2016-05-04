@@ -37,10 +37,12 @@ public class TrabajadorLN {
     public boolean registrarTrabajador(Trabajador objtrabajador, String prm) throws Exception{
         try {            
             if(objtrabajador != null && !(prm.equals(""))){
-                return TrabajadorAD.Instancia().registrarTrabajador(objtrabajador, prm);
+                if(!objtrabajador.getDni().equals(""))
+                    return TrabajadorAD.Instancia().registrarTrabajador(objtrabajador, prm);
+                else return false;
             }else{
                 return false;
-            }            
+            } 
         } catch (Exception e) {
             throw e;
         }
