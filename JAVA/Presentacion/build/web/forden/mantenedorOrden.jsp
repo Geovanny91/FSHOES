@@ -21,7 +21,7 @@
         <div class="col-md-6 col-sm-6 col-xs-12">
             <div class="x_panel">
                 <div class="x_title">
-                    <h2>Formulario Orden <small>registrar datos.</small></h2>
+                    <h2>Formulario Orden <small id="mensajeOrden" ></small></h2>
                     <ul class="nav navbar-right panel_toolbox">
                         <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                         </li>
@@ -35,7 +35,7 @@
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
-                    <form id="frmOrden" method="POST" class="form-horizontal form-label-left">
+                    <form id="frmOrden" action="../SOrden" method="POST" class="form-horizontal form-label-left">
                         <br>
 
                         <input type="hidden" class="form-control" name="id-proveedor" id="id-proveedor" value="">
@@ -84,7 +84,7 @@
                         <div class="form-group">
                             <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
                                 <button type="reset" class="btn btn-primary">Cancelar</button>
-                                <button type="submit" id="guardarOrden" class="btn btn-success">Guardar</button>
+                                <button type="button" id="guardarOrden" class="btn btn-success">Guardar</button>
                             </div>
                         </div>
                     </form>

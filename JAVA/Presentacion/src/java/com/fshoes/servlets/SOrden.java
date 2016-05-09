@@ -12,6 +12,7 @@ import com.fshoes.logicanegocio.SerieLN;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -93,7 +94,7 @@ public class SOrden extends HttpServlet {
 
         String parametro = request.getParameter("parametro");
         String valor = request.getParameter("valor");
-        boolean rptorden = false, rptSerie = false;
+        //boolean rptorden = false, rptSerie = false;
         //AQUI VAMOS A PROBAR EL DETALLE DE SERIES
         String json_detalle_serie = request.getParameter("detalle");//Aqui ver esto posiblemente ya no salen las notificaciones por la cache
         
@@ -117,6 +118,7 @@ public class SOrden extends HttpServlet {
             }
             break;
             case "registrarOrden": {
+                boolean rptorden = false, rptSerie = false;
                 try {
                     String orden       = request.getParameter("orden"),
                            pedido      = request.getParameter("pedido"),
@@ -137,7 +139,8 @@ public class SOrden extends HttpServlet {
                     
                     if(rptorden == true && rptSerie == true)
                         out.println(true);
-                    else    out.append(null);
+                    else if(rptSerie == false || rptorden == false)
+                        response.getWriter().write("false");
                     //out.println(rptorden);
                     
                 } catch (Exception ex) {

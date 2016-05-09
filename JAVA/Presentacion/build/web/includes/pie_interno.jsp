@@ -69,14 +69,14 @@
 
 
     function orden() {
-        $("#frmOrden").on("submit", function (e) {
-            e.preventDefault();
+        $("#guardarOrden").on("click", function () {
+            //e.preventDefault();
             var orden = $("#orden").val(),
                     pedido = $("#pedido").val(),
                     f_emision = $("#f_emision").val(),
                     f_entrega = $("#f_entrega").val(),
                     total = $("#total").val();
-
+            var url = $("#frmOrden").attr("action");
             var cabecera = "#tabla-general-serie thead th",
                     cuerpo = "#tabla-general-serie tbody tr";
             var data = {"series": obtenerDataTabla(cabecera, cuerpo)};
@@ -86,25 +86,29 @@
             console.log(objJson);
             $.ajax({
                 method: "POST",
-                url: "../SOrden",
-                data: {"detalle": objJson, "orden": orden, "pedido": pedido, "f_emision": f_emision, "f_entrega": f_entrega, "total": total, "parametro": "registrarOrden"}
-            }).done(function (info) {
-                //console.log(info);
-                console.log(typeof info);
-                if (info == "null") {
-                    new PNotify({//ver lo de la notificación
-                        title: 'Mensaje de Advertencia',
-                        text: 'Ingrese todos los datos solicitados',
-                        hide: false
-                    });
-                } else if (info) {
-                    new PNotify({//ver lo de la notificación
-                        title: 'Mensaje de éxito',
-                        text: 'Se guardaron los datos satisfactoriamente.',
-                        type: 'success'
-                    });
-                    limpiarCamposOrden();
-                    //location.reload();
+                url: url,
+                data: {"detalle": objJson, "orden": orden, "pedido": pedido, "f_emision": f_emision, "f_entrega": f_entrega, "total": total, "parametro": "registrarOrden"},
+                success: function (info) {
+                    //console.log(info);
+                    console.log(typeof info);
+                    if ( info == "false") {
+                        new PNotify({//ver lo de la notificación
+                            title: 'Mensaje de Advertencia',
+                            text: 'Ingrese todos los datos solicitados',
+                            hide: false
+                        });
+                    } else if (info) {
+                        limpiarCamposOrden();
+                        //location.reload();
+                        new PNotify({//ver lo de la notificación
+                            title: 'Mensaje de éxito',
+                            text: 'Se guardaron los datos satisfactoriamente.',
+                            type: 'success'
+                        });
+                        url = "";//posible soloución hacer el reload cuando se haga click en la "x" de la notificación
+                        resultVal = 0;//set resultVal
+                        //location.reload();
+                    }
                 }
             });
         });
@@ -115,7 +119,7 @@
         $("#pedido").val("");
         $("#f_emision").val("");
         $("#f_entrega").val("");
-        $("#total").val("");
+        $("#total").val("0");
         $("#tabla-serie").html("");
     }
 
@@ -134,6 +138,44 @@
         }).get();
         return tablaObjecto;
         //console.log(tablaObjecto); 
+    }
+    
+    function agregarSerie() {
+        var table = document.getElementById("tabla-serie");
+        var row = table.insertRow(0);
+        cell1 = row.insertCell(0),
+                cell2 = row.insertCell(1),
+                cell3 = row.insertCell(2);
+        var talla = $("#talla").val(),
+                par = $("#par").val();
+        if (talla > 33 && talla < 41) {
+            cell1.innerHTML = talla;
+            cell2.innerHTML = par;
+            cell3.innerHTML = "<a href='#' onclick='eliminar(this);' ><i class='fa fa-remove'></i></a>"
+            cacularMonto();
+        } else {
+            alert("Ingresar tallas entre 34 y 40");
+        }
+
+        $("#talla").val("").focus();
+        $("#par").val("");
+    }
+
+    function cacularMonto() {
+        resultVal += parseInt($("#par").val());
+        console.log(resultVal);
+        total = $("#total").val(resultVal.toString());
+        //total.innerHTML = resultVal;
+    }
+
+    function eliminar(valor) {
+        var i = valor.parentNode.parentNode.rowIndex;
+        console.log("indice de la fila: " + (i - 1));
+        var valor_menos = document.getElementById("tabla-serie").rows[i - 1].cells.item(1).innerHTML;
+        console.log("valor a restar: " + valor_menos);
+        resultVal -= parseInt(valor_menos);
+        total = $("#total").val(resultVal.toString());
+        document.getElementById("tabla-serie").deleteRow(i - 1);
     }
 
     function logout() {
@@ -216,44 +258,6 @@
                 limpiar(arreglo);
             })
         });
-    }
-
-    function agregarSerie() {
-        var table = document.getElementById("tabla-serie");
-        var row = table.insertRow(0);
-        cell1 = row.insertCell(0),
-                cell2 = row.insertCell(1),
-                cell3 = row.insertCell(2);
-        var talla = $("#talla").val(),
-                par = $("#par").val();
-        if (talla > 33 && talla < 41) {
-            cell1.innerHTML = talla;
-            cell2.innerHTML = par;
-            cell3.innerHTML = "<a href='#' onclick='eliminar(this);' ><i class='fa fa-remove'></i></a>"
-            cacularMonto();
-        } else {
-            alert("Ingresar tallas entre 34 y 40");
-        }
-
-        $("#talla").val("").focus();
-        $("#par").val("");
-    }
-
-    function cacularMonto() {
-        resultVal += parseInt($("#par").val());
-        console.log(resultVal);
-        total = $("#total").val(resultVal.toString());
-        //total.innerHTML = resultVal;
-    }
-
-    function eliminar(valor) {
-        var i = valor.parentNode.parentNode.rowIndex;
-        console.log("indice de la fila: " + (i - 1));
-        var valor_menos = document.getElementById("tabla-serie").rows[i - 1].cells.item(1).innerHTML;
-        console.log("valor a restar: " + valor_menos);
-        resultVal -= parseInt(valor_menos);
-        total = $("#total").val(resultVal.toString());
-        document.getElementById("tabla-serie").deleteRow(i - 1);
     }
 
     function fechas(valor) {
