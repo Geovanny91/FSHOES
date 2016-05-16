@@ -37,6 +37,12 @@
   <!-- colorpicker -->
   <link href="../css/colorpicker/bootstrap-colorpicker.min.css" rel="stylesheet">
   
+  <!-- datatables -->
+  <link href="../js/datatables/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
+  <link href="../js/datatables/buttons.bootstrap.min.css" rel="stylesheet" type="text/css" />
+  <link href="../js/datatables/fixedHeader.bootstrap.min.css" rel="stylesheet" type="text/css" />
+  <link href="../js/datatables/responsive.bootstrap.min.css" rel="stylesheet" type="text/css" />
+  <link href="../js/datatables/scroller.bootstrap.min.css" rel="stylesheet" type="text/css" />
 
   
   
@@ -103,7 +109,7 @@
                   <ul class="nav child_menu" style="display: none">
                       <li><a href="../fmodelo/mantenedorModelo.jsp">Registrar</a>
                     </li>
-                    <li><a href="media_gallery.html">Media Gallery</a>
+                    <li><a href="../fmodelo/listadoModelo.jsp">Lista</a>
                     </li>                    
                   </ul>
                 </li>

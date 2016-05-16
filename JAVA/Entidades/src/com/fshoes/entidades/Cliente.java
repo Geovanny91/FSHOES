@@ -5,11 +5,17 @@
  */
 package com.fshoes.entidades;
 
+import java.io.IOException;
+import java.io.Writer;
+import java.util.LinkedHashMap;
+import org.json.simple.JSONStreamAware;
+import org.json.simple.JSONValue;
+
 /**
  *
  * @author flores
  */
-public class Cliente {
+public class Cliente implements JSONStreamAware{
     
     private int idcliente;
     private String razonsocial;
@@ -69,9 +75,14 @@ public class Cliente {
         this.estado = estado;
     }
 
-    
-
-    
-    
-
+    @Override
+    public void writeJSONString(Writer out) throws IOException {
+        LinkedHashMap obj = new LinkedHashMap();        
+        obj.put("idcliente", String.valueOf(idcliente));
+        obj.put("razonsocial", razonsocial);
+        obj.put("ruc", ruc);
+        obj.put("direccion", direccion);
+        obj.put("estado", estado);       
+        JSONValue.writeJSONString(obj, out);
+    }
 }

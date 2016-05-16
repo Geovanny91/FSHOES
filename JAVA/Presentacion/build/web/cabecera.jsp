@@ -90,7 +90,7 @@
                   <ul class="nav child_menu" style="display: none">
                       <li><a href="fmodelo/mantenedorModelo.jsp">Registrar</a>
                     </li>
-                    <li><a href="#">Media Gallery</a>
+                    <li><a href="fmodelo/listadoModelo.jsp">Lista</a>
                     </li>                    
                   </ul>
                 </li>

@@ -31,6 +31,23 @@
 <script type="text/javascript" src="../js/notify/pnotify.buttons.js"></script>
 <script type="text/javascript" src="../js/notify/pnotify.nonblock.js"></script>
 
+<!-- Datatables-->
+<script src="../js/datatables/jquery.dataTables.min.js"></script>
+<script src="../js/datatables/dataTables.bootstrap.js"></script>
+<script src="../js/datatables/dataTables.buttons.min.js"></script>
+<script src="../js/datatables/buttons.bootstrap.min.js"></script>
+<script src="../js/datatables/jszip.min.js"></script>
+<script src="../js/datatables/pdfmake.min.js"></script>
+<script src="../js/datatables/vfs_fonts.js"></script>
+<script src="../js/datatables/buttons.html5.min.js"></script>
+<script src="../js/datatables/buttons.print.min.js"></script>
+<script src="../js/datatables/dataTables.fixedHeader.min.js"></script>
+<script src="../js/datatables/dataTables.keyTable.min.js"></script>
+<script src="../js/datatables/dataTables.responsive.min.js"></script>
+<script src="../js/datatables/responsive.bootstrap.min.js"></script>
+<script src="../js/datatables/dataTables.scroller.min.js"></script>
+
+
 <script>
 <!-- skycons -->
     < script src = "../js/skycons/skycons.min.js" ></script>
@@ -44,12 +61,9 @@
                 "fog"
             ],
             i;
-
     for (i = list.length; i--; )
         icons.set(list[i], list[i]);
-
-    icons.play();
-</script>
+    icons.play();</script>
 
 <script type="text/javascript">
     $(document).ready(function () {
@@ -60,8 +74,9 @@
         registrarcliente();
         registrarProveedor();
         orden();
+        listarModelos();
+        editarModelo();
     });
-
     /*VARIABLES GLOBALES*/
     var total;
     var resultVal = 0.0;
@@ -91,7 +106,7 @@
                 success: function (info) {
                     //console.log(info);
                     console.log(typeof info);
-                    if ( info == "false") {
+                    if (info == "false") {
                         new PNotify({//ver lo de la notificación
                             title: 'Mensaje de Advertencia',
                             text: 'Ingrese todos los datos solicitados',
@@ -105,8 +120,8 @@
                             text: 'Se guardaron los datos satisfactoriamente.',
                             type: 'success'
                         });
-                        url = "";//posible soloución hacer el reload cuando se haga click en la "x" de la notificación
-                        resultVal = 0;//set resultVal
+                        url = ""; //posible soloución hacer el reload cuando se haga click en la "x" de la notificación
+                        resultVal = 0; //set resultVal
                         //location.reload();
                     }
                 }
@@ -139,7 +154,7 @@
         return tablaObjecto;
         //console.log(tablaObjecto); 
     }
-    
+
     function agregarSerie() {
         var table = document.getElementById("tabla-serie");
         var row = table.insertRow(0);
@@ -223,6 +238,96 @@
         console.log(x.childNodes);
     }
 
+    function listarModelos() {
+        var tabla = $('#listaModelos').DataTable({
+            //"scrollX": true
+            "processing": true,
+            "serverSide": true,
+            "ajax": {
+                "url": "../Smodelo",
+                "type": "POST",
+                "data": {"parametro": "listarModelo"}
+                //"dataSrc": "animes"
+            },
+            "columns": [
+                {"data": "codigomodelo"},
+                {"data": "urlimagen"},
+                {"data": "horma"},
+                {"data": "taco"},
+                {"data": "plataforma"},
+                {"data": "coleccion"},
+                {"data": "especificacion"},
+                {"data": "objCliente.idcliente"},
+                {"data": "objCliente.razonsocial"},
+                {"defaultContent": "<button tipo='modificarModelo' class='btn btn-info btn-xs'><i class='fa fa-edit'></i></button> <button tipo='eliminarModelo' class='btn btn-danger btn-xs'><i class='fa fa-remove'></i></button>", "width": "5%"}
+                //{"defaultContent": "<button class='btn btn-primary btn-xs'><i class='fa fa-remove'></i></button>"}
+            ]
+        });
+        tabla.column(1).visible(false);
+        tabla.column(7).visible(false);
+        mantenedoresModelo('#listaModelos tbody', tabla);
+    }
+
+    function mantenedoresModelo(lista, tabla) {
+        $(lista).on('click', 'button', function () {
+            var data = tabla.row($(this).parents('tr')).data();
+            console.log(data);
+            var parametro = $(this).attr("tipo").toString();
+            var divEditar = document.getElementById("editarModelo");
+            ;
+            console.log("parametro: " + parametro + " codigo: " + data.codigomodelo);
+            if (parametro === "modificarModelo") {
+                var idcliente = $("#idcliente").val(data.objCliente.idcliente),
+                        modelo = $("#modelo").val(data.codigomodelo),
+                        cliente = $("#cliente").val(data.objCliente.razonsocial),
+                        horma = $("#horma").val(data.horma),
+                        taco = $("#taco").val(data.taco),
+                        plataforma = $("#plataforma").val(data.plataforma),
+                        coleccion = $("#coleccion").val(data.coleccion),
+                        especificacion = $("#especificacion").val(data.especificacion);
+                //estado = $("#").val();
+                if (data.estado)
+                    $("#estadomodelo").prop("checked", true);
+                else
+                    $("#estadomodelo").prop('checked', false);
+                divEditar.style.display = 'block';
+            } else if (parametro == "eliminarModelo") {
+                divEditar.style.display = 'none';
+            }
+
+            /*$.ajax({
+             method:"POST" ,
+             url:"../Smodelo",
+             data:{"parametro":parametro, "codigo": data.codigomodelo}
+             }).done(function(info){
+             console.log(info);
+             });*/
+
+        });
+    }
+
+    function editarModelo() {
+        $("#btnModificarModelo").on("click", function () {
+            var idcliente = $("#idcliente").val(),
+                modelo = $("#modelo").val(),
+                //cliente = $("#cliente").val(),
+                horma = $("#horma").val(),
+                taco = $("#taco").val(),
+                plataforma = $("#plataforma").val(),
+                coleccion = $("#coleccion").val(),
+                especificacion = $("#especificacion").val(),
+                estado = document.getElementById("estadomodelo").checked,
+                parametro = "modificarModelo";
+            $.ajax({
+                method: "POST",
+                url: "../Smodelo",
+                data: {"parametro": parametro, "idcliente": idcliente, "modelo":modelo, "horma":horma, "taco":taco, "plataforma":plataforma, "coleccion":coleccion, "especificacion":especificacion, "estado":estado}
+            }).done(function (info) {
+                console.log(info);
+            });
+        });
+    }
+
     function listarProveedores(valor) {
         $.ajax({
             method: "POST",
@@ -270,7 +375,6 @@
                 monthNames: ['Enero', 'Febreri', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
             }
         });
-
         $(valor).on('apply.daterangepicker', function (ev, picker) {
             $(this).val(picker.startDate.format('DD/MM/YYYY'));
         });
