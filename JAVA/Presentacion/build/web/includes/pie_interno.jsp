@@ -76,10 +76,12 @@
         orden();
         listarModelos();
         editarModelo();
+        validarCampos();
     });
     /*VARIABLES GLOBALES*/
     var total;
     var resultVal = 0.0;
+    var tabla;
     /*FIN VARIABLES GLOBALES*/
 
 
@@ -94,7 +96,13 @@
             var url = $("#frmOrden").attr("action");
             var cabecera = "#tabla-general-serie thead th",
                     cuerpo = "#tabla-general-serie tbody tr";
+
+            /*OBETNER DATA DE LA TABLA SERIE*/
             var data = {"series": obtenerDataTabla(cabecera, cuerpo)};
+            var objJson = JSON.stringify(data);
+
+            console.log("data mi detalle: " + objJson);
+            console.log(data.series[0].par0);
             var objJson = JSON.stringify(data);
             console.log("data Json: " + objJson);
             console.log(data);
@@ -135,7 +143,35 @@
         $("#f_emision").val("");
         $("#f_entrega").val("");
         $("#total").val("0");
-        $("#tabla-serie").html("");
+        $("#tabla-serie tr td").children().val("0");
+    }
+
+    function validarCampos() {
+        $("#generarTotal").on("click", function () {
+            var par1 = $("#par1").val(),
+                    par2 = $("#par2").val(),
+                    par3 = $("#par3").val(),
+                    par4 = $("#par4").val(),
+                    par5 = $("#par5").val(),
+                    par6 = $("#par6").val(),
+                    par7 = $("#par7").val();
+            console.log("par: " + par2);
+            if ((par1 != "") && (par2 != "") && (par3 != "") && (par4 != "") && (par5 != "") && (par6 != "") && (par7 != "")) {//validar que ningun campo este vacio
+                generarTotal();
+            } else
+                alert("Llenar todos los campos");
+        });
+    }
+
+    function generarTotal() {
+        var sum = 0;
+        var quantity = 0;
+        $('.cantidad').each(function () {
+            var cantidad = $(this);
+            sum += parseInt(cantidad.val());
+        });
+        $("#total").val(sum);
+        console.log($("#total").val(sum));
     }
 
     function obtenerDataTabla(cabecera, cuerpo) {//de la table series
@@ -144,9 +180,12 @@
         });
         var tablaObjecto = $(cuerpo).map(function (i) {
             var fila = {};
-            $(this).find('td').each(function (i) {
+            $(this).find('input').each(function (i) {
                 var nombre_fila = columna[i];
-                fila[nombre_fila] = $(this).text();
+                var cantidad = ("par" + i);
+                var talla = ("talla" + i)
+                fila[cantidad] = $(this).val();
+                fila[talla] = columna[i];
             });
             return fila;
             // Don't forget .get() to convert the jQuery set to a regular array. || Igual ponerlo o no, es lo mismo
@@ -155,43 +194,43 @@
         //console.log(tablaObjecto); 
     }
 
-    function agregarSerie() {
-        var table = document.getElementById("tabla-serie");
-        var row = table.insertRow(0);
-        cell1 = row.insertCell(0),
-                cell2 = row.insertCell(1),
-                cell3 = row.insertCell(2);
-        var talla = $("#talla").val(),
-                par = $("#par").val();
-        if (talla > 33 && talla < 41) {
-            cell1.innerHTML = talla;
-            cell2.innerHTML = par;
-            cell3.innerHTML = "<a href='#' onclick='eliminar(this);' ><i class='fa fa-remove'></i></a>"
-            cacularMonto();
-        } else {
-            alert("Ingresar tallas entre 34 y 40");
-        }
+    /*function agregarSerie() {
+     var table = document.getElementById("tabla-serie");
+     var row = table.insertRow(0);
+     cell1 = row.insertCell(0),
+     cell2 = row.insertCell(1),
+     cell3 = row.insertCell(2);
+     var talla = $("#talla").val(),
+     par = $("#par").val();
+     if (talla > 33 && talla < 41) {
+     cell1.innerHTML = talla;
+     cell2.innerHTML = par;
+     cell3.innerHTML = "<a href='#' onclick='eliminar(this);' ><i class='fa fa-remove'></i></a>"
+     cacularMonto();
+     } else {
+     alert("Ingresar tallas entre 34 y 40");
+     }
+     
+     $("#talla").val("").focus();
+     $("#par").val("");
+     }*/
 
-        $("#talla").val("").focus();
-        $("#par").val("");
-    }
-
-    function cacularMonto() {
+    /*function cacularMonto() {
         resultVal += parseInt($("#par").val());
         console.log(resultVal);
         total = $("#total").val(resultVal.toString());
         //total.innerHTML = resultVal;
-    }
+    }*/
 
-    function eliminar(valor) {
-        var i = valor.parentNode.parentNode.rowIndex;
-        console.log("indice de la fila: " + (i - 1));
-        var valor_menos = document.getElementById("tabla-serie").rows[i - 1].cells.item(1).innerHTML;
-        console.log("valor a restar: " + valor_menos);
-        resultVal -= parseInt(valor_menos);
-        total = $("#total").val(resultVal.toString());
-        document.getElementById("tabla-serie").deleteRow(i - 1);
-    }
+    /*function eliminar(valor) {
+     var i = valor.parentNode.parentNode.rowIndex;
+     console.log("indice de la fila: " + (i - 1));
+     var valor_menos = document.getElementById("tabla-serie").rows[i - 1].cells.item(1).innerHTML;
+     console.log("valor a restar: " + valor_menos);
+     resultVal -= parseInt(valor_menos);
+     total = $("#total").val(resultVal.toString());
+     document.getElementById("tabla-serie").deleteRow(i - 1);
+     }*/
 
     function logout() {
         $("#salir").on("click", function () {
@@ -239,7 +278,7 @@
     }
 
     function listarModelos() {
-        var tabla = $('#listaModelos').DataTable({
+        tabla = $('#listaModelos').DataTable({
             //"scrollX": true
             "processing": true,
             "serverSide": true,
@@ -294,36 +333,45 @@
             } else if (parametro == "eliminarModelo") {
                 divEditar.style.display = 'none';
             }
-
-            /*$.ajax({
-             method:"POST" ,
-             url:"../Smodelo",
-             data:{"parametro":parametro, "codigo": data.codigomodelo}
-             }).done(function(info){
-             console.log(info);
-             });*/
-
         });
     }
 
     function editarModelo() {
-        $("#btnModificarModelo").on("click", function () {
+        $("#frmModeloEditar").on("submit", function (e) {
+            e.preventDefault();
             var idcliente = $("#idcliente").val(),
-                modelo = $("#modelo").val(),
-                //cliente = $("#cliente").val(),
-                horma = $("#horma").val(),
-                taco = $("#taco").val(),
-                plataforma = $("#plataforma").val(),
-                coleccion = $("#coleccion").val(),
-                especificacion = $("#especificacion").val(),
-                estado = document.getElementById("estadomodelo").checked,
-                parametro = "modificarModelo";
+                    modelo = $("#modelo").val(),
+                    //cliente = $("#cliente").val(),
+                    horma = $("#horma").val(),
+                    taco = $("#taco").val(),
+                    plataforma = $("#plataforma").val(),
+                    coleccion = $("#coleccion").val(),
+                    especificacion = $("#especificacion").val(),
+                    estado = $("#estadomodelo").prop("checked");
+            parametro = "modificarModelo";
+            console.log("Edit modelo, estado: " + estado);
             $.ajax({
                 method: "POST",
                 url: "../Smodelo",
-                data: {"parametro": parametro, "idcliente": idcliente, "modelo":modelo, "horma":horma, "taco":taco, "plataforma":plataforma, "coleccion":coleccion, "especificacion":especificacion, "estado":estado}
+                data: {"parametro": parametro, "idcliente": idcliente, "modelo": modelo, "horma": horma, "taco": taco, "plataforma": plataforma, "coleccion": coleccion, "especificacion": especificacion, "estado": estado}
             }).done(function (info) {
-                console.log(info);
+                console.log(typeof info);
+                if (info == "false") {
+                    new PNotify({//ver lo de la notificación
+                        title: 'Mensaje de Advertencia',
+                        text: 'Ingrese todos los datos solicitados',
+                        hide: false
+                    });
+                } else if (info) {
+                    new PNotify({//ver lo de la notificación
+                        title: 'Mensaje de éxito',
+                        text: 'Se modificaron los datos satisfactoriamente.',
+                        type: 'success'
+                    });
+                    //$("#listaModelos").html("");
+                    tabla.destroy();
+                    listarModelos();
+                }
             });
         });
     }
@@ -342,7 +390,7 @@
         var id = x.childNodes[1].lastChild.value,
                 razon_social = x.childNodes[2].innerHTML;
         var rz_cliente = $("#proveedor").val(razon_social),
-                id_cliente = $("#id-proveedor").val(id);
+                id_proveedor = $("#id_proveedor").val(id);
         console.log(x.childNodes);
     }
 

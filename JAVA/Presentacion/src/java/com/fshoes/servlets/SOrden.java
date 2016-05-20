@@ -97,7 +97,7 @@ public class SOrden extends HttpServlet {
         //boolean rptorden = false, rptSerie = false;
         //AQUI VAMOS A PROBAR EL DETALLE DE SERIES
         String json_detalle_serie = request.getParameter("detalle");//Aqui ver esto posiblemente ya no salen las notificaciones por la cache
-        
+        System.out.println("Detalle json: " + json_detalle_serie);
         switch (parametro) {
             case "listarSerie": {
                 /*try {
@@ -160,20 +160,31 @@ public class SOrden extends HttpServlet {
             JSONObject objSeries = (JSONObject) serie_parser.parse(cadena_json.toString());
             //System.out.println("Data Obtenida: "+ objSeries);
             JSONArray arrSerie =  (JSONArray) objSeries.get("series");
-            System.out.println("Arreglo: " +arrSerie);            
-            for(int i=0; i< arrSerie.size(); i++){
-                JSONObject serie = (JSONObject) arrSerie.get(i);
-                talla = Integer.parseInt(serie.get("Talla").toString());
-                pares = Integer.parseInt(serie.get("Pares").toString());
-                System.out.println("Talla: " + talla + " Pares: " + pares);
+            System.out.println("Arreglo: " +arrSerie); 
+            int cantidadTallas = 7;
+            for(int i=0; i< cantidadTallas; i++){
+                JSONObject serie = (JSONObject) arrSerie.get(0);
+                talla = Integer.parseInt(serie.get("talla"+i).toString());
+                pares = Integer.parseInt(serie.get("par"+i).toString());
                 
-                objSerie = new Serie(0, talla, pares, objOrden);
+                if(pares!=0){
+                    objSerie = new Serie(0, talla, pares, objOrden);
+                    try {
+                        rptSerie = SerieLN.Instancia().registrarSerie(objSerie, parametro);
+                        //System.out.println("Registro Serie correcto? " + i + " : "+rptSerie);
+                    } catch (Exception ex) {
+                        Logger.getLogger(SOrden.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    System.out.println("Talla: " + talla + " Pares: " + pares);
+                }
+                
+                /*objSerie = new Serie(0, talla, pares, objOrden);
                 try {
                     rptSerie = SerieLN.Instancia().registrarSerie(objSerie, parametro);
-                    System.out.println("Registro Serie correcto? " + i + " : "+rptSerie);
+                    //System.out.println("Registro Serie correcto? " + i + " : "+rptSerie);
                 } catch (Exception ex) {
                     Logger.getLogger(SOrden.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                }*/
             }
             System.out.println("Respuesta final serie: " + rptSerie);
             return rptSerie;

@@ -93,7 +93,7 @@ public class Sproveedor extends HttpServlet {
                         out.println(
                                 //"<tr id='cliente"+i+"' onclick='seleccionar(\"cliente"+i+"\");' ><th scope='row'>"+(i+1)+"</th>"+
                                 "<tr  onclick='seleccionarProveedor(this);' ><th scope='row'>" + (i + 1) + "</th>"
-                                + "<td><input class='id-proveedor' type='hidden' value='" + lista.get(i).getIdproveedor() + "' /></td>"
+                                + "<td><input class='id_proveedor' type='hidden' value='" + lista.get(i).getIdproveedor() + "' /></td>"
                                 + "<td>" + lista.get(i).getRazonsocial() + "</td>"
                                 + "<td>" + lista.get(i).getRuc() + "</td>"
                                 + "<td>" + lista.get(i).getDireccion() + "</td>"

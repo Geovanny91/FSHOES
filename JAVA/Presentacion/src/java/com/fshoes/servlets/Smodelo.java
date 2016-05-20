@@ -120,10 +120,12 @@ public class Smodelo extends HttpServlet {
                     int idcliente = Integer.parseInt(request.getParameter("idcliente"));
                     boolean estado = Boolean.valueOf(request.getParameter("estadomodelo"));
                     Cliente objCliente = new Cliente();
-                    objCliente.setIdcliente(0);
+                    objCliente.setIdcliente(idcliente);
                     objModelo = new Modelo(cod_modelo, "", horma, taco, plataforma, coleccion, especificacion, objCliente, estado);
                     rptModelo = ModeloLN.Instancia().modificarModelo(objModelo, parametro);
-                    out.println(rptModelo);
+                    //out.println(rptModelo);
+                    if(rptModelo)   response.getWriter().write("true");
+                    else response.getWriter().write("false");
                 } catch (Exception ex) {
                     Logger.getLogger(Smodelo.class.getName()).log(Level.SEVERE, null, ex);
                 }

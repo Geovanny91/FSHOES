@@ -14,31 +14,42 @@ import java.util.ArrayList;
  * @author flores
  */
 public class ModeloLN {
+
     // singleton
     public static ModeloLN _Instancia;
-	private ModeloLN(){};
-	public static ModeloLN Instancia(){
-            if(_Instancia==null){			
-                    _Instancia = new ModeloLN();
-            }
-            return _Instancia;
+
+    private ModeloLN() {
+    }
+
+    ;
+	public static ModeloLN Instancia() {
+        if (_Instancia == null) {
+            _Instancia = new ModeloLN();
+        }
+        return _Instancia;
     }
     // end Singleton
-    
-    public ArrayList<Modelo> listarModelos(String valor, String prm) throws Exception{
-        try{
-            return ModeloAD.Instancia().listarModelos(valor, prm);
-        }catch(Exception ex){
-            throw ex;
-        }        
-    }
-    
-    public boolean modificarModelo(Modelo objModelo, String prm) throws Exception{
+
+    public ArrayList<Modelo> listarModelos(String valor, String prm) throws Exception {
         try {
-            return ModeloAD.Instancia().modificarModelo(objModelo, prm);
+            return ModeloAD.Instancia().listarModelos(valor, prm);
+        } catch (Exception ex) {
+            throw ex;
+        }
+    }
+
+    public boolean modificarModelo(Modelo objModelo, String prm) throws Exception {
+        try {
+            if (objModelo != null && !(prm.equals(""))) {
+                if (!objModelo.getCodigomodelo().equals("") && objModelo.getObjcliente().getIdcliente() != 0)
+                    return ModeloAD.Instancia().modificarModelo(objModelo, prm);
+                else
+                    return false;                
+            }else
+                return false;
         } catch (Exception e) {
-            throw  e;
-        }    
+            throw e;
+        }
     }
 
 }

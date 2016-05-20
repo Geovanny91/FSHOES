@@ -16,9 +16,9 @@ public class Orden {
     private String orden_pedido;
     private String fecha_emision;
     private String fecha_entrega;
-    private float total;
+    private int total;
 
-    public Orden(String codigoorden, String orden_pedido, String fecha_emision, String fecha_entrega, float total) {
+    public Orden(String codigoorden, String orden_pedido, String fecha_emision, String fecha_entrega, int total) {
         this.codigoorden = codigoorden;
         this.orden_pedido = orden_pedido;
         this.fecha_emision = fecha_emision;
@@ -68,7 +68,7 @@ public class Orden {
         return total;
     }
 
-    public void setTotal(float total) {
+    public void setTotal(int total) {
         this.total = total;
     }   
 }

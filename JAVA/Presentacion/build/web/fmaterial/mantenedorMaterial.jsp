@@ -94,13 +94,19 @@
                                 </div>
                             </div>
                         </div>
-                        <input type="hidden" class="form-control" name="id-proveedor" id="id-proveedor" value="">
+                        <input type="hidden" class="form-control" name="id_proveedor" id="id_proveedor" value="">
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Proveedor</label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
                                 <input type="text" class="form-control" name="proveedor" id="proveedor" value="" placeholder="Proveedor" readonly="">
                             </div>
                         </div>
+                         <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Nombre</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input type="text" class="form-control" name="nombre" id="nombre" placeholder="Nombre del manterial">
+                            </div>
+                        </div>  
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Descripccion</label>
                             <div class="col-md-6 col-sm-6 col-xs-12">

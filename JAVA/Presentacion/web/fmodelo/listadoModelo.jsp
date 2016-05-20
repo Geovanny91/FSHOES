@@ -47,7 +47,7 @@
                                 <th></th>
                                 <th>razonsocial</th>
                                 <th></th>
-                                
+
                             </tr>
                         </thead>            
                     </table>
@@ -55,9 +55,10 @@
             </div>
         </div>
     </div>
-    
+
     <div class="row" id="editarModelo" style="display: none;">
-            <!-- Cliente -->
+        <!-- Cliente -->
+        <div class="col-md-12 col-sm-12 col-xs-12">    
             <div class="x_panel">
                 <div class="x_title">
                     <h2>Formulario Modelo <small>modificar datos.</small></h2>
@@ -75,8 +76,7 @@
                 </div>
                 <div class="x_content">
                     <br>
-                    <form action="" method="POST" class="form-horizontal form-label-left">
-
+                    <form id="frmModeloEditar" action="" method="POST" class="form-horizontal form-label-left">
                         <!--<div class="form-group">                            
                             <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">                                
                                 <label class="btn btn-primary btn-upload col-md-1 col-sm-1 col-xs-12" for="inputImage" title="Upload image file">                                    
@@ -146,52 +146,52 @@
                                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                                                 <button type="button" class="btn btn-primary">Save changes</button>
                                             </div>-->
-                                                
+
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Cliente</label>
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Modelo</label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input type="text" class="form-control" name="modelo" id="modelo" value="" readonly>
+                                    <input type="text" class="form-control" name="modelo" id="modelo" value="" required readonly>
                                 </div>
                             </div>
-                            <input type="hidden" class="form-control" name="idcliente" id="idcliente" value="">
+                            <input type="hidden" class="form-control" name="idcliente" id="idcliente">
                             <div class="form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12">Cliente</label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input type="text" class="form-control" name="cliente" id="cliente" value="" readonly>
+                                    <input type="text" class="form-control" name="cliente" id="cliente" value="" required readonly>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12">Horma</label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input type="text" class="form-control" name="horma" id="horma" value="" placeholder="Horma">
+                                    <input type="text" class="form-control" name="horma" id="horma" value="" required placeholder="Horma">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12">Taco</label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input type="text" name="taco" id="taco" class="form-control" placeholder="Taco">                        
+                                    <input type="text" name="taco" id="taco" class="form-control" required placeholder="Taco">                        
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12">Plataforma</label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input type="text" class="form-control" name="plataforma" id="plataforma" value="" placeholder="Plataforma">
+                                    <input type="text" class="form-control" name="plataforma" id="plataforma" value="" required placeholder="Plataforma">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12">Colección</label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input type="text" class="form-control" name="coleccion" id="coleccion" value="" placeholder="Colección">
+                                    <input type="text" class="form-control" name="coleccion" id="coleccion" value="" required placeholder="Colección">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12">Especificación</label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input type="text" class="form-control" name="especificacion" id="especificacion" value="" placeholder="Especificación">
+                                    <input type="text" class="form-control" name="especificacion" id="especificacion" value="" required placeholder="Especificación">
                                 </div>
                             </div>                        
                             <div class="form-group">
@@ -209,16 +209,18 @@
                             <div class="form-group">
                                 <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
                                     <button type="reset" class="btn btn-primary">Cancelar</button>
-                                    <button type="button" id="btnModificarModelo" class="btn btn-success">Guardar</button>                                
+                                    <button type="submit" id="btnModificarModelo" class="btn btn-success">Guardar</button>                                
                                 </div>
                             </div>
+
+                        </div>
                     </form>
                 </div>
+                <!-- Cliente -->
             </div>
-            <!-- Cliente -->
-        </div>        
+        </div>
     </div>
-    
+
 
 
     <!-- /page content -->

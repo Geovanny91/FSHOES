@@ -1,41 +1,40 @@
 <jsp:include page="../includes/cabecera_interna.jsp"></jsp:include>
 <%@page import="com.fshoes.entidades.Trabajador" %>
-      <!-- page content -->
+<!-- page content -->
 
 <%
     String usuario = "";
-    HttpSession ses = request.getSession();    
-    if(ses.getAttribute("trabajador")!=null){
-        Trabajador u = (Trabajador)ses.getAttribute("trabajador");
+    HttpSession ses = request.getSession();
+    if (ses.getAttribute("trabajador") != null) {
+        Trabajador u = (Trabajador) ses.getAttribute("trabajador");
         usuario = u.getNombreCompleto();
-    }else{
+    } else {
         response.sendRedirect("../index.html");
     }
 %>
-    <!-- page content -->
-    <div class="right_col" role="main">        
+<!-- page content -->
+<div class="right_col" role="main">        
 
-        <div class="row">
-            <!-- Cliente -->
-            <div class="x_panel">
-                <div class="x_title">
-                    <h2>Formulario Modelo <small>registrar datos.</small></h2>
-                    <ul class="nav navbar-right panel_toolbox">
-                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                        </li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+    <div class="row">
+        <!-- Cliente -->
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>Formulario Modelo <small>registrar datos.</small></h2>
+                <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
 
-                        </li>
-                        <li><a class="close-link"><i class="fa fa-close"></i></a>
-                        </li>
-                    </ul>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="x_content">
-                    <br>
-                    <form action="" method="POST" class="form-horizontal form-label-left">
-
+                    </li>
+                    <li><a class="close-link"><i class="fa fa-close"></i></a>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <br>
+                <form action="" method="POST" class="form-horizontal form-label-left">
                         <!--<div class="form-group">                            
                             <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">                                
                                 <label class="btn btn-primary btn-upload col-md-1 col-sm-1 col-xs-12" for="inputImage" title="Upload image file">                                    
@@ -105,46 +104,52 @@
                                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                                                 <button type="button" class="btn btn-primary">Save changes</button>
                                             </div>-->
-                                                
+
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <input type="hidden" class="form-control" name="id-cliente" id="id-cliente" value="">
+                            </div>                            
+                            <input type="hidden" class="form-control" name="idcliente" id="idcliente">
                             <div class="form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12">Cliente</label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input type="text" class="form-control" name="cliente" id="cliente" value="" readonly>
+                                    <input type="text" class="form-control" name="cliente" id="cliente" value="" required readonly>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Modelo</label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input type="text" class="form-control" name="modelo" id="modelo" value="" required>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12">Horma</label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input type="text" class="form-control" name="ruc" id="ruc" value="" placeholder="Horma">
+                                    <input type="text" class="form-control" name="horma" id="horma" value="" required placeholder="Horma">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12">Taco</label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input type="text" name="direccion" id="direccion" class="form-control" placeholder="Taco">                        
+                                    <input type="text" name="taco" id="taco" class="form-control" required placeholder="Taco">                        
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12">Plataforma</label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input type="text" class="form-control" name="ruc" id="ruc" value="" placeholder="Plataforma">
+                                    <input type="text" class="form-control" name="plataforma" id="plataforma" value="" required placeholder="Plataforma">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12">Colección</label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input type="text" class="form-control" name="ruc" id="ruc" value="" placeholder="Colección">
+                                    <input type="text" class="form-control" name="coleccion" id="coleccion" value="" required placeholder="Colección">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12">Especificación</label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input type="text" class="form-control" name="ruc" id="ruc" value="" placeholder="Especificación">
+                                    <input type="text" class="form-control" name="especificacion" id="especificacion" value="" required placeholder="Especificación">
                                 </div>
                             </div>                        
                             <div class="form-group">
@@ -153,7 +158,7 @@
                                 <div class="col-md-9 col-sm-9 col-xs-12">
                                     <div class="checkbox">
                                         <label>
-                                            <input type="checkbox" value=""> Opción para habilitar un modelo.
+                                            <input id="estadomodelo" type="checkbox" value=""> Opción para habilitar un modelo.
                                         </label>
                                     </div>                        
                                 </div>
@@ -162,18 +167,19 @@
                             <div class="form-group">
                                 <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
                                     <button type="reset" class="btn btn-primary">Cancelar</button>
-                                    <button type="submit" class="btn btn-success">Guardar</button>                                
+                                    <button type="button" id="btnModificarModelo" class="btn btn-success">Guardar</button>                                
                                 </div>
                             </div>
+
+                        </div>
                     </form>
-                </div>
             </div>
             <!-- Cliente -->
         </div>        
     </div>
     <div class="row">
-        
+
     </div>
-        
+
     <!-- /page content -->
-<jsp:include page="../includes/pie_interno.jsp"></jsp:include>
+    <jsp:include page="../includes/pie_interno.jsp"></jsp:include>
