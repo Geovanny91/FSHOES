@@ -88,8 +88,18 @@ public class Smodelo extends HttpServlet {
         String valor = request.getParameter("valor");
         String parametro = request.getParameter("parametro");
         
+        String  horma = request.getParameter("horma"),
+                cod_modelo = request.getParameter("modelo"),
+                taco = request.getParameter("taco"),
+                plataforma = request.getParameter("plataforma"),
+                coleccion = request.getParameter("coleccion"),
+                especificacion = request.getParameter("especificacion"),
+                idcliente = request.getParameter("idcliente");
+        boolean estado = Boolean.valueOf(request.getParameter("estadomodelo"));
+
         boolean rptModelo;
-        Modelo objModelo;
+        Modelo objModelo = null;
+        Cliente objCliente = null;
 
         switch (parametro) {
             case "listarModelo": {
@@ -109,18 +119,24 @@ public class Smodelo extends HttpServlet {
                 }
             }
             break;
+            case "registrarModelo":{
+                try {                    
+                    objCliente = new Cliente();
+                    objCliente.setIdcliente( Integer.parseInt(idcliente));
+                    objModelo = new Modelo(cod_modelo, "", horma, taco, plataforma, coleccion, especificacion, objCliente, estado);
+                    rptModelo = ModeloLN.Instancia().registrarModelo(objModelo, parametro);
+                    //out.println(rptModelo);
+                    if(rptModelo)   response.getWriter().write("true");
+                    else response.getWriter().write("false");
+                } catch (Exception ex) {
+                    Logger.getLogger(Smodelo.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            break;
             case "modificarModelo":{
                 try {                    
-                    String  horma = request.getParameter("horma"),
-                            cod_modelo = request.getParameter("modelo"),
-                            taco = request.getParameter("taco"),
-                            plataforma = request.getParameter("plataforma"),
-                            coleccion = request.getParameter("coleccion"),
-                            especificacion = request.getParameter("especificacion");
-                    int idcliente = Integer.parseInt(request.getParameter("idcliente"));
-                    boolean estado = Boolean.valueOf(request.getParameter("estadomodelo"));
-                    Cliente objCliente = new Cliente();
-                    objCliente.setIdcliente(idcliente);
+                    objCliente = new Cliente();
+                    objCliente.setIdcliente(Integer.parseInt(idcliente));
                     objModelo = new Modelo(cod_modelo, "", horma, taco, plataforma, coleccion, especificacion, objCliente, estado);
                     rptModelo = ModeloLN.Instancia().modificarModelo(objModelo, parametro);
                     //out.println(rptModelo);

@@ -93,5 +93,31 @@ public class ModeloAD {
         }
         return rpt;
     }
+    
+    public boolean registrarModelo(Modelo objModelo, String prm) throws Exception{
+        Connection cn = Conexion.Instancia().getConexion();
+        boolean rpt = false;
+        try {
+            CallableStatement cst = cn.prepareCall("{call pa_modelo(?,?,?,?,?,?,?,?,?,?,?)}");
+            cst.setString(1, "");
+            cst.setString(2, prm);
+            cst.setString(3, objModelo.getCodigomodelo());
+            cst.setString(4, "");
+            cst.setString(5, objModelo.getHorma());
+            cst.setString(6, objModelo.getTaco());
+            cst.setString(7, objModelo.getPlataforma());
+            cst.setString(8, objModelo.getColeccion());
+            cst.setString(9, objModelo.getEspecificacion());
+            cst.setInt(10, objModelo.getObjcliente().getIdcliente());            
+            cst.setBoolean(11, objModelo.isEstado());
+            cst.execute();
+            rpt = true;            
+        } catch (Exception e) {
+            throw e;
+        }finally{
+            cn.close();            
+        }
+        return rpt;
+    }
 
 }

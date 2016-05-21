@@ -93,8 +93,8 @@ public class Scliente extends HttpServlet {
                     lista = ClienteLN.Instancia().listarClientes(valor, parametro);
                     for (int i = 0; i < lista.size(); i++) {
                         out.println(
-                                "<tr  onclick='seleccionar(this);' ><th scope='row'>" + (i + 1) + "</th>"
-                                + "<td><input class='id-cliente' type='hidden' value='" + lista.get(i).getIdcliente() + "' /></td>"
+                                "<tr  onclick='seleccionarCliente(this);' ><th scope='row'>" + (i + 1) + "</th>"
+                                + "<td><input class='idcliente' type='hidden' value='" + lista.get(i).getIdcliente() + "' /></td>"
                                 + "<td>" + lista.get(i).getRazonsocial() + "</td>"
                                 + "<td>" + lista.get(i).getRuc() + "</td>"
                                 + "<td>" + lista.get(i).getDireccion() + "</td>"

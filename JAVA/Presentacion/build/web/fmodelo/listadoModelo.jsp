@@ -37,15 +37,15 @@
                     <table class="table table-striped table-bordered dt-responsive nowrap" id="listaModelos" cellspacing="0" width="100%">
                         <thead>
                             <tr>
-                                <th>codigomodelo</th>
+                                <th>Cóodigo</th>
                                 <th>urlimagen</th>
-                                <th>horma</th>
-                                <th>taco</th>
-                                <th>plataforma</th>
-                                <th>coleccion</th>
-                                <th>especificacion</th>                               
+                                <th>Horma</th>
+                                <th>Taco</th>
+                                <th>Plataforma</th>
+                                <th>Colección</th>
+                                <th>Especificación</th>                               
                                 <th></th>
-                                <th>razonsocial</th>
+                                <th>Cliente</th>
                                 <th></th>
 
                             </tr>
@@ -87,11 +87,7 @@
                                 </label>
                             </div>                            
                         </div>                    -->
-                        <div class="form-group">
-                            <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">    
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg" ><i class="fa fa-search"></i> Buscar Cliente</button>
-                            </div>
-
+                        <div class="form-group">             
                             <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
                                 <div class="modal-dialog modal-lg">
                                     <div class="modal-content">
@@ -106,7 +102,7 @@
                                                 <div class="form-group">
                                                     <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
                                                     <div class="col-md-6 col-sm-6 col-xs-12">
-                                                        <input type="text" class="form-control has-feedback-left" name="buscar-cliente" id="buscar-cliente" onkeyup="listarClientes(this.value);" value="" placeholder="Buscar por ruc o razón social">
+                                                        <input type="text" class="form-control has-feedback-left" id="buscar-cliente" onkeyup="listarClientes(this.value);" value="" placeholder="Buscar por ruc o razón social">
                                                         <span class="fa fa-search form-control-feedback left" aria-hidden="true"></span>
                                                     </div>
                                                 </div>
@@ -151,6 +147,7 @@
                                     </div>
                                 </div>
                             </div>
+                            <input type="hidden" name="parametro" id="parametro" value="modificarModelo" />
                             <div class="form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12">Modelo</label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
@@ -200,7 +197,7 @@
                                 <div class="col-md-9 col-sm-9 col-xs-12">
                                     <div class="checkbox">
                                         <label>
-                                            <input id="estadomodelo" type="checkbox" value=""> Opción para habilitar un modelo.
+                                            <input id="estadomodelo" name="estadomodelo" type="checkbox" value=""> Opción para habilitar un modelo.
                                         </label>
                                     </div>                        
                                 </div>
@@ -208,7 +205,7 @@
                             <div class="ln_solid"></div>
                             <div class="form-group">
                                 <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
-                                    <button type="reset" class="btn btn-primary">Cancelar</button>
+                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg" ><i class="fa fa-search"></i> Cliente</button>
                                     <button type="submit" id="btnModificarModelo" class="btn btn-success">Guardar</button>                                
                                 </div>
                             </div>

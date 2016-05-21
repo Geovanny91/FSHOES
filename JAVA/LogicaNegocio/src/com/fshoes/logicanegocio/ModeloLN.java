@@ -52,4 +52,18 @@ public class ModeloLN {
         }
     }
 
+    public boolean registrarModelo(Modelo objModelo, String prm) throws Exception {
+        try {
+            if (objModelo != null && !(prm.equals(""))) {
+                if (!objModelo.getCodigomodelo().equals("") && objModelo.getObjcliente().getIdcliente() != 0)
+                    return ModeloAD.Instancia().registrarModelo(objModelo, prm);
+                else
+                    return false;                
+            }else
+                return false;
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+    
 }

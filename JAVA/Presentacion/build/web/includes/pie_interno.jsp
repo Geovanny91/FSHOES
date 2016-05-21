@@ -76,6 +76,7 @@
         orden();
         listarModelos();
         editarModelo();
+        registrarModelo();
         validarCampos();
     });
     /*VARIABLES GLOBALES*/
@@ -269,11 +270,11 @@
         });
     }
 
-    function seleccionar(x) {
+    function seleccionarCliente(x) {
         var id = x.childNodes[1].lastChild.value,
                 razon_social = x.childNodes[2].innerHTML;
         var rz_cliente = $("#cliente").val(razon_social),
-                id_cliente = $("#id-cliente").val(id);
+                id_cliente = $("#idcliente").val(id);
         console.log(x.childNodes);
     }
 
@@ -313,17 +314,17 @@
             console.log(data);
             var parametro = $(this).attr("tipo").toString();
             var divEditar = document.getElementById("editarModelo");
-            ;
+            
             console.log("parametro: " + parametro + " codigo: " + data.codigomodelo);
             if (parametro === "modificarModelo") {
                 var idcliente = $("#idcliente").val(data.objCliente.idcliente),
-                        modelo = $("#modelo").val(data.codigomodelo),
-                        cliente = $("#cliente").val(data.objCliente.razonsocial),
-                        horma = $("#horma").val(data.horma),
-                        taco = $("#taco").val(data.taco),
-                        plataforma = $("#plataforma").val(data.plataforma),
-                        coleccion = $("#coleccion").val(data.coleccion),
-                        especificacion = $("#especificacion").val(data.especificacion);
+                    modelo = $("#modelo").val(data.codigomodelo),
+                    cliente = $("#cliente").val(data.objCliente.razonsocial),
+                    horma = $("#horma").val(data.horma),
+                    taco = $("#taco").val(data.taco),
+                    plataforma = $("#plataforma").val(data.plataforma),
+                    coleccion = $("#coleccion").val(data.coleccion),
+                    especificacion = $("#especificacion").val(data.especificacion);
                 //estado = $("#").val();
                 if (data.estado)
                     $("#estadomodelo").prop("checked", true);
@@ -338,22 +339,14 @@
 
     function editarModelo() {
         $("#frmModeloEditar").on("submit", function (e) {
-            e.preventDefault();
-            var idcliente = $("#idcliente").val(),
-                    modelo = $("#modelo").val(),
-                    //cliente = $("#cliente").val(),
-                    horma = $("#horma").val(),
-                    taco = $("#taco").val(),
-                    plataforma = $("#plataforma").val(),
-                    coleccion = $("#coleccion").val(),
-                    especificacion = $("#especificacion").val(),
-                    estado = $("#estadomodelo").prop("checked");
-            parametro = "modificarModelo";
-            console.log("Edit modelo, estado: " + estado);
+            e.preventDefault();           
+            modificar_checkbox($(this));//modificar para poder enviar su valor, cuando se utilice la función serialize(), se pasa como parámetro el id del form            
+            var frm = $(this).serialize();
+            console.log("data frm: " + frm);
             $.ajax({
                 method: "POST",
                 url: "../Smodelo",
-                data: {"parametro": parametro, "idcliente": idcliente, "modelo": modelo, "horma": horma, "taco": taco, "plataforma": plataforma, "coleccion": coleccion, "especificacion": especificacion, "estado": estado}
+                data: frm
             }).done(function (info) {
                 console.log(typeof info);
                 if (info == "false") {
@@ -375,7 +368,50 @@
             });
         });
     }
-
+    
+    function registrarModelo() {
+        $("#frmModeloRegistrar").on("submit", function (e) {
+            e.preventDefault();           
+            modificar_checkbox($(this));//modificar para poder enviar su valor, cuando se utilice la función serialize(), se pasa como parámetro el id del form            
+            var frm = $(this).serialize();
+            console.log("data frm: " + frm);
+            $.ajax({
+                method: "POST",
+                url: "../Smodelo",
+                data: frm
+            }).done(function (info) {
+                console.log(typeof info);
+                if (info == "false") {
+                    new PNotify({
+                        title: 'Mensaje de Advertencia',
+                        text: 'Ingrese todos los datos solicitados',
+                        hide: false
+                    });                    
+                } else if (info) {
+                    new PNotify({
+                        title: 'Mensaje de éxito',
+                        text: 'Se modificaron los datos satisfactoriamente.',
+                        type: 'success'
+                    });
+                    $("#frmModeloRegistrar").find("input").val("");
+                }
+            });
+        });
+    }
+    
+    
+    function modificar_checkbox(formulario){
+        var checkboxes = $(formulario).find('input[type="checkbox"]');
+            $.each( checkboxes, function( key, value ) {
+                if (value.checked === false) {
+                    value.value = false;
+                } else {
+                    value.value = true;
+                }
+                //$(value).attr('type', 'hidden');
+            });  
+    }
+    
     function listarProveedores(valor) {
         $.ajax({
             method: "POST",
