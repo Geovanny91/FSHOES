@@ -164,7 +164,7 @@
                         <div class="form-group">
                             <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">                                    
                                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg" ><i class="fa fa-search"></i> Cliente</button>                            
-                                <button type="submit" class="btn btn-success">Guardar</button>                                
+                                <button type="button" id="guardarModelo" class="btn btn-success">Guardar</button>                                
                             </div>
                         </div>
 

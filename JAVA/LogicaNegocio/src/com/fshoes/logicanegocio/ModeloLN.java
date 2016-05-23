@@ -30,12 +30,22 @@ public class ModeloLN {
     }
     // end Singleton
 
-    public ArrayList<Modelo> listarModelos(String valor, String prm) throws Exception {
+    public ArrayList<Modelo> listarModelos(String valor, String prm, int inicio, int fin) throws Exception {
         try {
-            return ModeloAD.Instancia().listarModelos(valor, prm);
+            return ModeloAD.Instancia().listarModelos(valor, prm, inicio, fin);
         } catch (Exception ex) {
             throw ex;
         }
+    }
+    
+    public int obtenerTotalFilas(String valor, String prm) throws Exception{
+        try {
+            if (!(prm.equals("")))
+                return ModeloAD.Instancia().obtenerTotalFilas(valor, prm);
+            else return 0;
+        } catch (Exception e) {
+            throw e;
+        }        
     }
 
     public boolean modificarModelo(Modelo objModelo, String prm) throws Exception {

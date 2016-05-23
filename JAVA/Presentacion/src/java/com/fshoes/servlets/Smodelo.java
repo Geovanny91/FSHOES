@@ -87,8 +87,8 @@ public class Smodelo extends HttpServlet {
 
         String valor = request.getParameter("valor");
         String parametro = request.getParameter("parametro");
-        
-        String  horma = request.getParameter("horma"),
+
+        String horma = request.getParameter("horma"),
                 cod_modelo = request.getParameter("modelo"),
                 taco = request.getParameter("taco"),
                 plataforma = request.getParameter("plataforma"),
@@ -96,22 +96,31 @@ public class Smodelo extends HttpServlet {
                 especificacion = request.getParameter("especificacion"),
                 idcliente = request.getParameter("idcliente");
         boolean estado = Boolean.valueOf(request.getParameter("estadomodelo"));
-
-        boolean rptModelo;
+        
+        boolean rptModelo = false;
         Modelo objModelo = null;
         Cliente objCliente = null;
 
         switch (parametro) {
             case "listarModelo": {
-                try {                    
+                try {
                     ArrayList<Modelo> lista = new ArrayList<>();
-                    lista = ModeloLN.Instancia().listarModelos("", parametro);//getListPersonajes(n_col, dir, inicio, fin);//base de datos
+                    int inicio = Integer.parseInt(request.getParameter("start")),
+                            fin = Integer.parseInt(request.getParameter("length"));
+                    lista = ModeloLN.Instancia().listarModelos("", parametro, inicio, (fin + inicio));//getListPersonajes(n_col, dir, inicio, fin);//base de datos
                     JSONArray array = new JSONArray();
-                    array.addAll(lista);                    
+                    array.addAll(lista);
                     StringWriter outjson = new StringWriter();
-                    JSONObject json = new JSONObject();                         
+
+                    int total = ModeloLN.Instancia().obtenerTotalFilas(valor, "obtenerTotal");
+                    int draw = Integer.parseInt(request.getParameter("draw"));
+
+                    JSONObject json = new JSONObject();
+                    json.put("draw", draw);
+                    json.put("recordsTotal", total);//consulta BD
+                    json.put("recordsFiltered", total);//es cuando hay busquedas
                     json.put("data", array);
-                    json.writeJSONString(outjson);                    
+                    json.writeJSONString(outjson);
                     out.println(outjson);
                     System.out.println(outjson);
                 } catch (Exception ex) {
@@ -119,29 +128,45 @@ public class Smodelo extends HttpServlet {
                 }
             }
             break;
-            case "registrarModelo":{
-                try {                    
+
+            case "registrarModelo": {
+                try {
                     objCliente = new Cliente();
-                    objCliente.setIdcliente( Integer.parseInt(idcliente));
+                    objCliente.setIdcliente(Integer.parseInt(idcliente));
                     objModelo = new Modelo(cod_modelo, "", horma, taco, plataforma, coleccion, especificacion, objCliente, estado);
                     rptModelo = ModeloLN.Instancia().registrarModelo(objModelo, parametro);
                     //out.println(rptModelo);
-                    if(rptModelo)   response.getWriter().write("true");
-                    else response.getWriter().write("false");
+                    if (rptModelo) {
+                        response.getWriter().write("true");
+                        System.out.println("Respuesta modelo: " + rptModelo);
+                    } else {
+                        response.getWriter().write("false");
+                    }
+                    /*cod_modelo = null;
+                    horma=null;
+                    taco=null;
+                    plataforma=null;
+                    coleccion=null;
+                    especificacion=null;
+                    objCliente=null;
+                    estado=false;*/
                 } catch (Exception ex) {
                     Logger.getLogger(Smodelo.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
             break;
-            case "modificarModelo":{
-                try {                    
-                    objCliente = new Cliente();
+            case "modificarModelo": {
+                try {
+                    /* objCliente = new Cliente();
                     objCliente.setIdcliente(Integer.parseInt(idcliente));
                     objModelo = new Modelo(cod_modelo, "", horma, taco, plataforma, coleccion, especificacion, objCliente, estado);
                     rptModelo = ModeloLN.Instancia().modificarModelo(objModelo, parametro);
                     //out.println(rptModelo);
-                    if(rptModelo)   response.getWriter().write("true");
-                    else response.getWriter().write("false");
+                    if (rptModelo) {
+                        response.getWriter().write("true");
+                    } else {
+                        response.getWriter().write("false");
+                    }*/
                 } catch (Exception ex) {
                     Logger.getLogger(Smodelo.class.getName()).log(Level.SEVERE, null, ex);
                 }
