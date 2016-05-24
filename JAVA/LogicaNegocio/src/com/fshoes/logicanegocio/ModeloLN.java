@@ -17,12 +17,8 @@ public class ModeloLN {
 
     // singleton
     public static ModeloLN _Instancia;
-
-    private ModeloLN() {
-    }
-
-    ;
-	public static ModeloLN Instancia() {
+    private ModeloLN() {};
+    public static ModeloLN Instancia() {
         if (_Instancia == null) {
             _Instancia = new ModeloLN();
         }

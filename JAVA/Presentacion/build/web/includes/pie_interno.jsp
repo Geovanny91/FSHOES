@@ -74,15 +74,18 @@
         registrarcliente();
         registrarProveedor();
         orden();
-        listarModelos();
+        listarModelosPaginacion();
         editarModelo();
         registrarModelo();
         validarCampos();
+        
+        listarMaterialesPaginacion();
+        
     });
     /*VARIABLES GLOBALES*/
     var total;
     var resultVal = 0.0;
-    var tabla;
+    var tabla, tabla_paginacion_modelo;
     /*FIN VARIABLES GLOBALES*/
 
 
@@ -278,8 +281,9 @@
         console.log(x.childNodes);
     }
 
-    function listarModelos() {
-        tabla = $('#listaModelos').DataTable({
+    function listarModelosPaginacion() {
+        
+        tabla_paginacion_modelo = $('#listaModelos').DataTable({
             //"scrollX": true
             "processing": true,
             "serverSide": true,
@@ -312,9 +316,9 @@
                 //{"defaultContent": "<button class='btn btn-primary btn-xs'><i class='fa fa-remove'></i></button>"}
             ]
         });
-        tabla.column(1).visible(false);
-        tabla.column(7).visible(false);
-        mantenedoresModelo('#listaModelos tbody', tabla);
+        tabla_paginacion_modelo.column(1).visible(false);
+        tabla_paginacion_modelo.column(7).visible(false);
+        mantenedoresModelo('#listaModelos tbody', tabla_paginacion_modelo);
     }
 
     function mantenedoresModelo(lista, tabla) {
@@ -371,8 +375,8 @@
                         type: 'success'
                     });
                     //$("#listaModelos").html("");
-                    tabla.destroy();
-                    listarModelos();
+                    tabla_paginacion_modelo.destroy();
+                    listarModelosPaginacion();
                 }
             });
         });
@@ -388,12 +392,12 @@
                 plataforma = $("#plataforma").val(),
                 coleccion = $("#coleccion").val(),
                 especificacion = $("#especificacion").val(),
-                estado = $("#estadomodelo").prop("checked");
-            console.log(idcliente, " " , modelo);
+                estadomodelo = $("#estadomodelo").prop("checked");
+            console.log(idcliente, " " , modelo, " estado: " + estadomodelo);
             $.ajax({
                 method: "POST",
                 url: "../Smodelo",
-                data: {"parametro" : "registrarModelo","idcliente": idcliente, "modelo": modelo, "horma": horma, "taco": taco, "plataforma": plataforma, "coleccion": coleccion, "especificacion": especificacion, "estado": estado}
+                data: {"parametro" : "registrarModelo","idcliente": idcliente, "modelo": modelo, "horma": horma, "taco": taco, "plataforma": plataforma, "coleccion": coleccion, "especificacion": especificacion, "estadomodelo": estadomodelo}
             }).done(function (info) {
                 console.log(typeof info);
                 if (info == "false") {
@@ -413,6 +417,38 @@
                 }
             });
         });
+    }
+
+    
+    function listarMaterialesPaginacion() {
+        tabla = $('#listaMateriales').DataTable({
+            //"scrollX": true
+            "processing": true,
+            "serverSide": true,
+            "ajax": {
+                "url": "../Smaterial",
+                "type": "POST",
+                "data": {"parametro": "listarMaterial"}
+                //"dataSrc": "animes"
+            },
+            "columns": [
+                {"data": "idmaterial"},
+                {"data": "nombre"},
+                {"data": "descripcion"},
+                {"data": "unidadmedida"},
+                {"data": "cantidaddocena"},
+                {"data": "preciounitario"},
+                {"data": "tipo"},
+                {"data": "color"},
+                {"data": "objProveedor.idproveedor"},
+                {"data": "objProveedor.razonsocial"},
+                {"defaultContent": "<button tipo='modificarMaterial' class='btn btn-info btn-xs'><i class='fa fa-edit'></i></button> <button tipo='eliminarMaterial' class='btn btn-danger btn-xs'><i class='fa fa-remove'></i></button>", "width": "5%"}
+                //{"defaultContent": "<button class='btn btn-primary btn-xs'><i class='fa fa-remove'></i></button>"}
+            ]
+        });
+        //tabla.column(1).visible(false);
+        //tabla.column(7).visible(false);
+        //mantenedoresModelo('#listaModelos tbody', tabla);
     }
 
 

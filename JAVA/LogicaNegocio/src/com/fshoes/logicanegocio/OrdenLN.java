@@ -15,12 +15,12 @@ import com.fshoes.entidades.Orden;
 public class OrdenLN {
     // singleton
     public static OrdenLN _Instancia;
-	private OrdenLN(){};
-	public static OrdenLN Instancia(){
-            if(_Instancia==null){			
-                    _Instancia = new OrdenLN();
-            }
-            return _Instancia;
+    private OrdenLN(){};
+    public static OrdenLN Instancia(){
+        if(_Instancia==null){			
+                _Instancia = new OrdenLN();
+        }
+        return _Instancia;
     }
     // end Singleton
     

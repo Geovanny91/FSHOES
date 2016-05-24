@@ -5,15 +5,14 @@
  */
 package com.fshoes.servlets;
 
-import com.fshoes.entidades.Cliente;
-import com.fshoes.entidades.Modelo;
-import com.fshoes.logicanegocio.ModeloLN;
+import com.fshoes.accesodatos.ModeloAD;
+import com.fshoes.entidades.Material;
+import com.fshoes.entidades.Proveedor;
+import com.fshoes.logicanegocio.MaterialLN;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -24,10 +23,10 @@ import org.json.simple.JSONObject;
 
 /**
  *
- * @author flores
+ * @author Geovanny
  */
-@WebServlet(name = "Smodelo", urlPatterns = {"/Smodelo"})
-public class Smodelo extends HttpServlet {
+@WebServlet(name = "Smaterial", urlPatterns = {"/Smaterial"})
+public class Smaterial extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -41,18 +40,7 @@ public class Smodelo extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet Smodelo</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet Smodelo at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -98,21 +86,21 @@ public class Smodelo extends HttpServlet {
         boolean estado = Boolean.valueOf(request.getParameter("estadomodelo"));
         
         boolean rptModelo = false;
-        Modelo objModelo = null;
-        Cliente objCliente = null;
+        Material objMaterial = null;
+        Proveedor objProveedor = null;
 
         switch (parametro) {
-            case "listarModelo": {
+            case "listarMaterial": {
                 try {
-                    ArrayList<Modelo> lista = new ArrayList<>();
+                    ArrayList<Material> lista = new ArrayList<>();
                     int inicio = Integer.parseInt(request.getParameter("start")),
                             fin = Integer.parseInt(request.getParameter("length"));
-                    lista = ModeloLN.Instancia().listarModelos("", parametro, inicio, (fin + inicio));//getListPersonajes(n_col, dir, inicio, fin);//base de datos
+                    lista = MaterialLN.Instancia().listarMaterial("", parametro, inicio, (fin + inicio));//getListPersonajes(n_col, dir, inicio, fin);//base de datos
                     JSONArray array = new JSONArray();
                     array.addAll(lista);
                     StringWriter outjson = new StringWriter();
 
-                    int total = ModeloLN.Instancia().obtenerTotalFilas(valor, "obtenerTotal");
+                    int total = MaterialLN.Instancia().obtenerTotalFilas(valor, "obtenerTotal");
                     int draw = Integer.parseInt(request.getParameter("draw"));
 
                     JSONObject json = new JSONObject();
@@ -124,43 +112,7 @@ public class Smodelo extends HttpServlet {
                     out.println(outjson);
                     System.out.println(outjson);
                 } catch (Exception ex) {
-                    Logger.getLogger(Smodelo.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-            break;
-
-            case "registrarModelo": {
-                try {
-                    objCliente = new Cliente();
-                    objCliente.setIdcliente(Integer.parseInt(idcliente));
-                    objModelo = new Modelo(cod_modelo, "", horma, taco, plataforma, coleccion, especificacion, objCliente, estado);
-                    rptModelo = ModeloLN.Instancia().registrarModelo(objModelo, parametro);
-                    //out.println(rptModelo);
-                    if (rptModelo) {
-                        response.getWriter().write("true");
-                        System.out.println("Respuesta modelo: " + rptModelo);
-                    } else {
-                        response.getWriter().write("false");
-                    }
-                } catch (Exception ex) {
-                    Logger.getLogger(Smodelo.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-            break;
-            case "modificarModelo": {
-                try {
-                    objCliente = new Cliente();
-                    objCliente.setIdcliente(Integer.parseInt(idcliente));
-                    objModelo = new Modelo(cod_modelo, "", horma, taco, plataforma, coleccion, especificacion, objCliente, estado);
-                    rptModelo = ModeloLN.Instancia().modificarModelo(objModelo, parametro);
-                    //out.println(rptModelo);
-                    if (rptModelo) {
-                        response.getWriter().write("true");
-                    } else {
-                        response.getWriter().write("false");
-                    }
-                } catch (Exception ex) {
-                    Logger.getLogger(Smodelo.class.getName()).log(Level.SEVERE, null, ex);
+                    ex.printStackTrace();
                 }
             }
             break;

@@ -97,6 +97,7 @@
                 <li><a><i class="fa fa-table"></i> Material <span class="fa fa-chevron-down"></span></a>
                   <ul class="nav child_menu" style="display: none">
                       <li><a href="fmaterial/mantenedorMaterial.jsp">Registrar</a>
+                      <li><a href="fmaterial/listadoMaterial.jsp">Listar</a>
                     </li>                    
                   </ul>
                 </li>
