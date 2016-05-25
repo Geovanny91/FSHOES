@@ -43,7 +43,7 @@ public class Sproceso extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet Sproceso</title>");            
+            out.println("<title>Servlet Sproceso</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet Sproceso at " + request.getContextPath() + "</h1>");
@@ -80,20 +80,48 @@ public class Sproceso extends HttpServlet {
             throws ServletException, IOException {
         //processRequest(request, response);
         response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();        
-        
+        PrintWriter out = response.getWriter();
+
+        String valor = request.getParameter("valor");
+        String parametro = request.getParameter("parametro");
+
         ArrayList<Proceso> lista = new ArrayList<>();
-        
-        try {
-            lista = ProcesoLN.Instancia().listarProcesos();
-            out.println("<option value='NULL'>Elegir Proceso</option>");
-            for (int i = 0; i < lista.size(); i++) {
-                out.println("<option value='"+lista.get(i).getCodigoproceso()+"'>"+lista.get(i).getDescripcion()+"</option>");                
-            }            
-        } catch (Exception ex) {
-            ex.getMessage();
-        }        
+
+        switch (parametro) {
+            case "listarcomboProceso": {
+                try {
+                    lista = ProcesoLN.Instancia().listarProcesos(parametro);
+                    out.println("<option value='NULL'>Elegir Proceso</option>");
+                    for (int i = 0; i < lista.size(); i++) {
+                        out.println("<option value='" + lista.get(i).getCodigoproceso() + "'>" + lista.get(i).getDescripcion() + "</option>");
+                    }
+                } catch (Exception ex) {
+                    ex.getMessage();
+                }
+            }
+            break;
+            case "listarProceso": {
+                try {
+                    lista = ProcesoLN.Instancia().listarProcesos(valor, parametro);
+                    for (int i = 0; i < lista.size(); i++) {
+                        out.println(
+                                //"<tr id='cliente"+i+"' onclick='seleccionar(\"cliente"+i+"\");' ><th scope='row'>"+(i+1)+"</th>"+
+                                "<tr  onclick='seleccionarProceso(this);' ><th scope='row'>" + (i + 1) + "</th>"
+                                + "<td><input class='id_proceso' type='hidden' value='" + lista.get(i).getCodigoproceso()+ "' /></td>"
+                                + "<td>" + lista.get(i).getCodigoproceso() + "</td>"
+                                + "<td>" + lista.get(i).getDescripcion() + "</td>"                                
+                                + "<td><a href='#' class=\"close\" data-dismiss=\"modal\" ><i class=\"fa fa-hand-o-left\"></i></a></td></tr>"
+                        );
+                    }
+                } catch (Exception ex) {
+                    ex.getMessage();
+                }
+            }
+            break;
+        }
+
     }
+
     /**
      * Returns a short description of the servlet.
      *

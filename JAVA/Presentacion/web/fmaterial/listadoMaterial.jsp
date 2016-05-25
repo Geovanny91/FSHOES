@@ -37,16 +37,19 @@
                     <table class="table table-striped table-bordered dt-responsive nowrap" id="listaMateriales" cellspacing="0" width="100%">
                         <thead>
                             <tr>
-                                <th>idmaterial</th>
-                                <th>nombre</th>
-                                <th>descripccion</th>
-                                <th>unidadmedida</th>
-                                <th>cantidaddocena</th>
-                                <th>preciounitario</th>
-                                <th>tipo</th>
-                                <th>color</th>
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>Descripccion</th>
+                                <th>Unidad Medida</th>
+                                <th>Cantida Docena</th>
+                                <th>Precio</th>
+                                <th>Tipo</th>
+                                <th>Color</th>
                                 <th>idproveedor</th>
-                                <th>Razon</th>
+                                <th>Proveedor</th>
+                                <th>ID Proceso</th>
+                                <th>Proceso</th>
+                                <th>Modelo</th>
                                 <th></th>
                             </tr>
                         </thead>            

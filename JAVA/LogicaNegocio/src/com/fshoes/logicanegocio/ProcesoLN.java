@@ -25,12 +25,19 @@ public class ProcesoLN {
     }
     // end Singleton
     
-    public ArrayList<Proceso> listarProcesos() throws Exception{
+    public ArrayList<Proceso> listarProcesos(String prm) throws Exception{
         try{
-            return ProcesoAD.Instancia().listarProcesos();
+            return ProcesoAD.Instancia().listarProcesos(prm);
         }catch(Exception ex){
             throw ex;
         }        
     }
-        
+    
+    public ArrayList<Proceso> listarProcesos(String valor, String prm) throws Exception{
+        try{
+            return ProcesoAD.Instancia().listarProcesos(valor, prm);
+        }catch(Exception ex){
+            throw ex;
+        }        
+    }
 }

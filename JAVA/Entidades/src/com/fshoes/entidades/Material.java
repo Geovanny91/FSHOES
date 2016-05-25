@@ -20,26 +20,30 @@ public class Material implements JSONStreamAware{
     private String nombre;
     private String descripcion;
     private String unidadmedida;
-    private int cantidaddocena;
+    private float cantidaddocena;
     private float preciounitario;
     private String tipo;
     private String color;
     private Proveedor objProveedor;
+    private Proceso objProceso;
+    private Modelo objModelo;
 
-    public Material(int idmaterial, String nombre, String descripccion, String unidadmedida, int cantidaddocena, float preciounitario, String tipo, String color, Proveedor idproveedor) {
+    public Material(int idmaterial, String nombre, String descripcion, String unidadmedida, float cantidaddocena, float preciounitario, String tipo, String color, Proveedor objProveedor, Proceso objProceso, Modelo objModelo) {
         this.idmaterial = idmaterial;
         this.nombre = nombre;
-        this.descripcion = descripccion;
+        this.descripcion = descripcion;
         this.unidadmedida = unidadmedida;
         this.cantidaddocena = cantidaddocena;
         this.preciounitario = preciounitario;
         this.tipo = tipo;
         this.color = color;
-        this.objProveedor = idproveedor;
+        this.objProveedor = objProveedor;
+        this.objProceso = objProceso;
+        this.objModelo = objModelo;
     }
 
     public Material() {
-        this(0, "", "", "", 0, 0, "", "", new Proveedor());
+        this(0, "", "", "", 0, 0, "", "", new Proveedor(), new Proceso(),  new Modelo());
     }
 
     public int getIdmaterial() {
@@ -74,14 +78,10 @@ public class Material implements JSONStreamAware{
         this.unidadmedida = unidadmedida;
     }
 
-    public int getCantidaddocena() {
+    public float getCantidaddocena() {
         return cantidaddocena;
     }
-
-    public void setCantidaddocena(int cantidaddocena) {
-        this.cantidaddocena = cantidaddocena;
-    }
-
+    
     public float getPreciounitario() {
         return preciounitario;
     }
@@ -112,8 +112,28 @@ public class Material implements JSONStreamAware{
 
     public void setObjProveedor(Proveedor objProveedor) {
         this.objProveedor = objProveedor;
-    }    
+    }
 
+    public Proceso getObjProceso() {
+        return objProceso;
+    }
+
+    public void setObjProceso(Proceso objProceso) {
+        this.objProceso = objProceso;
+    }
+
+    public Modelo getObjModelo() {
+        return objModelo;
+    }
+
+    public void setObjModelo(Modelo objModelo) {
+        this.objModelo = objModelo;
+    }
+
+    public void setCantidaddocena(float cantidaddocena) {
+        this.cantidaddocena = cantidaddocena;
+    }    
+    
     @Override
     public void writeJSONString(Writer out) throws IOException {
         LinkedHashMap obj = new LinkedHashMap();        
@@ -126,6 +146,8 @@ public class Material implements JSONStreamAware{
         obj.put("tipo",tipo);
         obj.put("color",color);
         obj.put("objProveedor",objProveedor);
+        obj.put("objProceso", objProceso);
+        obj.put("objModelo", objModelo);
         JSONValue.writeJSONString(obj, out);
     }
     

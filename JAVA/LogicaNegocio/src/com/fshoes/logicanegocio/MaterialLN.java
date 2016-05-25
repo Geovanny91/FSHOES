@@ -28,7 +28,7 @@ public class MaterialLN {
     
     public ArrayList<Material> listarMaterial(String valor, String prm, int inicio, int fin) throws Exception {
         try {
-            return MaterialAD.Instancia().listarMaterial(valor, prm, inicio, fin);
+            return MaterialAD.Instancia().listarMaterial(valor, prm, inicio, fin);//validar con el parámetro
         } catch (Exception ex) {
             throw ex;
         }
@@ -42,6 +42,17 @@ public class MaterialLN {
         } catch (Exception e) {
             throw e;
         }        
+    }
+    
+    public boolean registrarMaterial(Material objMaterial, String prm) throws Exception{
+        try {
+            if(objMaterial != null && !prm.equals("")){
+                return MaterialAD.Instancia().registrarMaterial(objMaterial, prm);
+            }else return false;
+            
+        } catch (Exception e) {
+            throw e;
+        }
     }
     
     

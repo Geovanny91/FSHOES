@@ -76,14 +76,14 @@ public class Smaterial extends HttpServlet {
         String valor = request.getParameter("valor");
         String parametro = request.getParameter("parametro");
 
-        String horma = request.getParameter("horma"),
+        /*String horma = request.getParameter("horma"),
                 cod_modelo = request.getParameter("modelo"),
                 taco = request.getParameter("taco"),
                 plataforma = request.getParameter("plataforma"),
                 coleccion = request.getParameter("coleccion"),
                 especificacion = request.getParameter("especificacion"),
                 idcliente = request.getParameter("idcliente");
-        boolean estado = Boolean.valueOf(request.getParameter("estadomodelo"));
+        boolean estado = Boolean.valueOf(request.getParameter("estadomodelo"));*/
         
         boolean rptModelo = false;
         Material objMaterial = null;
@@ -116,6 +116,23 @@ public class Smaterial extends HttpServlet {
                 }
             }
             break;
+            case "registrarMaterial":{
+                /*try {
+                    objCliente = new Cliente();
+                    objCliente.setIdcliente(Integer.parseInt(idcliente));
+                    objModelo = new Modelo(cod_modelo, "", horma, taco, plataforma, coleccion, especificacion, objCliente, estado);
+                    rptModelo = ModeloLN.Instancia().registrarModelo(objModelo, parametro);
+                    //out.println(rptModelo);
+                    if (rptModelo) {
+                        response.getWriter().write("true");
+                        System.out.println("Respuesta modelo: " + rptModelo);
+                    } else {
+                        response.getWriter().write("false");
+                    }
+                } catch (Exception ex) {
+                    Logger.getLogger(Smodelo.class.getName()).log(Level.SEVERE, null, ex);
+                }*/
+            }break;
         }
     }
 

@@ -295,9 +295,11 @@ and open the template in the editor.
             }
             
             function comboProceso(){
+                var parametro = "listarcomboProceso";
                 $.ajax({
                    method: "POST",
-                   url: "Sproceso" 
+                   url: "Sproceso",
+                   data: {"parametro":parametro}
                 }).done(function(data){
                     if(data != "")
                         $("#cboproceso").html(data);                        

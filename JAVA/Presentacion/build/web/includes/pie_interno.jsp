@@ -80,12 +80,12 @@
         validarCampos();
         
         listarMaterialesPaginacion();
-        
+        registrarMaterial();
     });
     /*VARIABLES GLOBALES*/
     var total;
     var resultVal = 0.0;
-    var tabla, tabla_paginacion_modelo;
+    var tabla_paginacion_material, tabla_paginacion_modelo;
     /*FIN VARIABLES GLOBALES*/
 
 
@@ -421,7 +421,7 @@
 
     
     function listarMaterialesPaginacion() {
-        tabla = $('#listaMateriales').DataTable({
+        tabla_paginacion_material = $('#listaMateriales').DataTable({
             //"scrollX": true
             "processing": true,
             "serverSide": true,
@@ -442,15 +442,52 @@
                 {"data": "color"},
                 {"data": "objProveedor.idproveedor"},
                 {"data": "objProveedor.razonsocial"},
+                {"data": "objProceso.codigoproceso"},
+                {"data": "objProceso.descripcion"},
+                {"data": "objModelo.codigomodelo"},
                 {"defaultContent": "<button tipo='modificarMaterial' class='btn btn-info btn-xs'><i class='fa fa-edit'></i></button> <button tipo='eliminarMaterial' class='btn btn-danger btn-xs'><i class='fa fa-remove'></i></button>", "width": "5%"}
                 //{"defaultContent": "<button class='btn btn-primary btn-xs'><i class='fa fa-remove'></i></button>"}
             ]
         });
-        //tabla.column(1).visible(false);
-        //tabla.column(7).visible(false);
-        //mantenedoresModelo('#listaModelos tbody', tabla);
+        tabla_paginacion_material.column(0).visible(false);
+        tabla_paginacion_material.column(6).visible(false);
+        tabla_paginacion_material.column(7).visible(false);
+        tabla_paginacion_material.column(8).visible(false);
+        tabla_paginacion_material.column(10).visible(false);
+        //mantenedoresModelo('#listaModelos tbody', tabla_paginacion_material);
     }
 
+    function registrarMaterial() {
+        $("#frmMaterial").on("submit", function (e) {
+            e.preventDefault();
+            modificar_checkbox($(this));
+            var frm = $(this).serialize();
+            console.log("frm: " + frm);
+            $.ajax({
+                method: "POST",
+                url: "../Smodelo",
+                data: frm
+            }).done(function (info) {
+                console.log(typeof info);
+                if (info == "false") {
+                    new PNotify({
+                        title: 'Mensaje de Advertencia',
+                        text: 'Ingrese todos los datos solicitados',
+                        hide: false
+                    });
+                } else if (info) {
+                    new PNotify({
+                        title: 'Mensaje de éxito',
+                        text: 'Se modificaron los datos satisfactoriamente.',
+                        type: 'success'
+                    });
+                    $("#frmModeloRegistrar").find("input").val("");
+                    $("#tabla-cliente").html("");//agregue esto aqui pero ver por errores.
+                }
+            });
+        });
+    }
+    
 
     function modificar_checkbox(formulario) {
         var checkboxes = $(formulario).find('input[type="checkbox"]');
@@ -473,12 +510,41 @@
             $("#tabla-proveedor").html(data);
         });
     }
+    
+    function listarProcesos(valor){
+        $.ajax({
+            method: "POST",
+            url: "../Sproceso",
+            data: {"valor": valor, "parametro": "listarProceso"}
+        }).done(function (data) {
+            $("#tabla-proceso").html(data);
+        });
+    }
+    
+    function listarModelos(valor){
+        $.ajax({
+            method: "POST",
+            url: "../Smodelo",
+            data: {"valor": valor, "parametro": "listarModelo"}
+        }).done(function (data) {
+            $("#tabla-modelo").html(data);
+        });
+    }
 
     function seleccionarProveedor(x) {
         var id = x.childNodes[1].lastChild.value,
                 razon_social = x.childNodes[2].innerHTML;
         var rz_cliente = $("#proveedor").val(razon_social),
                 id_proveedor = $("#id_proveedor").val(id);
+        console.log(x.childNodes);
+    }
+    
+    function seleccionarProceso(x) {
+        var id = x.childNodes[2].innerHTML,
+                razon_social = x.childNodes[3].innerHTML;
+        var rz_cliente = $("#proceso").val(razon_social),
+                id_proceso = $("#id_proceso").val(id);
+        console.log("id proceoso: " + id)
         console.log(x.childNodes);
     }
 

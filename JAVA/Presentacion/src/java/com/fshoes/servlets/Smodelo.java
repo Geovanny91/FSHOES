@@ -102,7 +102,11 @@ public class Smodelo extends HttpServlet {
         Cliente objCliente = null;
 
         switch (parametro) {
-            case "listarModelo": {
+            case "listarModelo-s":{
+                //aqui sin paginación, solo para consultar
+            }
+            break;
+            case "listarModelo": {//aqui con paginacion arreglart parámetro
                 try {
                     ArrayList<Modelo> lista = new ArrayList<>();
                     int inicio = Integer.parseInt(request.getParameter("start")),
@@ -127,8 +131,7 @@ public class Smodelo extends HttpServlet {
                     Logger.getLogger(Smodelo.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-            break;
-
+            break;            
             case "registrarModelo": {
                 try {
                     objCliente = new Cliente();
