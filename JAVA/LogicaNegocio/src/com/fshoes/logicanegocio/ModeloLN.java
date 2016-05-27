@@ -28,7 +28,19 @@ public class ModeloLN {
 
     public ArrayList<Modelo> listarModelos(String valor, String prm, int inicio, int fin) throws Exception {
         try {
-            return ModeloAD.Instancia().listarModelos(valor, prm, inicio, fin);
+            if(!prm.equals(""))            
+                return ModeloAD.Instancia().listarModelos(valor, prm, inicio, fin);
+            else return null;
+        } catch (Exception ex) {
+            throw ex;
+        }
+    }
+    
+    public ArrayList<Modelo> listarModelos(String valor, String prm) throws Exception {
+        try {
+            if(!prm.equals(""))
+                return ModeloAD.Instancia().listarModelos(valor, prm);
+            else return null;
         } catch (Exception ex) {
             throw ex;
         }

@@ -7,8 +7,11 @@ package com.fshoes.servlets;
 
 import com.fshoes.accesodatos.ModeloAD;
 import com.fshoes.entidades.Material;
+import com.fshoes.entidades.Modelo;
+import com.fshoes.entidades.Proceso;
 import com.fshoes.entidades.Proveedor;
 import com.fshoes.logicanegocio.MaterialLN;
+import com.fshoes.logicanegocio.ModeloLN;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -75,19 +78,24 @@ public class Smaterial extends HttpServlet {
 
         String valor = request.getParameter("valor");
         String parametro = request.getParameter("parametro");
-
-        /*String horma = request.getParameter("horma"),
-                cod_modelo = request.getParameter("modelo"),
-                taco = request.getParameter("taco"),
-                plataforma = request.getParameter("plataforma"),
-                coleccion = request.getParameter("coleccion"),
-                especificacion = request.getParameter("especificacion"),
-                idcliente = request.getParameter("idcliente");
-        boolean estado = Boolean.valueOf(request.getParameter("estadomodelo"));*/
-        
-        boolean rptModelo = false;
+        String nombre = null, descripccion = null, unidad_medida = null, cantidad_docena = null, precio_unitario = null, tipo = null, color = null, id_proveedor = null, id_proceso = null, id_modelo = null;
+        if(!parametro.equals("listarMaterial")){        
+            nombre = request.getParameter("nombre");
+            descripccion = request.getParameter("descripcion");
+            unidad_medida = request.getParameter("unidad_medida").trim();
+            cantidad_docena = request.getParameter("cantidad_docena").replace(",", ".");
+            precio_unitario = request.getParameter("precio_unitario").replace(",", ".");
+            tipo = request.getParameter("tipo");
+            color = request.getParameter("color");
+            id_proveedor = request.getParameter("id_proveedor").trim();
+            id_proceso = request.getParameter("id_proceso").trim();
+            id_modelo = request.getParameter("id_modelo").trim();
+        }
+        boolean rptMaterial = false;
         Material objMaterial = null;
         Proveedor objProveedor = null;
+        Proceso objProceso = null;
+        Modelo objModelo = null;
 
         switch (parametro) {
             case "listarMaterial": {
@@ -117,21 +125,31 @@ public class Smaterial extends HttpServlet {
             }
             break;
             case "registrarMaterial":{
-                /*try {
-                    objCliente = new Cliente();
-                    objCliente.setIdcliente(Integer.parseInt(idcliente));
-                    objModelo = new Modelo(cod_modelo, "", horma, taco, plataforma, coleccion, especificacion, objCliente, estado);
-                    rptModelo = ModeloLN.Instancia().registrarModelo(objModelo, parametro);
-                    //out.println(rptModelo);
-                    if (rptModelo) {
+                try {
+                    objProveedor = new Proveedor();
+                    objProveedor.setIdproveedor(Integer.parseInt(id_proveedor));
+                    objProceso = new Proceso();
+                    objProceso.setCodigoproceso(id_proceso);
+                    objModelo = new Modelo();
+                    objModelo.setCodigomodelo(id_modelo);
+                    
+                    System.out.println(cantidad_docena + " " + precio_unitario);
+                    
+                    objMaterial = new Material(0, nombre, descripccion, unidad_medida, 
+                            Float.parseFloat(cantidad_docena), 
+                            Float.parseFloat(precio_unitario), 
+                            tipo, color, objProveedor, objProceso, objModelo);
+                    rptMaterial = MaterialLN.Instancia().registrarMaterial(objMaterial, parametro);
+                    out.println(rptMaterial);
+                    if (rptMaterial) {
                         response.getWriter().write("true");
-                        System.out.println("Respuesta modelo: " + rptModelo);
+                        System.out.println("Respuesta modelo: " + rptMaterial);
                     } else {
                         response.getWriter().write("false");
                     }
                 } catch (Exception ex) {
-                    Logger.getLogger(Smodelo.class.getName()).log(Level.SEVERE, null, ex);
-                }*/
+                    ex.printStackTrace();
+                }
             }break;
         }
     }

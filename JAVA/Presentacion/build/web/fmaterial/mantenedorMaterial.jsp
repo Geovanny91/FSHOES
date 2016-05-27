@@ -35,6 +35,7 @@
                 <div class="x_content">
                     <br>
                     <form id="frmMaterial" method="POST" class="form-horizontal form-label-left">
+                        <input type="hidden" id="parametro" name="parametro" value="registrarMaterial" />
                         <!--INICIO MODAL PROVEEDOR-->
                         <div class="modal fade bs-example-modal-lg" id="modalProveedor" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
                             <div class="modal-dialog modal-lg">
@@ -186,8 +187,12 @@
                                                                 <tr>
                                                                     <th>#</th>
                                                                     <th></th>  
-                                                                    <th>ID</th>
-                                                                    <th>Proceso</th>                                                                    
+                                                                    <th>Código</th>
+                                                                    <th>Horma</th>
+                                                                    <th>Taco</th>
+                                                                    <th>Plataforma</th>
+                                                                    <th>Colección</th> 
+                                                                    <th>Cliente</th> 
                                                                     <th></th>
                                                                 </tr>
                                                             </thead>
@@ -216,25 +221,25 @@
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Descripccion</label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input type="text" class="form-control" name="descripccion" id="descripccion" placeholder="Descripccion">
+                                <input type="text" class="form-control" name="descripcion" id="descripcion" placeholder="Descripcion">
                             </div>
                         </div>                    
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Unidad de medida</label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input type="text" class="form-control" name="unidad-medida" id="unidad-medida" value="" placeholder="Unidad de medida">
+                                <input type="text" class="form-control" name="unidad_medida" id="unidad_medida" value="" placeholder="Unidad de medida">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Cantidad por docena</label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input type="text" name="cantidad-docena" id="cantidad-docena" class="form-control" placeholder="Cantidad por Docena">                        
+                                <input type="text" name="cantidad_docena" id="cantidad_docena" class="form-control" placeholder="Cantidad por Docena">                        
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Precio Unitario</label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input type="text" class="form-control" name="precio-unitario" id="precio-unitario" value="" placeholder="Precio Unitario">
+                                <input type="text" class="form-control" name="precio_unitario" id="precio_unitario" value="" placeholder="Precio Unitario">
                             </div>
                         </div>
                         <div class="form-group">

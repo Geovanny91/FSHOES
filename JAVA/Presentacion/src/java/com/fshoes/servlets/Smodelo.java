@@ -100,15 +100,34 @@ public class Smodelo extends HttpServlet {
         boolean rptModelo = false;
         Modelo objModelo = null;
         Cliente objCliente = null;
+        ArrayList<Modelo> lista = null;
 
         switch (parametro) {
-            case "listarModelo-s":{
-                //aqui sin paginación, solo para consultar
+            case "listarModelo":{
+                try {
+                    lista = ModeloLN.Instancia().listarModelos(valor, parametro);
+                    for (int i = 0; i < lista.size(); i++) {
+                        out.println(
+                                //"<tr id='cliente"+i+"' onclick='seleccionar(\"cliente"+i+"\");' ><th scope='row'>"+(i+1)+"</th>"+
+                                "<tr  onclick='seleccionarModelo(this);' ><th scope='row'>" + (i + 1) + "</th>"
+                                + "<td><input class='id_modelo' type='hidden' value='" + lista.get(i).getCodigomodelo()+ "' /></td>"
+                                + "<td>" + lista.get(i).getCodigomodelo()+ "</td>"
+                                + "<td>" + lista.get(i).getHorma() + "</td>"
+                                + "<td>" + lista.get(i).getTaco() + "</td>"
+                                + "<td>" + lista.get(i).getPlataforma() + "</td>"
+                                + "<td>" + lista.get(i).getColeccion()+ "</td>"
+                                + "<td>" + lista.get(i).getObjcliente().getRazonsocial()+ "</td>"
+                                + "<td><a href='#' class=\"close\" data-dismiss=\"modal\" ><i class=\"fa fa-hand-o-left\"></i></a></td></tr>"
+                        );
+                    }
+                } catch (Exception ex) {
+                    ex.getMessage();
+                }
             }
             break;
-            case "listarModelo": {//aqui con paginacion arreglart parámetro
+            case "listarModeloPaginacion": {//aqui con paginacion arreglart parámetro
                 try {
-                    ArrayList<Modelo> lista = new ArrayList<>();
+                    lista = new ArrayList<>();
                     int inicio = Integer.parseInt(request.getParameter("start")),
                             fin = Integer.parseInt(request.getParameter("length"));
                     lista = ModeloLN.Instancia().listarModelos("", parametro, inicio, (fin + inicio));//getListPersonajes(n_col, dir, inicio, fin);//base de datos

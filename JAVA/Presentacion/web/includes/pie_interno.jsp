@@ -290,7 +290,7 @@
             "ajax": {
                 "url": "../Smodelo",
                 "type": "POST",
-                "data": {"parametro": "listarModelo"}
+                "data": {"parametro": "listarModeloPaginacion"}
                 //"dataSrc": "animes"
             },
             "columnDefs": [
@@ -465,7 +465,7 @@
             console.log("frm: " + frm);
             $.ajax({
                 method: "POST",
-                url: "../Smodelo",
+                url: "../Smaterial",
                 data: frm
             }).done(function (info) {
                 console.log(typeof info);
@@ -481,8 +481,13 @@
                         text: 'Se modificaron los datos satisfactoriamente.',
                         type: 'success'
                     });
-                    $("#frmModeloRegistrar").find("input").val("");
-                    $("#tabla-cliente").html("");//agregue esto aqui pero ver por errores.
+                    //$("#frmMaterial").find("input").val("");//esto borra todo incluso el valor del parámetro por eso no registra
+                    var arreglo = ["#nombre", "#descripcion", "#unidad_medida", "#cantidad_docena", "#precio_unitario", "#tipo", "#color", "#proveedor", "#proceso", "#modelo"];
+                    limpiar(arreglo);
+                    //$("#tabla-material").html("");//agregue esto aqui pero ver por errores.
+                    $("#tabla-proveedor").html("");
+                    $("#tabla-proceso").html("");
+                    $("#tabla-modelo").html("");
                 }
             });
         });
@@ -545,6 +550,15 @@
         var rz_cliente = $("#proceso").val(razon_social),
                 id_proceso = $("#id_proceso").val(id);
         console.log("id proceoso: " + id)
+        console.log(x.childNodes);
+    }
+    
+    function seleccionarModelo(x) {
+        var id = x.childNodes[1].lastChild.value,
+                razon_social = x.childNodes[1].lastChild.value;
+        var rz_cliente = $("#modelo").val(razon_social),
+                id_proceso = $("#id_modelo").val(id);
+        console.log("id modelo " + id)
         console.log(x.childNodes);
     }
 

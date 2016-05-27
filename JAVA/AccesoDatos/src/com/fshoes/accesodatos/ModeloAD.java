@@ -77,6 +77,45 @@ public class ModeloAD {
         return Lista;
     }
     
+    public ArrayList<Modelo> listarModelos(String valor, String prm) throws Exception{
+        cn = Conexion.Instancia().getConexion();
+        ArrayList<Modelo> Lista = null;
+        try{
+            cst = cn.prepareCall("{call pa_modelo(?,?,?,?,?,?,?,?,?,?,?,?,?)}");
+            cst.setString(1, valor);            
+            cst.setString(2, prm);
+            cst.setInt(3, 0);
+            cst.setInt(4, 0);
+            cst.setString(5, "");
+            cst.setString(6, "");
+            cst.setString(7, "");
+            cst.setString(8, "");
+            cst.setString(9, "");
+            cst.setString(10, "");
+            cst.setString(11, "");
+            cst.setInt(12, 0);
+            cst.setBoolean(13, false);
+            tabla = cst.executeQuery();
+            Lista = new ArrayList<>();
+            while(tabla.next()){
+                Modelo m = new Modelo();
+                m.setCodigomodelo(tabla.getString("codigomodelo"));
+                m.setHorma(tabla.getString("horma"));
+                m.setTaco(tabla.getString("taco"));
+                m.setPlataforma(tabla.getString("plataforma"));
+                m.setColeccion(tabla.getString("coleccion"));                
+                Cliente objcliente = new Cliente();
+                objcliente.setIdcliente(tabla.getInt("idcliente"));
+                objcliente.setRazonsocial(tabla.getString("razonsocial"));
+                m.setObjcliente(objcliente);                
+                Lista.add(m);
+            }
+        }catch(Exception e){
+                throw e;
+        }finally{ close();}
+        return Lista;
+    }
+    
     public int obtenerTotalFilas(String valor, String prm) throws Exception{
         int total = 0;
         cn = Conexion.Instancia().getConexion();
