@@ -5,6 +5,7 @@
  */
 package com.fshoes.servlets;
 
+import com.fshoes.entidades.Modelo;
 import com.fshoes.entidades.Orden;
 import com.fshoes.entidades.Serie;
 import com.fshoes.logicanegocio.OrdenLN;
@@ -98,6 +99,9 @@ public class SOrden extends HttpServlet {
         //AQUI VAMOS A PROBAR EL DETALLE DE SERIES
         String json_detalle_serie = request.getParameter("detalle");//Aqui ver esto posiblemente ya no salen las notificaciones por la cache
         System.out.println("Detalle json: " + json_detalle_serie);
+        
+        Modelo objModelo = null;        
+        
         switch (parametro) {
             case "listarSerie": {
                 /*try {
@@ -120,15 +124,18 @@ public class SOrden extends HttpServlet {
             case "registrarOrden": {
                 boolean rptorden = false, rptSerie = false;
                 try {
-                    String orden       = request.getParameter("orden"),
-                           pedido      = request.getParameter("pedido"),
-                           f_emision   = request.getParameter("f_emision"),
-                           f_entrega   =request.getParameter("f_entrega");
-                    int    total       = Integer.parseInt(request.getParameter("total"));
+                    String orden       = request.getParameter("orden").trim(),
+                           pedido      = request.getParameter("pedido").trim(),
+                           f_emision   = request.getParameter("f_emision").trim(),
+                           f_entrega   =request.getParameter("f_entrega").trim(),
+                           codigomodelo = request.getParameter("id_modelo").trim();
+                    int    total       = Integer.parseInt(request.getParameter("total").trim());
                     
                     System.out.println("Detalle json: " + json_detalle_serie);
                     if( !json_detalle_serie.equals("{\"series\":[]}") ){
-                        Orden objOrden = new Orden(orden, pedido, f_emision, f_entrega, total);
+                        objModelo = new Modelo();
+                        objModelo.setCodigomodelo(codigomodelo);
+                        Orden objOrden = new Orden(orden, pedido, f_emision, f_entrega, total, objModelo);
                         rptorden = OrdenLN.Instancia().registrarOrden(objOrden, parametro);
                         System.out.println("Registro Orden correcto? " + rptorden);
                         parametro = "registrarSerie";//modificar el parámentro

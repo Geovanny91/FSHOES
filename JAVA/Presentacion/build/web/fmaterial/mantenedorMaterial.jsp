@@ -108,7 +108,7 @@
                                             <div class="form-group">
                                                 <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
                                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                                    <input type="text" class="form-control has-feedback-left" name="buscar-proceso" id="buscar-proceso" onkeyup="listarProcesos(this.value);" value="" placeholder="Buscar por ruc o razón social">
+                                                    <input type="text" class="form-control has-feedback-left" name="buscar-proceso" id="buscar-proceso" onkeyup="listarProcesos(this.value);" value="" placeholder="Buscar por còdigo o proceso">
                                                     <span class="fa fa-search form-control-feedback left" aria-hidden="true"></span>
                                                 </div>
                                             </div>
@@ -164,7 +164,7 @@
                                             <div class="form-group">
                                                 <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
                                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                                    <input type="text" class="form-control has-feedback-left" name="buscar-modelo" id="buscar-modelo" onkeyup="listarModelos(this.value);" value="" placeholder="Buscar por ruc o razón social">
+                                                    <input type="text" class="form-control has-feedback-left" name="buscar-modelo" id="buscar-modelo" onkeyup="listarModelos(this.value);" value="" placeholder="Buscar por còdigo o razón social de cliente">
                                                     <span class="fa fa-search form-control-feedback left" aria-hidden="true"></span>
                                                 </div>
                                             </div>

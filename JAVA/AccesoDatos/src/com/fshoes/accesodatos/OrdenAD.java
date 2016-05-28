@@ -5,6 +5,7 @@
  */
 package com.fshoes.accesodatos;
 
+import com.fshoes.entidades.Modelo;
 import com.fshoes.entidades.Orden;
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -29,7 +30,7 @@ public class OrdenAD {
         Connection cn = Conexion.Instancia().getConexion();
         boolean rpt = false;
         try {
-            CallableStatement cst = cn.prepareCall("{call pa_orden(?,?,?,?,?,?,?)}");
+            CallableStatement cst = cn.prepareCall("{call pa_orden(?,?,?,?,?,?,?,?)}");
             cst.setString(1, "");
             cst.setString(2, prm);
             cst.setString(3, objOrden.getCodigoorden());
@@ -37,6 +38,7 @@ public class OrdenAD {
             cst.setString(5, objOrden.getFecha_emision());
             cst.setString(6, objOrden.getFecha_entrega());
             cst.setDouble(7, objOrden.getTotal());
+            cst.setString(8, objOrden.getObjModelo().getCodigomodelo());
             cst.execute();
             rpt = true;
         } catch (Exception e) {

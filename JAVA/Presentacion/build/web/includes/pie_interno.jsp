@@ -47,6 +47,9 @@
 <script src="../js/datatables/responsive.bootstrap.min.js"></script>
 <script src="../js/datatables/dataTables.scroller.min.js"></script>
 
+<!-- Validator-->
+<script src="../js/validator/validator.js"></script>
+
 
 <script>
 <!-- skycons -->
@@ -96,7 +99,8 @@
                     pedido = $("#pedido").val(),
                     f_emision = $("#f_emision").val(),
                     f_entrega = $("#f_entrega").val(),
-                    total = $("#total").val();
+                    total = $("#total").val(),
+                    idmodelo = $("#id_modelo").val();
             var url = $("#frmOrden").attr("action");
             var cabecera = "#tabla-general-serie thead th",
                     cuerpo = "#tabla-general-serie tbody tr";
@@ -114,7 +118,7 @@
             $.ajax({
                 method: "POST",
                 url: url,
-                data: {"detalle": objJson, "orden": orden, "pedido": pedido, "f_emision": f_emision, "f_entrega": f_entrega, "total": total, "parametro": "registrarOrden"},
+                data: {"detalle": objJson, "orden": orden, "pedido": pedido, "f_emision": f_emision, "f_entrega": f_entrega, "id_modelo":idmodelo, "total": total, "parametro": "registrarOrden"},
                 success: function (info) {
                     //console.log(info);
                     console.log(typeof info);
@@ -147,6 +151,7 @@
         $("#f_emision").val("");
         $("#f_entrega").val("");
         $("#total").val("0");
+        $("#modelo").val("");
         $("#tabla-serie tr td").children().val("0");
     }
 

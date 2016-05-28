@@ -90,6 +90,10 @@ public class Smaterial extends HttpServlet {
             id_proveedor = request.getParameter("id_proveedor").trim();
             id_proceso = request.getParameter("id_proceso").trim();
             id_modelo = request.getParameter("id_modelo").trim();
+            //Comprobar id de campos enteros
+            if(id_proveedor.equals("")) id_proveedor = "0";
+            if(cantidad_docena.equals("")) cantidad_docena = "0";
+            if(precio_unitario.equals("")) precio_unitario = "0";
         }
         boolean rptMaterial = false;
         Material objMaterial = null;
@@ -140,7 +144,7 @@ public class Smaterial extends HttpServlet {
                             Float.parseFloat(precio_unitario), 
                             tipo, color, objProveedor, objProceso, objModelo);
                     rptMaterial = MaterialLN.Instancia().registrarMaterial(objMaterial, parametro);
-                    out.println(rptMaterial);
+                    System.out.println("respuesta: " + rptMaterial);                    
                     if (rptMaterial) {
                         response.getWriter().write("true");
                         System.out.println("Respuesta modelo: " + rptMaterial);
@@ -153,7 +157,6 @@ public class Smaterial extends HttpServlet {
             }break;
         }
     }
-
     /**
      * Returns a short description of the servlet.
      *

@@ -17,17 +17,19 @@ public class Orden {
     private String fecha_emision;
     private String fecha_entrega;
     private int total;
+    private Modelo objModelo;
 
-    public Orden(String codigoorden, String orden_pedido, String fecha_emision, String fecha_entrega, int total) {
+    public Orden(String codigoorden, String orden_pedido, String fecha_emision, String fecha_entrega, int total, Modelo objModelo) {
         this.codigoorden = codigoorden;
         this.orden_pedido = orden_pedido;
         this.fecha_emision = fecha_emision;
         this.fecha_entrega = fecha_entrega;
         this.total = total;
-    }
+        this.objModelo = objModelo;
+    }    
 
     public Orden() {
-        this("", "", "", "", 0);
+        this("", "", "", "", 0, new Modelo());
     }
     
     
@@ -70,5 +72,13 @@ public class Orden {
 
     public void setTotal(int total) {
         this.total = total;
-    }   
+    }
+
+    public Modelo getObjModelo() {
+        return objModelo;
+    }
+
+    public void setObjModelo(Modelo objModelo) {
+        this.objModelo = objModelo;
+    }    
 }

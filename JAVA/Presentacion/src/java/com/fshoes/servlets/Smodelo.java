@@ -96,6 +96,8 @@ public class Smodelo extends HttpServlet {
                 especificacion = request.getParameter("especificacion"),
                 idcliente = request.getParameter("idcliente");
         boolean estado = Boolean.valueOf(request.getParameter("estadomodelo"));
+        //varificar los id, con campos vacios.
+        if(idcliente.equals("")) idcliente = "0";
         
         boolean rptModelo = false;
         Modelo objModelo = null;
