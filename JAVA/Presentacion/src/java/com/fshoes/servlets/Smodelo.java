@@ -96,8 +96,8 @@ public class Smodelo extends HttpServlet {
                 especificacion = request.getParameter("especificacion"),
                 idcliente = request.getParameter("idcliente");
         boolean estado = Boolean.valueOf(request.getParameter("estadomodelo"));
-        //varificar los id, con campos vacios.
-        if(idcliente.equals("")) idcliente = "0";
+        /*//varificar los id, con campos vacios.
+        if(idcliente.equals("")) idcliente = "0";*/
         
         boolean rptModelo = false;
         Modelo objModelo = null;
@@ -155,6 +155,9 @@ public class Smodelo extends HttpServlet {
             break;            
             case "registrarModelo": {
                 try {
+                    //varificar los id, con campos vacios.
+                    if(idcliente.equals("")) idcliente = "0";
+                    
                     objCliente = new Cliente();
                     objCliente.setIdcliente(Integer.parseInt(idcliente));
                     objModelo = new Modelo(cod_modelo, "", horma, taco, plataforma, coleccion, especificacion, objCliente, estado);
@@ -173,6 +176,9 @@ public class Smodelo extends HttpServlet {
             break;
             case "modificarModelo": {
                 try {
+                    //varificar los id, con campos vacios.
+                    if(idcliente.equals("")) idcliente = "0";
+                    
                     objCliente = new Cliente();
                     objCliente.setIdcliente(Integer.parseInt(idcliente));
                     objModelo = new Modelo(cod_modelo, "", horma, taco, plataforma, coleccion, especificacion, objCliente, estado);

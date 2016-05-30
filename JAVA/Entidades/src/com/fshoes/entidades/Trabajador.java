@@ -155,5 +155,4 @@ public class Trabajador {
         return (this.nombres + " " + this.ape_paterno + " " + this.ape_materno);
     }
     
-    
 }

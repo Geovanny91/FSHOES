@@ -7,6 +7,7 @@ package com.fshoes.logicanegocio;
 
 import com.fshoes.accesodatos.TrabajadorAD;
 import com.fshoes.entidades.Trabajador;
+import java.util.ArrayList;
 
 /**
  *
@@ -31,6 +32,16 @@ public class TrabajadorLN {
                 return TrabajadorAD.Instancia().verificarAcceso(usuario, contrasena); 
         }catch(Exception ex){
                 throw ex;
+        }
+    }
+    
+    public ArrayList<Trabajador> listarTrabajadores(String valor, String prm) throws Exception{
+        try {
+            if(!prm.equals("") && !valor.equals(""))            
+                return TrabajadorAD.Instancia().listarTrabajadores(valor, prm);
+            return null;
+        } catch (Exception e) {
+            throw e;
         }
     }
     

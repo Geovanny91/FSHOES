@@ -77,11 +77,13 @@
         registrarcliente();
         registrarProveedor();
         orden();
+        comboProceso();
+
         listarModelosPaginacion();
         editarModelo();
         registrarModelo();
         validarCampos();
-        
+
         listarMaterialesPaginacion();
         registrarMaterial();
     });
@@ -118,7 +120,7 @@
             $.ajax({
                 method: "POST",
                 url: url,
-                data: {"detalle": objJson, "orden": orden, "pedido": pedido, "f_emision": f_emision, "f_entrega": f_entrega, "id_modelo":idmodelo, "total": total, "parametro": "registrarOrden"},
+                data: {"detalle": objJson, "orden": orden, "pedido": pedido, "f_emision": f_emision, "f_entrega": f_entrega, "id_modelo": idmodelo, "total": total, "parametro": "registrarOrden"},
                 success: function (info) {
                     //console.log(info);
                     console.log(typeof info);
@@ -142,6 +144,59 @@
                     }
                 }
             });
+        });
+    }
+
+    function listarDetalleOrden(valor) {        
+        var char = event.which || event.keyCode;
+        var cod = valor.value;        
+        console.log(char + " cod: " + cod);
+        
+        if (char == "13") {//enter
+            event.preventDefault();
+            alert("bien enter");
+            $.ajax({
+                method: "POST",
+                url: "../Sdetalleorden",
+                data: {"valor": cod, "parametro": "listarDetalleOrden"}
+            }).done(function (data) {
+                $("#tabla-detalleorden").html(data);
+            });
+        }
+    }
+    
+    function cambiarTrabajadoPorProceso(){
+        var idproceso = document.getElementById("cboproceso").value;
+        console.log("Id proceso: " +idproceso);
+        comoboTrabajadoresPorProceso(idproceso);
+    }
+    
+    
+    function comoboTrabajadoresPorProceso(idproceso){
+        //idproceso = $("#cboproceso option:selected").attr("value");//ID del combo proceso
+        var parametro = "listarcomboTrabajador";
+        $.ajax({
+            method: "POST",
+            url: "../Strabajador",
+            data: {"parametro": parametro, "valor": idproceso}
+        }).done(function (data) {
+            if (data != "")
+                $("#cbotrabajador").html(data);            
+        });
+    }
+
+    function comboProceso() {
+        var parametro = "listarcomboProceso";
+        $.ajax({
+            method: "POST",
+            url: "../Sproceso",
+            data: {"parametro": parametro}
+        }).done(function (data) {
+            if (data != "")
+                $("#cboproceso").html(data);
+            else {
+                alert("no hay datos");
+            }
         });
     }
 
@@ -248,7 +303,7 @@
     }
 
     function listarClientes(valor) {
-      //$("#listaModelos").on("click", function(){
+        //$("#listaModelos").on("click", function(){
         $.ajax({
             method: "POST",
             url: "../Scliente",
@@ -256,7 +311,7 @@
         }).done(function (data) {
             $("#tabla-cliente").html(data);
         });
-       // });        
+        // });        
     }
 
     function registrarcliente() {
@@ -287,7 +342,7 @@
     }
 
     function listarModelosPaginacion() {
-        
+
         tabla_paginacion_modelo = $('#listaModelos').DataTable({
             //"scrollX": true
             "processing": true,
@@ -391,18 +446,18 @@
         $("#guardarModelo").on("click", function () {
             //e.preventDefault();           
             var idcliente = $("#idcliente").val(),
-                modelo = $("#modelo").val(),
-                horma = $("#horma").val(),
-                taco = $("#taco").val(),
-                plataforma = $("#plataforma").val(),
-                coleccion = $("#coleccion").val(),
-                especificacion = $("#especificacion").val(),
-                estadomodelo = $("#estadomodelo").prop("checked");
-            console.log(idcliente, " " , modelo, " estado: " + estadomodelo);
+                    modelo = $("#modelo").val(),
+                    horma = $("#horma").val(),
+                    taco = $("#taco").val(),
+                    plataforma = $("#plataforma").val(),
+                    coleccion = $("#coleccion").val(),
+                    especificacion = $("#especificacion").val(),
+                    estadomodelo = $("#estadomodelo").prop("checked");
+            console.log(idcliente, " ", modelo, " estado: " + estadomodelo);
             $.ajax({
                 method: "POST",
                 url: "../Smodelo",
-                data: {"parametro" : "registrarModelo","idcliente": idcliente, "modelo": modelo, "horma": horma, "taco": taco, "plataforma": plataforma, "coleccion": coleccion, "especificacion": especificacion, "estadomodelo": estadomodelo}
+                data: {"parametro": "registrarModelo", "idcliente": idcliente, "modelo": modelo, "horma": horma, "taco": taco, "plataforma": plataforma, "coleccion": coleccion, "especificacion": especificacion, "estadomodelo": estadomodelo}
             }).done(function (info) {
                 console.log(typeof info);
                 if (info == "false") {
@@ -424,7 +479,7 @@
         });
     }
 
-    
+
     function listarMaterialesPaginacion() {
         tabla_paginacion_material = $('#listaMateriales').DataTable({
             //"scrollX": true
@@ -497,7 +552,7 @@
             });
         });
     }
-    
+
 
     function modificar_checkbox(formulario) {
         var checkboxes = $(formulario).find('input[type="checkbox"]');
@@ -520,8 +575,8 @@
             $("#tabla-proveedor").html(data);
         });
     }
-    
-    function listarProcesos(valor){
+
+    function listarProcesos(valor) {
         $.ajax({
             method: "POST",
             url: "../Sproceso",
@@ -530,8 +585,8 @@
             $("#tabla-proceso").html(data);
         });
     }
-    
-    function listarModelos(valor){
+
+    function listarModelos(valor) {
         $.ajax({
             method: "POST",
             url: "../Smodelo",
@@ -548,7 +603,7 @@
                 id_proveedor = $("#id_proveedor").val(id);
         console.log(x.childNodes);
     }
-    
+
     function seleccionarProceso(x) {
         var id = x.childNodes[2].innerHTML,
                 razon_social = x.childNodes[3].innerHTML;
@@ -557,7 +612,7 @@
         console.log("id proceoso: " + id)
         console.log(x.childNodes);
     }
-    
+
     function seleccionarModelo(x) {
         var id = x.childNodes[1].lastChild.value,
                 razon_social = x.childNodes[1].lastChild.value;

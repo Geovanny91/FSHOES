@@ -41,7 +41,7 @@ public class Strabajador extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet Strabajador</title>");            
+            out.println("<title>Servlet Strabajador</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet Strabajador at " + request.getContextPath() + "</h1>");
@@ -76,14 +76,14 @@ public class Strabajador extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       // processRequest(request, response);
-        
+        // processRequest(request, response);
+
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         ArrayList<Trabajador> lista = new ArrayList<>();
         boolean rptTrabajador;
         Trabajador objTrabajador;
-        
+
         String valor = request.getParameter("valor");
         String parametro = request.getParameter("parametro");
 
@@ -105,10 +105,11 @@ public class Strabajador extends HttpServlet {
                 } catch (Exception ex) {
                     ex.getMessage();
                 }*/
-            }break;
+            }
+            break;
             case "registrarTrabajador": {
                 try {
-                    String  dni = request.getParameter("dni"),
+                    String dni = request.getParameter("dni"),
                             nombres = request.getParameter("nombres"),
                             ape_paterno = request.getParameter("ape_paterno"),
                             ape_materno = request.getParameter("ape_materno"),
@@ -117,24 +118,39 @@ public class Strabajador extends HttpServlet {
                             celular = request.getParameter("celular"),
                             fecha_nacimiento = request.getParameter("fecha_nacimiento"),
                             usuario = request.getParameter("usuario"),
-                            contrasena = request.getParameter("contrasena"),                            
+                            contrasena = request.getParameter("contrasena"),
                             codigoproceso = request.getParameter("proceso");
                     boolean estado = true;
-                    
+
                     Proceso objproceso = new Proceso();
-                            objproceso.setCodigoproceso(codigoproceso);
-                    
+                    objproceso.setCodigoproceso(codigoproceso);
+
                     objTrabajador = new Trabajador(0, dni, nombres, ape_paterno, ape_materno, direccion, telefono, celular, fecha_nacimiento, usuario, contrasena, estado, objproceso);
                     rptTrabajador = TrabajadorLN.Instancia().registrarTrabajador(objTrabajador, parametro);
-                    if(rptTrabajador) out.println(rptTrabajador);
-                    else    out.append(null);
+                    if (rptTrabajador) {
+                        out.println(rptTrabajador);
+                    } else {
+                        out.append(null);
+                    }
                 } catch (Exception ex) {
                     ex.getMessage();
-                }    
-            }break;
+                }
+            }
+            break;
+            case "listarcomboTrabajador": {
+                try {
+                    lista = TrabajadorLN.Instancia().listarTrabajadores(valor, parametro);
+                    out.println("<option value='NULL'>Elegir Trabajador</option>");
+                    for (int i = 0; i < lista.size(); i++) {
+                        out.println("<option value='" + lista.get(i).getIdempleado() + "'>" + lista.get(i).getNombreCompleto() + "</option>");
+                    }
+                } catch (Exception ex) {
+                    ex.getMessage();
+                }
+            }
+            break;
         }
-        
-        
+
     }
 
     /**

@@ -1,17 +1,86 @@
-<%-- 
-    Document   : asignarOden
-    Created on : 28-may-2016, 12:02:48
-    Author     : flores
---%>
+<jsp:include page="../includes/cabecera_interna.jsp"></jsp:include>
+<%@page import="com.fshoes.entidades.Trabajador" %>
+<!-- page content -->
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
-    </head>
-    <body>
-        <h1>ASIGNAR ORDEN A TRABAJADOR</h1>
-    </body>
-</html>
+<%
+    String usuario = "";
+    HttpSession ses = request.getSession();
+    if (ses.getAttribute("trabajador") != null) {
+        Trabajador u = (Trabajador) ses.getAttribute("trabajador");
+        usuario = u.getNombreCompleto();
+    } else {
+        response.sendRedirect("../index.html");
+    }
+%>
+<!-- page content -->
+<div class="right_col" role="main">        
+
+    <div class="row">        
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>Formulario Asignar Orden a Trabajador <small></small></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        </li>                        
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <form action="" method="POST" class="form-horizontal form-label-left">
+                        <br>
+                        <div class="form-group">                            
+                            <div class="col-md-10 col-sm-12 col-xs-12 col-md-push-1 has-feedback">                                
+                                <input type="text" class="form-control has-feedback-left" placeholder="Ingresar Còdigo Orden" onkeypress="listarDetalleOrden(this);">
+                                <span class="fa fa-file-text-o form-control-feedback left" aria-hidden="true"></span>                              
+                            </div>                            
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <div class="col-md-10 col-sm-12 col-xs-12 col-md-push-1">                                
+                                <table class="table table-bordered table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Orden</th>
+                                            <th>Trabajador</th>
+                                            <th>Proceso</th>
+                                            <th>Estado</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tabla-detalleorden"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-10 col-sm-12 col-xs-12 col-md-push-1">
+                                <select id="cboproceso" onchange="cambiarTrabajadoPorProceso();" class="form-control">                                    
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-10 col-sm-12 col-xs-12 col-md-push-1">
+                                <select id="cbotrabajador"  class="form-control">                                    
+                                </select>
+                            </div>
+                        </div>
+                        <div class="ln_solid"></div>
+                        <div class="form-group">                            
+                            <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-5">                                
+                                <button type="button" id="guardarOrden" class="btn btn-success">Asignar</button>
+                            </div>
+                        </div>                        
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12">            
+        </div>
+        <!--</form>-->
+    </div>
+    <!-- /page content -->
+    <jsp:include page="../includes/pie_interno.jsp"></jsp:include>
