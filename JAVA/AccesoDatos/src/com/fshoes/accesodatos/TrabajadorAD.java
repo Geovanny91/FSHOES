@@ -79,7 +79,8 @@ public class TrabajadorAD {
             ResultSet tabla = cst.executeQuery();
             Lista = new ArrayList<Trabajador>();
             while(tabla.next()){
-                Trabajador t = new Trabajador();                
+                Trabajador t = new Trabajador();
+                t.setIdempleado(tabla.getInt("idempleado"));
                 t.setNombres(tabla.getString("nombres"));
                 t.setApe_paterno(tabla.getString("ape_paterno"));
                 t.setApe_materno(tabla.getString("ape_materno"));

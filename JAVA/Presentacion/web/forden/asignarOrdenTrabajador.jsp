@@ -30,11 +30,11 @@
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
-                    <form action="" method="POST" class="form-horizontal form-label-left">
+                    <form id="frmAsignarOrden" action="" method="POST" class="form-horizontal form-label-left">
                         <br>
                         <div class="form-group">                            
                             <div class="col-md-10 col-sm-12 col-xs-12 col-md-push-1 has-feedback">                                
-                                <input type="text" class="form-control has-feedback-left" placeholder="Ingresar Còdigo Orden" onkeypress="listarDetalleOrden(this);">
+                                <input type="text" name="orden" id="orden" required="" class="form-control has-feedback-left" placeholder="Ingresar Còdigo Orden" onkeypress="listarDetalleOrdenPorCodigo(this);">
                                 <span class="fa fa-file-text-o form-control-feedback left" aria-hidden="true"></span>                              
                             </div>                            
                         </div>
@@ -45,33 +45,35 @@
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>Orden</th>
-                                            <th>Trabajador</th>
-                                            <th>Proceso</th>
-                                            <th>Estado</th>
+                                            <th class="text-center">Orden</th>
+                                            <th class="text-center">Trabajador</th>
+                                            <th class="text-center">Proceso</th>
+                                            <th class="text-center">Estado</th>
                                             <th></th>
                                         </tr>
                                     </thead>
-                                    <tbody id="tabla-detalleorden"></tbody>
+                                    <tbody id="tabla-detalleorden">                                        
+                                    </tbody>
                                 </table>
                             </div>
                         </div>
+                        <input type="hidden" name="parametro" id="parametro" value="asignarOrden">
                         <div class="form-group">
                             <div class="col-md-10 col-sm-12 col-xs-12 col-md-push-1">
-                                <select id="cboproceso" onchange="cambiarTrabajadoPorProceso();" class="form-control">                                    
+                                <select id="cboproceso" name="cboproceso" onchange="cambiarTrabajadoPorProceso();" class="form-control">                                    
                                 </select>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-md-10 col-sm-12 col-xs-12 col-md-push-1">
-                                <select id="cbotrabajador"  class="form-control">                                    
+                                <select id="cbotrabajador" name="cbotrabajador"  class="form-control">                                    
                                 </select>
                             </div>
                         </div>
                         <div class="ln_solid"></div>
                         <div class="form-group">                            
                             <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-5">                                
-                                <button type="button" id="guardarOrden" class="btn btn-success">Asignar</button>
+                                <button type="submit" class="btn btn-success">Asignar</button>
                             </div>
                         </div>                        
                     </form>

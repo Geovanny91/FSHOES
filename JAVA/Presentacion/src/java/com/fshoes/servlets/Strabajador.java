@@ -142,7 +142,7 @@ public class Strabajador extends HttpServlet {
                     lista = TrabajadorLN.Instancia().listarTrabajadores(valor, parametro);
                     out.println("<option value='NULL'>Elegir Trabajador</option>");
                     for (int i = 0; i < lista.size(); i++) {
-                        out.println("<option value='" + lista.get(i).getIdempleado() + "'>" + lista.get(i).getNombreCompleto() + "</option>");
+                        out.println("<option value='" + lista.get(i).getIdempleado()+ "'>" + lista.get(i).getNombreCompleto() + "</option>");
                     }
                 } catch (Exception ex) {
                     ex.getMessage();

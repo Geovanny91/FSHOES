@@ -26,7 +26,7 @@ public class DetalleOrdenLN {
     // end Singleton
     public ArrayList<DetalleOrden> listarDetalleOrden(String valor, String prm) throws Exception {
         try {
-            if(!prm.equals(""))            
+            if(!prm.equals("") && !valor.equals(""))            
                 return DetalleOrdenAD.Instancia().listarDetalleOrden(valor, prm);
             else return null;
         } catch (Exception ex) {
@@ -39,6 +39,18 @@ public class DetalleOrdenLN {
             if(!prm.equals("") && objDetalleOrden != null){                
                 if(!objDetalleOrden.getObjOrden().getCodigoorden().equals("") && objDetalleOrden.getObjTrabajador().getIdempleado() > 0)                
                     return DetalleOrdenAD.Instancia().asignarOrden(objDetalleOrden, prm);
+                else return false;
+            }else return false;
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+    
+    public boolean terminarProcesoOrden(DetalleOrden objDetalleOrden, String prm) throws Exception{
+        try {
+            if(!prm.equals("") && objDetalleOrden != null){                
+                if(!objDetalleOrden.getObjOrden().getCodigoorden().equals(""))                
+                    return DetalleOrdenAD.Instancia().terminarProcesoOrden(objDetalleOrden, prm);
                 else return false;
             }else return false;
         } catch (Exception e) {

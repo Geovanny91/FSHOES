@@ -78,6 +78,7 @@
         registrarProveedor();
         orden();
         comboProceso();
+        asignarOrdenTrabajadorProceso();
 
         listarModelosPaginacion();
         editarModelo();
@@ -147,32 +148,111 @@
         });
     }
 
-    function listarDetalleOrden(valor) {        
+    function listarDetalleOrdenPorCodigo(valor) {
         var char = event.which || event.keyCode;
-        var cod = valor.value;        
+        var cod = valor.value;
         console.log(char + " cod: " + cod);
-        
         if (char == "13") {//enter
             event.preventDefault();
-            alert("bien enter");
-            $.ajax({
-                method: "POST",
-                url: "../Sdetalleorden",
-                data: {"valor": cod, "parametro": "listarDetalleOrden"}
-            }).done(function (data) {
-                $("#tabla-detalleorden").html(data);
-            });
+            if (cod == "")
+                new PNotify({
+                    title: 'Mensaje de Información',
+                    text: 'Ingresar campo Código de Orden',
+                    type: 'info',
+                    hide: false
+                });
+            else {
+                //alert("bien enter");
+                $.ajax({
+                    method: "POST",
+                    url: "../Sdetalleorden",
+                    data: {"valor": cod, "parametro": "listarDetalleOrden"}
+                }).done(function (data) {
+                    console.log(data);
+                    if (data == "vacio") {
+                        new PNotify({
+                            title: 'Mensaje de Información',
+                            text: 'Aún la orden no se asignado a un proceso.',
+                            type: 'info',
+                            hide: false
+                        });
+                    } else {
+                        $("#tabla-detalleorden").html(data);
+                    }
+                });
+            }
         }
+    }    
+
+    function asignarOrdenTrabajadorProceso() {
+        $("#frmAsignarOrden").on("submit", function (e) {
+            e.preventDefault();
+            
+            var codigoorden = $("#orden").val().trim();
+            
+            frm = $(this).serialize();
+            console.log(frm);
+            $.ajax({
+                url: "../Sdetalleorden",
+                method: "POST",
+                data: frm
+            }).done(function (data) {
+                if (data == "true") {
+                    new PNotify({
+                        title: 'Mensaje de Información',
+                        text: 'Se asignó la orden al trabajador correctamente.',
+                        type: 'success'                        
+                    });
+                    actualizarTablaDetalleOrden(codigoorden);
+                } else {
+                    new PNotify({
+                        title: 'Mensaje de Información',
+                        text: 'No se asignó la orden al trabajador correctamente.',
+                        type: 'error',
+                        hide: false
+                    });
+                }
+            });
+
+        });
     }
     
-    function cambiarTrabajadoPorProceso(){
+    function terminarProcesoOrden(x){
+        var ho = $(x).parent().css({"color": "red", "border": "2px solid red"});
+        var tr = $(x).parent().parent();
+        console.log(tr);        
+        //var id = x.childNodes[1].lastChild.value;        
+        var codigoorden = tr[0].childNodes[1].innerHTML;
+        console.log("codigo proceso:" + codigoorden);
+        $.ajax({
+           method:"POST",
+           url:"../Sdetalleorden",
+           data: {"orden": codigoorden, "parametro":"terminarProcesoOrden"}
+        }).done(function(data){
+            actualizarTablaDetalleOrden(codigoorden);
+        });
+    }
+
+    function actualizarTablaDetalleOrden(cod) {
+        //coger codigo de la orden pero la tabla
+        //alert("bien enter");
+        $.ajax({
+            method: "POST",
+            url: "../Sdetalleorden",
+            data: {"valor": cod, "parametro": "listarDetalleOrden"}
+        }).done(function (data) {            
+            $("#tabla-detalleorden").html(data);
+        });
+    }
+
+    function cambiarTrabajadoPorProceso() {
         var idproceso = document.getElementById("cboproceso").value;
-        console.log("Id proceso: " +idproceso);
+        console.log("Id proceso: " + idproceso);
         comoboTrabajadoresPorProceso(idproceso);
     }
-    
-    
-    function comoboTrabajadoresPorProceso(idproceso){
+
+
+    function comoboTrabajadoresPorProceso(idproceso) {
         //idproceso = $("#cboproceso option:selected").attr("value");//ID del combo proceso
         var parametro = "listarcomboTrabajador";
         $.ajax({
@@ -181,7 +261,7 @@
             data: {"parametro": parametro, "valor": idproceso}
         }).done(function (data) {
             if (data != "")
-                $("#cbotrabajador").html(data);            
+                $("#cbotrabajador").html(data);
         });
     }
 

@@ -42,11 +42,31 @@ public class DetalleOrdenAD {
         cn = Conexion.Instancia().getConexion();
         boolean rpt = false;
         try {
-            cst = cn.prepareCall("{call pa_orden(?,?,?,?,?,?,?,?)}");
+            cst = cn.prepareCall("{call pa_detalle_orden(?,?,?,?,?)}");
             cst.setString(1, "");
             cst.setString(2, prm);
             cst.setString(3, objDetalleOrden.getObjOrden().getCodigoorden());
             cst.setInt(4, objDetalleOrden.getObjTrabajador().getIdempleado());
+            cst.setBoolean(5, objDetalleOrden.isEstado());
+            cst.execute();
+            rpt = true;
+        } catch (Exception e) {
+            throw e;
+        }finally{
+            close();
+        }
+        return rpt;
+    }
+    
+    public boolean terminarProcesoOrden(DetalleOrden objDetalleOrden, String prm) throws Exception{
+        cn = Conexion.Instancia().getConexion();
+        boolean rpt = false;
+        try {//aquí se actuliza el estado del detalle orden, para indicar que se ha terminado un proceso
+            cst = cn.prepareCall("{call pa_detalle_orden(?,?,?,?,?)}");
+            cst.setString(1, "");
+            cst.setString(2, prm);
+            cst.setString(3, objDetalleOrden.getObjOrden().getCodigoorden());
+            cst.setInt(4, 0);
             cst.setBoolean(5, objDetalleOrden.isEstado());
             cst.execute();
             rpt = true;

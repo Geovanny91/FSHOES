@@ -42,7 +42,7 @@ public class Sdetalleorden extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet Sdetalleorden</title>");            
+            out.println("<title>Servlet Sdetalleorden</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet Sdetalleorden at " + request.getContextPath() + "</h1>");
@@ -78,52 +78,90 @@ public class Sdetalleorden extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();               
+        PrintWriter out = response.getWriter();
 
         String parametro = request.getParameter("parametro");
         String valor = request.getParameter("valor");
-        
+
         /*Parámetros*/
-        String codigoorden = request.getParameter("idorden"),
-                idempleado = request.getParameter("idtrabajador"),
-                estado = request.getParameter("estado");
+        String codigoorden = request.getParameter("orden"),
+                idempleado = request.getParameter("cbotrabajador");
+        //estado = request.getParameter("estado");
         /*Fin Parámetros*/
-        
+
         ArrayList<DetalleOrden> lista = null;
         DetalleOrden objDetalleOrden = null;
-        boolean rptDetalleOrden; 
-        
+        boolean rptDetalleOrden;
+
         switch (parametro) {
             case "listarDetalleOrden": {
-                try {                    
-                    lista = new ArrayList<DetalleOrden>();                    
+                try {
+                    //lista = new ArrayList<DetalleOrden>();
+                    String icon;
                     lista = DetalleOrdenLN.Instancia().listarDetalleOrden(valor, parametro);
-                    for (int i = 0; i < lista.size(); i++) {
-                        out.println(
-                                "<tr' ><th scope='row'>" + (i + 1) + "</th>"                                
-                                + "<td>" + lista.get(i).getObjOrden().getCodigoorden() + "</td>"
-                                + "<td>" + lista.get(i).getObjTrabajador().getNombreCompleto() + "</td>"
-                                + "<td>" + lista.get(i).getObjTrabajador().getCodigoproceso().getDescripcion() + "</td>"
-                                + "<td>" + lista.get(i).isEstado() + "</td>"
-                                + "<td><a href='#' class=\"close\" data-dismiss=\"modal\" ><i class=\"fa fa-check\"></i></a></td></tr>"
-                        );
+                    if (lista.size() != 0) {
+                        for (int i = 0; i < lista.size(); i++) {
+                            if (lista.get(i).isEstado()) {
+                                icon = "<a href=\"#/smile-o\"><i class=\"fa fa-smile-o\" style=\"font-size:20px;\" ></i></a>";
+                            } else {
+                                icon = "<a href=\"#/clock-o\"><i class=\"fa fa-clock-o\" style=\"font-size:20px;\"></i></a>";
+                            }
+
+                            out.println(
+                                    "<tr class=\"text-center\" ><th scope='row'>" + (i + 1) + "</th>"
+                                    + "<td>" + lista.get(i).getObjOrden().getCodigoorden() + "</td>"
+                                    + "<td>" + lista.get(i).getObjTrabajador().getNombreCompleto() + "</td>"
+                                    + "<td>" + lista.get(i).getObjTrabajador().getCodigoproceso().getDescripcion() + "</td>"
+                                    + "<td>" + icon + "</td>"
+                                    + "<td><a onclick='terminarProcesoOrden(this);' href=\"#/check\"><i class=\"fa fa-check\" style=\"font-size:20px;\" ></i></a></td></tr>"
+                            );
+                        }
+                    } else {
+                        response.getWriter().append("vacio");
                     }
+
                 } catch (Exception ex) {
                     ex.getMessage();
                 }
-            }break;
-            case "asignarOrden":{
+            }
+            break;
+            case "asignarOrden": {
                 try {
                     Orden objOrden = new Orden();
                     objOrden.setCodigoorden(codigoorden);
                     Trabajador objTrabajador = new Trabajador();
                     objTrabajador.setIdempleado(Integer.parseInt(idempleado));
-                    objDetalleOrden = new DetalleOrden(objOrden, objTrabajador, Boolean.parseBoolean(estado));                    
-                    rptDetalleOrden =  DetalleOrdenLN.Instancia().asignarOrden(objDetalleOrden, parametro);
+                    objDetalleOrden = new DetalleOrden(objOrden, objTrabajador, false);
+                    rptDetalleOrden = DetalleOrdenLN.Instancia().asignarOrden(objDetalleOrden, parametro);
+                    if (rptDetalleOrden) {
+                        response.getWriter().append("true");
+                    } else {
+                        response.getWriter().append("false");
+                    }
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            }break;
+            }
+            break;
+            case "terminarProcesoOrden": {//aquí, solo se actulizada el estado del detalle orden, de acuerdo a un proceso cuncluído.
+                try {
+                    Orden objOrden = new Orden();
+                    objOrden.setCodigoorden(codigoorden);
+                    objDetalleOrden = new DetalleOrden();
+                    objDetalleOrden.setObjOrden(objOrden);
+                    objDetalleOrden.setEstado(true);//para indicar que ya se completo el proceso de la orden
+                    rptDetalleOrden = DetalleOrdenLN.Instancia().terminarProcesoOrden(objDetalleOrden, parametro);
+                    if (rptDetalleOrden) {
+                        response.getWriter().append("true");
+                    } else {
+                        response.getWriter().append("false");
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            break;
         }
     }
 
