@@ -16,30 +16,22 @@ import org.json.simple.JSONValue;
  * @author flores
  */
 public class Modelo implements JSONStreamAware{
-    private String codigomodelo;
-    private String urlimagen;
-    private String horma;
-    private String taco;
-    private String plataforma;
-    private String coleccion;
+    private String codigomodelo;    
+    private String horma;   
     private String especificacion;
     private Cliente objcliente;
     private boolean estado;
-    
-    public Modelo(String codigomodelo, String urlimagen, String horma, String taco, String plataforma, String coleccion, String especificacion, Cliente objcliente, boolean estado) {
+
+    public Modelo(String codigomodelo, String horma, String especificacion, Cliente objcliente, boolean estado) {
         this.codigomodelo = codigomodelo;
-        this.urlimagen = urlimagen;
         this.horma = horma;
-        this.taco = taco;
-        this.plataforma = plataforma;
-        this.coleccion = coleccion;
         this.especificacion = especificacion;
         this.objcliente = objcliente;
         this.estado = estado;
     }
 
     public Modelo() {
-        this("", "", "", "", "", "", "", new Cliente(), false);
+        this("", "", "", new Cliente(), false);
     }
 
     public String getCodigomodelo() {
@@ -48,15 +40,7 @@ public class Modelo implements JSONStreamAware{
 
     public void setCodigomodelo(String codigomodelo) {
         this.codigomodelo = codigomodelo;
-    }
-
-    public String getUrlimagen() {
-        return urlimagen;
-    }
-
-    public void setUrlimagen(String urlimagen) {
-        this.urlimagen = urlimagen;
-    }
+    }    
 
     public String getHorma() {
         return horma;
@@ -64,31 +48,7 @@ public class Modelo implements JSONStreamAware{
 
     public void setHorma(String horma) {
         this.horma = horma;
-    }
-
-    public String getTaco() {
-        return taco;
-    }
-
-    public void setTaco(String taco) {
-        this.taco = taco;
-    }
-
-    public String getPlataforma() {
-        return plataforma;
-    }
-
-    public void setPlataforma(String plataforma) {
-        this.plataforma = plataforma;
-    }
-
-    public String getColeccion() {
-        return coleccion;
-    }
-
-    public void setColeccion(String coleccion) {
-        this.coleccion = coleccion;
-    }
+    }    
 
     public String getEspecificacion() {
         return especificacion;
@@ -117,12 +77,8 @@ public class Modelo implements JSONStreamAware{
     @Override
     public void writeJSONString(Writer out) throws IOException {
         LinkedHashMap obj = new LinkedHashMap();
-        obj.put("codigomodelo", String.valueOf(codigomodelo));
-        obj.put("urlimagen", urlimagen);
-        obj.put("horma", horma);
-        obj.put("taco", taco);
-        obj.put("plataforma", plataforma);
-        obj.put("coleccion", coleccion);
+        obj.put("codigomodelo", String.valueOf(codigomodelo));        
+        obj.put("horma", horma);        
         obj.put("especificacion", especificacion);
         obj.put("objCliente", objcliente);
         obj.put("estado", estado);

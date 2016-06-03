@@ -89,10 +89,7 @@ public class Smodelo extends HttpServlet {
         String parametro = request.getParameter("parametro");
 
         String horma = request.getParameter("horma"),
-                cod_modelo = request.getParameter("modelo"),
-                taco = request.getParameter("taco"),
-                plataforma = request.getParameter("plataforma"),
-                coleccion = request.getParameter("coleccion"),
+                cod_modelo = request.getParameter("modelo"),                
                 especificacion = request.getParameter("especificacion"),
                 idcliente = request.getParameter("idcliente");
         boolean estado = Boolean.valueOf(request.getParameter("estadomodelo"));
@@ -114,10 +111,7 @@ public class Smodelo extends HttpServlet {
                                 "<tr  onclick='seleccionarModelo(this);' ><th scope='row'>" + (i + 1) + "</th>"
                                 + "<td><input class='id_modelo' type='hidden' value='" + lista.get(i).getCodigomodelo()+ "' /></td>"
                                 + "<td>" + lista.get(i).getCodigomodelo()+ "</td>"
-                                + "<td>" + lista.get(i).getHorma() + "</td>"
-                                + "<td>" + lista.get(i).getTaco() + "</td>"
-                                + "<td>" + lista.get(i).getPlataforma() + "</td>"
-                                + "<td>" + lista.get(i).getColeccion()+ "</td>"
+                                + "<td>" + lista.get(i).getHorma() + "</td>"                                
                                 + "<td>" + lista.get(i).getObjcliente().getRazonsocial()+ "</td>"
                                 + "<td><a href='#' class=\"close\" data-dismiss=\"modal\" ><i class=\"fa fa-hand-o-left\"></i></a></td></tr>"
                         );
@@ -160,7 +154,7 @@ public class Smodelo extends HttpServlet {
                     
                     objCliente = new Cliente();
                     objCliente.setIdcliente(Integer.parseInt(idcliente));
-                    objModelo = new Modelo(cod_modelo, "", horma, taco, plataforma, coleccion, especificacion, objCliente, estado);
+                    objModelo = new Modelo(cod_modelo, horma, especificacion, objCliente, estado);
                     rptModelo = ModeloLN.Instancia().registrarModelo(objModelo, parametro);
                     //out.println(rptModelo);
                     if (rptModelo) {
@@ -181,7 +175,7 @@ public class Smodelo extends HttpServlet {
                     
                     objCliente = new Cliente();
                     objCliente.setIdcliente(Integer.parseInt(idcliente));
-                    objModelo = new Modelo(cod_modelo, "", horma, taco, plataforma, coleccion, especificacion, objCliente, estado);
+                    objModelo = new Modelo(cod_modelo, horma, especificacion, objCliente, estado);
                     rptModelo = ModeloLN.Instancia().modificarModelo(objModelo, parametro);
                     //out.println(rptModelo);
                     if (rptModelo) {

@@ -584,7 +584,7 @@
                 {"data": "objProveedor.razonsocial"},
                 {"data": "objProceso.codigoproceso"},
                 {"data": "objProceso.descripcion"},
-                {"data": "objModelo.codigomodelo"},
+                {"data": "objFichaTecnica.codigoficha"},
                 {"defaultContent": "<button tipo='modificarMaterial' class='btn btn-info btn-xs'><i class='fa fa-edit'></i></button> <button tipo='eliminarMaterial' class='btn btn-danger btn-xs'><i class='fa fa-remove'></i></button>", "width": "5%"}
                 //{"defaultContent": "<button class='btn btn-primary btn-xs'><i class='fa fa-remove'></i></button>"}
             ]

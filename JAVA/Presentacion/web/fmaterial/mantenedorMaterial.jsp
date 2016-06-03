@@ -211,7 +211,7 @@
                         
                         <input type="hidden" class="form-control" name="id_proveedor" id="id_proveedor" value="">
                         <input type="hidden" class="form-control" name="id_proceso" id="id_proceso" value="">
-                        <input type="hidden" class="form-control" name="id_modelo" id="id_modelo" value="">
+                        <input type="hidden" class="form-control" name="id_ficha" id="id_ficha" value="">
                          <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Nombre</label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
@@ -266,7 +266,7 @@
                                 <input type="text" class="form-control" name="proceso" id="proceso" value="" placeholder="Proceso" readonly="">
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group"><!--Ver Ficha Técnica, en modelo Aquì-->
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Modelo</label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
                                 <input type="text" class="form-control" name="modelo" id="modelo" value="" placeholder="Modelo" readonly="">

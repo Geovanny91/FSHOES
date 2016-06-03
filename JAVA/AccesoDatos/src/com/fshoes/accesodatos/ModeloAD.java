@@ -39,30 +39,22 @@ public class ModeloAD {
         cn = Conexion.Instancia().getConexion();
         ArrayList<Modelo> Lista = null;
         try{
-            cst = cn.prepareCall("{call pa_modelo(?,?,?,?,?,?,?,?,?,?,?,?,?)}");
+            cst = cn.prepareCall("{call pa_modelo(?,?,?,?,?,?,?,?,?)}");
             cst.setString(1, valor);            
             cst.setString(2, prm);
             cst.setInt(3, inicio);
             cst.setInt(4, fin);
             cst.setString(5, "");
             cst.setString(6, "");
-            cst.setString(7, "");
-            cst.setString(8, "");
-            cst.setString(9, "");
-            cst.setString(10, "");
-            cst.setString(11, "");
-            cst.setInt(12, 0);
-            cst.setBoolean(13, false);
+            cst.setString(7, "");           
+            cst.setInt(8, 0);
+            cst.setBoolean(9, false);
             tabla = cst.executeQuery();
             Lista = new ArrayList<>();
             while(tabla.next()){
                 Modelo m = new Modelo();
-                m.setCodigomodelo(tabla.getString("codigomodelo"));
-                m.setUrlimagen(tabla.getString("urlimagen"));
-                m.setHorma(tabla.getString("horma"));
-                m.setTaco(tabla.getString("taco"));
-                m.setPlataforma(tabla.getString("plataforma"));
-                m.setColeccion(tabla.getString("coleccion"));
+                m.setCodigomodelo(tabla.getString("codigomodelo"));               
+                m.setHorma(tabla.getString("horma"));                
                 m.setEspecificacion(tabla.getString("especificacion"));
                 Cliente objcliente = new Cliente();
                 objcliente.setIdcliente(tabla.getInt("idcliente"));
@@ -81,29 +73,22 @@ public class ModeloAD {
         cn = Conexion.Instancia().getConexion();
         ArrayList<Modelo> Lista = null;
         try{
-            cst = cn.prepareCall("{call pa_modelo(?,?,?,?,?,?,?,?,?,?,?,?,?)}");
+            cst = cn.prepareCall("{call pa_modelo(?,?,?,?,?,?,?,?,?)}");
             cst.setString(1, valor);            
             cst.setString(2, prm);
             cst.setInt(3, 0);
             cst.setInt(4, 0);
             cst.setString(5, "");
             cst.setString(6, "");
-            cst.setString(7, "");
-            cst.setString(8, "");
-            cst.setString(9, "");
-            cst.setString(10, "");
-            cst.setString(11, "");
-            cst.setInt(12, 0);
-            cst.setBoolean(13, false);
+            cst.setString(7, "");           
+            cst.setInt(8, 0);
+            cst.setBoolean(9, false);
             tabla = cst.executeQuery();
             Lista = new ArrayList<>();
             while(tabla.next()){
                 Modelo m = new Modelo();
                 m.setCodigomodelo(tabla.getString("codigomodelo"));
-                m.setHorma(tabla.getString("horma"));
-                m.setTaco(tabla.getString("taco"));
-                m.setPlataforma(tabla.getString("plataforma"));
-                m.setColeccion(tabla.getString("coleccion"));                
+                m.setHorma(tabla.getString("horma"));                              
                 Cliente objcliente = new Cliente();
                 objcliente.setIdcliente(tabla.getInt("idcliente"));
                 objcliente.setRazonsocial(tabla.getString("razonsocial"));
@@ -120,20 +105,16 @@ public class ModeloAD {
         int total = 0;
         cn = Conexion.Instancia().getConexion();
         try {
-            cst = cn.prepareCall("{call pa_modelo(?,?,?,?,?,?,?,?,?,?,?,?,?)}");
+            cst = cn.prepareCall("{call pa_modelo(?,?,?,?,?,?,?,?,?)}");
             cst.setString(1, valor);            
             cst.setString(2, prm);
             cst.setInt(3, 0);
             cst.setInt(4, 0);
             cst.setString(5, "");
             cst.setString(6, "");
-            cst.setString(7, "");
-            cst.setString(8, "");
-            cst.setString(9, "");
-            cst.setString(10, "");
-            cst.setString(11, "");
-            cst.setInt(12, 0);
-            cst.setBoolean(13, false);
+            cst.setString(7, "");           
+            cst.setInt(8, 0);
+            cst.setBoolean(9, false);
             tabla = cst.executeQuery();
             while(tabla.next()){
                 total = tabla.getInt("total");
@@ -151,20 +132,16 @@ public class ModeloAD {
         cn = Conexion.Instancia().getConexion();
         boolean rpt = false;
         try {
-            cst = cn.prepareCall("{call pa_modelo(?,?,?,?,?,?,?,?,?,?,?,?,?)}");
+            cst = cn.prepareCall("{call pa_modelo(?,?,?,?,?,?,?,?,?)}");
             cst.setString(1, "");
             cst.setString(2, prm);
             cst.setInt(3, 0);
             cst.setInt(4, 0);
-            cst.setString(5, objModelo.getCodigomodelo());
-            cst.setString(6, "");
-            cst.setString(7, objModelo.getHorma());
-            cst.setString(8, objModelo.getTaco());
-            cst.setString(9, objModelo.getPlataforma());
-            cst.setString(10, objModelo.getColeccion());
-            cst.setString(11, objModelo.getEspecificacion());
-            cst.setInt(12, objModelo.getObjcliente().getIdcliente());            
-            cst.setBoolean(13, objModelo.isEstado());
+            cst.setString(5, objModelo.getCodigomodelo());            
+            cst.setString(6, objModelo.getHorma());            
+            cst.setString(7, objModelo.getEspecificacion());
+            cst.setInt(8, objModelo.getObjcliente().getIdcliente());            
+            cst.setBoolean(9, objModelo.isEstado());
             cst.execute();
             rpt = true;
         } catch (Exception e) {
@@ -179,20 +156,16 @@ public class ModeloAD {
         cn = Conexion.Instancia().getConexion();
         boolean rpt = false;
         try {
-            cst = cn.prepareCall("{call pa_modelo(?,?,?,?,?,?,?,?,?,?,?,?,?)}");
+            cst = cn.prepareCall("{call pa_modelo(?,?,?,?,?,?,?,?,?)}");
             cst.setString(1, "");
             cst.setString(2, prm);
             cst.setInt(3, 0);
             cst.setInt(4, 0);
-            cst.setString(5, objModelo.getCodigomodelo());
-            cst.setString(6, "");
-            cst.setString(7, objModelo.getHorma());
-            cst.setString(8, objModelo.getTaco());
-            cst.setString(9, objModelo.getPlataforma());
-            cst.setString(10, objModelo.getColeccion());
-            cst.setString(11, objModelo.getEspecificacion());
-            cst.setInt(12, objModelo.getObjcliente().getIdcliente());            
-            cst.setBoolean(13, objModelo.isEstado());
+            cst.setString(5, objModelo.getCodigomodelo());            
+            cst.setString(6, objModelo.getHorma());            
+            cst.setString(7, objModelo.getEspecificacion());
+            cst.setInt(8, objModelo.getObjcliente().getIdcliente());            
+            cst.setBoolean(9, objModelo.isEstado());
             cst.execute();
             rpt = true;            
         } catch (Exception e) {

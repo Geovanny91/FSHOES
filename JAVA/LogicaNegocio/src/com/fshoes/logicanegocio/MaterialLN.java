@@ -49,7 +49,7 @@ public class MaterialLN {
     public boolean registrarMaterial(Material objMaterial, String prm) throws Exception{
         try {
             if(objMaterial != null && !prm.equals("")){
-                if(objMaterial.getObjProveedor().getIdproveedor() > 0 && !objMaterial.getObjProceso().getCodigoproceso().equals("") && !objMaterial.getObjModelo().getCodigomodelo().equals(""))
+                if(objMaterial.getObjProveedor().getIdproveedor() > 0 && !objMaterial.getObjProceso().getCodigoproceso().equals("") && !objMaterial.getObjFichaTecnica().getCodigoficha().equals(""))
                     return MaterialAD.Instancia().registrarMaterial(objMaterial, prm);
                 else return false;
             }else return false;

@@ -6,6 +6,7 @@
 package com.fshoes.servlets;
 
 import com.fshoes.accesodatos.ModeloAD;
+import com.fshoes.entidades.FichaTecnica;
 import com.fshoes.entidades.Material;
 import com.fshoes.entidades.Modelo;
 import com.fshoes.entidades.Proceso;
@@ -78,18 +79,17 @@ public class Smaterial extends HttpServlet {
 
         String valor = request.getParameter("valor");
         String parametro = request.getParameter("parametro");
-        String nombre = null, descripccion = null, unidad_medida = null, cantidad_docena = null, precio_unitario = null, tipo = null, color = null, id_proveedor = null, id_proceso = null, id_modelo = null;
+        String nombre = null, descripccion = null, unidad_medida = null, cantidad_docena = null, precio_unitario = null, tipo = null, id_proveedor = null, id_proceso = null, id_ficha = null;
         if(!parametro.equals("listarMaterial")){        
             nombre = request.getParameter("nombre");
             descripccion = request.getParameter("descripcion");
             unidad_medida = request.getParameter("unidad_medida").trim();
             cantidad_docena = request.getParameter("cantidad_docena").replace(",", ".");
             precio_unitario = request.getParameter("precio_unitario").replace(",", ".");
-            tipo = request.getParameter("tipo");
-            color = request.getParameter("color");
+            tipo = request.getParameter("tipo");            
             id_proveedor = request.getParameter("id_proveedor").trim();
             id_proceso = request.getParameter("id_proceso").trim();
-            id_modelo = request.getParameter("id_modelo").trim();
+            id_ficha = request.getParameter("id_ficha").trim();
             //Comprobar id de campos enteros
             if(id_proveedor.equals("")) id_proveedor = "0";
             if(cantidad_docena.equals("")) cantidad_docena = "0";
@@ -99,7 +99,7 @@ public class Smaterial extends HttpServlet {
         Material objMaterial = null;
         Proveedor objProveedor = null;
         Proceso objProceso = null;
-        Modelo objModelo = null;
+        FichaTecnica objFicha = null;        
 
         switch (parametro) {
             case "listarMaterial": {
@@ -134,15 +134,15 @@ public class Smaterial extends HttpServlet {
                     objProveedor.setIdproveedor(Integer.parseInt(id_proveedor));
                     objProceso = new Proceso();
                     objProceso.setCodigoproceso(id_proceso);
-                    objModelo = new Modelo();
-                    objModelo.setCodigomodelo(id_modelo);
+                    objFicha = new FichaTecnica();
+                    objFicha.setCodigoficha(id_ficha);
                     
                     System.out.println(cantidad_docena + " " + precio_unitario);
                     
                     objMaterial = new Material(0, nombre, descripccion, unidad_medida, 
                             Float.parseFloat(cantidad_docena), 
                             Float.parseFloat(precio_unitario), 
-                            tipo, color, objProveedor, objProceso, objModelo);
+                            tipo, objProveedor, objProceso, objFicha);
                     rptMaterial = MaterialLN.Instancia().registrarMaterial(objMaterial, parametro);
                     System.out.println("respuesta: " + rptMaterial);                    
                     if (rptMaterial) {

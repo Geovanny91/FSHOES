@@ -22,28 +22,26 @@ public class Material implements JSONStreamAware{
     private String unidadmedida;
     private float cantidaddocena;
     private float preciounitario;
-    private String tipo;
-    private String color;
+    private String tipo;    
     private Proveedor objProveedor;
     private Proceso objProceso;
-    private Modelo objModelo;
+    private FichaTecnica objFichaTecnica;
 
-    public Material(int idmaterial, String nombre, String descripcion, String unidadmedida, float cantidaddocena, float preciounitario, String tipo, String color, Proveedor objProveedor, Proceso objProceso, Modelo objModelo) {
+    public Material(int idmaterial, String nombre, String descripcion, String unidadmedida, float cantidaddocena, float preciounitario, String tipo, Proveedor objProveedor, Proceso objProceso, FichaTecnica objFichaTecnica) {
         this.idmaterial = idmaterial;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.unidadmedida = unidadmedida;
         this.cantidaddocena = cantidaddocena;
         this.preciounitario = preciounitario;
-        this.tipo = tipo;
-        this.color = color;
+        this.tipo = tipo;        
         this.objProveedor = objProveedor;
         this.objProceso = objProceso;
-        this.objModelo = objModelo;
+        this.objFichaTecnica = objFichaTecnica;
     }
 
     public Material() {
-        this(0, "", "", "", 0, 0, "", "", new Proveedor(), new Proceso(),  new Modelo());
+        this(0, "", "", "", 0, 0, "", new Proveedor(), new Proceso(),  new FichaTecnica());
     }
 
     public int getIdmaterial() {
@@ -98,14 +96,6 @@ public class Material implements JSONStreamAware{
         this.tipo = tipo;
     }
 
-    public String getColor() {
-        return color;
-    }
-
-    public void setColor(String color) {
-        this.color = color;
-    }
-
     public Proveedor getObjProveedor() {
         return objProveedor;
     }
@@ -122,13 +112,13 @@ public class Material implements JSONStreamAware{
         this.objProceso = objProceso;
     }
 
-    public Modelo getObjModelo() {
-        return objModelo;
+    public FichaTecnica getObjFichaTecnica() {
+        return objFichaTecnica;
     }
 
-    public void setObjModelo(Modelo objModelo) {
-        this.objModelo = objModelo;
-    }
+    public void setObjFichaTecnica(FichaTecnica objFichaTecnica) {
+        this.objFichaTecnica = objFichaTecnica;
+    }    
 
     public void setCantidaddocena(float cantidaddocena) {
         this.cantidaddocena = cantidaddocena;
@@ -143,11 +133,10 @@ public class Material implements JSONStreamAware{
         obj.put("unidadmedida",unidadmedida);
         obj.put("cantidaddocena",cantidaddocena);
         obj.put("preciounitario",preciounitario);
-        obj.put("tipo",tipo);
-        obj.put("color",color);
+        obj.put("tipo",tipo);        
         obj.put("objProveedor",objProveedor);
         obj.put("objProceso", objProceso);
-        obj.put("objModelo", objModelo);
+        obj.put("objFichaTecnica", objFichaTecnica);
         JSONValue.writeJSONString(obj, out);
     }
     

@@ -5,8 +5,8 @@
  */
 package com.fshoes.accesodatos;
 
+import com.fshoes.entidades.FichaTecnica;
 import com.fshoes.entidades.Material;
-import com.fshoes.entidades.Modelo;
 import com.fshoes.entidades.Proceso;
 import com.fshoes.entidades.Proveedor;
 import com.sun.org.apache.bcel.internal.generic.AALOAD;
@@ -42,7 +42,7 @@ public class MaterialAD {
         cn = Conexion.Instancia().getConexion();
         ArrayList<Material> Lista = null;
         try{
-            cst = cn.prepareCall("{call pa_material(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}");
+            cst = cn.prepareCall("{call pa_material(?,?,?,?,?,?,?,?,?,?,?,?,?,?)}");
             cst.setString(1, valor);            
             cst.setString(2, prm);
             cst.setInt(3, inicio);
@@ -53,11 +53,10 @@ public class MaterialAD {
             cst.setString(8, "");
             cst.setInt(9, 0);
             cst.setFloat(10, 0);
-            cst.setString(11, "");
-            cst.setString(12, "");
-            cst.setInt(13, 0);
+            cst.setString(11, "");            
+            cst.setInt(12, 0);
+            cst.setString(13, "");
             cst.setString(14, "");
-            cst.setString(15, "");
             tabla = cst.executeQuery();
             Lista = new ArrayList<>();
             while(tabla.next()){
@@ -68,8 +67,7 @@ public class MaterialAD {
                 m.setUnidadmedida(tabla.getString("unidadmedida"));
                 m.setCantidaddocena(tabla.getFloat("cantidaddocena"));
                 m.setPreciounitario(tabla.getFloat("preciounitario"));
-                m.setTipo(tabla.getString("tipo"));
-                m.setColor(tabla.getString("color"));
+                m.setTipo(tabla.getString("tipo"));                
                 Proveedor p = new Proveedor();
                 p.setIdproveedor(tabla.getInt("idproveedor"));
                 p.setRazonsocial(tabla.getString("razonsocial"));                
@@ -78,9 +76,9 @@ public class MaterialAD {
                 proceso.setCodigoproceso(tabla.getString("codigoproceso"));
                 proceso.setDescripcion(tabla.getString("procDescripcion"));
                 m.setObjProceso(proceso);
-                Modelo modelo = new Modelo();
-                modelo.setCodigomodelo(tabla.getString("codigomodelo"));
-                m.setObjModelo(modelo);                
+                FichaTecnica ficha = new FichaTecnica();
+                ficha.setCodigoficha(tabla.getString("codigoficha"));
+                m.setObjFichaTecnica(ficha);                
                 Lista.add(m);
             }			
         }catch(Exception e){
@@ -93,7 +91,7 @@ public class MaterialAD {
         cn = Conexion.Instancia().getConexion();
         boolean rpt = false;
         try {
-            cst = cn.prepareCall("{call pa_material(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}");
+            cst = cn.prepareCall("{call pa_material(?,?,?,?,?,?,?,?,?,?,?,?,?,?)}");
             cst.setString(1, "");
             cst.setString(2, prm);
             cst.setInt(3, 0);
@@ -104,13 +102,12 @@ public class MaterialAD {
             cst.setString(8, objMaterial.getUnidadmedida());
             cst.setFloat(9, objMaterial.getCantidaddocena());
             cst.setFloat(10, objMaterial.getPreciounitario());
-            cst.setString(11, objMaterial.getTipo());
-            cst.setString(12, objMaterial.getColor());
-            cst.setInt(13, objMaterial.getObjProveedor().getIdproveedor());
-            cst.setString(14, objMaterial.getObjProceso().getCodigoproceso());
-            cst.setString(15, objMaterial.getObjModelo().getCodigomodelo());
+            cst.setString(11, objMaterial.getTipo());            
+            cst.setInt(12, objMaterial.getObjProveedor().getIdproveedor());
+            cst.setString(13, objMaterial.getObjProceso().getCodigoproceso());
+            cst.setString(14, objMaterial.getObjFichaTecnica().getCodigoficha());
             cst.execute();
-            rpt = true;            
+            rpt = true;
         } catch (Exception e) {
             throw e;
         }finally{
@@ -123,7 +120,7 @@ public class MaterialAD {
         int total = 0;
         cn = Conexion.Instancia().getConexion();
         try {
-            cst = cn.prepareCall("{call pa_material(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}");
+            cst = cn.prepareCall("{call pa_material(?,?,?,?,?,?,?,?,?,?,?,?,?,?)}");
             cst.setString(1, valor);            
             cst.setString(2, prm);
             cst.setInt(3, 0);
@@ -134,11 +131,10 @@ public class MaterialAD {
             cst.setString(8, "");
             cst.setInt(9, 0);
             cst.setFloat(10, 0);
-            cst.setString(11, "");
-            cst.setString(12, "");
-            cst.setInt(13, 0);
+            cst.setString(11, "");            
+            cst.setInt(12, 0);
+            cst.setString(13, "");
             cst.setString(14, "");
-            cst.setString(15, "");
             tabla = cst.executeQuery();
             while(tabla.next()){
                 total = tabla.getInt("total");
