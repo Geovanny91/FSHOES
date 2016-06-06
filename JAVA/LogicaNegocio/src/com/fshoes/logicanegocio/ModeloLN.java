@@ -56,6 +56,16 @@ public class ModeloLN {
         }        
     }
 
+    public int existeModelo(String valor, String prm) throws Exception{
+        try {
+            if (!(prm.equals("")))
+                return ModeloAD.Instancia().existeModelo(valor, prm);
+            else return 0;
+        } catch (Exception e) {
+            throw e;
+        }        
+    }
+    
     public boolean modificarModelo(Modelo objModelo, String prm) throws Exception {
         try {
             if (objModelo != null && !(prm.equals(""))) {

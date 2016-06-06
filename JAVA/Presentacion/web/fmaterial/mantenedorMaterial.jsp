@@ -247,13 +247,7 @@
                             <div class="col-md-6 col-sm-6 col-xs-12">
                                 <input type="text" class="form-control" name="tipo" id="tipo" value="" placeholder="Tipo">
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Color</label>
-                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input type="text" class="form-control" name="color" id="color" value="" placeholder="Color">
-                            </div>
-                        </div>
+                        </div>                        
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Proveedor</label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
@@ -278,6 +272,7 @@
                                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalProveedor" ><i class="fa fa-search"></i> Proveedor</button>
                                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalProceso" ><i class="fa fa-search"></i> Proceso</button>
                                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalModelo" ><i class="fa fa-search"></i> Modelo</button>
+                                <!--AQUI MODAL DE LISTA DE FICHA TECNICA POR MODELO-->
                                 <button type="submit" class="btn btn-success">Guardar</button>
                             </div>
                         </div>

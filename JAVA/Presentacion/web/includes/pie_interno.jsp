@@ -434,30 +434,23 @@
                 //"dataSrc": "animes"
             },
             "columnDefs": [
-                {"name": "codigomodelo", "targets": 0},
-                {"name": "urlimagen", "targets": 1},
-                {"name": "horma", "targets": 2},
-                {"name": "plataforma", "targets": 3},
-                {"name": "especificacion", "targets": 4},
-                {"name": "idcliente", "targets": 5},
-                {"name": "razonsocial", "targets": 6}
+                {"name": "codigomodelo", "targets": 0},                
+                {"name": "horma", "targets": 1},                
+                {"name": "especificacion", "targets": 2},
+                {"name": "idcliente", "targets": 3},
+                {"name": "razonsocial", "targets": 4}                
             ],
             "columns": [
-                {"data": "codigomodelo"},
-                {"data": "urlimagen"},
-                {"data": "horma"},
-                {"data": "taco"},
-                {"data": "plataforma"},
-                {"data": "coleccion"},
+                {"data": "codigomodelo"},                
+                {"data": "horma"},                
                 {"data": "especificacion"},
                 {"data": "objCliente.idcliente"},
-                {"data": "objCliente.razonsocial"},
+                {"data": "objCliente.razonsocial"},                
                 {"defaultContent": "<button tipo='modificarModelo' class='btn btn-info btn-xs'><i class='fa fa-edit'></i></button> <button tipo='eliminarModelo' class='btn btn-danger btn-xs'><i class='fa fa-remove'></i></button>", "width": "5%"}
                 //{"defaultContent": "<button class='btn btn-primary btn-xs'><i class='fa fa-remove'></i></button>"}
             ]
-        });
-        tabla_paginacion_modelo.column(1).visible(false);
-        tabla_paginacion_modelo.column(7).visible(false);
+        });        
+        tabla_paginacion_modelo.column(3).visible(false);
         mantenedoresModelo('#listaModelos tbody', tabla_paginacion_modelo);
     }
 
@@ -523,36 +516,48 @@
     }
 
     function registrarModelo() {
-        $("#guardarModelo").on("click", function () {
-            //e.preventDefault();           
-            var idcliente = $("#idcliente").val(),
+        $("#frmModeloRegistrar").on("submit", function (e) {
+            e.preventDefault();           
+            /*var idcliente = $("#idcliente").val(),
                     modelo = $("#modelo").val(),
                     horma = $("#horma").val(),
+                    ficha_tecnica = $("#ficha_tecnica").val(),
                     taco = $("#taco").val(),
                     plataforma = $("#plataforma").val(),
                     coleccion = $("#coleccion").val(),
                     especificacion = $("#especificacion").val(),
                     estadomodelo = $("#estadomodelo").prop("checked");
-            console.log(idcliente, " ", modelo, " estado: " + estadomodelo);
+            console.log(idcliente, " ", modelo, " estado: " + estadomodelo);*/
+            modificar_checkbox($(this));
+            var frm = $(this).serialize();
+            console.log(frm);
+            
             $.ajax({
                 method: "POST",
                 url: "../Smodelo",
-                data: {"parametro": "registrarModelo", "idcliente": idcliente, "modelo": modelo, "horma": horma, "taco": taco, "plataforma": plataforma, "coleccion": coleccion, "especificacion": especificacion, "estadomodelo": estadomodelo}
+                data: frm
+                //data: {"parametro": "registrarModelo", "idcliente": idcliente, "ficha_tecnica": ficha_tecnica , "modelo": modelo, "horma": horma, "taco": taco, "plataforma": plataforma, "coleccion": coleccion, "especificacion": especificacion, "estadomodelo": estadomodelo}
             }).done(function (info) {
                 console.log(typeof info);
-                if (info == "false") {
+                if(info == "existe"){                    
+                    new PNotify({
+                        title: 'Mensaje de Advertencia',
+                        text: 'Código Modelo, ya existe.',
+                        type: 'info'
+                    });            
+                } else if (info == "false") {
                     new PNotify({
                         title: 'Mensaje de Advertencia',
                         text: 'Ingrese todos los datos solicitados',
                         hide: false
                     });
-                } else if (info) {
+                } else if (info == "true") {
                     new PNotify({
                         title: 'Mensaje de éxito',
                         text: 'Se modificaron los datos satisfactoriamente.',
                         type: 'success'
                     });
-                    $("#frmModeloRegistrar").find("input").val("");
+                    $("#frmModeloRegistrar").find("input=['text']").val("");
                     $("#tabla-cliente").html("");//agregue esto aqui pero ver por errores.
                 }
             });

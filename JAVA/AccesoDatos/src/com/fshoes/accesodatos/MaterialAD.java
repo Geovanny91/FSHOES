@@ -22,28 +22,33 @@ import java.util.ArrayList;
  * @author Geovanny
  */
 public class MaterialAD {
+
     // singleton
     public static MaterialAD _Instancia;
-	private MaterialAD(){};
-	public static MaterialAD Instancia(){
-		if(_Instancia==null){			
-			_Instancia = new MaterialAD();
-		}
-		return _Instancia;
-	}
+
+    private MaterialAD() {
+    }
+
+    ;
+	public static MaterialAD Instancia() {
+        if (_Instancia == null) {
+            _Instancia = new MaterialAD();
+        }
+        return _Instancia;
+    }
     // end Singleton
-    
+
     private Connection cn = null;
     private CallableStatement cst = null;
     private PreparedStatement pst = null;
-    private ResultSet tabla = null; 
-    
-    public ArrayList<Material> listarMaterial(String valor, String prm, int inicio, int fin) throws Exception{
+    private ResultSet tabla = null;
+
+    public ArrayList<Material> listarMaterial(String valor, String prm, int inicio, int fin) throws Exception {
         cn = Conexion.Instancia().getConexion();
         ArrayList<Material> Lista = null;
-        try{
+        try {
             cst = cn.prepareCall("{call pa_material(?,?,?,?,?,?,?,?,?,?,?,?,?,?)}");
-            cst.setString(1, valor);            
+            cst.setString(1, valor);
             cst.setString(2, prm);
             cst.setInt(3, inicio);
             cst.setInt(4, fin);
@@ -53,13 +58,13 @@ public class MaterialAD {
             cst.setString(8, "");
             cst.setInt(9, 0);
             cst.setFloat(10, 0);
-            cst.setString(11, "");            
+            cst.setString(11, "");
             cst.setInt(12, 0);
             cst.setString(13, "");
             cst.setString(14, "");
             tabla = cst.executeQuery();
             Lista = new ArrayList<>();
-            while(tabla.next()){
+            while (tabla.next()) {
                 Material m = new Material();
                 m.setIdmaterial(tabla.getInt("idmaterial"));
                 m.setNombre(tabla.getString("nombre"));
@@ -67,10 +72,10 @@ public class MaterialAD {
                 m.setUnidadmedida(tabla.getString("unidadmedida"));
                 m.setCantidaddocena(tabla.getFloat("cantidaddocena"));
                 m.setPreciounitario(tabla.getFloat("preciounitario"));
-                m.setTipo(tabla.getString("tipo"));                
+                m.setTipo(tabla.getString("tipo"));
                 Proveedor p = new Proveedor();
                 p.setIdproveedor(tabla.getInt("idproveedor"));
-                p.setRazonsocial(tabla.getString("razonsocial"));                
+                p.setRazonsocial(tabla.getString("razonsocial"));
                 m.setObjProveedor(p);
                 Proceso proceso = new Proceso();
                 proceso.setCodigoproceso(tabla.getString("codigoproceso"));
@@ -78,16 +83,18 @@ public class MaterialAD {
                 m.setObjProceso(proceso);
                 FichaTecnica ficha = new FichaTecnica();
                 ficha.setCodigoficha(tabla.getString("codigoficha"));
-                m.setObjFichaTecnica(ficha);                
+                m.setObjFichaTecnica(ficha);
                 Lista.add(m);
-            }			
-        }catch(Exception e){
-                throw e;
-        }finally{close();}
+            }
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            close();
+        }
         return Lista;
     }
-    
-    public boolean registrarMaterial(Material objMaterial, String prm) throws Exception{
+
+    public boolean registrarMaterial(Material objMaterial, String prm) throws Exception {
         cn = Conexion.Instancia().getConexion();
         boolean rpt = false;
         try {
@@ -102,7 +109,7 @@ public class MaterialAD {
             cst.setString(8, objMaterial.getUnidadmedida());
             cst.setFloat(9, objMaterial.getCantidaddocena());
             cst.setFloat(10, objMaterial.getPreciounitario());
-            cst.setString(11, objMaterial.getTipo());            
+            cst.setString(11, objMaterial.getTipo());
             cst.setInt(12, objMaterial.getObjProveedor().getIdproveedor());
             cst.setString(13, objMaterial.getObjProceso().getCodigoproceso());
             cst.setString(14, objMaterial.getObjFichaTecnica().getCodigoficha());
@@ -110,18 +117,18 @@ public class MaterialAD {
             rpt = true;
         } catch (Exception e) {
             throw e;
-        }finally{
+        } finally {
             close();
         }
         return rpt;
     }
-    
-    public int obtenerTotalFilas(String valor, String prm) throws Exception{
+
+    public int obtenerTotalFilas(String valor, String prm) throws Exception {
         int total = 0;
         cn = Conexion.Instancia().getConexion();
         try {
             cst = cn.prepareCall("{call pa_material(?,?,?,?,?,?,?,?,?,?,?,?,?,?)}");
-            cst.setString(1, valor);            
+            cst.setString(1, valor);
             cst.setString(2, prm);
             cst.setInt(3, 0);
             cst.setInt(4, 0);
@@ -131,39 +138,39 @@ public class MaterialAD {
             cst.setString(8, "");
             cst.setInt(9, 0);
             cst.setFloat(10, 0);
-            cst.setString(11, "");            
+            cst.setString(11, "");
             cst.setInt(12, 0);
             cst.setString(13, "");
             cst.setString(14, "");
             tabla = cst.executeQuery();
-            while(tabla.next()){
+            while (tabla.next()) {
                 total = tabla.getInt("total");
-            }            
+            }
             return total;
         } catch (Exception ex) {
             ex.printStackTrace();
-        }finally{
+        } finally {
             close();
-        }       
-        return total;        
+        }
+        return total;
     }
-    
+
     private void close() {
         try {
-          if (tabla != null) {
-            tabla.close();
-          }
-          if (cst != null) {
-            cst.close();
-          }
-          if(pst != null){
-              pst.close();
-          }
-          if (cn != null) {
-            cn.close();
-          }
+            if (tabla != null) {
+                tabla.close();
+            }
+            if (cst != null) {
+                cst.close();
+            }
+            if (pst != null) {
+                pst.close();
+            }
+            if (cn != null) {
+                cn.close();
+            }
         } catch (SQLException e) {
             e.getMessage();
         }
-  }
+    }
 }

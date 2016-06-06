@@ -6,6 +6,7 @@
 package com.fshoes.accesodatos;
 
 import com.fshoes.entidades.Cliente;
+import com.fshoes.entidades.FichaTecnica;
 import com.fshoes.entidades.Modelo;
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -58,8 +59,8 @@ public class ModeloAD {
                 m.setEspecificacion(tabla.getString("especificacion"));
                 Cliente objcliente = new Cliente();
                 objcliente.setIdcliente(tabla.getInt("idcliente"));
-                objcliente.setRazonsocial(tabla.getString("razonsocial"));
-                m.setObjcliente(objcliente);
+                objcliente.setRazonsocial(tabla.getString("razonsocial"));                
+                m.setObjcliente(objcliente);                               
                 m.setEstado(tabla.getBoolean("estado"));
                 Lista.add(m);
             }			
@@ -118,6 +119,33 @@ public class ModeloAD {
             tabla = cst.executeQuery();
             while(tabla.next()){
                 total = tabla.getInt("total");
+            }            
+            return total;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }finally{
+            close();
+        }       
+        return total;        
+    }
+    
+    public int existeModelo(String valor, String prm) throws Exception{
+        int total = 0;
+        cn = Conexion.Instancia().getConexion();
+        try {
+            cst = cn.prepareCall("{call pa_modelo(?,?,?,?,?,?,?,?,?)}");
+            cst.setString(1, valor);            
+            cst.setString(2, prm);
+            cst.setInt(3, 0);
+            cst.setInt(4, 0);
+            cst.setString(5, "");
+            cst.setString(6, "");
+            cst.setString(7, "");           
+            cst.setInt(8, 0);
+            cst.setBoolean(9, false);
+            tabla = cst.executeQuery();
+            while(tabla.next()){
+                total = tabla.getInt("existe");
             }            
             return total;
         } catch (Exception ex) {

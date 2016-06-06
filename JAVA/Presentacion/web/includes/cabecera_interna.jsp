@@ -107,10 +107,12 @@
               <ul class="nav side-menu">
                 <li><a><i class="fa fa-desktop"></i> Modelo <span class="fa fa-chevron-down"></span></a>
                   <ul class="nav child_menu" style="display: none">
-                      <li><a href="../fmodelo/mantenedorModelo.jsp">Registrar</a>
+                      <li><a href="../fmodelo/mantenedorModelo.jsp">Nuevo</a>
                     </li>
                     <li><a href="../fmodelo/listadoModelo.jsp">Lista</a>
-                    </li>                    
+                    </li>
+                    <li><a href="../fmodelo/listadoModelo.jsp">Nueva Ficha Técnica</a>
+                    </li>
                   </ul>
                 </li>
                 <li><a><i class="fa fa-table"></i> Material <span class="fa fa-chevron-down"></span></a>

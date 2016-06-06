@@ -6,7 +6,9 @@
 package com.fshoes.servlets;
 
 import com.fshoes.entidades.Cliente;
+import com.fshoes.entidades.FichaTecnica;
 import com.fshoes.entidades.Modelo;
+import com.fshoes.logicanegocio.FichaTecnicaLN;
 import com.fshoes.logicanegocio.ModeloLN;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -91,12 +93,18 @@ public class Smodelo extends HttpServlet {
         String horma = request.getParameter("horma"),
                 cod_modelo = request.getParameter("modelo"),                
                 especificacion = request.getParameter("especificacion"),
-                idcliente = request.getParameter("idcliente");
+                idcliente = request.getParameter("idcliente"),
+                ficha_tecnica = request.getParameter("ficha_tecnica"),
+                taco = request.getParameter("taco"),
+                plataforma = request.getParameter("plataforma"),
+                color = request.getParameter("color"),
+                coleccion  = request.getParameter("coleccion");
+        
         boolean estado = Boolean.valueOf(request.getParameter("estadomodelo"));
         /*//varificar los id, con campos vacios.
         if(idcliente.equals("")) idcliente = "0";*/
         
-        boolean rptModelo = false;
+        boolean rptModelo = false, rptFicha = false;
         Modelo objModelo = null;
         Cliente objCliente = null;
         ArrayList<Modelo> lista = null;
@@ -150,19 +158,34 @@ public class Smodelo extends HttpServlet {
             case "registrarModelo": {
                 try {
                     //varificar los id, con campos vacios.
+                    int existe = 0;
                     if(idcliente.equals("")) idcliente = "0";
                     
                     objCliente = new Cliente();
                     objCliente.setIdcliente(Integer.parseInt(idcliente));
                     objModelo = new Modelo(cod_modelo, horma, especificacion, objCliente, estado);
-                    rptModelo = ModeloLN.Instancia().registrarModelo(objModelo, parametro);
+                    FichaTecnica objFicha = new FichaTecnica(ficha_tecnica, plataforma, taco, color, coleccion, "url_imagen", objModelo);
+
+                    existe = ModeloLN.Instancia().existeModelo(cod_modelo, "verificarModelo");
                     //out.println(rptModelo);
-                    if (rptModelo) {
-                        response.getWriter().write("true");
-                        System.out.println("Respuesta modelo: " + rptModelo);
-                    } else {
-                        response.getWriter().write("false");
+                    if( existe == 1 )
+                        response.getWriter().write("existe");
+                    else{
+                        if(!objFicha.getCodigoficha().equals("")){
+                             rptModelo = ModeloLN.Instancia().registrarModelo(objModelo, parametro);
+                        parametro = "registrarFichaTecnica";
+                        rptFicha = FichaTecnicaLN.Instancia().registrarFichaTecnica(objFicha, parametro);
+                        System.out.println("existe modelo: " + existe);
+                        }
+                        if (rptModelo == true && rptFicha == true) {
+                            response.getWriter().write("true");
+                            System.out.println("Respuesta modelo: " + rptModelo + ", Respuesta ficha: "+ rptFicha);
+                        } else {
+                            response.getWriter().write("false");
+                        }                        
                     }
+                    
+                    
                 } catch (Exception ex) {
                     Logger.getLogger(Smodelo.class.getName()).log(Level.SEVERE, null, ex);
                 }

@@ -37,13 +37,9 @@
                     <table class="table table-striped table-bordered dt-responsive nowrap" id="listaModelos" cellspacing="0" width="100%">
                         <thead>
                             <tr>
-                                <th>Cóodigo</th>
-                                <th>urlimagen</th>
-                                <th>Horma</th>
-                                <th>Taco</th>
-                                <th>Plataforma</th>
-                                <th>Colección</th>
-                                <th>Especificación</th>                               
+                                <th>Cóodigo</th>                                
+                                <th>Horma</th>                                
+                                <th>Especificación</th>                                
                                 <th></th>
                                 <th>Cliente</th>
                                 <th></th>

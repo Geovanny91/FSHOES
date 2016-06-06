@@ -36,7 +36,7 @@
                 <div class="x_content">
                     <br>
                     <form id="frmModeloRegistrar" method="POST" class="form-horizontal form-label-left">
-                        <!--<div class="form-group">                            
+                        <!--<div class="form-group">
                             <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">                                
                                 <label class="btn btn-primary btn-upload col-md-1 col-sm-1 col-xs-12" for="inputImage" title="Upload image file">                                    
                                     <input class="sr-only form-control" id="inputImage" name="file" type="file" accept="image/*">
@@ -142,6 +142,12 @@
                                 </div>
                             </div>
                             <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Color</label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input type="text" class="form-control" name="color" id="color" value="" required placeholder="Color">
+                                </div>
+                            </div>
+                            <div class="form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12">Colección</label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                     <input type="text" class="form-control" name="coleccion" id="coleccion" value="" required placeholder="Colección">
@@ -175,7 +181,7 @@
                             <div class="form-group">
                                 <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">                                    
                                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg" ><i class="fa fa-search"></i> Cliente</button>                            
-                                    <button type="button" id="guardarModelo" class="btn btn-success">Guardar</button>                                
+                                    <button type="submit" id="guardarModelo" class="btn btn-success">Guardar</button>                                
                                 </div>
                             </div>
 

@@ -22,20 +22,20 @@ public class FichaTecnica implements JSONStreamAware{
     private String color;
     private String coleccion;
     private String urlimagen;
-    private String codigomodelo;
+    private Modelo objModelo;
 
-    public FichaTecnica(String codigoficha, String plataforma, String taco, String color, String coleccion, String urlimagen, String codigomodelo) {
+    public FichaTecnica(String codigoficha, String plataforma, String taco, String color, String coleccion, String urlimagen, Modelo objModelo) {
         this.codigoficha = codigoficha;
         this.plataforma = plataforma;
         this.taco = taco;
         this.color = color;
         this.coleccion = coleccion;
         this.urlimagen = urlimagen;
-        this.codigomodelo = codigomodelo;
+        this.objModelo = objModelo;
     }
 
     public FichaTecnica() {
-        this("", "", "", "", "", "", "");
+        this("", "", "", "", "", "", new Modelo());
     }
 
     public String getCodigoficha() {
@@ -86,12 +86,12 @@ public class FichaTecnica implements JSONStreamAware{
         this.urlimagen = urlimagen;
     }
 
-    public String getCodigomodelo() {
-        return codigomodelo;
+    public Modelo getObjModelo() {
+        return objModelo;
     }
 
-    public void setCodigomodelo(String codigomodelo) {
-        this.codigomodelo = codigomodelo;
+    public void setObjModelo(Modelo objModelo) {
+        this.objModelo = objModelo;
     }
 
     @Override
@@ -103,7 +103,7 @@ public class FichaTecnica implements JSONStreamAware{
         obj.put("color", color);
         obj.put("coleccion", coleccion);
         obj.put("urlimagen", urlimagen);
-        obj.put("codigomodelo", codigomodelo);
+        obj.put("objModelo", objModelo);
         JSONValue.writeJSONString(obj, out);
     }    
 }
