@@ -37,13 +37,16 @@
                     <table class="table table-striped table-bordered dt-responsive nowrap" id="listaModelos" cellspacing="0" width="100%">
                         <thead>
                             <tr>
-                                <th>Cóodigo</th>                                
+                                <th>F. Técnica</th>
+                                <th>Color</th>
                                 <th>Horma</th>                                
-                                <th>Especificación</th>                                
-                                <th></th>
+                                <th>Taco</th>
+                                <th>Plataforma</th>                                
+                                <th>Coleccion</th>
+                                <th>Id Cliente</th>
                                 <th>Cliente</th>
+                                <th>Modelo</th> 
                                 <th></th>
-
                             </tr>
                         </thead>            
                     </table>

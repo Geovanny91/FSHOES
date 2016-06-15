@@ -421,7 +421,7 @@
         console.log(x.childNodes);
     }
 
-    function listarModelosPaginacion() {
+    function listarModelosPaginacion() {//listar modelos con sus fichas tecnicas
 
         tabla_paginacion_modelo = $('#listaModelos').DataTable({
             //"scrollX": true
@@ -430,27 +430,36 @@
             "ajax": {
                 "url": "../Smodelo",
                 "type": "POST",
-                "data": {"parametro": "listarModeloPaginacion"}
+                "data": {"parametro": "listarFichaTecnicaPaginacion"}
                 //"dataSrc": "animes"
             },
+            //ft.codigomodelo, horma, , , , , , c.idcliente, c.razonsocial
             "columnDefs": [
-                {"name": "codigomodelo", "targets": 0},                
-                {"name": "horma", "targets": 1},                
-                {"name": "especificacion", "targets": 2},
-                {"name": "idcliente", "targets": 3},
-                {"name": "razonsocial", "targets": 4}                
+                {"name": "codigoficha", "targets": 0},
+                {"name": "color", "targets": 1},                              
+                {"name": "horma", "targets": 2},                
+                {"name": "taco", "targets": 3},
+                {"name": "plataforma", "targets": 4},                
+                {"name": "coleccion", "targets": 5},                             
+                {"name": "idcliente", "targets": 6},
+                {"name": "razonsocial", "targets": 7},
+                {"name": "codigomodelo", "targets": 8} 
             ],
             "columns": [
-                {"data": "codigomodelo"},                
-                {"data": "horma"},                
-                {"data": "especificacion"},
-                {"data": "objCliente.idcliente"},
-                {"data": "objCliente.razonsocial"},                
+                {"data": "codigoficha"},
+                {"data": "color"},
+                {"data": "objModelo.horma"},
+                {"data": "taco"},
+                {"data": "plataforma"},                
+                {"data": "coleccion"},
+                {"data": "objModelo.objCliente.idcliente"},
+                {"data": "objModelo.objCliente.razonsocial"},
+                {"data": "objModelo.codigomodelo"},
                 {"defaultContent": "<button tipo='modificarModelo' class='btn btn-info btn-xs'><i class='fa fa-edit'></i></button> <button tipo='eliminarModelo' class='btn btn-danger btn-xs'><i class='fa fa-remove'></i></button>", "width": "5%"}
                 //{"defaultContent": "<button class='btn btn-primary btn-xs'><i class='fa fa-remove'></i></button>"}
             ]
         });        
-        tabla_paginacion_modelo.column(3).visible(false);
+        tabla_paginacion_modelo.column(6).visible(false);
         mantenedoresModelo('#listaModelos tbody', tabla_paginacion_modelo);
     }
 

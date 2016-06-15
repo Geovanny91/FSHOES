@@ -107,6 +107,7 @@ public class Smodelo extends HttpServlet {
         boolean rptModelo = false, rptFicha = false;
         Modelo objModelo = null;
         Cliente objCliente = null;
+        ArrayList<FichaTecnica> listaFicha = null;
         ArrayList<Modelo> lista = null;
 
         switch (parametro) {
@@ -129,14 +130,15 @@ public class Smodelo extends HttpServlet {
                 }
             }
             break;
-            case "listarModeloPaginacion": {//aqui con paginacion arreglart parámetro
+            case "listarFichaTecnicaPaginacion": {//aqui con paginacion arreglart parámetro
                 try {
                     lista = new ArrayList<>();
                     int inicio = Integer.parseInt(request.getParameter("start")),
                             fin = Integer.parseInt(request.getParameter("length"));
-                    lista = ModeloLN.Instancia().listarModelos("", parametro, inicio, (fin + inicio));//getListPersonajes(n_col, dir, inicio, fin);//base de datos
+                    //lista = ModeloLN.Instancia().listarModelos("", parametro, inicio, (fin + inicio));//getListPersonajes(n_col, dir, inicio, fin);//base de datos
+                    listaFicha = FichaTecnicaLN.Instancia().listarFichaTecnica("", parametro, inicio,(inicio + fin));
                     JSONArray array = new JSONArray();
-                    array.addAll(lista);
+                    array.addAll(listaFicha);
                     StringWriter outjson = new StringWriter();
 
                     int total = ModeloLN.Instancia().obtenerTotalFilas(valor, "obtenerTotal");

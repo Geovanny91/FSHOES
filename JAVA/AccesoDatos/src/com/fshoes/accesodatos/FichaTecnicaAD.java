@@ -43,8 +43,8 @@ public class FichaTecnicaAD {
             
             cst.setString(1, "");
             cst.setString(2, prm);
-            cst.setInt(3, 0);
-            cst.setInt(4, 0);
+            cst.setInt(3, inicio);
+            cst.setInt(4, fin);
             cst.setString(5, "");
             cst.setString(6, "");
             cst.setString(7, "");
@@ -71,7 +71,7 @@ public class FichaTecnicaAD {
                 objFicha.setColor(tabla.getString("color"));
                 objFicha.setColeccion(tabla.getString("coleccion"));   
                 objFicha.setObjModelo(objmodelo);
-                objmodelo.setEstado(tabla.getBoolean("estado"));
+                //objmodelo.setEstado(tabla.getBoolean("estado"));
                 Lista.add(objFicha);                
             }			
         }catch(Exception e){
