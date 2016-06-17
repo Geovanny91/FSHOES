@@ -89,7 +89,7 @@ public class Smaterial extends HttpServlet {
             tipo = request.getParameter("tipo");            
             id_proveedor = request.getParameter("id_proveedor").trim();
             id_proceso = request.getParameter("id_proceso").trim();
-            id_ficha = request.getParameter("id_ficha").trim();
+            id_ficha = request.getParameter("id_fichatecnica").trim();
             //Comprobar id de campos enteros
             if(id_proveedor.equals("")) id_proveedor = "0";
             if(cantidad_docena.equals("")) cantidad_docena = "0";

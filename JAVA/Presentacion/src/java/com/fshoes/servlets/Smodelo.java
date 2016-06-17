@@ -176,8 +176,7 @@ public class Smodelo extends HttpServlet {
                         if(!objFicha.getCodigoficha().equals("")){
                              rptModelo = ModeloLN.Instancia().registrarModelo(objModelo, parametro);
                         parametro = "registrarFichaTecnica";
-                        rptFicha = FichaTecnicaLN.Instancia().registrarFichaTecnica(objFicha, parametro);
-                        System.out.println("existe modelo: " + existe);
+                        rptFicha = FichaTecnicaLN.Instancia().registrarFichaTecnica(objFicha, parametro);                        
                         }
                         if (rptModelo == true && rptFicha == true) {
                             response.getWriter().write("true");
@@ -185,9 +184,7 @@ public class Smodelo extends HttpServlet {
                         } else {
                             response.getWriter().write("false");
                         }                        
-                    }
-                    
-                    
+                    }                    
                 } catch (Exception ex) {
                     Logger.getLogger(Smodelo.class.getName()).log(Level.SEVERE, null, ex);
                 }

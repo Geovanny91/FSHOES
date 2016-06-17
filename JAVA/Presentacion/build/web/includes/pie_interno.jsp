@@ -566,7 +566,7 @@
                         text: 'Se modificaron los datos satisfactoriamente.',
                         type: 'success'
                     });
-                    $("#frmModeloRegistrar").find("input=['text']").val("");
+                    $("#frmModeloRegistrar").find("input[type='text']").val("");
                     $("#tabla-cliente").html("");//agregue esto aqui pero ver por errores.
                 }
             });
@@ -592,8 +592,7 @@
                 {"data": "unidadmedida"},
                 {"data": "cantidaddocena"},
                 {"data": "preciounitario"},
-                {"data": "tipo"},
-                {"data": "color"},
+                {"data": "tipo"},                
                 {"data": "objProveedor.idproveedor"},
                 {"data": "objProveedor.razonsocial"},
                 {"data": "objProceso.codigoproceso"},
@@ -604,10 +603,9 @@
             ]
         });
         tabla_paginacion_material.column(0).visible(false);
-        tabla_paginacion_material.column(6).visible(false);
         tabla_paginacion_material.column(7).visible(false);
-        tabla_paginacion_material.column(8).visible(false);
-        tabla_paginacion_material.column(10).visible(false);
+        tabla_paginacion_material.column(9).visible(false);
+        
         //mantenedoresModelo('#listaModelos tbody', tabla_paginacion_material);
     }
 
@@ -632,11 +630,11 @@
                 } else if (info) {
                     new PNotify({
                         title: 'Mensaje de éxito',
-                        text: 'Se modificaron los datos satisfactoriamente.',
+                        text: 'Se guardaron los datos satisfactoriamente.',
                         type: 'success'
                     });
                     //$("#frmMaterial").find("input").val("");//esto borra todo incluso el valor del parámetro por eso no registra
-                    var arreglo = ["#nombre", "#descripcion", "#unidad_medida", "#cantidad_docena", "#precio_unitario", "#tipo", "#color", "#proveedor", "#proceso", "#modelo"];
+                    var arreglo = ["#nombre", "#descripcion", "#unidad_medida", "#cantidad_docena", "#precio_unitario", "#tipo", "#color", "#proveedor", "#proceso", "#modelo", "#fichatecnica"];
                     limpiar(arreglo);
                     //$("#tabla-material").html("");//agregue esto aqui pero ver por errores.
                     $("#tabla-proveedor").html("");
@@ -689,6 +687,17 @@
             $("#tabla-modelo").html(data);
         });
     }
+    
+    function listarFichaTecnica(valor){
+        console.log(valor);
+        $.ajax({
+            method: "POST",
+            url: "../Sfichatecnica",
+            data: {"valor": valor, "parametro": "listarFichaTecnica"}
+        }).done(function (data) {
+            $("#tabla-fichatecnica").html(data);
+        });
+    }
 
     function seleccionarProveedor(x) {
         var id = x.childNodes[1].lastChild.value,
@@ -713,6 +722,15 @@
         var rz_cliente = $("#modelo").val(razon_social),
                 id_proceso = $("#id_modelo").val(id);
         console.log("id modelo " + id)
+        console.log(x.childNodes);
+    }
+    
+    function seleccionarFichaTecnica(x) {
+        var id = x.childNodes[1].lastChild.value,
+                razon_social = x.childNodes[1].lastChild.value;
+        var rz_cliente = $("#fichatecnica").val(razon_social),
+                id_proceso = $("#id_fichatecnica").val(id);
+        console.log("id f. técnica " + id)
         console.log(x.childNodes);
     }
 

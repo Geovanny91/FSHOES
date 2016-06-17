@@ -36,7 +36,17 @@ public class FichaTecnicaLN {
             throw ex;
         }
     }
-        
+    
+    public ArrayList<FichaTecnica> listarFichaTecnica(String valor, String prm) throws Exception {
+        try {
+            if(!prm.equals(""))            
+                return FichaTecnicaAD.Instancia().listarFichaTecnica(valor, prm);
+            else return null;
+        } catch (Exception ex) {
+            throw ex;
+        }
+    }
+    
     public boolean registrarFichaTecnica(FichaTecnica objFicha, String prm) throws Exception {        
         try {            
             if(objFicha != null && !(prm.equals(""))){

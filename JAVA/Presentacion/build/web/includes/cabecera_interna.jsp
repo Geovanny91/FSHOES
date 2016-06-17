@@ -110,15 +110,14 @@
                       <li><a href="../fmodelo/mantenedorModelo.jsp">Nuevo</a>
                     </li>
                     <li><a href="../fmodelo/listadoModelo.jsp">Lista</a>
-                    </li>
-                    <li><a href="../fmodelo/listadoModelo.jsp">Nueva Ficha Técnica</a>
-                    </li>
+                    </li>                    
                   </ul>
                 </li>
                 <li><a><i class="fa fa-table"></i> Material <span class="fa fa-chevron-down"></span></a>
                   <ul class="nav child_menu" style="display: none">
                       <li><a href="../fmaterial/mantenedorMaterial.jsp">Registrar</a>
                       <li><a href="../fmaterial/listadoMaterial.jsp">Listar</a>
+                      <li><a href="../fmaterial/asignarMaterialNuevaFichaTecnica.jsp">Asignar</a></li>
                     </li>                    
                   </ul>
                 </li>

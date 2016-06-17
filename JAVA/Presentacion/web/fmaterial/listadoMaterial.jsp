@@ -43,13 +43,12 @@
                                 <th>Unidad Medida</th>
                                 <th>Cantida Docena</th>
                                 <th>Precio</th>
-                                <th>Tipo</th>
-                                <th>Color</th>
+                                <th>Tipo</th>                                
                                 <th>idproveedor</th>
                                 <th>Proveedor</th>
                                 <th>ID Proceso</th>
                                 <th>Proceso</th>
-                                <th>Modelo</th>
+                                <th>F. Técnica</th>
                                 <th></th>
                             </tr>
                         </thead>            
