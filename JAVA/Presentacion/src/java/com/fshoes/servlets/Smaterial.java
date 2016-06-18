@@ -80,7 +80,7 @@ public class Smaterial extends HttpServlet {
         String valor = request.getParameter("valor");
         String parametro = request.getParameter("parametro");
         String nombre = null, descripccion = null, unidad_medida = null, cantidad_docena = null, precio_unitario = null, tipo = null, id_proveedor = null, id_proceso = null, id_ficha = null;
-        if(!parametro.equals("listarMaterial")){        
+        if(parametro.equals("registrarMaterial")){        
             nombre = request.getParameter("nombre");
             descripccion = request.getParameter("descripcion");
             unidad_medida = request.getParameter("unidad_medida").trim();
@@ -127,7 +127,7 @@ public class Smaterial extends HttpServlet {
                     ex.printStackTrace();
                 }
             }
-            break;
+            break;            
             case "registrarMaterial":{
                 try {
                     objProveedor = new Proveedor();
@@ -155,6 +155,23 @@ public class Smaterial extends HttpServlet {
                     ex.printStackTrace();
                 }
             }break;
+            case "obtenerMaterialesPorFichaTecnica": {
+                try {
+                    ArrayList<Material> lista = new ArrayList<>();
+                    lista = MaterialLN.Instancia().obtenerMaterialesPorFichaTecnica(valor, parametro);
+                    JSONArray array = new JSONArray();
+                    array.addAll(lista);
+                    StringWriter outjson = new StringWriter();
+                    JSONObject json = new JSONObject();                    
+                    json.put("data", array);
+                    json.writeJSONString(outjson);
+                    out.println(outjson);
+                    System.out.println(outjson);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+            break;
         }
     }
     /**

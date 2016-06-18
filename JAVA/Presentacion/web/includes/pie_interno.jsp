@@ -87,6 +87,8 @@
 
         listarMaterialesPaginacion();
         registrarMaterial();
+
+        obtenerFichaTecnica();
     });
     /*VARIABLES GLOBALES*/
     var total;
@@ -182,14 +184,14 @@
                 });
             }
         }
-    }    
+    }
 
     function asignarOrdenTrabajadorProceso() {
         $("#frmAsignarOrden").on("submit", function (e) {
             e.preventDefault();
-            
+
             var codigoorden = $("#orden").val().trim();
-            
+
             frm = $(this).serialize();
             console.log(frm);
             $.ajax({
@@ -201,7 +203,7 @@
                     new PNotify({
                         title: 'Mensaje de Información',
                         text: 'Se asignó la orden al trabajador correctamente.',
-                        type: 'success'                        
+                        type: 'success'
                     });
                     actualizarTablaDetalleOrden(codigoorden);
                 } else {
@@ -216,19 +218,19 @@
 
         });
     }
-    
-    function terminarProcesoOrden(x){
+
+    function terminarProcesoOrden(x) {
         var ho = $(x).parent().css({"color": "red", "border": "2px solid red"});
         var tr = $(x).parent().parent();
-        console.log(tr);        
+        console.log(tr);
         //var id = x.childNodes[1].lastChild.value;        
         var codigoorden = tr[0].childNodes[1].innerHTML;
         console.log("codigo proceso:" + codigoorden);
         $.ajax({
-           method:"POST",
-           url:"../Sdetalleorden",
-           data: {"orden": codigoorden, "parametro":"terminarProcesoOrden"}
-        }).done(function(data){
+            method: "POST",
+            url: "../Sdetalleorden",
+            data: {"orden": codigoorden, "parametro": "terminarProcesoOrden"}
+        }).done(function (data) {
             actualizarTablaDetalleOrden(codigoorden);
         });
     }
@@ -240,7 +242,7 @@
             method: "POST",
             url: "../Sdetalleorden",
             data: {"valor": cod, "parametro": "listarDetalleOrden"}
-        }).done(function (data) {            
+        }).done(function (data) {
             $("#tabla-detalleorden").html(data);
         });
     }
@@ -436,21 +438,21 @@
             //ft.codigomodelo, horma, , , , , , c.idcliente, c.razonsocial
             "columnDefs": [
                 {"name": "codigoficha", "targets": 0},
-                {"name": "color", "targets": 1},                              
-                {"name": "horma", "targets": 2},                
+                {"name": "color", "targets": 1},
+                {"name": "horma", "targets": 2},
                 {"name": "taco", "targets": 3},
-                {"name": "plataforma", "targets": 4},                
-                {"name": "coleccion", "targets": 5},                             
+                {"name": "plataforma", "targets": 4},
+                {"name": "coleccion", "targets": 5},
                 {"name": "idcliente", "targets": 6},
                 {"name": "razonsocial", "targets": 7},
-                {"name": "codigomodelo", "targets": 8} 
+                {"name": "codigomodelo", "targets": 8}
             ],
             "columns": [
                 {"data": "codigoficha"},
                 {"data": "color"},
                 {"data": "objModelo.horma"},
                 {"data": "taco"},
-                {"data": "plataforma"},                
+                {"data": "plataforma"},
                 {"data": "coleccion"},
                 {"data": "objModelo.objCliente.idcliente"},
                 {"data": "objModelo.objCliente.razonsocial"},
@@ -458,7 +460,7 @@
                 {"defaultContent": "<button tipo='modificarModelo' class='btn btn-info btn-xs'><i class='fa fa-edit'></i></button> <button tipo='eliminarModelo' class='btn btn-danger btn-xs'><i class='fa fa-remove'></i></button>", "width": "5%"}
                 //{"defaultContent": "<button class='btn btn-primary btn-xs'><i class='fa fa-remove'></i></button>"}
             ]
-        });        
+        });
         tabla_paginacion_modelo.column(6).visible(false);
         mantenedoresModelo('#listaModelos tbody', tabla_paginacion_modelo);
     }
@@ -526,34 +528,34 @@
 
     function registrarModelo() {
         $("#frmModeloRegistrar").on("submit", function (e) {
-            e.preventDefault();           
+            e.preventDefault();
             /*var idcliente = $("#idcliente").val(),
-                    modelo = $("#modelo").val(),
-                    horma = $("#horma").val(),
-                    ficha_tecnica = $("#ficha_tecnica").val(),
-                    taco = $("#taco").val(),
-                    plataforma = $("#plataforma").val(),
-                    coleccion = $("#coleccion").val(),
-                    especificacion = $("#especificacion").val(),
-                    estadomodelo = $("#estadomodelo").prop("checked");
-            console.log(idcliente, " ", modelo, " estado: " + estadomodelo);*/
+             modelo = $("#modelo").val(),
+             horma = $("#horma").val(),
+             ficha_tecnica = $("#ficha_tecnica").val(),
+             taco = $("#taco").val(),
+             plataforma = $("#plataforma").val(),
+             coleccion = $("#coleccion").val(),
+             especificacion = $("#especificacion").val(),
+             estadomodelo = $("#estadomodelo").prop("checked");
+             console.log(idcliente, " ", modelo, " estado: " + estadomodelo);*/
             modificar_checkbox($(this));
             var frm = $(this).serialize();
             console.log(frm);
-            
+
             $.ajax({
                 method: "POST",
                 url: "../Smodelo",
                 data: frm
-                //data: {"parametro": "registrarModelo", "idcliente": idcliente, "ficha_tecnica": ficha_tecnica , "modelo": modelo, "horma": horma, "taco": taco, "plataforma": plataforma, "coleccion": coleccion, "especificacion": especificacion, "estadomodelo": estadomodelo}
+                        //data: {"parametro": "registrarModelo", "idcliente": idcliente, "ficha_tecnica": ficha_tecnica , "modelo": modelo, "horma": horma, "taco": taco, "plataforma": plataforma, "coleccion": coleccion, "especificacion": especificacion, "estadomodelo": estadomodelo}
             }).done(function (info) {
                 console.log(typeof info);
-                if(info == "existe"){                    
+                if (info == "existe") {
                     new PNotify({
                         title: 'Mensaje de Advertencia',
                         text: 'Código Modelo, ya existe.',
                         type: 'info'
-                    });            
+                    });
                 } else if (info == "false") {
                     new PNotify({
                         title: 'Mensaje de Advertencia',
@@ -592,7 +594,7 @@
                 {"data": "unidadmedida"},
                 {"data": "cantidaddocena"},
                 {"data": "preciounitario"},
-                {"data": "tipo"},                
+                {"data": "tipo"},
                 {"data": "objProveedor.idproveedor"},
                 {"data": "objProveedor.razonsocial"},
                 {"data": "objProceso.codigoproceso"},
@@ -605,7 +607,7 @@
         tabla_paginacion_material.column(0).visible(false);
         tabla_paginacion_material.column(7).visible(false);
         tabla_paginacion_material.column(9).visible(false);
-        
+
         //mantenedoresModelo('#listaModelos tbody', tabla_paginacion_material);
     }
 
@@ -645,6 +647,76 @@
         });
     }
 
+    function obtenerFichaTecnica() {
+        $("#btnFichaTecnica").on("click", function () {
+            var valor = $("#codigoFicha").val();
+            $.ajax({
+                method: "POST",
+                url: "../Sfichatecnica",
+                data: {"parametro": "obtenerFichaTecnica", "valor": valor}
+            }).done(function (json) {                
+                var objFicha = JSON.parse(json);                
+                var plataforma = objFicha.data[0].plataforma,
+                    taco = objFicha.data[0].taco,
+                    color = objFicha.data[0].color,
+                    coleccion = objFicha.data[0].coleccion,
+                    cod_modelo = objFicha.data[0].objModelo.codigomodelo;
+            
+                $("#plataforma").val(plataforma);
+                $("#taco").val(taco);
+                $("#color").val(color);
+                $("#coleccion").val(coleccion);
+                $("#cod_modelo").val(cod_modelo);
+                
+                //prueba
+                /*var cad = "hola";
+                    cad+="geovanny";
+                    cad+="adios";
+                    console.log(cad);*/
+                //llamar a funcion de materiales por ficha técnica
+                var codigo_ficha = objFicha.data[0].codigoficha;
+                obtenerMaterialesPorFichaTecnica(codigo_ficha);
+                
+            });
+        });
+    }
+    
+    function obtenerMaterialesPorFichaTecnica(codigoFicha){
+        $.ajax({
+           method:"POST",
+           url: "../Smaterial",
+           data: {"parametro": "obtenerMaterialesPorFichaTecnica", "valor": codigoFicha}
+        }).done(function(json){
+            console.log(json);
+            var objMaterial = JSON.parse(json);
+            console.log(objMaterial);
+            var cad = pintarTablasMaterialesPorProceso(objMaterial);
+            /*for(var i=0; i< objMaterial.data.length; i++){
+                cad += "";
+                if( i%2 == 0 ){
+                    cad += "<div class='row'>";
+                    cad+="<div class='col-md-6 col-sm-6 col-xs-12'>"+objMaterial.data[i].objProceso.descripcion+"</div>";
+                }else{
+                    cad+="<div class='col-md-6 col-sm-6 col-xs-12'>"+objMaterial.data[i].objProceso.descripcion+"</div></div>";
+                }
+            }*/
+            $(".contenedor-materiales-procesos").append(cad);
+        });
+    }
+    
+    function pintarTablasMaterialesPorProceso(objMaterial){
+        var cad = "";
+        for(var i=0; i< objMaterial.data.length; i++){
+                cad += "";
+                if( i%2 == 0 ){
+                    cad += "<div class='row'>";
+                    cad+="<div class='col-md-6 col-sm-6 col-xs-12'>"+objMaterial.data[i].objProceso.descripcion+"</div>";
+                }else{
+                    cad+="<div class='col-md-6 col-sm-6 col-xs-12'>"+objMaterial.data[i].objProceso.descripcion+"</div></div>";
+                }
+            }
+        return cad;
+    }
 
     function modificar_checkbox(formulario) {
         var checkboxes = $(formulario).find('input[type="checkbox"]');
@@ -687,8 +759,8 @@
             $("#tabla-modelo").html(data);
         });
     }
-    
-    function listarFichaTecnica(valor){
+
+    function listarFichaTecnica(valor) {
         console.log(valor);
         $.ajax({
             method: "POST",
@@ -724,7 +796,7 @@
         console.log("id modelo " + id)
         console.log(x.childNodes);
     }
-    
+
     function seleccionarFichaTecnica(x) {
         var id = x.childNodes[1].lastChild.value,
                 razon_social = x.childNodes[1].lastChild.value;

@@ -9,12 +9,15 @@ import com.fshoes.entidades.FichaTecnica;
 import com.fshoes.logicanegocio.FichaTecnicaLN;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 /**
  *
@@ -117,7 +120,24 @@ public class Sfichatecnica extends HttpServlet {
                 } catch (Exception ex) {
                     ex.getMessage();
                 }
+            }break;
+            case "obtenerFichaTecnica": {
+                try {
+                    ArrayList<FichaTecnica> lista = new ArrayList<>();                    
+                    lista = FichaTecnicaLN.Instancia().listarFichaTecnica(valor, parametro);
+                    JSONArray array = new JSONArray();
+                    array.addAll(lista);
+                    StringWriter outjson = new StringWriter();
+                    JSONObject json = new JSONObject();                    
+                    json.put("data", array);
+                    json.writeJSONString(outjson);
+                    out.println(outjson);
+                    System.out.println(outjson);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
             }
+            break;
         }
     }
 
