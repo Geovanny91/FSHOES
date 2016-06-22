@@ -25,9 +25,21 @@ public class ClienteLN {
     }
     // end Singleton
     
+    public ArrayList<Cliente> listarClientes(String valor, String prm, int inicio, int fin) throws Exception{
+        try{
+            if(!prm.equals(""))  
+                return ClienteAD.Instancia().listarClientes(valor, prm, inicio, fin);
+            else return null;
+        }catch(Exception ex){
+            throw ex;
+        }        
+    }
+        
     public ArrayList<Cliente> listarClientes(String valor, String prm) throws Exception{
         try{
-            return ClienteAD.Instancia().listarClientes(valor, prm);
+            if(!prm.equals(""))  
+                return ClienteAD.Instancia().listarClientes(valor, prm);
+            else return null;
         }catch(Exception ex){
             throw ex;
         }        

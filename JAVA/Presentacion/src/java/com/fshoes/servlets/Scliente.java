@@ -88,6 +88,23 @@ public class Scliente extends HttpServlet {
         String valor = request.getParameter("valor");
 
         switch (parametro) {
+            case "listarClientePaginacion": {
+                try {
+                    lista = ClienteLN.Instancia().listarClientes(valor, parametro);
+                    for (int i = 0; i < lista.size(); i++) {
+                        out.println(
+                                "<tr  onclick='seleccionarCliente(this);' ><th scope='row'>" + (i + 1) + "</th>"
+                                + "<td><input class='idcliente' type='hidden' value='" + lista.get(i).getIdcliente() + "' /></td>"
+                                + "<td>" + lista.get(i).getRazonsocial() + "</td>"
+                                + "<td>" + lista.get(i).getRuc() + "</td>"
+                                + "<td>" + lista.get(i).getDireccion() + "</td>"
+                                + "<td><a href='#' class=\"close\" data-dismiss=\"modal\" ><i class=\"fa fa-hand-o-left\"></i></a></td></tr>"
+                        );
+                    }
+                } catch (Exception ex) {
+                    ex.getMessage();
+                }
+            }break;
             case "listarCliente": {
                 try {
                     lista = ClienteLN.Instancia().listarClientes(valor, parametro);

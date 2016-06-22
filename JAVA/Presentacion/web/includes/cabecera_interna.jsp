@@ -136,6 +136,7 @@
                 <li><a><i class="fa fa-bug"></i> Proveedor <span class="fa fa-chevron-down"></span></a>
                   <ul class="nav child_menu" style="display: none">
                       <li><a href="../fproveedor/mantenedorProveedor.jsp">Registrar</a>
+                      <li><a href="../fproveedor/listarProveedor.jsp">Listar</a>
                     </li>                    
                   </ul>
                 </li>
@@ -143,7 +144,7 @@
                   <ul class="nav child_menu" style="display: none">
                       <li><a href="../fcliente/mantenedorClientes.jsp">Registrar</a>
                     </li>
-                    <li><a href="#">Advanced Components</a>
+                    <li><a href="../fcliente/listarCliente.jsp">Listar</a>
                     </li>
                   </ul>
                 </li>
