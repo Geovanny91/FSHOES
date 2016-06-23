@@ -77,6 +77,7 @@
         
         listarClientesPaginacion();
         registrarcliente();
+        listarProveedoresPaginacion();
         registrarProveedor();
         orden();
         comboProceso();
@@ -412,9 +413,24 @@
                 data: {"parametro": "registrarCliente", "estado": estado, "razon": razon, "ruc": ruc, "direccion": direccion}
             }).done(function (data) {
                 console.log("Se registro" + data);
+                
+                if (data == "false") {
+                    new PNotify({
+                        title: 'Mensaje de Advertencia',
+                        text: 'Ingrese todos los datos solicitados',
+                        hide: false
+                    });
+                } else if (data == "true") {
+                    new PNotify({
+                        title: 'Mensaje de éxito',
+                        text: 'Se guardaron los datos satisfactoriamente.',
+                        type: 'success'
+                    });
+                }
+                
                 var arreglo = ["#razon", "#ruc", "#direccion"];
                 limpiar(arreglo);
-            })
+            })//cierra done
         });
     }
 
@@ -424,6 +440,34 @@
         var rz_cliente = $("#cliente").val(razon_social),
                 id_cliente = $("#idcliente").val(id);
         console.log(x.childNodes);
+    }
+
+    function listarProveedoresPaginacion(){
+
+        tabla_paginacion_proveedor = $('#listaProveedor').DataTable({
+            //"scrollX": true
+            "processing": true,
+            "serverSide": true,
+            "ajax": {
+                "url": "../Sproveedor",
+                "type": "POST",
+                "data": {"parametro": "listarProveedorPaginacion"}            
+            },            
+            "columnDefs": [
+                {"name": "RazónSocial", "targets": 0},
+                {"name": "Ruc", "targets": 1},
+                {"name": "Dirección", "targets": 2}                
+            ],
+            "columns": [
+                {"data": "razonsocial"},
+                {"data": "ruc"},
+                {"data": "direccion"},                
+                {"defaultContent": "<button tipo='modificarProveedor' class='btn btn-info btn-xs'><i class='fa fa-edit'></i></button> <button tipo='eliminarProveedor' class='btn btn-danger btn-xs'><i class='fa fa-remove'></i></button>", "width": "5%"}
+                //{"defaultContent": "<button class='btn btn-primary btn-xs'><i class='fa fa-remove'></i></button>"}
+            ]
+        });
+        //tabla_paginacion_cliente.column(6).visible(false);
+        //mantenedoresClientes('#listaCliente tbody', tabla_paginacion_cliente);
     }
 
     function listarClientesPaginacion() {
@@ -988,6 +1032,21 @@
                 data: {"parametro": "registrarProveedor", "estado": estado, "razon": razon, "ruc": ruc, "direccion": direccion}
             }).done(function (data) {
                 console.log("Se registro" + data);
+                
+                if (data == "false") {
+                    new PNotify({
+                        title: 'Mensaje de Advertencia',
+                        text: 'Ingrese todos los datos solicitados',
+                        hide: false
+                    });
+                } else if (data == "true") {
+                    new PNotify({
+                        title: 'Mensaje de éxito',
+                        text: 'Se guardaron los datos satisfactoriamente.',
+                        type: 'success'
+                    });
+                }
+                
                 var arreglo = ["#razon", "#ruc", "#direccion"];
                 limpiar(arreglo);
             })

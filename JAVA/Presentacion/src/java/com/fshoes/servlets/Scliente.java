@@ -9,6 +9,7 @@ import com.fshoes.entidades.Cliente;
 import com.fshoes.logicanegocio.ClienteLN;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,6 +18,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 /**
  *
@@ -80,7 +83,7 @@ public class Scliente extends HttpServlet {
         //processRequest(request, response);
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        ArrayList<Cliente> lista = new ArrayList<>();
+        ArrayList<Cliente> lista = null;
         boolean rptCliente;
         Cliente objCliente;
 
@@ -89,24 +92,33 @@ public class Scliente extends HttpServlet {
 
         switch (parametro) {
             case "listarClientePaginacion": {
-                try {
-                    lista = ClienteLN.Instancia().listarClientes(valor, parametro);
-                    for (int i = 0; i < lista.size(); i++) {
-                        out.println(
-                                "<tr  onclick='seleccionarCliente(this);' ><th scope='row'>" + (i + 1) + "</th>"
-                                + "<td><input class='idcliente' type='hidden' value='" + lista.get(i).getIdcliente() + "' /></td>"
-                                + "<td>" + lista.get(i).getRazonsocial() + "</td>"
-                                + "<td>" + lista.get(i).getRuc() + "</td>"
-                                + "<td>" + lista.get(i).getDireccion() + "</td>"
-                                + "<td><a href='#' class=\"close\" data-dismiss=\"modal\" ><i class=\"fa fa-hand-o-left\"></i></a></td></tr>"
-                        );
-                    }
+                try {                    
+                    int inicio = Integer.parseInt(request.getParameter("start")),
+                            fin = Integer.parseInt(request.getParameter("length"));
+                    lista = new ArrayList<>();
+                    lista = ClienteLN.Instancia().listarClientes("", parametro, inicio,(inicio + fin));
+                    JSONArray array = new JSONArray();
+                    array.addAll(lista);
+                    StringWriter outjson = new StringWriter();
+
+                    int total = ClienteLN.Instancia().obtenerTotalFilas(valor, "obtenerTotal");
+                    int draw = Integer.parseInt(request.getParameter("draw"));
+
+                    JSONObject json = new JSONObject();
+                    json.put("draw", draw);
+                    json.put("recordsTotal", total);
+                    json.put("recordsFiltered", total);//es cuando hay busquedas
+                    json.put("data", array);
+                    json.writeJSONString(outjson);
+                    out.println(outjson);
+                    System.out.println(outjson);
                 } catch (Exception ex) {
-                    ex.getMessage();
+                    ex.printStackTrace();
                 }
             }break;
             case "listarCliente": {
                 try {
+                    lista = new ArrayList<>();
                     lista = ClienteLN.Instancia().listarClientes(valor, parametro);
                     for (int i = 0; i < lista.size(); i++) {
                         out.println(
@@ -132,7 +144,10 @@ public class Scliente extends HttpServlet {
 
                     objCliente = new Cliente(0, razon_social, ruc, direccion, estado);
                     rptCliente = ClienteLN.Instancia().registrarCliente(objCliente, parametro);
-                    out.println(rptCliente);
+                    
+                    if(rptCliente)  response.getWriter().write("true");
+                    else response.getWriter().write("false");
+                    
                 } catch (Exception ex) {
                     ex.getMessage();
                 }

@@ -9,12 +9,15 @@ import com.fshoes.entidades.Proveedor;
 import com.fshoes.logicanegocio.ProveedorLN;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 /**
  *
@@ -78,7 +81,7 @@ public class Sproveedor extends HttpServlet {
         //processRequest(request, response);
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        ArrayList<Proveedor> lista = new ArrayList<>();
+        ArrayList<Proveedor> lista = null;
         boolean rptProveedor;
         Proveedor objProveedor;
         
@@ -86,8 +89,34 @@ public class Sproveedor extends HttpServlet {
         String parametro = request.getParameter("parametro");
 
         switch (parametro) {
+            case "listarProveedorPaginacion": {
+                try {                    
+                    int inicio = Integer.parseInt(request.getParameter("start")),
+                            fin = Integer.parseInt(request.getParameter("length"));
+                    lista = new ArrayList<Proveedor>();
+                    lista = ProveedorLN.Instancia().listarProveedores("", parametro, inicio,(inicio + fin));
+                    JSONArray array = new JSONArray();
+                    array.addAll(lista);
+                    StringWriter outjson = new StringWriter();
+
+                    int total = ProveedorLN.Instancia().obtenerTotalFilas(valor, "obtenerTotal");
+                    int draw = Integer.parseInt(request.getParameter("draw"));
+
+                    JSONObject json = new JSONObject();
+                    json.put("draw", draw);
+                    json.put("recordsTotal", total);
+                    json.put("recordsFiltered", total);//es cuando hay busquedas
+                    json.put("data", array);
+                    json.writeJSONString(outjson);
+                    out.println(outjson);
+                    System.out.println(outjson);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }break;
             case "listarProveedor": {
                 try {
+                    lista = new ArrayList<Proveedor>();
                     lista = ProveedorLN.Instancia().listarProveedores(valor, parametro);
                     for (int i = 0; i < lista.size(); i++) {
                         out.println(
@@ -113,7 +142,10 @@ public class Sproveedor extends HttpServlet {
 
                     objProveedor = new Proveedor(0, razon_social, ruc, direccion, estado);
                     rptProveedor = ProveedorLN.Instancia().registrarCliente(objProveedor, parametro);
-                    out.println("Se registraron los datos?" + rptProveedor);
+                    
+                    if(rptProveedor)    response.getWriter().write("true");
+                    else response.getWriter().write("false");
+                        
                 } catch (Exception ex) {
                     ex.getMessage();
                 }

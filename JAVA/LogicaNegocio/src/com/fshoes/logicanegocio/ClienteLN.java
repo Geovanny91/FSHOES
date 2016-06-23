@@ -34,7 +34,7 @@ public class ClienteLN {
             throw ex;
         }        
     }
-        
+    
     public ArrayList<Cliente> listarClientes(String valor, String prm) throws Exception{
         try{
             if(!prm.equals(""))  
@@ -55,5 +55,15 @@ public class ClienteLN {
         } catch (Exception e) {
             throw e;
         }
+    }
+    
+    public int obtenerTotalFilas(String valor, String prm) throws Exception{
+        try {
+            if (!(prm.equals("")))
+                return ClienteAD.Instancia().obtenerTotalFilas(valor, prm);
+            else return 0;
+        } catch (Exception e) {
+            throw e;
+        }        
     }
 }

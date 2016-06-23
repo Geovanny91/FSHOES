@@ -9,6 +9,7 @@ import com.fshoes.entidades.Cliente;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -25,13 +26,17 @@ public class ClienteAD {
 		}
 		return _Instancia;
 	}
-	// end Singleton
+    // end Singleton
+    
+    private Connection cn = null;
+    private CallableStatement cst = null;
+    private ResultSet tabla = null;
         
     public ArrayList<Cliente> listarClientes(String valor, String prm) throws Exception{
-        Connection cn = Conexion.Instancia().getConexion();
+        cn = Conexion.Instancia().getConexion();
         ArrayList<Cliente> Lista = null;
         try{
-            CallableStatement cst = cn.prepareCall("{call pa_cliente(?,?,?,?,?,?,?,?)}");
+            cst = cn.prepareCall("{call pa_cliente(?,?,?,?,?,?,?,?)}");
             cst.setString(1, valor);
             cst.setString(2, prm);
             cst.setInt(3, 0);
@@ -41,7 +46,7 @@ public class ClienteAD {
             cst.setString(7, "");
             cst.setBoolean(8, false);
             
-            ResultSet tabla = cst.executeQuery();
+            tabla = cst.executeQuery();
             Lista = new ArrayList<Cliente>();
             while(tabla.next()){
                 Cliente c = new Cliente();
@@ -53,15 +58,15 @@ public class ClienteAD {
             }			
         }catch(Exception e){
                 throw e;
-        }finally{cn.close();}
+        }finally{close();}
         return Lista;
     }
     
     public ArrayList<Cliente> listarClientes(String valor, String prm, int inicio, int fin) throws Exception{
-        Connection cn = Conexion.Instancia().getConexion();
+        cn = Conexion.Instancia().getConexion();
         ArrayList<Cliente> Lista = null;
         try{
-            CallableStatement cst = cn.prepareCall("{call pa_cliente(?,?,?,?,?,?,?,?)}");
+            cst = cn.prepareCall("{call pa_cliente(?,?,?,?,?,?,?,?)}");
             cst.setString(1, valor);
             cst.setString(2, prm);
             cst.setInt(3, inicio);
@@ -71,7 +76,7 @@ public class ClienteAD {
             cst.setString(7, "");
             cst.setBoolean(8, false);
             
-            ResultSet tabla = cst.executeQuery();
+            tabla = cst.executeQuery();
             Lista = new ArrayList<Cliente>();
             while(tabla.next()){
                 Cliente c = new Cliente();
@@ -84,15 +89,15 @@ public class ClienteAD {
             }			
         }catch(Exception e){
                 throw e;
-        }finally{cn.close();}
+        }finally{close();}
         return Lista;
     }
     
     public boolean registrarCliente(Cliente objCliente, String prm) throws Exception{
-        Connection cn = Conexion.Instancia().getConexion();
+        cn = Conexion.Instancia().getConexion();
         boolean rpt = false;
         try {
-            CallableStatement cst = cn.prepareCall("{call pa_cliente(?,?,?,?,?,?,?,?)}");
+            cst = cn.prepareCall("{call pa_cliente(?,?,?,?,?,?,?,?)}");
             cst.setString(1, "");
             cst.setString(2, prm);
             cst.setInt(3, 0);
@@ -106,9 +111,52 @@ public class ClienteAD {
         } catch (Exception e) {
             throw e;
         }finally{
-            cn.close();            
+           close();
         }
         return rpt;
     }
+    
+    public int obtenerTotalFilas(String valor, String prm) throws Exception{
+        int total = 0;
+        cn = Conexion.Instancia().getConexion();
+        try {
+            cst = cn.prepareCall("{call pa_cliente(?,?,?,?,?,?,?,?)}");
+            cst.setString(1, valor);
+            cst.setString(2, prm);
+            cst.setInt(3, 0);
+            cst.setInt(4, 0);
+            cst.setString(5, "");
+            cst.setString(6, "");
+            cst.setString(7, "");
+            cst.setBoolean(8, false);
+            tabla = cst.executeQuery();
+            while(tabla.next()){
+                total = tabla.getInt("total");
+            }            
+            return total;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }finally{
+            close();
+        }       
+        return total;        
+    }
+    
+    private void close() {
+        try {
+          if (tabla != null) {
+            tabla.close();
+          }
+          if (cst != null) {
+            cst.close();
+          }          
+          if (cn != null) {
+            cn.close();
+          }
+        } catch (SQLException e) {
+            e.getMessage();
+        }
+  }
+    
     
 }

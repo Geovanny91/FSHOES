@@ -132,7 +132,7 @@ public class Smodelo extends HttpServlet {
             break;
             case "listarFichaTecnicaPaginacion": {//aqui con paginacion arreglart parámetro
                 try {
-                    lista = new ArrayList<>();
+                    //lista = new ArrayList<>();
                     int inicio = Integer.parseInt(request.getParameter("start")),
                             fin = Integer.parseInt(request.getParameter("length"));
                     //lista = ModeloLN.Instancia().listarModelos("", parametro, inicio, (fin + inicio));//getListPersonajes(n_col, dir, inicio, fin);//base de datos
