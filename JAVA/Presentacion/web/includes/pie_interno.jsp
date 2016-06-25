@@ -763,10 +763,12 @@
     function obtenerFichaTecnica() {
         $("#btnFichaTecnica").on("click", function () {
             var valor = $("#id_fichatecnica").val();
+            var parametro = "obtenerFichaTecnica";
+            console.log(parametro +" - "+ valor);
             $.ajax({
                 method: "POST",
                 url: "../Sfichatecnica",
-                data: {"parametro": "obtenerFichaTecnica", "valor": valor}
+                data: {"parametro": parametro, "valor": valor}
             }).done(function (json) {
                 var objFicha = JSON.parse(json);
                 var plataforma = objFicha.data[0].plataforma,
@@ -811,49 +813,49 @@
             cad += "<tr>"
             if (objMaterial.data[i].objProceso.descripcion === procesos[0]) {
                 console.log(objMaterial.data[i].objProceso.descripcion);
-                cad += "<td><input type='text' name='nombre' value='" + objMaterial.data[i].nombre + "'/></td>";
-                cad += "<td><input type='text' name='descripcion' value='" + objMaterial.data[i].descripcion + "' /></td>";
-                cad += "<td><input type='text' name='unidadmedida' value='" + objMaterial.data[i].unidadmedida + "' /></td>";
-                cad += "<td><input type='text' name='cantidaddocena' value='" + objMaterial.data[i].cantidaddocena + "' /></td>";
-                cad += "<td hidden ><input name='preciounitario' value='" + objMaterial.data[i].preciounitario + "' /></td>";
-                cad += "<td hidden ><input name='tipo' value='" + objMaterial.data[i].tipo + "' /></td>";
-                cad += "<td hidden ><input name='idproveedor' value='" + objMaterial.data[i].objProveedor.idproveedor + "' /></td>";
-                cad += "<td hidden ><input name='codigoproceso' value='" + objMaterial.data[i].objProceso.codigoproceso + "' /></td>";
-                cad += "<td hidden ><input name='codigoficha' value='" + objMaterial.data[i].objFichaTecnica.codigoficha + "' /></td>";
+                cad += "<td><input class='form-control' type='text' name='nombre' value='" + objMaterial.data[i].nombre + "'/></td>";
+                cad += "<td><input class='form-control' type='text' name='descripcion' value='" + objMaterial.data[i].descripcion + "' /></td>";
+                cad += "<td><input class='form-control' type='text' name='unidadmedida' value='" + objMaterial.data[i].unidadmedida + "' /></td>";
+                cad += "<td><input class='form-control' type='text' name='cantidaddocena' value='" + objMaterial.data[i].cantidaddocena + "' /></td>";
+                cad += "<td hidden ><input class='form-control' name='preciounitario' value='" + objMaterial.data[i].preciounitario + "' /></td>";
+                cad += "<td hidden ><input class='form-control' name='tipo' value='" + objMaterial.data[i].tipo + "' /></td>";
+                cad += "<td hidden ><input class='form-control' name='idproveedor' value='" + objMaterial.data[i].objProveedor.idproveedor + "' /></td>";
+                cad += "<td hidden ><input class='form-control' name='codigoproceso' value='" + objMaterial.data[i].objProceso.codigoproceso + "' /></td>";
+                cad += "<td hidden ><input class='form-control' name='codigoficha' value='" + objMaterial.data[i].objFichaTecnica.codigoficha + "' /></td>";
 
                 $("#" + procesos[0]).append(cad);
             } else if (objMaterial.data[i].objProceso.descripcion === procesos[1]) {
-                cad += "<td><input type='text' name='nombre' value='" + objMaterial.data[i].nombre + "'/></td>";
-                cad += "<td><input type='text' name='descripcion' value='" + objMaterial.data[i].descripcion + "' /></td>";
-                cad += "<td><input type='text' name='unidadmedida' value='" + objMaterial.data[i].unidadmedida + "' /></td>";
-                cad += "<td><input type='text' name='cantidaddocena' value='" + objMaterial.data[i].cantidaddocena + "' /></td>";
-                cad += "<td hidden ><input name='preciounitario' value='" + objMaterial.data[i].preciounitario + "' /></td>";
-                cad += "<td hidden ><input name='tipo' value='" + objMaterial.data[i].tipo + "' /></td>";
-                cad += "<td hidden ><input name='idproveedor' value='" + objMaterial.data[i].objProveedor.idproveedor + "' /></td>";
-                cad += "<td hidden ><input name='codigoproceso' value='" + objMaterial.data[i].objProceso.codigoproceso + "' /></td>";
-                cad += "<td hidden ><input name='codigoficha' value='" + objMaterial.data[i].objFichaTecnica.codigoficha + "' /></td>";
+                cad += "<td><input class='form-control' type='text' name='nombre' value='" + objMaterial.data[i].nombre + "'/></td>";
+                cad += "<td><input class='form-control' type='text' name='descripcion' value='" + objMaterial.data[i].descripcion + "' /></td>";
+                cad += "<td><input class='form-control' type='text' name='unidadmedida' value='" + objMaterial.data[i].unidadmedida + "' /></td>";
+                cad += "<td><input class='form-control' type='text' name='cantidaddocena' value='" + objMaterial.data[i].cantidaddocena + "' /></td>";
+                cad += "<td hidden ><input class='form-control' name='preciounitario' value='" + objMaterial.data[i].preciounitario + "' /></td>";
+                cad += "<td hidden ><input class='form-control' name='tipo' value='" + objMaterial.data[i].tipo + "' /></td>";
+                cad += "<td hidden ><input class='form-control' name='idproveedor' value='" + objMaterial.data[i].objProveedor.idproveedor + "' /></td>";
+                cad += "<td hidden ><input class='form-control' name='codigoproceso' value='" + objMaterial.data[i].objProceso.codigoproceso + "' /></td>";
+                cad += "<td hidden ><input class='form-control' name='codigoficha' value='" + objMaterial.data[i].objFichaTecnica.codigoficha + "' /></td>";
                 $("#" + procesos[1]).append(cad);
             } else if (objMaterial.data[i].objProceso.descripcion === procesos[2]) {
-                cad += "<td><input type='text' name='nombre' value='" + objMaterial.data[i].nombre + "'/></td>";
-                cad += "<td><input type='text' name='descripcion' value='" + objMaterial.data[i].descripcion + "' /></td>";
-                cad += "<td><input type='text' name='unidadmedida' value='" + objMaterial.data[i].unidadmedida + "' /></td>";
-                cad += "<td><input type='text' name='cantidaddocena' value='" + objMaterial.data[i].cantidaddocena + "' /></td>";
-                cad += "<td hidden ><input name='preciounitario' value='" + objMaterial.data[i].preciounitario + "' /></td>";
-                cad += "<td hidden ><input name='tipo' value='" + objMaterial.data[i].tipo + "' /></td>";
-                cad += "<td hidden ><input name='idproveedor' value='" + objMaterial.data[i].objProveedor.idproveedor + "' /></td>";
-                cad += "<td hidden ><input name='codigoproceso' value='" + objMaterial.data[i].objProceso.codigoproceso + "' /></td>";
-                cad += "<td hidden ><input name='codigoficha' value='" + objMaterial.data[i].objFichaTecnica.codigoficha + "' /></td>";
+                cad += "<td><input class='form-control' type='text' name='nombre' value='" + objMaterial.data[i].nombre + "'/></td>";
+                cad += "<td><input class='form-control' type='text' name='descripcion' value='" + objMaterial.data[i].descripcion + "' /></td>";
+                cad += "<td><input class='form-control' type='text' name='unidadmedida' value='" + objMaterial.data[i].unidadmedida + "' /></td>";
+                cad += "<td><input class='form-control' type='text' name='cantidaddocena' value='" + objMaterial.data[i].cantidaddocena + "' /></td>";
+                cad += "<td hidden ><input class='form-control' name='preciounitario' value='" + objMaterial.data[i].preciounitario + "' /></td>";
+                cad += "<td hidden ><input class='form-control' name='tipo' value='" + objMaterial.data[i].tipo + "' /></td>";
+                cad += "<td hidden ><input class='form-control' name='idproveedor' value='" + objMaterial.data[i].objProveedor.idproveedor + "' /></td>";
+                cad += "<td hidden ><input class='form-control' name='codigoproceso' value='" + objMaterial.data[i].objProceso.codigoproceso + "' /></td>";
+                cad += "<td hidden ><input class='form-control' name='codigoficha' value='" + objMaterial.data[i].objFichaTecnica.codigoficha + "' /></td>";
                 $("#" + procesos[2]).append(cad);
             } else if (objMaterial.data[i].objProceso.descripcion === procesos[3]) {
-                cad += "<td><input type='text' name='nombre' value='" + objMaterial.data[i].nombre + "'/></td>";
-                cad += "<td><input type='text' name='descripcion' value='" + objMaterial.data[i].descripcion + "' /></td>";
-                cad += "<td><input type='text' name='unidadmedida' value='" + objMaterial.data[i].unidadmedida + "' /></td>";
-                cad += "<td><input type='text' name='cantidaddocena' value='" + objMaterial.data[i].cantidaddocena + "' /></td>";
-                cad += "<td hidden ><input name='preciounitario' value='" + objMaterial.data[i].preciounitario + "' /></td>";
-                cad += "<td hidden ><input name='tipo' value='" + objMaterial.data[i].tipo + "' /></td>";
-                cad += "<td hidden ><input name='idproveedor' value='" + objMaterial.data[i].objProveedor.idproveedor + "' /></td>";
-                cad += "<td hidden ><input name='codigoproceso' value='" + objMaterial.data[i].objProceso.codigoproceso + "' /></td>";
-                cad += "<td hidden ><input name='codigoficha' value='" + objMaterial.data[i].objFichaTecnica.codigoficha + "' /></td>";
+                cad += "<td><input class='form-control' type='text' name='nombre' value='" + objMaterial.data[i].nombre + "'/></td>";
+                cad += "<td><input class='form-control' type='text' name='descripcion' value='" + objMaterial.data[i].descripcion + "' /></td>";
+                cad += "<td><input class='form-control' type='text' name='unidadmedida' value='" + objMaterial.data[i].unidadmedida + "' /></td>";
+                cad += "<td><input class='form-control' type='text' name='cantidaddocena' value='" + objMaterial.data[i].cantidaddocena + "' /></td>";
+                cad += "<td hidden ><input class='form-control' name='preciounitario' value='" + objMaterial.data[i].preciounitario + "' /></td>";
+                cad += "<td hidden ><input class='form-control' name='tipo' value='" + objMaterial.data[i].tipo + "' /></td>";
+                cad += "<td hidden ><input class='form-control' name='idproveedor' value='" + objMaterial.data[i].objProveedor.idproveedor + "' /></td>";
+                cad += "<td hidden ><input class='form-control' name='codigoproceso' value='" + objMaterial.data[i].objProceso.codigoproceso + "' /></td>";
+                cad += "<td hidden ><input class='form-control' name='codigoficha' value='" + objMaterial.data[i].objFichaTecnica.codigoficha + "' /></td>";
                 $("#" + procesos[3]).append(cad);
             }
             cad += "</tr>";
@@ -877,12 +879,12 @@
                         "</div>" + //cierre del title
                         "<div class='x_content'>" +
                         "<table class='table table-striped responsive-utilities jambo_table bulk_action'>" +
-                        "<thead>" +
-                        "<tr class='headings'>" +
-                        "<th class='column-title' style='display: table-cell;'>Nombre </th>" +
-                        "<th class='column-title' style='display: table-cell;'>Descripción </th>" +
-                        "<th class='column-title' style='display: table-cell;'>U.m </th>" +
-                        "<th class='column-title' style='display: table-cell;'>Cant. por doc.</th>" +
+                        "<thead >" +
+                        "<tr>" +
+                        "<th>Nombre </th>" +
+                        "<th>Descripción </th>" +
+                        "<th>U.m </th>" +
+                        "<th>Cant. por doc.</th>" +
                         "</tr>" +
                         "</thead>" +
                         "<tbody id='" + procesos[i] + "'>" +
@@ -904,11 +906,11 @@
                         "<div class='x_content'>" +
                         "<table class='table table-striped responsive-utilities jambo_table bulk_action'>" +
                         "<thead>" +
-                        "<tr class='headings'>" +
-                        "<th class='column-title' style='display: table-cell;'>Nombre </th>" +
-                        "<th class='column-title' style='display: table-cell;'>Descripción </th>" +
-                        "<th class='column-title' style='display: table-cell;'>U.m </th>" +
-                        "<th class='column-title' style='display: table-cell;'>Cant. por doc.</th>" +
+                        "<tr>" +
+                        "<th>Nombre </th>" +
+                        "<th>Descripción </th>" +
+                        "<th>U.m </th>" +
+                        "<th>Cant. por doc.</th>" +
                         "</tr>" +
                         "</thead>" +
                         "<tbody id='" + procesos[i] + "'>" +
@@ -972,11 +974,11 @@
             var materialesJSON = {"arreglo": arr};
             //console.log(materialesJSON);
             //console.log(materialesJSON.arreglo[0].descripcion);
-            enviarJSONMateriales(materialesJSON, opcion);
+            registrarMaterialesNuevaFichaTecnica(materialesJSON, opcion);
         })
     }
 
-    function enviarJSONMateriales(json, opcion) {
+    function registrarMaterialesNuevaFichaTecnica(json, opcion) {
         var data = JSON.stringify(json);
         var parametro = "";
         var id_fichatecnica = $("#id_fichatecnica").val(),
@@ -992,13 +994,25 @@
         else if (opcion === "btnCrearFicha")
             parametro = "registrarMaterialesDeNuevaFichaTecnica";
         
-        console.log("enviar json opcion: " + opcion);
+        console.log("enviar json opcion: " + opcion + " - Id Ficha: " + id_fichatecnica);
         $.ajax({
             method: "POST",
             url: "../Sfichatecnica",
             data: {"datos": data, "parametro": parametro, "id_fichatecnica": id_fichatecnica, "taco": taco, "plataforma": plataforma, "color": color, "modelo":modelo , "coleccion": coleccion, "especificacion": especificacion}
         }).done(function (data) {
-            console.log(data);
+            if(data == "existe_ficha"){
+                new PNotify({
+                        title: 'Mensaje de Advertencia',
+                        text: 'Código de ficha técnica, ya existe.',
+                        hide: false
+                    });
+            }else if(data == "true"){
+                new PNotify({
+                        title: 'Mensaje de éxito',
+                        text: 'Se guardaron los datos satisfactoriamente.',
+                        type: 'success'
+                    });
+            }
         });
     }
 

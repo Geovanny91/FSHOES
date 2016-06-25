@@ -7,6 +7,8 @@ package com.fshoes.logicanegocio;
 
 import com.fshoes.accesodatos.FichaTecnicaAD;
 import com.fshoes.entidades.FichaTecnica;
+import com.fshoes.entidades.Material;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -27,6 +29,16 @@ public class FichaTecnicaLN {
     }
     // end Singleton
     
+    public int transaccion(FichaTecnica objFicha, ArrayList<Material> arrayMaterial) throws SQLException{
+        try {
+            if( objFicha != null && arrayMaterial != null )
+                return FichaTecnicaAD.Instancia().transaccion(objFicha, arrayMaterial);
+            else return 0;
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+        
     public ArrayList<FichaTecnica> listarFichaTecnica(String valor, String prm, int inicio, int fin) throws Exception {
         try {
             if(!prm.equals(""))            

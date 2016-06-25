@@ -7,12 +7,15 @@ package com.fshoes.accesodatos;
 
 import com.fshoes.entidades.Cliente;
 import com.fshoes.entidades.FichaTecnica;
+import com.fshoes.entidades.Material;
 import com.fshoes.entidades.Modelo;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -32,8 +35,63 @@ public class FichaTecnicaAD {
     }
     // end Singleton
     private Connection cn = null;
-    private CallableStatement cst = null;    
+    private CallableStatement cst_material = null, cst = null;
     private ResultSet tabla = null;
+    
+    //CONSULTAS
+    final String FICHA_TECNICA = "{call pa_ficha_tecnica(?,?,?,?,?,?,?,?,?,?,?)}";
+    final String MATERIAL = "{call pa_material(?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
+    
+    public int transaccion(FichaTecnica objFicha, ArrayList<Material> arrayMaterial) throws SQLException{
+        int rpt = 0;
+        try {
+            cn = Conexion.Instancia().getConexion();
+            cn.setAutoCommit(false);
+            cst = cn.prepareCall(FICHA_TECNICA);
+            cst.setString(1, "");
+            cst.setString(2, "registrarFichaTecnica");//parámetro
+            cst.setInt(3, 0);
+            cst.setInt(4, 0);
+            cst.setString(5, objFicha.getCodigoficha());
+            cst.setString(6, objFicha.getPlataforma());
+            cst.setString(7, objFicha.getTaco());
+            cst.setString(8, objFicha.getColor());
+            cst.setString(9, objFicha.getColeccion());
+            cst.setString(10, objFicha.getUrlimagen());
+            cst.setString(11, objFicha.getObjModelo().getCodigomodelo());
+            cst.executeUpdate();            
+            
+            for( int i=0; i< arrayMaterial.size(); i++ ){
+                cst_material = cn.prepareCall(MATERIAL);
+                cst_material.setString(1, "");
+                cst_material.setString(2, "registrarMaterial");//parámetro
+                cst_material.setInt(3, 0);
+                cst_material.setInt(4, 0);
+                cst_material.setInt(5, arrayMaterial.get(i).getIdmaterial());
+                cst_material.setString(6, arrayMaterial.get(i).getNombre());
+                cst_material.setString(7, arrayMaterial.get(i).getDescripcion());
+                cst_material.setString(8, arrayMaterial.get(i).getUnidadmedida());
+                cst_material.setFloat(9, arrayMaterial.get(i).getCantidaddocena());
+                cst_material.setFloat(10, arrayMaterial.get(i).getPreciounitario());
+                cst_material.setString(11, arrayMaterial.get(i).getTipo());
+                cst_material.setInt(12, arrayMaterial.get(i).getObjProveedor().getIdproveedor());
+                cst_material.setString(13, arrayMaterial.get(i).getObjProceso().getCodigoproceso());
+                cst_material.setString(14, arrayMaterial.get(i).getObjFichaTecnica().getCodigoficha());
+                cst_material.executeUpdate();
+            }            
+            cn.commit();
+            System.out.println("Transacción Ficha Técnica, ejecutada.");
+            rpt = 1;
+        } catch (Exception ex) {
+            cn.rollback();
+            ex.printStackTrace();
+        } finally{
+            close();
+            if(cst_material != null)
+                cst_material.close();
+        }
+        return rpt;
+    }
 
     public ArrayList<FichaTecnica> listarFichaTecnica(String valor, String prm, int inicio, int fin) throws Exception{
         cn = Conexion.Instancia().getConexion();
@@ -126,10 +184,10 @@ public class FichaTecnicaAD {
     }
     
     public boolean registrarFichaTecnica(FichaTecnica objFicha, String prm) throws Exception {
-        cn = Conexion.Instancia().getConexion();
+        cn = Conexion.Instancia().getConexion();        
         boolean rpt = false;
         try {
-            cst = cn.prepareCall("{call pa_ficha_tecnica(?,?,?,?,?,?,?,?,?,?,?)}");
+            cst = cn.prepareCall(FICHA_TECNICA);
             cst.setString(1, "");
             cst.setString(2, prm);
             cst.setInt(3, 0);
