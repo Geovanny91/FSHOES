@@ -6,11 +6,18 @@
 package com.fshoes.servlets;
 
 import com.fshoes.entidades.FichaTecnica;
+import com.fshoes.entidades.Material;
+import com.fshoes.entidades.Modelo;
+import com.fshoes.entidades.Proceso;
+import com.fshoes.entidades.Proveedor;
 import com.fshoes.logicanegocio.FichaTecnicaLN;
+import com.fshoes.logicanegocio.MaterialLN;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,6 +25,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 /**
  *
@@ -85,14 +94,14 @@ public class Sfichatecnica extends HttpServlet {
         String parametro = request.getParameter("parametro");
 
         String horma = request.getParameter("horma"),
-                cod_modelo = request.getParameter("modelo"),
-                especificacion = request.getParameter("especificacion"),
-                idcliente = request.getParameter("idcliente"),
                 id_fichatecnica = request.getParameter("id_fichatecnica"),
                 taco = request.getParameter("taco"),
                 plataforma = request.getParameter("plataforma"),
-                color = request.getParameter("color");
-
+                color = request.getParameter("color"),
+                cod_modelo = request.getParameter("modelo"),
+                coleccion = request.getParameter("coleccion"),
+                idcliente = request.getParameter("idcliente"),
+                especificacion = request.getParameter("especificacion");
         boolean estado = Boolean.valueOf(request.getParameter("estadomodelo"));
 
         ArrayList<FichaTecnica> listaFicha = null;
@@ -111,7 +120,7 @@ public class Sfichatecnica extends HttpServlet {
                                 + "<td>" + listaFicha.get(i).getObjModelo().getHorma() + "</td>"
                                 + "<td>" + listaFicha.get(i).getTaco() + "</td>"
                                 + "<td>" + listaFicha.get(i).getPlataforma() + "</td>"
-                                + "<td>" + listaFicha.get(i).getObjModelo().getObjcliente().getIdcliente()+ "</td>"
+                                + "<td>" + listaFicha.get(i).getObjModelo().getObjcliente().getIdcliente() + "</td>"
                                 + "<td>" + listaFicha.get(i).getObjModelo().getObjcliente().getRazonsocial() + "</td>"
                                 + "<td>" + listaFicha.get(i).getObjModelo().getCodigomodelo() + "</td>"
                                 + "<td><a href='#' class=\"close\" data-dismiss=\"modal\" ><i class=\"fa fa-hand-o-left\"></i></a></td></tr>"
@@ -120,15 +129,16 @@ public class Sfichatecnica extends HttpServlet {
                 } catch (Exception ex) {
                     ex.getMessage();
                 }
-            }break;
+            }
+            break;
             case "obtenerFichaTecnica": {
                 try {
-                    ArrayList<FichaTecnica> lista = new ArrayList<>();                    
+                    ArrayList<FichaTecnica> lista = new ArrayList<>();
                     lista = FichaTecnicaLN.Instancia().listarFichaTecnica(valor, parametro);
                     JSONArray array = new JSONArray();
                     array.addAll(lista);
                     StringWriter outjson = new StringWriter();
-                    JSONObject json = new JSONObject();                    
+                    JSONObject json = new JSONObject();
                     json.put("data", array);
                     json.writeJSONString(outjson);
                     out.println(outjson);
@@ -138,7 +148,88 @@ public class Sfichatecnica extends HttpServlet {
                 }
             }
             break;
+            case "registrarMaterialesDeNuevaFichaTecnica": {
+                boolean rptFichaTecnica = false, rptMaterial = false;
+                try {
+                    String json_materiales = "";
+                    json_materiales = request.getParameter("datos");
+                    System.out.println("Materiales json: " + json_materiales);
+
+                    if (!json_materiales.equals("{\"arreglo\":[]}")) {
+                        Modelo objModelo = new Modelo();
+                        objModelo.setCodigomodelo(cod_modelo);
+                        //si se quiere registrar una ficha tecnica nueva, se tiene que cambiar el código, aqui validar 
+                        FichaTecnica objFicha = new FichaTecnica(id_fichatecnica, plataforma, taco, color, coleccion, "url", objModelo);
+
+                        parametro = "registrarFichaTecnica";//modificar parámetro
+                        rptFichaTecnica = FichaTecnicaLN.Instancia().registrarFichaTecnica(objFicha, parametro);//evaluar esto no deberia registrarse ver, lo de rollback
+                        System.out.println("Registro Orden correcto? " + rptFichaTecnica);
+                        parametro = "registrarMaterial";//modificar el parámentro                        
+                        rptMaterial = decodicarJson(json_materiales, objFicha, parametro);
+                        parametro = "";//reset parametro
+                    }
+
+                    if (rptFichaTecnica == true && rptMaterial == true) {
+                        response.getWriter().write("true");
+                    } else if (rptMaterial == false || rptFichaTecnica == false) {
+                        response.getWriter().write("false");
+                    }
+                } catch (Exception ex) {
+                    ex.getMessage();
+                }
+            }
+            break;
+            case "modificarMaterialesDeFichaTecnica": {
+
+            }
+            break;
         }
+    }
+
+    public boolean decodicarJson(String cadena_json, FichaTecnica objFicha, String parametro) {
+        JSONParser serie_parser = new JSONParser();
+        boolean rptMateriales = false;
+        //Serie objSerie;
+        try {
+            System.out.println("DECODE\n");
+            JSONObject objMateriales = (JSONObject) serie_parser.parse(cadena_json.toString());
+            //System.out.println("Data Obtenida: "+ objMateriales);
+            JSONArray arrMateriales = (JSONArray) objMateriales.get("arreglo");
+            System.out.println("Arreglo materiales: " + arrMateriales);
+            System.out.println("TaMAÑO Arreglo materiales: " + arrMateriales.size());
+            Material objMaterial = null;
+            Proveedor objProveedor = null;
+            Proceso objProceso = null;
+            for (int i = 0; i < arrMateriales.size(); i++) {
+                JSONObject serie = (JSONObject) arrMateriales.get(i);
+                System.out.println(serie.get("descripcion") + " - " + serie.get("nombre"));
+                String nombre = serie.get("nombre").toString(),
+                        descripcion = serie.get("descripcion").toString(),
+                        unidadmedida = serie.get("unidadmedida").toString(),
+                        tipo = serie.get("tipo").toString(),
+                        codigoficha = serie.get("codigoficha").toString(),
+                        codigoproceso = serie.get("codigoproceso").toString();
+                int idproveedor = Integer.parseInt(serie.get("idproveedor").toString());
+                float preciounitario = Float.parseFloat(serie.get("preciounitario").toString()),
+                        cantidaddocena = Float.parseFloat(serie.get("cantidaddocena").toString());
+
+                objProveedor = new Proveedor();
+                objProveedor.setIdproveedor(idproveedor);
+                objProceso = new Proceso();
+                objProceso.setCodigoproceso(codigoproceso);
+
+                objMaterial = new Material(0, nombre, descripcion, unidadmedida, preciounitario, preciounitario, tipo, objProveedor, objProceso, objFicha);
+                rptMateriales = MaterialLN.Instancia().registrarMaterial(objMaterial, parametro);
+
+            }
+            System.out.println("Respuesta final materiales: " + rptMateriales);
+            return rptMateriales;
+        } catch (ParseException ex) {
+            ex.printStackTrace();
+        } catch (Exception ex) {
+            Logger.getLogger(Sfichatecnica.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return rptMateriales;
     }
 
     /**

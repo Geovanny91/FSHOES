@@ -121,7 +121,12 @@ public class MaterialAD {
                 m.setNombre(tabla.getString("nombre"));
                 m.setDescripcion(tabla.getString("descripcion"));
                 m.setUnidadmedida(tabla.getString("unidadmedida"));
-                m.setCantidaddocena(tabla.getFloat("cantidaddocena"));                
+                m.setCantidaddocena(tabla.getFloat("cantidaddocena"));
+                m.setPreciounitario(tabla.getFloat("preciounitario"));
+                m.setTipo(tabla.getString("tipo"));
+                Proveedor proveedor = new Proveedor();
+                proveedor.setIdproveedor(tabla.getInt("idproveedor"));
+                m.setObjProveedor(proveedor);
                 Proceso proceso = new Proceso();
                 proceso.setCodigoproceso(tabla.getString("codigoproceso"));
                 proceso.setDescripcion(tabla.getString("proceso_descripcion"));

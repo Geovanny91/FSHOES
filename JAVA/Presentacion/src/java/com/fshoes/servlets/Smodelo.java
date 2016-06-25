@@ -91,19 +91,19 @@ public class Smodelo extends HttpServlet {
         String parametro = request.getParameter("parametro");
 
         String horma = request.getParameter("horma"),
-                cod_modelo = request.getParameter("modelo"),                
+                cod_modelo = request.getParameter("modelo"),
                 especificacion = request.getParameter("especificacion"),
                 idcliente = request.getParameter("idcliente"),
                 ficha_tecnica = request.getParameter("ficha_tecnica"),
                 taco = request.getParameter("taco"),
                 plataforma = request.getParameter("plataforma"),
                 color = request.getParameter("color"),
-                coleccion  = request.getParameter("coleccion");
-        
+                coleccion = request.getParameter("coleccion");
+
         boolean estado = Boolean.valueOf(request.getParameter("estadomodelo"));
         /*//varificar los id, con campos vacios.
         if(idcliente.equals("")) idcliente = "0";*/
-        
+
         boolean rptModelo = false, rptFicha = false;
         Modelo objModelo = null;
         Cliente objCliente = null;
@@ -111,17 +111,17 @@ public class Smodelo extends HttpServlet {
         ArrayList<Modelo> lista = null;
 
         switch (parametro) {
-            case "listarModelo":{
+            case "listarModelo": {
                 try {
                     lista = ModeloLN.Instancia().listarModelos(valor, parametro);
                     for (int i = 0; i < lista.size(); i++) {
                         out.println(
                                 //"<tr id='cliente"+i+"' onclick='seleccionar(\"cliente"+i+"\");' ><th scope='row'>"+(i+1)+"</th>"+
                                 "<tr  onclick='seleccionarModelo(this);' ><th scope='row'>" + (i + 1) + "</th>"
-                                + "<td><input class='id_modelo' type='hidden' value='" + lista.get(i).getCodigomodelo()+ "' /></td>"
-                                + "<td>" + lista.get(i).getCodigomodelo()+ "</td>"
-                                + "<td>" + lista.get(i).getHorma() + "</td>"                                
-                                + "<td>" + lista.get(i).getObjcliente().getRazonsocial()+ "</td>"
+                                + "<td><input class='id_modelo' type='hidden' value='" + lista.get(i).getCodigomodelo() + "' /></td>"
+                                + "<td>" + lista.get(i).getCodigomodelo() + "</td>"
+                                + "<td>" + lista.get(i).getHorma() + "</td>"
+                                + "<td>" + lista.get(i).getObjcliente().getRazonsocial() + "</td>"
                                 + "<td><a href='#' class=\"close\" data-dismiss=\"modal\" ><i class=\"fa fa-hand-o-left\"></i></a></td></tr>"
                         );
                     }
@@ -136,7 +136,7 @@ public class Smodelo extends HttpServlet {
                     int inicio = Integer.parseInt(request.getParameter("start")),
                             fin = Integer.parseInt(request.getParameter("length"));
                     //lista = ModeloLN.Instancia().listarModelos("", parametro, inicio, (fin + inicio));//getListPersonajes(n_col, dir, inicio, fin);//base de datos
-                    listaFicha = FichaTecnicaLN.Instancia().listarFichaTecnica("", parametro, inicio,(inicio + fin));
+                    listaFicha = FichaTecnicaLN.Instancia().listarFichaTecnica("", parametro, inicio, (inicio + fin));
                     JSONArray array = new JSONArray();
                     array.addAll(listaFicha);
                     StringWriter outjson = new StringWriter();
@@ -156,35 +156,41 @@ public class Smodelo extends HttpServlet {
                     Logger.getLogger(Smodelo.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-            break;            
+            break;
             case "registrarModelo": {
                 try {
-                    //varificar los id, con campos vacios.
-                    int existe = 0;
-                    if(idcliente.equals("")) idcliente = "0";
-                    
+                    int existe_modelo = 0, existe_ficha = 0;
+                    if (idcliente.equals("")) {
+                        idcliente = "0";
+                    }
+
                     objCliente = new Cliente();
                     objCliente.setIdcliente(Integer.parseInt(idcliente));
                     objModelo = new Modelo(cod_modelo, horma, especificacion, objCliente, estado);
                     FichaTecnica objFicha = new FichaTecnica(ficha_tecnica, plataforma, taco, color, coleccion, "url_imagen", objModelo);
-
-                    existe = ModeloLN.Instancia().existeModelo(cod_modelo, "verificarModelo");
-                    //out.println(rptModelo);
-                    if( existe == 1 )
+                    
+                    //Validando si existen modelos o fichas tecnicas, antes de registrar en la BD.
+                    existe_modelo = ModeloLN.Instancia().existeModelo(cod_modelo, "verificarModelo");
+                    existe_ficha = FichaTecnicaLN.Instancia().existeFichaTecnica(ficha_tecnica, "verificarFichaTecnica");                    
+                    
+                    if (existe_modelo == 1) {
                         response.getWriter().write("existe");
-                    else{
-                        if(!objFicha.getCodigoficha().equals("")){
-                             rptModelo = ModeloLN.Instancia().registrarModelo(objModelo, parametro);
-                        parametro = "registrarFichaTecnica";
-                        rptFicha = FichaTecnicaLN.Instancia().registrarFichaTecnica(objFicha, parametro);                        
+                    } else{                        
+                        if(existe_ficha == 1)
+                            response.getWriter().write("existe_ficha");
+                        else{                        
+                            if (!objFicha.getCodigoficha().equals("")) {
+                                rptModelo = ModeloLN.Instancia().registrarModelo(objModelo, parametro);
+                                parametro = "registrarFichaTecnica";
+                                rptFicha = FichaTecnicaLN.Instancia().registrarFichaTecnica(objFicha, parametro);
+                            } if (rptModelo == true && rptFicha == true) {
+                                response.getWriter().write("true");
+                                System.out.println("Respuesta modelo: " + rptModelo + ", Respuesta ficha: " + rptFicha);
+                            } else {
+                                response.getWriter().write("false");
+                            }
                         }
-                        if (rptModelo == true && rptFicha == true) {
-                            response.getWriter().write("true");
-                            System.out.println("Respuesta modelo: " + rptModelo + ", Respuesta ficha: "+ rptFicha);
-                        } else {
-                            response.getWriter().write("false");
-                        }                        
-                    }                    
+                    }
                 } catch (Exception ex) {
                     Logger.getLogger(Smodelo.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -193,8 +199,10 @@ public class Smodelo extends HttpServlet {
             case "modificarModelo": {
                 try {
                     //varificar los id, con campos vacios.
-                    if(idcliente.equals("")) idcliente = "0";
-                    
+                    if (idcliente.equals("")) {
+                        idcliente = "0";
+                    }
+
                     objCliente = new Cliente();
                     objCliente.setIdcliente(Integer.parseInt(idcliente));
                     objModelo = new Modelo(cod_modelo, horma, especificacion, objCliente, estado);

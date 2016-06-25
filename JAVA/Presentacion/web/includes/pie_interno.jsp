@@ -74,7 +74,7 @@
         listarClientes();
         fechas("#f_emision");
         fechas("#f_entrega");
-        
+
         listarClientesPaginacion();
         registrarcliente();
         listarProveedoresPaginacion();
@@ -413,7 +413,7 @@
                 data: {"parametro": "registrarCliente", "estado": estado, "razon": razon, "ruc": ruc, "direccion": direccion}
             }).done(function (data) {
                 console.log("Se registro" + data);
-                
+
                 if (data == "false") {
                     new PNotify({
                         title: 'Mensaje de Advertencia',
@@ -427,7 +427,7 @@
                         type: 'success'
                     });
                 }
-                
+
                 var arreglo = ["#razon", "#ruc", "#direccion"];
                 limpiar(arreglo);
             })//cierra done
@@ -442,7 +442,7 @@
         console.log(x.childNodes);
     }
 
-    function listarProveedoresPaginacion(){
+    function listarProveedoresPaginacion() {
 
         tabla_paginacion_proveedor = $('#listaProveedor').DataTable({
             //"scrollX": true
@@ -451,17 +451,17 @@
             "ajax": {
                 "url": "../Sproveedor",
                 "type": "POST",
-                "data": {"parametro": "listarProveedorPaginacion"}            
-            },            
+                "data": {"parametro": "listarProveedorPaginacion"}
+            },
             "columnDefs": [
                 {"name": "RazónSocial", "targets": 0},
                 {"name": "Ruc", "targets": 1},
-                {"name": "Dirección", "targets": 2}                
+                {"name": "Dirección", "targets": 2}
             ],
             "columns": [
                 {"data": "razonsocial"},
                 {"data": "ruc"},
-                {"data": "direccion"},                
+                {"data": "direccion"},
                 {"defaultContent": "<button tipo='modificarProveedor' class='btn btn-info btn-xs'><i class='fa fa-edit'></i></button> <button tipo='eliminarProveedor' class='btn btn-danger btn-xs'><i class='fa fa-remove'></i></button>", "width": "5%"}
                 //{"defaultContent": "<button class='btn btn-primary btn-xs'><i class='fa fa-remove'></i></button>"}
             ]
@@ -479,17 +479,17 @@
             "ajax": {
                 "url": "../Scliente",
                 "type": "POST",
-                "data": {"parametro": "listarClientePaginacion"}            
-            },            
+                "data": {"parametro": "listarClientePaginacion"}
+            },
             "columnDefs": [
                 {"name": "RazónSocial", "targets": 0},
                 {"name": "Ruc", "targets": 1},
-                {"name": "Dirección", "targets": 2}                
+                {"name": "Dirección", "targets": 2}
             ],
             "columns": [
                 {"data": "razonsocial"},
                 {"data": "ruc"},
-                {"data": "direccion"},                
+                {"data": "direccion"},
                 {"defaultContent": "<button tipo='modificarCliente' class='btn btn-info btn-xs'><i class='fa fa-edit'></i></button> <button tipo='eliminarCliente' class='btn btn-danger btn-xs'><i class='fa fa-remove'></i></button>", "width": "5%"}
                 //{"defaultContent": "<button class='btn btn-primary btn-xs'><i class='fa fa-remove'></i></button>"}
             ]
@@ -497,7 +497,7 @@
         //tabla_paginacion_cliente.column(6).visible(false);
         //mantenedoresClientes('#listaCliente tbody', tabla_paginacion_cliente);
     }
-    
+
     function mantenedoresClientes(lista, tabla) {
         $(lista).on('click', 'button', function () {
             var data = tabla.row($(this).parents('tr')).data();
@@ -526,7 +526,7 @@
             }
         });
     }
-    
+
 
     function listarModelosPaginacion() {//listar modelos con sus fichas tecnicas
 
@@ -655,6 +655,14 @@
                         //data: {"parametro": "registrarModelo", "idcliente": idcliente, "ficha_tecnica": ficha_tecnica , "modelo": modelo, "horma": horma, "taco": taco, "plataforma": plataforma, "coleccion": coleccion, "especificacion": especificacion, "estadomodelo": estadomodelo}
             }).done(function (info) {
                 console.log(typeof info);
+                console.log(info);
+                if (info == "existe_ficha") {
+                    new PNotify({
+                        title: 'Mensaje de Advertencia',
+                        text: 'Ficha Técnica, ya existe.',
+                        type: 'info'
+                    });
+                }
                 if (info == "existe") {
                     new PNotify({
                         title: 'Mensaje de Advertencia',
@@ -754,7 +762,7 @@
 
     function obtenerFichaTecnica() {
         $("#btnFichaTecnica").on("click", function () {
-            var valor = $("#codigoFicha").val();
+            var valor = $("#id_fichatecnica").val();
             $.ajax({
                 method: "POST",
                 url: "../Sfichatecnica",
@@ -771,14 +779,8 @@
                 $("#taco").val(taco);
                 $("#color").val(color);
                 $("#coleccion").val(coleccion);
-                $("#cod_modelo").val(cod_modelo);
+                $("#modelo").val(cod_modelo);
 
-                //prueba
-                /*var cad = "hola";
-                 cad+="geovanny";
-                 cad+="adios";
-                 console.log(cad);*/
-                //llamar a funcion de materiales por ficha técnica
                 var codigo_ficha = objFicha.data[0].codigoficha;
                 obtenerMaterialesPorFichaTecnica(codigo_ficha);
 
@@ -792,7 +794,7 @@
             url: "../Smaterial",
             data: {"parametro": "obtenerMaterialesPorFichaTecnica", "valor": codigoFicha}
         }).done(function (json) {
-            console.log(json);
+            //console.log(json);
             var objMaterial = JSON.parse(json);
             var procesos = ["Corte", "Aparado", "Armado", "Alistado"];
             console.log(objMaterial);
@@ -813,24 +815,45 @@
                 cad += "<td><input type='text' name='descripcion' value='" + objMaterial.data[i].descripcion + "' /></td>";
                 cad += "<td><input type='text' name='unidadmedida' value='" + objMaterial.data[i].unidadmedida + "' /></td>";
                 cad += "<td><input type='text' name='cantidaddocena' value='" + objMaterial.data[i].cantidaddocena + "' /></td>";
+                cad += "<td hidden ><input name='preciounitario' value='" + objMaterial.data[i].preciounitario + "' /></td>";
+                cad += "<td hidden ><input name='tipo' value='" + objMaterial.data[i].tipo + "' /></td>";
+                cad += "<td hidden ><input name='idproveedor' value='" + objMaterial.data[i].objProveedor.idproveedor + "' /></td>";
+                cad += "<td hidden ><input name='codigoproceso' value='" + objMaterial.data[i].objProceso.codigoproceso + "' /></td>";
+                cad += "<td hidden ><input name='codigoficha' value='" + objMaterial.data[i].objFichaTecnica.codigoficha + "' /></td>";
+
                 $("#" + procesos[0]).append(cad);
             } else if (objMaterial.data[i].objProceso.descripcion === procesos[1]) {
                 cad += "<td><input type='text' name='nombre' value='" + objMaterial.data[i].nombre + "'/></td>";
                 cad += "<td><input type='text' name='descripcion' value='" + objMaterial.data[i].descripcion + "' /></td>";
                 cad += "<td><input type='text' name='unidadmedida' value='" + objMaterial.data[i].unidadmedida + "' /></td>";
                 cad += "<td><input type='text' name='cantidaddocena' value='" + objMaterial.data[i].cantidaddocena + "' /></td>";
+                cad += "<td hidden ><input name='preciounitario' value='" + objMaterial.data[i].preciounitario + "' /></td>";
+                cad += "<td hidden ><input name='tipo' value='" + objMaterial.data[i].tipo + "' /></td>";
+                cad += "<td hidden ><input name='idproveedor' value='" + objMaterial.data[i].objProveedor.idproveedor + "' /></td>";
+                cad += "<td hidden ><input name='codigoproceso' value='" + objMaterial.data[i].objProceso.codigoproceso + "' /></td>";
+                cad += "<td hidden ><input name='codigoficha' value='" + objMaterial.data[i].objFichaTecnica.codigoficha + "' /></td>";
                 $("#" + procesos[1]).append(cad);
             } else if (objMaterial.data[i].objProceso.descripcion === procesos[2]) {
                 cad += "<td><input type='text' name='nombre' value='" + objMaterial.data[i].nombre + "'/></td>";
                 cad += "<td><input type='text' name='descripcion' value='" + objMaterial.data[i].descripcion + "' /></td>";
                 cad += "<td><input type='text' name='unidadmedida' value='" + objMaterial.data[i].unidadmedida + "' /></td>";
                 cad += "<td><input type='text' name='cantidaddocena' value='" + objMaterial.data[i].cantidaddocena + "' /></td>";
+                cad += "<td hidden ><input name='preciounitario' value='" + objMaterial.data[i].preciounitario + "' /></td>";
+                cad += "<td hidden ><input name='tipo' value='" + objMaterial.data[i].tipo + "' /></td>";
+                cad += "<td hidden ><input name='idproveedor' value='" + objMaterial.data[i].objProveedor.idproveedor + "' /></td>";
+                cad += "<td hidden ><input name='codigoproceso' value='" + objMaterial.data[i].objProceso.codigoproceso + "' /></td>";
+                cad += "<td hidden ><input name='codigoficha' value='" + objMaterial.data[i].objFichaTecnica.codigoficha + "' /></td>";
                 $("#" + procesos[2]).append(cad);
             } else if (objMaterial.data[i].objProceso.descripcion === procesos[3]) {
                 cad += "<td><input type='text' name='nombre' value='" + objMaterial.data[i].nombre + "'/></td>";
                 cad += "<td><input type='text' name='descripcion' value='" + objMaterial.data[i].descripcion + "' /></td>";
                 cad += "<td><input type='text' name='unidadmedida' value='" + objMaterial.data[i].unidadmedida + "' /></td>";
                 cad += "<td><input type='text' name='cantidaddocena' value='" + objMaterial.data[i].cantidaddocena + "' /></td>";
+                cad += "<td hidden ><input name='preciounitario' value='" + objMaterial.data[i].preciounitario + "' /></td>";
+                cad += "<td hidden ><input name='tipo' value='" + objMaterial.data[i].tipo + "' /></td>";
+                cad += "<td hidden ><input name='idproveedor' value='" + objMaterial.data[i].objProveedor.idproveedor + "' /></td>";
+                cad += "<td hidden ><input name='codigoproceso' value='" + objMaterial.data[i].objProceso.codigoproceso + "' /></td>";
+                cad += "<td hidden ><input name='codigoficha' value='" + objMaterial.data[i].objFichaTecnica.codigoficha + "' /></td>";
                 $("#" + procesos[3]).append(cad);
             }
             cad += "</tr>";
@@ -899,12 +922,14 @@
     }
 
     function obtenerDatosModificarfichaTecnica() {
-        $("#btnModificarFicha").on("click", function (e) {
+        $("#frmAsignarMateriales button").on("click", function (e) {//click en el boton de modificar
             e.preventDefault();
-            var prueba;
+            var opcion = $(this).attr("id"); //devuelve el id del boton pulsado, pude ser para crear o modificar            
+
+            var arr = [];
             $("table tbody tr").each(function (index) {
-                var campo1, campo2, campo3, campo4;
-                var obj = new Object();
+                var campo1, campo2, campo3, campo4, campo5, campo6, campo7, campo8, campo9;
+                var json;
                 $(this).children("td").children("input").each(function (index2)
                 {
                     switch (index2)
@@ -921,14 +946,60 @@
                         case 3:
                             campo4 = $(this).val();
                             break;
-                            /*case 2: campo3 = $(this).val();
-                             break;*/
+                        case 4:
+                            campo5 = $(this).val();
+                            break;
+                        case 5:
+                            campo6 = $(this).val();
+                            break;
+                        case 6:
+                            campo7 = $(this).val();
+                            break;
+                        case 7:
+                            campo8 = $(this).val();
+                            break;
+                        case 8:
+                            campo9 = $(this).val();
+                            break;
+
                     }
                     $(this).css("background-color", "#ECF8E0");
                 })
-                console.log(campo1 + ', ' + campo2+ ", " + campo3 + ", " + campo4);
+                json = {"nombre": campo1, "descripcion": campo2, "unidadmedida": campo3, "cantidaddocena": campo4, "preciounitario": campo5, "tipo": campo6, "idproveedor": campo7, "codigoproceso": campo8, "codigoficha": campo9};
+                arr.push(json);
+                console.log(campo1 + ', ' + campo2 + ", " + campo3 + ", " + campo4+ ", " + campo9);
             });
+            var materialesJSON = {"arreglo": arr};
+            //console.log(materialesJSON);
+            //console.log(materialesJSON.arreglo[0].descripcion);
+            enviarJSONMateriales(materialesJSON, opcion);
         })
+    }
+
+    function enviarJSONMateriales(json, opcion) {
+        var data = JSON.stringify(json);
+        var parametro = "";
+        var id_fichatecnica = $("#id_fichatecnica").val(),
+            taco = $("#taco").val(),
+            plataforma = $("#plataforma").val(),
+            color = $("#color").val(),
+            modelo = $("#modelo").val(),
+            coleccion = $("#coleccion").val(),            
+            especificacion = $("#especificacion").val();        
+        
+        if (opcion === "btnModificarFicha")
+            parametro = "modificarMaterialesDeFichaTecnica";
+        else if (opcion === "btnCrearFicha")
+            parametro = "registrarMaterialesDeNuevaFichaTecnica";
+        
+        console.log("enviar json opcion: " + opcion);
+        $.ajax({
+            method: "POST",
+            url: "../Sfichatecnica",
+            data: {"datos": data, "parametro": parametro, "id_fichatecnica": id_fichatecnica, "taco": taco, "plataforma": plataforma, "color": color, "modelo":modelo , "coleccion": coleccion, "especificacion": especificacion}
+        }).done(function (data) {
+            console.log(data);
+        });
     }
 
     function modificar_checkbox(formulario) {
@@ -1032,7 +1103,7 @@
                 data: {"parametro": "registrarProveedor", "estado": estado, "razon": razon, "ruc": ruc, "direccion": direccion}
             }).done(function (data) {
                 console.log("Se registro" + data);
-                
+
                 if (data == "false") {
                     new PNotify({
                         title: 'Mensaje de Advertencia',
@@ -1046,7 +1117,7 @@
                         type: 'success'
                     });
                 }
-                
+
                 var arreglo = ["#razon", "#ruc", "#direccion"];
                 limpiar(arreglo);
             })

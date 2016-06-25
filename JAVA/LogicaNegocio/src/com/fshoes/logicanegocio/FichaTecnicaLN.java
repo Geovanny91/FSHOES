@@ -61,4 +61,14 @@ public class FichaTecnicaLN {
         }
     }
     
+    public int existeFichaTecnica(String valor, String prm) throws Exception{
+        try {
+            if (!(prm.equals("")) && !valor.equals(""))
+                return FichaTecnicaAD.Instancia().existeFichaTecnica(valor, prm);
+            else return 0;
+        } catch (Exception e) {
+            throw e;
+        }        
+    }
+    
 }

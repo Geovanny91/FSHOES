@@ -58,7 +58,7 @@ public class ModeloLN {
 
     public int existeModelo(String valor, String prm) throws Exception{
         try {
-            if (!(prm.equals("")))
+            if (!(prm.equals("")) && !valor.equals(""))
                 return ModeloAD.Instancia().existeModelo(valor, prm);
             else return 0;
         } catch (Exception e) {

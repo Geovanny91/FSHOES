@@ -151,6 +151,37 @@ public class FichaTecnicaAD {
         return rpt;
     }
 
+    public int existeFichaTecnica(String valor, String prm) throws Exception{
+        int total = 0;
+        cn = Conexion.Instancia().getConexion();
+        try {
+            cst = cn.prepareCall("{call pa_ficha_tecnica(?,?,?,?,?,?,?,?,?,?,?)}");
+            
+            cst.setString(1, valor);
+            cst.setString(2, prm);
+            cst.setInt(3, 0);
+            cst.setInt(4, 0);
+            cst.setString(5, "");
+            cst.setString(6, "");
+            cst.setString(7, "");
+            cst.setString(8, "");
+            cst.setString(9, "");
+            cst.setString(10, "");
+            cst.setString(11, "");
+            
+            tabla = cst.executeQuery();
+            while(tabla.next()){
+                total = tabla.getInt("existe");
+            }            
+            return total;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }finally{
+            close();
+        }       
+        return total;        
+    }
+    
     private void close() {
         try {
             if (tabla != null) {

@@ -5,14 +5,11 @@
  */
 package com.fshoes.servlets;
 
-import com.fshoes.accesodatos.ModeloAD;
 import com.fshoes.entidades.FichaTecnica;
 import com.fshoes.entidades.Material;
-import com.fshoes.entidades.Modelo;
 import com.fshoes.entidades.Proceso;
 import com.fshoes.entidades.Proveedor;
 import com.fshoes.logicanegocio.MaterialLN;
-import com.fshoes.logicanegocio.ModeloLN;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
