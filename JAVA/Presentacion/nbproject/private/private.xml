@@ -5,8 +5,8 @@
         <group>
             <file>file:/D:/Programas/SYSTEM/FSHOES/JAVA/Presentacion/web/includes/pie_interno.jsp</file>
             <file>file:/D:/Programas/SYSTEM/FSHOES/JAVA/Presentacion/web/fmaterial/asignarMaterialNuevaFichaTecnica.jsp</file>
-            <file>file:/D:/Programas/SYSTEM/FSHOES/JAVA/Presentacion/src/java/com/fshoes/servlets/SOrden.java</file>
             <file>file:/D:/Programas/SYSTEM/FSHOES/JAVA/Presentacion/src/java/com/fshoes/servlets/Sfichatecnica.java</file>
+            <file>file:/D:/Programas/SYSTEM/FSHOES/JAVA/Presentacion/web/fmaterial/listadoMaterial.jsp</file>
         </group>
     </open-files>
 </project-private>

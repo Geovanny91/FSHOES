@@ -9,7 +9,6 @@ import com.fshoes.entidades.FichaTecnica;
 import com.fshoes.entidades.Material;
 import com.fshoes.entidades.Proceso;
 import com.fshoes.entidades.Proveedor;
-import com.sun.org.apache.bcel.internal.generic.AALOAD;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;

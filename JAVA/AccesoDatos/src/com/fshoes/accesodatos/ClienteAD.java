@@ -33,10 +33,10 @@ public class ClienteAD {
     private ResultSet tabla = null;
         
     public ArrayList<Cliente> listarClientes(String valor, String prm) throws Exception{
-        cn = Conexion.Instancia().getConexion();
+        Connection cn = Conexion.Instancia().getConexion();
         ArrayList<Cliente> Lista = null;
         try{
-            cst = cn.prepareCall("{call pa_cliente(?,?,?,?,?,?,?,?)}");
+            CallableStatement cst = cn.prepareCall("{call pa_cliente(?,?,?,?,?,?,?,?)}");
             cst.setString(1, valor);
             cst.setString(2, prm);
             cst.setInt(3, 0);
@@ -46,7 +46,7 @@ public class ClienteAD {
             cst.setString(7, "");
             cst.setBoolean(8, false);
             
-            tabla = cst.executeQuery();
+            ResultSet tabla = cst.executeQuery();
             Lista = new ArrayList<Cliente>();
             while(tabla.next()){
                 Cliente c = new Cliente();
