@@ -109,7 +109,7 @@
                     f_emision = $("#f_emision").val(),
                     f_entrega = $("#f_entrega").val(),
                     total = $("#total").val(),
-                    idmodelo = $("#id_modelo").val();
+                    id_fichatecnica = $("#id_fichatecnica").val();
             var url = $("#frmOrden").attr("action");
             var cabecera = "#tabla-general-serie thead th",
                     cuerpo = "#tabla-general-serie tbody tr";
@@ -127,9 +127,9 @@
             $.ajax({
                 method: "POST",
                 url: url,
-                data: {"detalle": objJson, "orden": orden, "pedido": pedido, "f_emision": f_emision, "f_entrega": f_entrega, "id_modelo": idmodelo, "total": total, "parametro": "registrarOrden"},
+                data: {"detalle": objJson, "orden": orden, "pedido": pedido, "f_emision": f_emision, "f_entrega": f_entrega, "id_fichatecnica": id_fichatecnica, "total": total, "parametro": "registrarOrden"},
                 success: function (info) {
-                    //console.log(info);
+                    console.log(info);
                     console.log(typeof info);
                     if (info == "false") {
                         new PNotify({//ver lo de la notificación
@@ -678,7 +678,7 @@
                 } else if (info == "true") {
                     new PNotify({
                         title: 'Mensaje de éxito',
-                        text: 'Se modificaron los datos satisfactoriamente.',
+                        text: 'Se guardaron los datos satisfactoriamente.',
                         type: 'success'
                     });
                     $("#frmModeloRegistrar").find("input[type='text']").val("");
@@ -1097,10 +1097,14 @@
 
     function seleccionarFichaTecnica(x) {
         var id = x.childNodes[1].lastChild.value,
-                razon_social = x.childNodes[1].lastChild.value;
+                razon_social = x.childNodes[1].lastChild.value,
+                modelo = x.childNodes[9].innerHTML;
         var rz_cliente = $("#fichatecnica").val(razon_social),
-                id_proceso = $("#id_fichatecnica").val(id);
-        console.log("id f. técnica " + id)
+                id_proceso = $("#id_fichatecnica").val(id),
+                id_ficha = $("#id_fichatecnica").val(id);
+        $("#ficha_tecnica").val(id);
+        console.log("id f. técnica " + id);
+        console.log("modelo: " + modelo);
         console.log(x.childNodes);
     }
 

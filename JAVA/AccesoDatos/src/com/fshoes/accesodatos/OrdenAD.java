@@ -38,7 +38,7 @@ public class OrdenAD {
             cst.setString(5, objOrden.getFecha_emision());
             cst.setString(6, objOrden.getFecha_entrega());
             cst.setDouble(7, objOrden.getTotal());
-            cst.setString(8, objOrden.getObjModelo().getCodigomodelo());
+            cst.setString(8, objOrden.getObjFicha().getCodigoficha());
             cst.execute();
             rpt = true;
         } catch (Exception e) {

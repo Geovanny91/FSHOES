@@ -5,6 +5,7 @@
  */
 package com.fshoes.servlets;
 
+import com.fshoes.entidades.FichaTecnica;
 import com.fshoes.entidades.Modelo;
 import com.fshoes.entidades.Orden;
 import com.fshoes.entidades.Serie;
@@ -95,9 +96,9 @@ public class SOrden extends HttpServlet {
         //boolean rptorden = false, rptSerie = false;
         //AQUI VAMOS A PROBAR EL DETALLE DE SERIES
         String json_detalle_serie = request.getParameter("detalle");//Aqui ver esto posiblemente ya no salen las notificaciones por la cache
-        System.out.println("Detalle json: " + json_detalle_serie);
+        //System.out.println("Detalle json: " + json_detalle_serie);
         
-        Modelo objModelo = null;        
+        FichaTecnica objFicha = null;        
         
         switch (parametro) {
             case "listarSerie": {
@@ -125,14 +126,14 @@ public class SOrden extends HttpServlet {
                            pedido      = request.getParameter("pedido").trim(),
                            f_emision   = request.getParameter("f_emision").trim(),
                            f_entrega   =request.getParameter("f_entrega").trim(),
-                           codigomodelo = request.getParameter("id_modelo").trim();
+                           codigoficha = request.getParameter("id_fichatecnica").trim();
                     int    total       = Integer.parseInt(request.getParameter("total").trim());
                     
                     System.out.println("Detalle json: " + json_detalle_serie);
                     if( !json_detalle_serie.equals("{\"series\":[]}") ){
-                        objModelo = new Modelo();
-                        objModelo.setCodigomodelo(codigomodelo);
-                        Orden objOrden = new Orden(orden, pedido, f_emision, f_entrega, total, objModelo);
+                        objFicha = new FichaTecnica();
+                        objFicha.setCodigoficha(codigoficha);
+                        Orden objOrden = new Orden(orden, pedido, f_emision, f_entrega, total, objFicha);
                         rptorden = OrdenLN.Instancia().registrarOrden(objOrden, parametro);
                         System.out.println("Registro Orden correcto? " + rptorden);
                         parametro = "registrarSerie";//modificar el parámentro

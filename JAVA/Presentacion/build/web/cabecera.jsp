@@ -92,8 +92,6 @@
                                             </li>
                                             <li><a href="fmodelo/listadoModelo.jsp">Lista</a>
                                             </li>
-                                            <li><a href="fmodelo/listadoModelo.jsp">Nueva Ficha Técnica</a>
-                                            </li>
                                         </ul>
                                     </li>
                                     <li><a><i class="fa fa-table"></i> Material <span class="fa fa-chevron-down"></span></a>

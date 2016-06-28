@@ -37,24 +37,24 @@
                 <div class="x_content">
                     <form id="frmOrden" action="../SOrden" method="POST" class="form-horizontal form-label-left">
                         <br>
-                        <input type="hidden" name="id_modelo" id="id_modelo" value="">
-                        
+                        <input type="hidden" name="id_fichatecnica" id="id_fichatecnica" value="">
+
                         <!--INICIO MODAL MODELO-->
-                        <div class="modal fade bs-example-modal-lg" id="modalModelo" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+                        <div class="modal fade bs-example-modal-lg" id="modalModeloPorFicha" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
                             <div class="modal-dialog modal-lg">
                                 <div class="modal-content">
 
                                     <div class="modal-header">
                                         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
                                         </button>
-                                        <h2 class="modal-title" id="myModalLabel">Buscar Modelo</h2>
+                                        <h2 class="modal-title" id="myModalLabel">Buscar Ficha Técnica</h2>
                                     </div>
                                     <div class="modal-body">
                                         <div class="row">
                                             <div class="form-group">
                                                 <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
                                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                                    <input type="text" class="form-control has-feedback-left" name="buscar-modelo" id="buscar-modelo" onkeyup="listarModelos(this.value);" value="" placeholder="Buscar por còdigo o razón social de cliente">
+                                                    <input type="text" class="form-control has-feedback-left" name="buscar-fichatecnica" id="buscar-fichatecnica" onkeyup="listarFichaTecnica(this.value);" value="" placeholder="Buscar por F. Técnica o código de Modelo">
                                                     <span class="fa fa-search form-control-feedback left" aria-hidden="true"></span>
                                                 </div>
                                             </div>
@@ -62,7 +62,7 @@
                                             <div class="col-md-12 col-sm-12 col-xs-12">
                                                 <div class="x_panel">
                                                     <div class="x_title">
-                                                        <h2>Proceso <small>Lista en detalle.</small></h2>
+                                                        <h2>Ficha Técnica <small>Lista en detalle.</small></h2>
                                                         <ul class="nav navbar-right panel_toolbox">
                                                             <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                                                             </li>                                                                
@@ -77,16 +77,18 @@
                                                                 <tr>
                                                                     <th>#</th>
                                                                     <th></th>  
-                                                                    <th>Código</th>
-                                                                    <th>Horma</th>
+                                                                    <th>F. Técnica</th>
+                                                                    <th>Color</th>
+                                                                    <th>Horma</th>                                
                                                                     <th>Taco</th>
-                                                                    <th>Plataforma</th>
-                                                                    <th>Colección</th> 
-                                                                    <th>Cliente</th> 
+                                                                    <th>Plataforma</th>                                                                
+                                                                    <th>Id Cliente</th>
+                                                                    <th>Cliente</th>
+                                                                    <th>Modelo</th> 
                                                                     <th></th>
                                                                 </tr>
                                                             </thead>
-                                                            <tbody id="tabla-modelo">                                                                    
+                                                            <tbody id="tabla-fichatecnica">                                                                    
                                                             </tbody>
                                                         </table>
                                                     </div>
@@ -98,7 +100,7 @@
                             </div>
                         </div>
                         <!--FIN MODAL MODELO-->
-                        
+
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Orden de Producciòn</label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
@@ -141,15 +143,15 @@
                             </div>
                         </div>                        
                         <div class="form-group">                            
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Modelo</label>
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Ficha Técnica</label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input type="text" class="form-control" name="modelo" id="modelo" value="" placeholder="Modelo" readonly="">                                
+                                <input type="text" class="form-control" name="ficha_tecnica" id="ficha_tecnica" value="" placeholder="Código ficha técnica" readonly="">                                
                             </div>
                         </div>
                         <div class="ln_solid"></div>
                         <div class="form-group">                            
                             <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">                                
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalModelo" ><i class="fa fa-search"></i> Modelo</button>
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalModeloPorFicha" ><i class="fa fa-search"></i> Ficha</button>
                                 <button type="button" id="guardarOrden" class="btn btn-success">Guardar</button>
                             </div>
                         </div>                        

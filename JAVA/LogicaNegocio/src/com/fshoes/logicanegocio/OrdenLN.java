@@ -27,7 +27,7 @@ public class OrdenLN {
     public boolean registrarOrden(Orden objOrden, String prm) throws Exception{
         try {            
             if(objOrden != null && !(prm.equals(""))){
-                if(!objOrden.getCodigoorden().equals("") && objOrden.getTotal()!=0 && !objOrden.getObjModelo().getCodigomodelo().equals(""))
+                if(!objOrden.getCodigoorden().equals("") && objOrden.getTotal()!=0 && !objOrden.getObjFicha().getCodigoficha().equals(""))
                     return OrdenAD.Instancia().registrarOrden(objOrden, prm);
                 else return false;                
             }else{
