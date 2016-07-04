@@ -42,6 +42,47 @@ public class MaterialAD {
     private PreparedStatement pst = null;
     private ResultSet tabla = null;
 
+    public ArrayList<Material> listarMaterial(String valor, String prm) throws Exception {
+        cn = Conexion.Instancia().getConexion();
+        ArrayList<Material> Lista = null;
+        try {
+            cst = cn.prepareCall("{call pa_material(?,?,?,?,?,?,?,?,?,?,?,?,?,?)}");
+            cst.setString(1, valor);
+            cst.setString(2, prm);
+            cst.setInt(3, 0);
+            cst.setInt(4, 0);
+            cst.setInt(5, 0);
+            cst.setString(6, "");
+            cst.setString(7, "");
+            cst.setString(8, "");
+            cst.setInt(9, 0);
+            cst.setFloat(10, 0);
+            cst.setString(11, "");
+            cst.setInt(12, 0);
+            cst.setString(13, "");
+            cst.setString(14, "");
+            tabla = cst.executeQuery();
+            Lista = new ArrayList<>();
+            while (tabla.next()) {
+                Material m = new Material();                
+                m.setNombre(tabla.getString("nombre"));
+                m.setDescripcion(tabla.getString("descripcion"));
+                m.setUnidadmedida(tabla.getString("unidadmedida"));
+                m.setCantidaddocena(tabla.getFloat("cantidaddocena"));                
+                Proceso proceso = new Proceso();
+                proceso.setCodigoproceso(tabla.getString("codigoproceso"));
+                proceso.setDescripcion(tabla.getString("procDescripcion"));
+                m.setObjProceso(proceso);                
+                Lista.add(m);
+            }
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            close();
+        }
+        return Lista;
+    }
+    
     public ArrayList<Material> listarMaterial(String valor, String prm, int inicio, int fin) throws Exception {
         cn = Conexion.Instancia().getConexion();
         ArrayList<Material> Lista = null;
