@@ -123,9 +123,9 @@
                 </li>
                 <li><a><i class="fa fa-bar-chart-o"></i> Orden <span class="fa fa-chevron-down"></span></a>
                   <ul class="nav child_menu" style="display: none">
-                      <li><a href="../forden/mantenedorOrden.jsp">Registrar</a>
-                      <li><a href="../forden/asignarOrdenTrabajador.jsp">Asignar</a>
-                    </li>                    
+                      <li><a href="../forden/mantenedorOrden.jsp">Registrar</a></li>
+                      <li><a href="../forden/asignarOrdenTrabajador.jsp">Asignar</a></li>
+                      <li><a href="../forden/exportarDatosOrden.jsp">Exportar</a></li>
                   </ul>
                 </li>
               </ul>

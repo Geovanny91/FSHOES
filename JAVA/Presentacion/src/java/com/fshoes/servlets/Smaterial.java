@@ -99,7 +99,7 @@ public class Smaterial extends HttpServlet {
         FichaTecnica objFicha = null;        
 
         switch (parametro) {
-            case "listarMaterial": {
+            case "listarMaterialPaginacion": {
                 try {
                     ArrayList<Material> lista = new ArrayList<>();
                     int inicio = Integer.parseInt(request.getParameter("start")),

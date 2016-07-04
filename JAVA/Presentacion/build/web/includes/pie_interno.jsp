@@ -82,6 +82,7 @@
         orden();
         comboProceso();
         asignarOrdenTrabajadorProceso();
+        exportarOrden();
 
         listarModelosPaginacion();
         editarModelo();
@@ -100,6 +101,28 @@
     var tabla_paginacion_material, tabla_paginacion_modelo, tabla_paginacion_cliente, tabla_paginacion_proveedor;
     /*FIN VARIABLES GLOBALES*/
 
+    var lenguaje_espanol = {
+        processing: "Procesando...",
+        search: "Buscar:",
+        lengthMenu: "Mostrar _MENU_ registros",
+        info: "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+        infoEmpty: "Mostrando registros del 0 al 0 de un total de 0 registros",
+        infoFiltered: "(filtrado de un total de _MAX_ registros)",
+        infoPostFix: "",
+        loadingRecords: "Cargando...",
+        zeroRecords: "Aucun &eacute;l&eacute;ment &agrave; afficher",
+        emptyTable: "Aucune donnée disponible dans le tableau",
+        paginate: {
+            first: "Primero",
+            previous: "Anterior",
+            next: "Siguiente",
+            last: "Anterior"
+        },
+        aria: {
+            sortAscending: ": Activar para ordenar la columna de manera ascendente",
+            sortDescending: ": Activar para ordenar la columna de manera descendente"
+        }
+    };
 
     function orden() {
         $("#guardarOrden").on("click", function () {
@@ -154,6 +177,29 @@
         });
     }
 
+    function exportarOrden() {
+
+        $("#btnExport").click(function (e) {
+            e.preventDefault();
+
+            //getting data from our table
+            var data_type = 'data:application/vnd.ms-excel;base64';//"base64", para los caracteres raros
+            var table_div = document.getElementById('dvData');
+            console.log(table_div.outerHTML);
+            //var table_html = table_div.outerHTML.replace(/ /g, '%20');
+            var table_html = table_div.outerHTML;
+            var a = document.createElement('a');
+            //a.href = data_type + ',' + $.base64.encode(table_html);
+            a.href = data_type + ',' + $.base64.encode(table_html);//se debe agregar un js base 64 de jquery
+            a.download = 'exported_table_' + Math.floor((Math.random() * 9999999) + 1000000) + '.xls';
+            a.click();
+        });
+
+        /*$("#btnExport").on("click", function (e) {
+            window.open('data:application/vnd.ms-excel,' + $('#dvData').html());
+            e.preventDefault();
+        });*/
+    }
     function listarDetalleOrdenPorCodigo(valor) {
         var char = event.which || event.keyCode;
         var cod = valor.value;
@@ -464,7 +510,8 @@
                 {"data": "direccion"},
                 {"defaultContent": "<button tipo='modificarProveedor' class='btn btn-info btn-xs'><i class='fa fa-edit'></i></button> <button tipo='eliminarProveedor' class='btn btn-danger btn-xs'><i class='fa fa-remove'></i></button>", "width": "5%"}
                 //{"defaultContent": "<button class='btn btn-primary btn-xs'><i class='fa fa-remove'></i></button>"}
-            ]
+            ],
+            language: lenguaje_espanol
         });
         //tabla_paginacion_cliente.column(6).visible(false);
         //mantenedoresClientes('#listaCliente tbody', tabla_paginacion_cliente);
@@ -492,7 +539,8 @@
                 {"data": "direccion"},
                 {"defaultContent": "<button tipo='modificarCliente' class='btn btn-info btn-xs'><i class='fa fa-edit'></i></button> <button tipo='eliminarCliente' class='btn btn-danger btn-xs'><i class='fa fa-remove'></i></button>", "width": "5%"}
                 //{"defaultContent": "<button class='btn btn-primary btn-xs'><i class='fa fa-remove'></i></button>"}
-            ]
+            ],
+            language: lenguaje_espanol
         });
         //tabla_paginacion_cliente.column(6).visible(false);
         //mantenedoresClientes('#listaCliente tbody', tabla_paginacion_cliente);
@@ -564,7 +612,8 @@
                 {"data": "objModelo.codigomodelo"},
                 {"defaultContent": "<button tipo='modificarModelo' class='btn btn-info btn-xs'><i class='fa fa-edit'></i></button> <button tipo='eliminarModelo' class='btn btn-danger btn-xs'><i class='fa fa-remove'></i></button>", "width": "5%"}
                 //{"defaultContent": "<button class='btn btn-primary btn-xs'><i class='fa fa-remove'></i></button>"}
-            ]
+            ],
+            language: lenguaje_espanol
         });
         tabla_paginacion_modelo.column(6).visible(false);
         mantenedoresModelo('#listaModelos tbody', tabla_paginacion_modelo);
@@ -697,7 +746,7 @@
             "ajax": {
                 "url": "../Smaterial",
                 "type": "POST",
-                "data": {"parametro": "listarMaterial"}
+                "data": {"parametro": "listarMaterialPaginacion"}
                 //"dataSrc": "animes"
             },
             "columns": [
@@ -715,7 +764,8 @@
                 {"data": "objFichaTecnica.codigoficha"},
                 {"defaultContent": "<button tipo='modificarMaterial' class='btn btn-info btn-xs'><i class='fa fa-edit'></i></button> <button tipo='eliminarMaterial' class='btn btn-danger btn-xs'><i class='fa fa-remove'></i></button>", "width": "5%"}
                 //{"defaultContent": "<button class='btn btn-primary btn-xs'><i class='fa fa-remove'></i></button>"}
-            ]
+            ],
+            language: lenguaje_espanol
         });
         tabla_paginacion_material.column(0).visible(false);
         tabla_paginacion_material.column(7).visible(false);
@@ -764,7 +814,7 @@
         $("#btnFichaTecnica").on("click", function () {
             var valor = $("#id_fichatecnica").val();
             var parametro = "obtenerFichaTecnica";
-            console.log(parametro +" - "+ valor);
+            console.log(parametro + " - " + valor);
             $.ajax({
                 method: "POST",
                 url: "../Sfichatecnica",
@@ -969,7 +1019,7 @@
                 })
                 json = {"nombre": campo1, "descripcion": campo2, "unidadmedida": campo3, "cantidaddocena": campo4, "preciounitario": campo5, "tipo": campo6, "idproveedor": campo7, "codigoproceso": campo8, "codigoficha": campo9};
                 arr.push(json);
-                console.log(campo1 + ', ' + campo2 + ", " + campo3 + ", " + campo4+ ", " + campo9);
+                console.log(campo1 + ', ' + campo2 + ", " + campo3 + ", " + campo4 + ", " + campo9);
             });
             var materialesJSON = {"arreglo": arr};
             //console.log(materialesJSON);
@@ -982,36 +1032,36 @@
         var data = JSON.stringify(json);
         var parametro = "";
         var id_fichatecnica = $("#id_fichatecnica").val(),
-            taco = $("#taco").val(),
-            plataforma = $("#plataforma").val(),
-            color = $("#color").val(),
-            modelo = $("#modelo").val(),
-            coleccion = $("#coleccion").val(),            
-            especificacion = $("#especificacion").val();        
-        
+                taco = $("#taco").val(),
+                plataforma = $("#plataforma").val(),
+                color = $("#color").val(),
+                modelo = $("#modelo").val(),
+                coleccion = $("#coleccion").val(),
+                especificacion = $("#especificacion").val();
+
         if (opcion === "btnModificarFicha")
             parametro = "modificarMaterialesDeFichaTecnica";
         else if (opcion === "btnCrearFicha")
             parametro = "registrarMaterialesDeNuevaFichaTecnica";
-        
+
         console.log("enviar json opcion: " + opcion + " - Id Ficha: " + id_fichatecnica);
         $.ajax({
             method: "POST",
             url: "../Sfichatecnica",
-            data: {"datos": data, "parametro": parametro, "id_fichatecnica": id_fichatecnica, "taco": taco, "plataforma": plataforma, "color": color, "modelo":modelo , "coleccion": coleccion, "especificacion": especificacion}
+            data: {"datos": data, "parametro": parametro, "id_fichatecnica": id_fichatecnica, "taco": taco, "plataforma": plataforma, "color": color, "modelo": modelo, "coleccion": coleccion, "especificacion": especificacion}
         }).done(function (data) {
-            if(data == "existe_ficha"){
+            if (data == "existe_ficha") {
                 new PNotify({
-                        title: 'Mensaje de Advertencia',
-                        text: 'Código de ficha técnica, ya existe.',
-                        hide: false
-                    });
-            }else if(data == "true"){
+                    title: 'Mensaje de Advertencia',
+                    text: 'Código de ficha técnica, ya existe.',
+                    hide: false
+                });
+            } else if (data == "true") {
                 new PNotify({
-                        title: 'Mensaje de éxito',
-                        text: 'Se guardaron los datos satisfactoriamente.',
-                        type: 'success'
-                    });
+                    title: 'Mensaje de éxito',
+                    text: 'Se guardaron los datos satisfactoriamente.',
+                    type: 'success'
+                });
             }
         });
     }
