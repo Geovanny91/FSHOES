@@ -36,6 +36,16 @@ public class MaterialLN {
         }
     }
     
+    public ArrayList<Material> listarMaterial(String valor, String prm) throws Exception {
+        try {
+            if(!prm.equals("") && !valor.equals(""))
+                return MaterialAD.Instancia().listarMaterial(valor, prm);//validar con el parámetro
+            else return null;
+        } catch (Exception ex) {
+            throw ex;
+        }
+    }
+    
     public ArrayList<Material> obtenerMaterialesPorFichaTecnica(String valor, String prm) throws Exception {
         try {
             if(!prm.equals("") && !valor.equals(""))
