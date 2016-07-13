@@ -37,13 +37,10 @@
 
                  justify-content: flex-start;
                  align-items: flex-start;">
-                
-                <div id="pintarcabecera"></div>
-
-
+              
                 <div id="pintarTablita" style="margin: 5px;    
                      /*height: 50px;*/
-                     width: 48%;
+                     width: 70%;
 
                      text-align: center;">
                     <table id="tabla" border="1"><!--agregar un atrr con jquery al a tabla para un rowspan y juntar todo-->
@@ -51,50 +48,97 @@
                         <!---->
                         <tr>
 				<td colspan='2' rowspan='2'>IMAGEN</td>
-				<td colspan='2'>ORDEN DE PRODUCCIÓN N°</td>
+				<td colspan='2' style="color: #1b69b7; text-align: center;"><b>ORDEN DE PRODUCCIÓN N°</b></td>
 							
-				<td rowspan='2' colspan='2'>026 - V</td>				
-				<td>FECHA EMISIÓN</td>
-				<td>27/01/2016</td>
+				<td rowspan='2' colspan='2' style="color: #1b69b7; text-align: center; width: 50px;"><b>026 - V</b></td>				
+				<td style="text-align: center;">FECHA EMISIÓN</td>
+				<td style="text-align: center;">27/01/2016</td>
 				
 						</tr>
 
 				<tr>
 				
-				<td>ORD. PED. N°</td>
-				<td>1604</td>				
-				<td>FECHA ENTREGA</td>
-				<td>29/01/2016</td>
+				<td style="text-align: center;"><b>ORD. PED. N°</b></td>
+				<td style="text-align: center;">1604</td>				
+				<td style="text-align: center;">FECHA ENTREGA</td>
+				<td style="text-align: center;">29/01/2016</td>
 				
 						</tr>
                                                 <tr>
                                                     <td colspan="6"></td>
                                                 </tr>
 				<tr>
-				<td>MODELO</td>
-				<td>2G04</td>				
-				<td>COLOR</td>
-				<td>CHAROL NUDE</td>
-				<td>CLIENTE</td>
-				<td>VILMA</td>
+				<td style="text-align: center;"><b>MODELO</b></td>
+				<td style="text-align: center;">2G04</td>				
+				<td style="text-align: center;"><b>COLOR</b></td>
+				<td style="text-align: center;">CHAROL NUDE</td>
+				<td style="text-align: center;"><b>CLIENTE</b></td>
+				<td style="text-align: center;">VILMA</td>
 						</tr>
-
+                                                <tr>
+                                                    <td colspan="6"></td>
+                                                </tr>
 				<tr>
-				<td>HORMA</td>
-				<td>50763</td>				
-				<td>SERIE</td>
-				<td rowspan='3' colspan='3'>
-				<table border='1'>
-					<tr>
-					<th>35</th>
-					<th>36</th>
-					<th>37</th>
-					<th>38</th>
-					<th>39</th>
-					<th>40</th>
-					<th>TOTAL</th>
+				<td style="text-align: center;"><b>HORMA</b></td>
+				<td style="text-align: center;">50763</td>				
+				<td ></td>
+				<td style="text-align: center;">SERIE
+                                    <!--<div id="contenido_zapatos" style="width: 100%;">
+                                        <div id="serie" style="display: inline-flex;">
+                                            <div style="width: 40px; border: 1px solid black;">35</div>
+                                            <div style="width: 40px; border: 1px solid black;">36</div>
+                                            <div style="width: 40px; border: 1px solid black;">37</div>
+                                            <div style="width: 40px; border: 1px solid black;">38</div>
+                                            <div style="width: 40px; border: 1px solid black;">39</div>
+                                            <div style="width: 40px; border: 1px solid black;">40</div>
+                                        </div>
+                                        <div id="pares" style="display: inline-flex;">
+                                            <div style="width: 40px; border: 1px solid black;">0</div>
+                                            <div style="width: 40px; border: 1px solid black;">0</div>
+                                            <div style="width: 40px; border: 1px solid black;">5</div>
+                                            <div style="width: 40px; border: 1px solid black;">5</div>
+                                            <div style="width: 40px; border: 1px solid black;">5</div>
+                                            <div style="width: 40px; border: 1px solid black;">5</div>
+                                        </div>
+                                    </div>-->
+				<!--<table border='1' >
+					<tr style="text-align: center;">
+					<th width='50px'>35</th>
+                                        <th width='50px'>36</th>
+                                        <th width='50px'>37</th>
+                                        <th width='50px'>38</th>
+                                        <th width='50px'>39</th>
+                                        <th width='50px'>40</th>
+					<th >Total</th>
+					</tr>
+					<tr style="text-align: center;">
+					<td rowspan='2'>0</td>
+					<td rowspan='2'>5</td>
+					<td rowspan='2'>5</td>
+					<td rowspan='2'>5</td>
+					<td rowspan='2'>5</td>
+					<td rowspan='2'>0</td>
+ 					<td rowspan='2'>20</td>
 					</tr>
 					<tr>
+					
+					</tr>
+				</table>-->
+				</td>
+                                
+                                <td rowspan='3' colspan='2'>
+                                    
+				<table border='1' >
+					<tr style="text-align: center;">
+					<th width='50px'>35</th>
+                                        <th width='50px'>36</th>
+                                        <th width='50px'>37</th>
+                                        <th width='50px'>38</th>
+                                        <th width='50px'>39</th>
+                                        <th width='50px'>40</th>
+					<th >Total</th>
+					</tr>
+					<tr style="text-align: center;">
 					<td rowspan='2'>0</td>
 					<td rowspan='2'>5</td>
 					<td rowspan='2'>5</td>
@@ -107,20 +151,21 @@
 					
 					</tr>
 				</table>
-				</td>				
+				</td>
+                                
 				
 						</tr>
 
 				<tr>
-				<td>TACO</td>
-				<td>9T252PL30</td>				
-				<td rowspan='2'>PARES</td>
-								
+				<td style="text-align: center;"><b>TACO</b></td>
+				<td style="text-align: center;">9T252PL30</td>				
+				<td></td>
+				<td rowspan='2' style="text-align: center;">PARES</td>				
 						</tr>
 
 				<tr>
-				<td>PLATAF.</td>
-				<td>30PL19</td>				
+                                    <td style="text-align: center;"><b>PLATAF.</b></td>
+				<td style="text-align: center;">30PL19</td>				
 							
 						</tr>
                                                 <tr>
@@ -138,8 +183,8 @@
                         <tr>
                             <th>Nombre</th>
                             <th>Descripción</th>
-                            <th>U. Medida</th>
-                            <th>Cant. Docena</th>                            
+                            <th>U.M.</th>
+                            <th>CANT. por doc</th>                            
                         </tr>
 
                         <%
@@ -154,23 +199,23 @@
                             <th colspan="4" class="text-center" style="background-color: #f4c688;"><%=procesos[p]%></th>
                         </tr>
 
-                        <%    for (int i = 0; i < 13; i++) {
-                                //if (lstMaterial.get(i).getObjProceso().getDescripcion().equals(procesos[p])) {
+                        <%    for (int i = 0; i < lstMaterial.size(); i++) {
+                                if (lstMaterial.get(i).getObjProceso().getDescripcion().equals(procesos[p])) {
                         %>
                         <tr>
-                            <td><%= i%></td>
-                            <td><%= i%></td>
-                            <td><%= i%></td>
-                            <td><%= i%></td>
-                            <!--<td>< lstMaterial.get(i).getNombre()%></td>
-                            <td>< lstMaterial.get(i).getDescripcion()%></td>
-                            <td>< lstMaterial.get(i).getUnidadmedida()%></td>
-                            <td>< lstMaterial.get(i).getCantidaddocena()%></td>-->
+                            <!--<td>< i%></td>
+                            <td>< i%></td>
+                            <td>< i%></td>
+                            <td>< i%></td>-->
+                            <td><%= lstMaterial.get(i).getNombre()%></td>
+                            <td><%= lstMaterial.get(i).getDescripcion()%></td>
+                            <td style="text-align: center;"><%= lstMaterial.get(i).getUnidadmedida()%></td>
+                            <td style="text-align: center;"><%= lstMaterial.get(i).getCantidaddocena()%></td>
 
                         </tr>
                         <%}
                             }
-                            //}%>
+                            }%>
 
                     </table>
                 </div>
@@ -198,99 +243,14 @@
                 exportarOrden();
             });
             
-            var pintarCabecera = function(){
-			var tabla = "";
-						
-				tabla += "<table id='tabla_cabecera' border='1'><tr>"+
-				"<td colspan='2' rowspan='2'>IMAGEN</td>"+
-				"<td colspan='2'>ORDEN DE PRODUCCIÓN N°</td>"+
-							
-				"<td rowspan='2' colspan='2'>026 - V</td>"+				
-				"<td>FECHA EMISIÓN</td>"+
-				"<td>27/01/2016</td>"+
-				
-						"</tr>"+
-
-				"<tr>"+
-				//"<td colspan='2'>IMAGEN</td>"+
-				"<td>ORD. PED. N°</td>"+
-				"<td>1604</td>"+				
-				"<td>FECHA ENTREGA</td>"+
-				"<td>29/01/2016</td>"+
-				
-						"</tr>"+
-
-				"<tr>"+
-				"<td>MODELO</td>"+
-				"<td>2G04</td>"+				
-				"<td>COLOR</td>"+
-				"<td>CHAROL NUDE</td>"+
-				"<td>CLIENTE</td>"+
-				"<td>VILMA</td>"+
-						"</tr>"+
-
-				"<tr>"+
-				"<td>HORMA</td>"+
-				"<td>50763</td>"+				
-				"<td>SERIE</td>"+
-				"<td rowspan='3' colspan='3'>"+
-				"<table border='1'>"+
-					"<tr>"+
-					"<th>35</th>"+
-					"<th>36</th>"+
-					"<th>37</th>"+
-					"<th>38</th>"+
-					"<th>39</th>"+
-					"<th>40</th>"+
-					"<th>TOTAL</th>"+
-					"</tr>"+
-					"<tr>"+
-					"<td rowspan='2'>0</td>"+
-					"<td rowspan='2'>5</td>"+
-					"<td rowspan='2'>5</td>"+
-					"<td rowspan='2'>5</td>"+
-					"<td rowspan='2'>5</td>"+
-					"<td rowspan='2'>0</td>"+
- 					"<td rowspan='2'>20</td>"+
-					"</tr>"+
-					"<tr>"+
-					
-					"</tr>"+
-				"</table>"+
-				"</td>"+				
-				//"<td>TOTAL</td>"+
-						"</tr>"+
-
-				"<tr>"+
-				"<td>TACO</td>"+
-				"<td>9T252PL30</td>"+				
-				"<td rowspan='2'>PARES</td>"+
-				//"<td rowspan='2'>TABLA BODY</td>"+
-				//"<td rowspan='2'>Num Total</td>"+				
-						"</tr>"+
-
-				"<tr>"+
-				"<td>PLATAF.</td>"+
-				"<td>30PL19</td>"+				
-				/*"<td></td>"+
-				"<td></td>"+
-				"<td></td>"+	*/			
-						"</tr>"
-
-						; 
-			
-			tabla += "</table>";
-			$("#pintarcabecera").html(tabla);
-		}
-
             var pintarTabla = function () {
 
 
                 
                 var hola = $("#pintarTablita tbody");
                 console.log(hola);
-                var fila_empieza_especificacion = 9;
-                var numero_fila = fila_empieza_especificacion + 30 ;//si se suma "algo" a 32
+                var fila_empieza_especificacion = 10;
+                var numero_fila = fila_empieza_especificacion + 22 ;//si se suma "algo" a 32
                 var firstRow = document.getElementById("tabla").rows[ fila_empieza_especificacion ];
                 var x = firstRow.insertCell(1);
                 x.innerHTML = "CORTAOD: blaa ....  APARADO: blaa ...  ARMADO: blaa ...";//contenido de las ESPECIFICACIONES TÉCNICAS
@@ -305,16 +265,18 @@
 
                 /*TABLA DE PROCESO*/
 
-                firstRow = document.getElementById("tabla").rows[numero_fila +=9 ];//se resta ese "algo" a 8
+                firstRow = document.getElementById("tabla").rows[numero_fila +=10 ];//se resta ese "algo" a 
                 x = firstRow.insertCell(4);
                 x.innerHTML = "PROCESO";//APLICAR COLSPAN
                 console.log(hola[0].children[numero_fila].cells[4].setAttribute("colspan", "4"));
+                console.log(hola[0].children[ numero_fila ].cells[4].style.backgroundColor = "#a3cce2");
 
                 firstRow = document.getElementById("tabla").rows[numero_fila += 1];
                 x = firstRow.insertCell(4);
-                x.innerHTML = "CIERRE DE PLANILLA sabado 1 p.m";//APLICAR COLSPAN
-                console.log(hola[0].children[numero_fila].cells[4].setAttribute("colspan", "4"));
-
+                x.innerHTML = "CIERRE DE PLANILLA Sábado 1 p.m (Trabajdo Terminado y Entregado)";//APLICAR COLSPAN
+                console.log(hola[0].children[numero_fila].cells[4].setAttribute("colspan", "4")); 
+                console.log(hola[0].children[ numero_fila ].cells[4].style.backgroundColor = "#ddd7d0");
+                
                 firstRow = document.getElementById("tabla").rows[numero_fila += 1];
                 x = firstRow.insertCell(4);
                 x.innerHTML = "COLABORADOR";
@@ -324,7 +286,11 @@
                 x.innerHTML = "TERMINO";
                 x = firstRow.insertCell(7);
                 x.innerHTML = "VB";
-
+                console.log(hola[0].children[ numero_fila ].cells[4].style.backgroundColor = "#f4c688");
+                console.log(hola[0].children[ numero_fila ].cells[5].style.backgroundColor = "#f4c688");
+                console.log(hola[0].children[ numero_fila ].cells[6].style.backgroundColor = "#f4c688");
+                console.log(hola[0].children[ numero_fila ].cells[7].style.backgroundColor = "#f4c688");
+                
                 //OBJETO PROCESOS
                 var proceso = {
                     "nombre": "", "tiempo": "", "limpiar": function () {
