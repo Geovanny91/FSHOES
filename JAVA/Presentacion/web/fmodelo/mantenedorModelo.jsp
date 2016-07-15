@@ -112,7 +112,7 @@
                             <div class="form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12">Modelo</label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input type="text" class="form-control" name="modelo" id="modelo" value="" required placeholder="Modelo" required>
+                                    <input type="text" class="form-control" name="modelo" id="modelo" value="" required placeholder="Nuevo Modelo" required>
                                 </div>
                             </div>                            
 
@@ -126,7 +126,7 @@
                             <div class="form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12">Ficha Técnica</label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input type="text" class="form-control" name="ficha_tecnica" id="ficha_tecnica" value="" required placeholder="Código Ficha Técnica" required>
+                                    <input type="text" class="form-control" name="ficha_tecnica" id="ficha_tecnica" value="" required placeholder="Nueva Ficha Técnica" required>
                                 </div>
                             </div>
                             <div class="form-group">

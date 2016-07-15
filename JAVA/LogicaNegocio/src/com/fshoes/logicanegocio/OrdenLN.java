@@ -7,6 +7,7 @@ package com.fshoes.logicanegocio;
 
 import com.fshoes.accesodatos.OrdenAD;
 import com.fshoes.entidades.Orden;
+import java.util.ArrayList;
 
 /**
  *
@@ -35,6 +36,16 @@ public class OrdenLN {
             }            
         } catch (Exception e) {
             throw e;
+        }
+    }
+    
+    public ArrayList<Orden> listarCaberaOrden(String valor, String prm) throws Exception {
+        try {
+            if(!prm.equals("") && !valor.equals(""))
+                return OrdenAD.Instancia().listarCaberaOrden(valor, prm);
+            else return null;
+        } catch (Exception ex) {
+            throw ex;
         }
     }
 }

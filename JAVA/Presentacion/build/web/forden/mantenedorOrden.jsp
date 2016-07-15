@@ -181,7 +181,7 @@
                         <table id="tabla-general-serie" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
                             <thead>
                                 <tr>                                                    
-                                    <th class="text-center">34</th>
+                                    <!--<th class="text-center">34</th>-->
                                     <th class="text-center">35</th>                                                    
                                     <th class="text-center">36</th>
                                     <th class="text-center">37</th>
@@ -192,13 +192,13 @@
                             </thead>
                             <tbody id="tabla-serie">
                                 <tr>
+                                    <!--<td><input id="par1" type="number" min="0" class="cantidad form-control text-center" value="0"/></td>-->
                                     <td><input id="par1" type="number" min="0" class="cantidad form-control text-center" value="0"/></td>
                                     <td><input id="par2" type="number" min="0" class="cantidad form-control text-center" value="0"/></td>
                                     <td><input id="par3" type="number" min="0" class="cantidad form-control text-center" value="0"/></td>
                                     <td><input id="par4" type="number" min="0" class="cantidad form-control text-center" value="0"/></td>
                                     <td><input id="par5" type="number" min="0" class="cantidad form-control text-center" value="0"/></td>
                                     <td><input id="par6" type="number" min="0" class="cantidad form-control text-center" value="0"/></td>
-                                    <td><input id="par7" type="number" min="0" class="cantidad form-control text-center" value="0"/></td>
                                 </tr>
                             </tbody>
                         </table>

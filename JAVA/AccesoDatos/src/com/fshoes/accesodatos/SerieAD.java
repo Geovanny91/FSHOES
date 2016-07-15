@@ -9,6 +9,10 @@ import com.fshoes.entidades.Orden;
 import com.fshoes.entidades.Serie;
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 /**
  *
@@ -26,11 +30,16 @@ public class SerieAD {
     }
     // end Singleton
     
+    private Connection cn = null;
+    private CallableStatement cst = null;
+    private PreparedStatement pst = null;
+    private ResultSet tabla = null;
+        
     public boolean registrarSerie(Serie objserie, String prm) throws Exception{
-        Connection cn = Conexion.Instancia().getConexion();
+        cn = Conexion.Instancia().getConexion();
         boolean rpt = false;
         try {
-            CallableStatement cst = cn.prepareCall("{call pa_serie(?,?,?,?,?)}");
+            cst = cn.prepareCall("{call pa_serie(?,?,?,?,?)}");
             cst.setString(1, "");
             cst.setString(2, prm);
             cst.setInt(3, objserie.getTallas());
@@ -42,9 +51,56 @@ public class SerieAD {
         } catch (Exception e) {
             throw e;
         }finally{
-            cn.close();            
+            close();            
         }
         return rpt;
+    }
+    
+    public ArrayList<Serie> listarSeriePorOrden(String valor, String prm) throws Exception {
+        cn = Conexion.Instancia().getConexion();
+        ArrayList<Serie> Lista = null;
+        try {
+            cst = cn.prepareCall("{call pa_serie(?,?,?,?,?)}");
+            cst.setString(1, valor);
+            cst.setString(2, prm);
+            cst.setInt(3, 0);
+            cst.setInt(4, 0);
+            cst.setString(5, "");           
+            
+            tabla = cst.executeQuery();
+            Lista = new ArrayList<>();
+            while (tabla.next()) {
+                                
+                Serie serie = new Serie();
+                serie.setTallas(tabla.getInt("tallas"));
+                serie.setPares(tabla.getInt("pares"));                
+                Lista.add(serie);
+            }
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            close();
+        }
+        return Lista;
+    }
+    
+    private void close() {
+        try {
+            if (tabla != null) {
+                tabla.close();
+            }
+            if (cst != null) {
+                cst.close();
+            }
+            if (pst != null) {
+                pst.close();
+            }
+            if (cn != null) {
+                cn.close();
+            }
+        } catch (SQLException e) {
+            e.getMessage();
+        }
     }
         
 }

@@ -7,6 +7,7 @@ package com.fshoes.logicanegocio;
 
 import com.fshoes.accesodatos.SerieAD;
 import com.fshoes.entidades.Serie;
+import java.util.ArrayList;
 
 /**
  *
@@ -35,6 +36,16 @@ public class SerieLN {
             }            
         } catch (Exception e) {
             throw e;
+        }
+    }
+    
+    public ArrayList<Serie> listarSeriePorOrden(String valor, String prm) throws Exception {
+        try {
+            if(!prm.equals("") && !valor.equals(""))
+                return SerieAD.Instancia().listarSeriePorOrden(valor, prm);
+            else return null;
+        } catch (Exception ex) {
+            throw ex;
         }
     }
 }

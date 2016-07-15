@@ -64,7 +64,7 @@ public class Orden {
         this.fecha_entrega = fecha_entrega;
     }    
 
-    public float getTotal() {
+    public int getTotal() {
         return total;
     }
 
