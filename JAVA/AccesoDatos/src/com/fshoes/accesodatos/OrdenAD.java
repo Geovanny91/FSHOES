@@ -47,8 +47,8 @@ public class OrdenAD {
             cst.setString(2, prm);
             cst.setString(3, objOrden.getCodigoorden());
             cst.setString(4, objOrden.getOrden_pedido());
-            cst.setString(5, objOrden.getFecha_emision());
-            cst.setString(6, objOrden.getFecha_entrega());
+            cst.setDate(5, (Date) objOrden.getFecha_emision());
+            cst.setDate(6, (Date) objOrden.getFecha_entrega());
             cst.setInt(7, objOrden.getTotal());
             cst.setString(8, objOrden.getObjFicha().getCodigoficha());
             cst.execute();
@@ -99,8 +99,8 @@ public class OrdenAD {
                 Orden orden = new Orden();
                 orden.setCodigoorden(tabla.getString("codigoorden"));
                 orden.setOrden_pedido(tabla.getString("orden_pedido"));
-                orden.setFecha_emision(tabla.getString("fecha_emision"));
-                orden.setFecha_entrega(tabla.getString("fecha_entrega"));
+                orden.setFecha_emision(tabla.getDate("fecha_emision"));
+                orden.setFecha_entrega(tabla.getDate("fecha_entrega"));
                 orden.setTotal(tabla.getInt("total"));
                 orden.setObjFicha(ficha);
                 

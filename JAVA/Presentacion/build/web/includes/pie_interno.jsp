@@ -154,13 +154,13 @@
                 success: function (info) {
                     console.log(info);
                     console.log(typeof info);
-                    if (info == "false") {
+                    if (info === "false") {
                         new PNotify({//ver lo de la notificación
                             title: 'Mensaje de Advertencia',
-                            text: 'Ingrese todos los datos solicitados',
+                            text: 'Ingrese todos los datos solicitados y también las series.',
                             hide: false
                         });
-                    } else if (info) {
+                    }else if (info === "true") {
                         limpiarCamposOrden();
                         //location.reload();
                         new PNotify({//ver lo de la notificación
@@ -338,7 +338,7 @@
         $("#f_emision").val("");
         $("#f_entrega").val("");
         $("#total").val("0");
-        $("#modelo").val("");
+        $("#ficha_tecnica").val("");
         $("#tabla-serie tr td").children().val("0");
     }
 
@@ -1203,7 +1203,7 @@
             }
         });
         $(valor).on('apply.daterangepicker', function (ev, picker) {
-            $(this).val(picker.startDate.format('DD/MM/YYYY'));
+            $(this).val(picker.startDate.format('YYYY-MM-DD'));
         });
     }
 

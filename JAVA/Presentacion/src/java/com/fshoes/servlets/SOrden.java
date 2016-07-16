@@ -15,7 +15,11 @@ import com.fshoes.logicanegocio.OrdenLN;
 import com.fshoes.logicanegocio.SerieLN;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -131,26 +135,64 @@ public class SOrden extends HttpServlet {
                             codigoficha = request.getParameter("id_fichatecnica").trim();
                     int total = Integer.parseInt(request.getParameter("total").trim());
 
-                    System.out.println("Detalle json: " + json_detalle_serie);
-                    if (!json_detalle_serie.equals("{\"series\":[]}")) {
-                        objFicha = new FichaTecnica();
-                        objFicha.setCodigoficha(codigoficha);
-                        Orden objOrden = new Orden(orden, pedido, f_emision, f_entrega, total, objFicha);
-                        rptorden = OrdenLN.Instancia().registrarOrden(objOrden, parametro);
-                        System.out.println("Registro Orden correcto? " + rptorden);
-                        parametro = "registrarSerie";//modificar el parámentro
+                    /*Poner unas fecha por defecto, si los campos de fechas son vacios*/
+                    Calendar fecha = new GregorianCalendar();
+                    String año = String.valueOf(fecha.get(Calendar.YEAR));
+                    String mes = String.valueOf(fecha.get(Calendar.MONTH));
+                    String dia = String.valueOf(fecha.get(Calendar.DAY_OF_MONTH));
+                    String fecha_defecto = String.valueOf(año + "-" + mes + "-" + dia);
+                    System.out.println("Fecha por Defecto: " + fecha_defecto);
 
-                        rptSerie = decodicarJson(json_detalle_serie, objOrden, parametro);
-                        parametro = "";//reset parametro
+                    if (f_emision.equals("")) {
+                        f_emision = fecha_defecto;
                     }
+                    if (f_entrega.equals("")) {
+                        f_entrega = fecha_defecto;
+                    }
+                    /*Fin campos fechas vacios*/
 
-                    if (rptorden == true && rptSerie == true) {
+                    System.out.println("Detalle json: " + json_detalle_serie);
+
+                    objFicha = new FichaTecnica();
+                    objFicha.setCodigoficha(codigoficha);
+
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                    Date utilDate = dateFormat.parse(f_emision);
+                    final String stringDate = dateFormat.format(utilDate);
+                    final java.sql.Date fecha_emision = java.sql.Date.valueOf(stringDate);
+
+                    Date utilDate_dos = dateFormat.parse(f_entrega);
+                    final String stringDate_dos = dateFormat.format(utilDate_dos);
+                    final java.sql.Date fecha_entrega = java.sql.Date.valueOf(stringDate_dos);
+
+                    Orden objOrden = new Orden(orden, pedido, fecha_emision, fecha_entrega, total, objFicha);
+                    rptorden = OrdenLN.Instancia().registrarOrden(objOrden, parametro);
+                    System.out.println("Registro Orden correcto? " + rptorden);
+
+                    if (rptorden == false) {
+                        response.getWriter().write("false");
+                    } else if (!json_detalle_serie.equals("{\"series\":[]}")) {
+                        parametro = "registrarSerie";//modificar el parámentro
+                        rptSerie = decodicarJson(json_detalle_serie, objOrden, parametro);
+                        
+                        if (rptSerie == true) {
+                        response.getWriter().write("true");
+                        System.out.println("MI SERIE ORDEN : ? " + rptSerie);
+                            }
+                        
+                    } //if( rptSerie )
+                    //response.getWriter().write("true");
+                    //System.out.println("Registro Serie correcto? " + rptSerie);                            
+
+                    
+
+                    /*if (rptorden == true && rptSerie == true) {
                         out.println(true);
+                        System.out.println("Orden y serie se registraron ?: " + rptSerie);
                     } else if (rptSerie == false || rptorden == false) {
                         response.getWriter().write("false");
-                    }
+                    }*/
                     //out.println(rptorden);
-
                 } catch (Exception ex) {
                     ex.getMessage();
                 }
@@ -165,128 +207,133 @@ public class SOrden extends HttpServlet {
                     System.out.println("ORDEN OBTNIDA: " + cod_orden.trim());
                     lstOrden = OrdenLN.Instancia().listarCaberaOrden(cod_orden, parametro);
 
-                    out.println(
-                            "<div id='pintarTablita' style='margin: 5px; width: 70%; text-align: center;'>"
-                            + "<table id='tabla' border='1'>"
-                            + "<tr>"
-                            + "<td colspan='2' rowspan='2'>IMAGEN</td>"
-                            + "<td colspan='2' style='color: #1b69b7; text-align: center;'><b>ORDEN DE PRODUCCIÓN N°</b></td>"
-                            + "<td rowspan='2' colspan='2' style='color: #1b69b7; text-align: center; width: 50px;'><b>" + lstOrden.get(0).getCodigoorden() + "</b></td>"
-                            + "<td style='text-align: center;'>FECHA EMISIÓN</td>"
-                            + "<td style='text-align: center;'>" + lstOrden.get(0).getFecha_emision() + "</td>"
-                            + "</tr>"
-                            + "<tr>"
-                            + "<td style='text-align: center;'><b>ORD. PED. N°</b></td>"
-                            + "<td style='text-align: center;'>1604</td>"
-                            + "<td style='text-align: center;'>FECHA ENTREGA</td>"
-                            + "<td style='text-align: center;'>" + lstOrden.get(0).getFecha_entrega() + "</td>"
-                            + "</tr>"
-                            + "<tr>"
-                            + "<td colspan='6'></td>"
-                            + "</tr>"
-                            + "<tr>"
-                            + "<td style='text-align: center;'><b>MODELO</b></td>"
-                            + "<td style='text-align: center;'>" + lstOrden.get(0).getObjFicha().getObjModelo().getCodigomodelo() + "</td>"
-                            + "<td style='text-align: center;'><b>COLOR</b></td>"
-                            + "<td style='text-align: center;'>" + lstOrden.get(0).getObjFicha().getColor() + "</td>"
-                            + "<td style='text-align: center;'><b>CLIENTE</b></td>"
-                            + "<td style='text-align: center;'>" + lstOrden.get(0).getObjFicha().getObjModelo().getObjcliente().getRazonsocial() + "</td>"
-                            + "</tr>"
-                            + "<tr>"
-                            + "<td colspan='6'></td>"
-                            + "</tr>"
-                            + "<tr>"
-                            + "<td style='text-align: center;'><b>HORMA</b></td>"
-                            + "<td style='text-align: center;'>" + lstOrden.get(0).getObjFicha().getObjModelo().getHorma() + "</td>"
-                            + "<td ></td>"
-                            + "<td style='text-align: center;'>SERIE</td>"
-                            + "<td rowspan='3' colspan='2'>"
-                            + "<table border='1' >"
-                            + "<tr style='text-align: center;'>"
-                            + "<th width='50px'>35</th>"
-                            + "<th width='50px'>36</th>"
-                            + "<th width='50px'>37</th>"
-                            + "<th width='50px'>38</th>"
-                            + "<th width='50px'>39</th>"
-                            + "<th width='50px'>40</th>"
-                            + "<th >Total</th>"
-                            + "</tr>"
-                            + "<tr style='text-align: center;'>");
-                    String orden = lstOrden.get(0).getCodigoorden();
-                    ArrayList<Serie> lstSerie = new ArrayList<>();
-                    lstSerie = SerieLN.Instancia().listarSeriePorOrden(orden, "listarSerie");
-                    
+                    if (lstOrden.size() != 0) {
+
                         out.println(
-                            "<td rowspan='2'>"+ lstSerie.get(0).getPares()+"</td>"
-                            + "<td rowspan='2'>"+ lstSerie.get(1).getPares()+"</td>"
-                            + "<td rowspan='2'>"+ lstSerie.get(2).getPares()+"</td>"
-                            + "<td rowspan='2'>"+ lstSerie.get(3).getPares()+"</td>"
-                            + "<td rowspan='2'>"+ lstSerie.get(4).getPares()+"</td>"
-                            + "<td rowspan='2'>"+ lstSerie.get(5).getPares()+"</td>"
-                        ); 
+                                "<div id='pintarTablita' style='margin: 5px; width: 100%; text-align: center;'>"
+                                + "<table id='tabla' border='1'>"
+                                + "<tr>"
+                                + "<td colspan='2' rowspan='2'>IMAGEN</td>"
+                                + "<td colspan='2' style='color: #1b69b7; text-align: center;'><b>ORDEN DE PRODUCCIÓN N°</b></td>"
+                                + "<td rowspan='2' colspan='2' style='color: #1b69b7; text-align: center; width: 50px;'><b>" + lstOrden.get(0).getCodigoorden() + "</b></td>"
+                                + "<td style='text-align: center;'>FECHA EMISIÓN</td>"
+                                + "<td style='text-align: center;'>" + lstOrden.get(0).getFecha_emision() + "</td>"
+                                + "</tr>"
+                                + "<tr>"
+                                + "<td style='text-align: center;'><b>ORD. PED. N°</b></td>"
+                                + "<td style='text-align: center;'>1604</td>"
+                                + "<td style='text-align: center;'>FECHA ENTREGA</td>"
+                                + "<td style='text-align: center;'>" + lstOrden.get(0).getFecha_entrega() + "</td>"
+                                + "</tr>"
+                                + "<tr>"
+                                + "<td colspan='6'></td>"
+                                + "</tr>"
+                                + "<tr>"
+                                + "<td style='text-align: center;'><b>MODELO</b></td>"
+                                + "<td style='text-align: center;'>" + lstOrden.get(0).getObjFicha().getObjModelo().getCodigomodelo() + "</td>"
+                                + "<td style='text-align: center;'><b>COLOR</b></td>"
+                                + "<td style='text-align: center;'>" + lstOrden.get(0).getObjFicha().getColor() + "</td>"
+                                + "<td style='text-align: center;'><b>CLIENTE</b></td>"
+                                + "<td style='text-align: center;'>" + lstOrden.get(0).getObjFicha().getObjModelo().getObjcliente().getRazonsocial() + "</td>"
+                                + "</tr>"
+                                + "<tr>"
+                                + "<td colspan='6'></td>"
+                                + "</tr>"
+                                + "<tr>"
+                                + "<td style='text-align: center;'><b>HORMA</b></td>"
+                                + "<td style='text-align: center;'>" + lstOrden.get(0).getObjFicha().getObjModelo().getHorma() + "</td>"
+                                + "<td ></td>"
+                                + "<td style='text-align: center;'>SERIE</td>"
+                                + "<td rowspan='3' colspan='2'>"
+                                + "<table border='1' >"
+                                + "<tr style='text-align: center;'>"
+                                + "<th width='50px'>35</th>"
+                                + "<th width='50px'>36</th>"
+                                + "<th width='50px'>37</th>"
+                                + "<th width='50px'>38</th>"
+                                + "<th width='50px'>39</th>"
+                                + "<th width='50px'>40</th>"
+                                + "<th >Total</th>"
+                                + "</tr>"
+                                + "<tr style='text-align: center;'>");
+                        String orden = lstOrden.get(0).getCodigoorden();
+                        ArrayList<Serie> lstSerie = new ArrayList<>();
+                        lstSerie = SerieLN.Instancia().listarSeriePorOrden(orden, "listarSerie");
+
                         out.println(
-                             "<td rowspan='2'>"+ lstOrden.get(0).getTotal()+"</td>"
-                            + "</tr>"
-                            + "<tr></tr>"
-                            + "</table>"
-                            + "</td>"
-                            + "</tr>"
-                            + "<tr>"
-                            + "<td style='text-align: center;'><b>TACO</b></td>"
-                            + "<td style='text-align: center;'>9T252PL30</td>"
-                            + "<td></td>"
-                            + "<td rowspan='2' style='text-align: center;'>PARES</td>"
-                            + "</tr>"
-                            + "<tr>"
-                            + "<td style='text-align: center;'><b>PLATAF.</b></td>"
-                            + "<td style='text-align: center;'>" + lstOrden.get(0).getObjFicha().getPlataforma() + "</td>"
-                            + "</tr>"
-                            + "<tr>"
-                            + "<td colspan='6'></td>"
-                            + "</tr>"
-                            + "<!--FIN CABECERA-->"
-                            + "<tr>"
-                            + "<th colspan='4' class='text-center' style='background-color: #a3cce2;'>MATERIALES E INSUMOS</th>"
-                            + "<th colspan='4' class='text-center' style='background-color: #a3cce2;'>ESPECIFICACIONES TÉCNICAS</th>"
-                            + "</tr>"
-                            + "<tr>"
-                            + "<th colspan='4' class='text-center' style='background-color: #ddd7d0;'>Horario de despacho: 8:30 am y 6:00 pm</th>"
-                            + "<th colspan='4' rowspan='32' style='text-align: center;'>"+ lstOrden.get(0).getObjFicha().getObjModelo().getEspecificacion()+"</th>"
-                            + "</tr>"
-                            + "<tr>"
-                            + "<th>Nombre</th>"
-                            + "<th>Descripción</th>"
-                            + "<th>U.M.</th>"
-                            + "<th>CANT. por doc</th>"
-                            + "</tr>"
-                    );
-                    String[] procesos = {"Corte", "Aparado", "Armado", "Alistado"};
-                    ArrayList<Material> lstMaterial = new ArrayList<>();
+                                "<td rowspan='2'>" + lstSerie.get(0).getPares() + "</td>"
+                                + "<td rowspan='2'>" + lstSerie.get(1).getPares() + "</td>"
+                                + "<td rowspan='2'>" + lstSerie.get(2).getPares() + "</td>"
+                                + "<td rowspan='2'>" + lstSerie.get(3).getPares() + "</td>"
+                                + "<td rowspan='2'>" + lstSerie.get(4).getPares() + "</td>"
+                                + "<td rowspan='2'>" + lstSerie.get(5).getPares() + "</td>"
+                        );
+                        out.println(
+                                "<td rowspan='2'>" + lstOrden.get(0).getTotal() + "</td>"
+                                + "</tr>"
+                                + "<tr></tr>"
+                                + "</table>"
+                                + "</td>"
+                                + "</tr>"
+                                + "<tr>"
+                                + "<td style='text-align: center;'><b>TACO</b></td>"
+                                + "<td style='text-align: center;'>9T252PL30</td>"
+                                + "<td></td>"
+                                + "<td rowspan='2' style='text-align: center;'>PARES</td>"
+                                + "</tr>"
+                                + "<tr>"
+                                + "<td style='text-align: center;'><b>PLATAF.</b></td>"
+                                + "<td style='text-align: center;'>" + lstOrden.get(0).getObjFicha().getPlataforma() + "</td>"
+                                + "</tr>"
+                                + "<tr>"
+                                + "<td colspan='6'></td>"
+                                + "</tr>"
+                                + "<!--FIN CABECERA-->"
+                                + "<tr>"
+                                + "<th colspan='4' class='text-center' style='background-color: #a3cce2;'>MATERIALES E INSUMOS</th>"
+                                + "<th colspan='4' class='text-center' style='background-color: #a3cce2;'>ESPECIFICACIONES TÉCNICAS</th>"
+                                + "</tr>"
+                                + "<tr>"
+                                + "<th colspan='4' class='text-center' style='background-color: #ddd7d0;'>Horario de despacho: 8:30 am y 6:00 pm</th>"
+                                + "<th colspan='4' rowspan='32' style='text-align: center;'>" + lstOrden.get(0).getObjFicha().getObjModelo().getEspecificacion() + "</th>"
+                                + "</tr>"
+                                + "<tr>"
+                                + "<th>Nombre</th>"
+                                + "<th>Descripción</th>"
+                                + "<th>U.M.</th>"
+                                + "<th>CANT. por doc</th>"
+                                + "</tr>"
+                        );
+                        String[] procesos = {"Corte", "Aparado", "Armado", "Alistado"};
+                        ArrayList<Material> lstMaterial = new ArrayList<>();
 
-                    String ficha_tecnica = lstOrden.get(0).getObjFicha().getCodigoficha();
+                        String ficha_tecnica = lstOrden.get(0).getObjFicha().getCodigoficha();
 
-                    lstMaterial = MaterialLN.Instancia().listarMaterial(ficha_tecnica, "listarMaterial");
+                        lstMaterial = MaterialLN.Instancia().listarMaterial(ficha_tecnica, "listarMaterial");
 
-                    for (int p = 0; p < procesos.length; p++) {
-                        out.println("<tr>"
-                                + "<th colspan='4' class='text-center' style='background-color: #f4c688;'>"+procesos[p]+"</th>"
-                                + "</tr>");
+                        for (int p = 0; p < procesos.length; p++) {
+                            out.println("<tr>"
+                                    + "<th colspan='4' class='text-center' style='background-color: #f4c688;'>" + procesos[p] + "</th>"
+                                    + "</tr>");
 
-                        for (int i = 0; i < lstMaterial.size(); i++) {
-                            if (lstMaterial.get(i).getObjProceso().getDescripcion().equals(procesos[p])) {
-                                out.println("<tr>"
-                                        + "<td>" + lstMaterial.get(i).getNombre() + "</td>"
-                                        + "<td>" + lstMaterial.get(i).getDescripcion() + "</td>"
-                                        + "<td style='text-align: center;'>" + lstMaterial.get(i).getUnidadmedida() + "</td>"
-                                        + "<td style='text-align: center;'>" + lstMaterial.get(i).getCantidaddocena() + "</td>"
-                                        + "</tr>");
+                            for (int i = 0; i < lstMaterial.size(); i++) {
+                                if (lstMaterial.get(i).getObjProceso().getDescripcion().equals(procesos[p])) {
+                                    out.println("<tr>"
+                                            + "<td>" + lstMaterial.get(i).getNombre() + "</td>"
+                                            + "<td>" + lstMaterial.get(i).getDescripcion() + "</td>"
+                                            + "<td style='text-align: center;'>" + lstMaterial.get(i).getUnidadmedida() + "</td>"
+                                            + "<td style='text-align: center;'>" + lstMaterial.get(i).getCantidaddocena() + "</td>"
+                                            + "</tr>");
+                                }
                             }
                         }
+                        out.println(
+                                "</table>"
+                                + "</div>" //pintar tablita)
+                        );
+                    } else {
+                        response.getWriter().write("vacio");
                     }
-                    out.println(
-                            "</table>"
-                            + "</div>" //pintar tablita)
-                    );
 
                 } catch (Exception ex) {
                     Logger.getLogger(SOrden.class.getName()).log(Level.SEVERE, null, ex);
@@ -299,7 +346,7 @@ public class SOrden extends HttpServlet {
 
     public boolean decodicarJson(String cadena_json, Orden objOrden, String parametro) {
         JSONParser serie_parser = new JSONParser();
-        boolean rptSerie = false;
+        boolean rpt = false;
         Serie objSerie;
         try {
             System.out.println("DECODE\n");
@@ -307,39 +354,31 @@ public class SOrden extends HttpServlet {
             //System.out.println("Data Obtenida: "+ objSeries);
             JSONArray arrSerie = (JSONArray) objSeries.get("series");
             System.out.println("Arreglo: " + arrSerie);
-            int cantidadTallas = 7;
+            int cantidadTallas = 6;
+            boolean rptSerie = false;
             for (int i = 0; i < cantidadTallas; i++) {
                 JSONObject serie = (JSONObject) arrSerie.get(0);
                 talla = Integer.parseInt(serie.get("talla" + i).toString());
                 pares = Integer.parseInt(serie.get("par" + i).toString());
 
                 //if (pares != 0) {
-                    objSerie = new Serie(0, talla, pares, objOrden);
-                    try {
-                        rptSerie = SerieLN.Instancia().registrarSerie(objSerie, parametro);
-                        //System.out.println("Registro Serie correcto? " + i + " : "+rptSerie);
-                    } catch (Exception ex) {
-                        Logger.getLogger(SOrden.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    System.out.println("Talla: " + talla + " Pares: " + pares);
+                objSerie = new Serie(0, talla, pares, objOrden);                
+                rptSerie = SerieLN.Instancia().registrarSerie(objSerie, parametro);
+                //System.out.println("Registro Serie correcto? " + i + " : "+rptSerie);                
+                System.out.println("Talla: " + talla + " Pares: " + pares);
+                System.out.println("Respuesta serie: " + rptSerie);
                 //}
-
-                /*objSerie = new Serie(0, talla, pares, objOrden);
-                try {
-                    rptSerie = SerieLN.Instancia().registrarSerie(objSerie, parametro);
-                    //System.out.println("Registro Serie correcto? " + i + " : "+rptSerie);
-                } catch (Exception ex) {
-                    Logger.getLogger(SOrden.class.getName()).log(Level.SEVERE, null, ex);
-                }*/
-            }
-            System.out.println("Respuesta final serie: " + rptSerie);
-            return rptSerie;
+            }            
+            rpt = rptSerie;
+            System.out.println("Respuesta final serie: " + rpt);
 
         } catch (ParseException ex) {
             Logger.getLogger(SOrden.class
                     .getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(SOrden.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return rptSerie;
+        return rpt;
     }
 
     /**

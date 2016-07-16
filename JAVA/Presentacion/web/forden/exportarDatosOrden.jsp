@@ -22,15 +22,25 @@
             <!--<div class="elemento elemento1">1</div>
             <div class="elemento elemento2">2</div>
             <div class="elemento elemento3">3</div>-->
-            <input type="text" value="" name="cod_orden" id="cod_orden" placeholder="Ingresar Orden"/>
-            <input type="button" id="boton" value="Click" />
-            <input type="button" id="btnExport" value=" Export Table data into Excel " />
-            <br/>
-            <br/>
-            <div id="dvData" style="width: 100%;
+            <div id="entradas" id="dvData" style="width: 80%;
+                 margin: 0 auto;
+                 text-align: center;
+                 padding: 10px;
                  height: 100%;
                  background: #fff;
-                 border:  10px solid #2C3E50 ;">
+                 border:  5px solid #2C3E50 ;">
+                <input type="text" value="" name="cod_orden" id="cod_orden" placeholder="Ingresar Orden"/>
+                <input type="button" id="boton" value="Click" />
+                <input type="button" id="btnExport" value=" Exportar a Excel" />
+            </div>
+            
+            <br/>
+            <br/>
+            <div id="dvData" style="width: 80%;
+                 margin: 0 auto;
+                 height: 100%;
+                 background: #fff;
+                 border:  7px solid #2C3E50 ;">
 
                 <div id="tabla_formato">
 
@@ -56,15 +66,24 @@
 
             var imprimirFormarto = function () {
                 $("#boton").on("click", function () {
+                    
                     var cod_orden = $("#cod_orden").val();
                     console.log(cod_orden);
                     $.ajax({
                         method: "POST",
                         url: "../SOrden",
                         data: {"parametro": "cabeceraOrden", "cod_orden": cod_orden}
-                    }).done(function (data) {
-                        $("#tabla_formato").append(data);
-                        pintarTabla();//pasar como parametro en JSON para la espeecificacióneee
+                    }).done(function (data) {                        
+                        if( data === "vacio"){
+                            $("#tabla_formato").html("<p>Tabla vacia, código de orden incorrecto o no existe.</p>");
+                            console.log("tabla vacio, el código de orden no existe");
+                        }else{
+                            $("#tabla_formato").html("");
+                            $("#tabla_formato").append(data);
+                            pintarTabla();//pasar como parametro en JSON para la espeecificacióneee
+                            $("#tabla_formato").hide();
+                            $("#tabla_formato").show("medium");
+                        }
                     });
                 });
             }
