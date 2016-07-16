@@ -500,16 +500,16 @@
                 "data": {"parametro": "listarProveedorPaginacion"}
             },
             "columnDefs": [
-                {"name": "RazónSocial", "targets": 0},
-                {"name": "Ruc", "targets": 1},
-                {"name": "Dirección", "targets": 2}
+                {"name": "RazónSocial", "targets": 0, "width": "200px"},
+                {"name": "Ruc", "targets": 1, "width": "100px"},
+                {"name": "Dirección", "targets": 2, "width": "250px"}
             ],
             "columns": [
                 {"data": "razonsocial"},
                 {"data": "ruc"},
                 {"data": "direccion"},
-                {"defaultContent": "<button tipo='modificarProveedor' class='btn btn-info btn-xs'><i class='fa fa-edit'></i></button> <button tipo='eliminarProveedor' class='btn btn-danger btn-xs'><i class='fa fa-remove'></i></button>", "width": "5%"}
-                //{"defaultContent": "<button class='btn btn-primary btn-xs'><i class='fa fa-remove'></i></button>"}
+                {"defaultContent": "<button tipo='modificarProveedor' class='btn btn-info btn-xs'><i class='fa fa-edit'></i></button>", "width": "5px"},
+                {"defaultContent": "<button tipo='eliminarProveedor' class='btn btn-danger btn-xs'><i class='fa fa-remove'></i></button>", "width": "5px"}
             ],
             language: lenguaje_espanol
         });
@@ -529,16 +529,16 @@
                 "data": {"parametro": "listarClientePaginacion"}
             },
             "columnDefs": [
-                {"name": "RazónSocial", "targets": 0},
-                {"name": "Ruc", "targets": 1},
-                {"name": "Dirección", "targets": 2}
+                {"name": "RazónSocial", "targets": 0, "width": "200px"},
+                {"name": "Ruc", "targets": 1, "width": "100px"},
+                {"name": "Dirección", "targets": 2, "width": "250px"}
             ],
             "columns": [
                 {"data": "razonsocial"},
                 {"data": "ruc"},
                 {"data": "direccion"},
-                {"defaultContent": "<button tipo='modificarCliente' class='btn btn-info btn-xs'><i class='fa fa-edit'></i></button> <button tipo='eliminarCliente' class='btn btn-danger btn-xs'><i class='fa fa-remove'></i></button>", "width": "5%"}
-                //{"defaultContent": "<button class='btn btn-primary btn-xs'><i class='fa fa-remove'></i></button>"}
+                {"defaultContent": "<button tipo='modificarCliente' class='btn btn-info btn-xs'><i class='fa fa-edit'></i></button>", "width": "5px"},
+                {"defaultContent": "<button tipo='eliminarCliente' class='btn btn-danger btn-xs'><i class='fa fa-remove'></i></button>", "width": "5px"}
             ],
             language: lenguaje_espanol
         });
@@ -590,12 +590,12 @@
             },
             //ft.codigomodelo, horma, , , , , , c.idcliente, c.razonsocial
             "columnDefs": [
-                {"name": "codigoficha", "targets": 0},
+                {"name": "codigoficha", "targets": 0, "width":"5px"},
                 {"name": "color", "targets": 1},
                 {"name": "horma", "targets": 2},
                 {"name": "taco", "targets": 3},
-                {"name": "plataforma", "targets": 4},
-                {"name": "coleccion", "targets": 5},
+                {"name": "plataforma", "targets": 4, "width":"10px"},
+                {"name": "coleccion", "targets": 5, "width":"10px"},
                 {"name": "idcliente", "targets": 6},
                 {"name": "razonsocial", "targets": 7},
                 {"name": "codigomodelo", "targets": 8}
@@ -610,8 +610,8 @@
                 {"data": "objModelo.objCliente.idcliente"},
                 {"data": "objModelo.objCliente.razonsocial"},
                 {"data": "objModelo.codigomodelo"},
-                {"defaultContent": "<button tipo='modificarModelo' class='btn btn-info btn-xs'><i class='fa fa-edit'></i></button> <button tipo='eliminarModelo' class='btn btn-danger btn-xs'><i class='fa fa-remove'></i></button>", "width": "5%"}
-                //{"defaultContent": "<button class='btn btn-primary btn-xs'><i class='fa fa-remove'></i></button>"}
+                {"defaultContent": "<button tipo='modificarModelo' class='btn btn-info btn-xs'><i class='fa fa-edit'></i></button>" , "width": "5px"},
+                {"defaultContent": "<button tipo='eliminarModelo' class='btn btn-danger btn-xs'><i class='fa fa-remove'></i></button>", "width":"5px"}
             ],
             language: lenguaje_espanol
         });
@@ -754,16 +754,16 @@
                 {"data": "nombre"},
                 {"data": "descripcion"},
                 {"data": "unidadmedida"},
-                {"data": "cantidaddocena"},
+                {"data": "cantidaddocena", "width":"5px"},
                 {"data": "preciounitario"},
                 {"data": "tipo"},
                 {"data": "objProveedor.idproveedor"},
                 {"data": "objProveedor.razonsocial"},
                 {"data": "objProceso.codigoproceso"},
                 {"data": "objProceso.descripcion"},
-                {"data": "objFichaTecnica.codigoficha"},
-                {"defaultContent": "<button tipo='modificarMaterial' class='btn btn-info btn-xs'><i class='fa fa-edit'></i></button> <button tipo='eliminarMaterial' class='btn btn-danger btn-xs'><i class='fa fa-remove'></i></button>", "width": "5%"}
-                //{"defaultContent": "<button class='btn btn-primary btn-xs'><i class='fa fa-remove'></i></button>"}
+                {"data": "objFichaTecnica.codigoficha", "width":"5px"},
+                {"defaultContent": "<button tipo='modificarMaterial' class='btn btn-info btn-xs'><i class='fa fa-edit'></i></button>", "width": "5px"},
+                {"defaultContent": "<button tipo='eliminarMaterial' class='btn btn-danger btn-xs'><i class='fa fa-remove'></i></button>", "width": "5px"}
             ],
             language: lenguaje_espanol
         });

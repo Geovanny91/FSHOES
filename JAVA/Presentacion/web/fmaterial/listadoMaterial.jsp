@@ -41,14 +41,15 @@
                                 <th>Nombre</th>
                                 <th>Descripccion</th>
                                 <th>Unidad Medida</th>
-                                <th>Cantida Docena</th>
+                                <th>Cantidad Docena</th>
                                 <th>Precio</th>
                                 <th>Tipo</th>                                
                                 <th>idproveedor</th>
                                 <th>Proveedor</th>
                                 <th>ID Proceso</th>
                                 <th>Proceso</th>
-                                <th>F. Técnica</th>
+                                <th>Ficha Técnica</th>
+                                <th></th>
                                 <th></th>
                             </tr>
                         </thead>            

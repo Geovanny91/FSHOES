@@ -37,7 +37,7 @@
                     <table class="table table-striped table-bordered dt-responsive nowrap" id="listaModelos" cellspacing="0" width="100%">
                         <thead>
                             <tr>
-                                <th>F. Técnica</th>
+                                <th>Ficha Técnica</th>
                                 <th>Color</th>
                                 <th>Horma</th>                                
                                 <th>Taco</th>
@@ -46,6 +46,7 @@
                                 <th>Id Cliente</th>
                                 <th>Cliente</th>
                                 <th>Modelo</th> 
+                                <th></th>
                                 <th></th>
                             </tr>
                         </thead>            

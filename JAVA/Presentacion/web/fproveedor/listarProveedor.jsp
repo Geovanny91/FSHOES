@@ -40,6 +40,7 @@
                                 <th>Ruc</th>
                                 <th>Dirección</th>                                 
                                 <th></th>
+                                <th></th>
                             </tr>
                         </thead>            
                     </table>

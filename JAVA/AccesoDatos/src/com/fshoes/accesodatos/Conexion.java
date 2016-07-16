@@ -28,7 +28,7 @@ public class Conexion {
         Connection cn = null;
         try{
                 Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-                cn = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;"+
+                cn = DriverManager.getConnection("jdbc:sqlserver://192.168.1.50:49159;"+
                                         "databaseName=fshoes", "sa", "123456");
         }catch(Exception e){
                 throw e;
