@@ -25,6 +25,17 @@ public class OrdenLN {
     }
     // end Singleton
     
+    public ArrayList<Orden> listarOrdenesTerminadas(String valor, String prm, Orden objOrden, int inicio, int fin) throws Exception{
+    try{
+            if(!prm.equals("") && objOrden != null)  
+                return OrdenAD.Instancia().listarOrdenesTerminadas(valor, prm, objOrden, inicio, fin);
+            else return null;
+        }catch(Exception ex){
+            throw ex;
+        }
+    
+    }
+    
     public boolean registrarOrden(Orden objOrden, String prm) throws Exception{
         try {            
             if(objOrden != null && !(prm.equals(""))){
@@ -47,5 +58,15 @@ public class OrdenLN {
         } catch (Exception ex) {
             throw ex;
         }
+    }
+    
+    public int obtenerTotalFilas(String valor, String prm, Orden objOrden) throws Exception{
+        try {
+            if (!(prm.equals("")))
+                return OrdenAD.Instancia().obtenerTotalFilas(valor, prm, objOrden);
+            else return 0;
+        } catch (Exception e) {
+            throw e;
+        }        
     }
 }

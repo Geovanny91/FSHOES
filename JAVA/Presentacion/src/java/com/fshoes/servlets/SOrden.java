@@ -15,6 +15,7 @@ import com.fshoes.logicanegocio.OrdenLN;
 import com.fshoes.logicanegocio.SerieLN;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -105,24 +106,65 @@ public class SOrden extends HttpServlet {
         //System.out.println("Detalle json: " + json_detalle_serie);
 
         FichaTecnica objFicha = null;
+        ArrayList<Orden> lista = null;
 
         switch (parametro) {
-            case "listarSerie": {
-                /*try {
-                    lista = ClienteLN.Instancia().listarClientes(valor, parametro);
-                    for (int i = 0; i < lista.size(); i++) {
-                        out.println(
-                                "<tr  onclick='seleccionar(this);' ><th scope='row'>" + (i + 1) + "</th>"
-                                + "<td><input class='id-cliente' type='hidden' value='" + lista.get(i).getIdcliente() + "' /></td>"
-                                + "<td>" + lista.get(i).getRazonsocial() + "</td>"
-                                + "<td>" + lista.get(i).getRuc() + "</td>"
-                                + "<td>" + lista.get(i).getDireccion() + "</td>"
-                                + "<td><a href='#' class=\"close\" data-dismiss=\"modal\" ><i class=\"fa fa-hand-o-left\"></i></a></td></tr>"
-                        );
-                    }
+            case "listarOrdenTerminadaPaginacion": {
+                try {                    
+                    int inicio = Integer.parseInt(request.getParameter("start")),
+                            fin = Integer.parseInt(request.getParameter("length"));
+                    
+                    String f_emision = request.getParameter("f_emision").trim(),
+                            f_entrega = request.getParameter("f_entrega").trim();
+
+                    /*Poner unas fecha por defecto, si los campos de fechas son vacios*/
+                        Calendar fecha = new GregorianCalendar();
+                        String año = String.valueOf(fecha.get(Calendar.YEAR));
+                        String mes = String.valueOf(fecha.get(Calendar.MONTH));
+                        String dia = String.valueOf(fecha.get(Calendar.DAY_OF_MONTH));
+                        String fecha_defecto = String.valueOf(año + "-" + mes + "-" + dia);
+                        System.out.println("Fecha por Defecto: " + fecha_defecto);
+
+                        if (f_emision.equals(""))   f_emision = fecha_defecto;                    
+                        if (f_entrega.equals(""))   f_entrega = fecha_defecto;                    
+                    /*Fin campos fechas vacios*/
+                    
+                    //Aquí se parsea los valores de fechas obtenidas
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                        Date utilDate = dateFormat.parse(f_emision);
+                        final String stringDate = dateFormat.format(utilDate);
+                        final java.sql.Date fecha_emision = java.sql.Date.valueOf(stringDate);
+
+                        Date utilDate_dos = dateFormat.parse(f_entrega);
+                        final String stringDate_dos = dateFormat.format(utilDate_dos);
+                        final java.sql.Date fecha_entrega = java.sql.Date.valueOf(stringDate_dos);                    
+                    //Fin parseo de fechas
+                    
+                    lista = new ArrayList<Orden>();
+                    
+                    Orden orden = new Orden();
+                    orden.setFecha_emision(fecha_emision);
+                    orden.setFecha_entrega(fecha_entrega);
+                    
+                    lista = OrdenLN.Instancia().listarOrdenesTerminadas("", parametro, orden, inicio,(inicio + fin));
+                    JSONArray array = new JSONArray();
+                    array.addAll(lista);
+                    StringWriter outjson = new StringWriter();
+
+                    int total = OrdenLN.Instancia().obtenerTotalFilas(valor, "obtenerTotal", orden);
+                    int draw = Integer.parseInt(request.getParameter("draw"));
+
+                    JSONObject json = new JSONObject();
+                    json.put("draw", draw);
+                    json.put("recordsTotal", total);
+                    json.put("recordsFiltered", total);//es cuando hay busquedas
+                    json.put("data", array);
+                    json.writeJSONString(outjson);
+                    out.println(outjson);
+                    System.out.println(outjson);
                 } catch (Exception ex) {
-                    ex.getMessage();
-                }*/
+                    ex.printStackTrace();
+                }
             }
             break;
             case "registrarOrden": {
@@ -174,25 +216,12 @@ public class SOrden extends HttpServlet {
                     } else if (!json_detalle_serie.equals("{\"series\":[]}")) {
                         parametro = "registrarSerie";//modificar el parámentro
                         rptSerie = decodicarJson(json_detalle_serie, objOrden, parametro);
-                        
+
                         if (rptSerie == true) {
-                        response.getWriter().write("true");
-                        System.out.println("MI SERIE ORDEN : ? " + rptSerie);
-                            }
-                        
-                    } //if( rptSerie )
-                    //response.getWriter().write("true");
-                    //System.out.println("Registro Serie correcto? " + rptSerie);                            
-
-                    
-
-                    /*if (rptorden == true && rptSerie == true) {
-                        out.println(true);
-                        System.out.println("Orden y serie se registraron ?: " + rptSerie);
-                    } else if (rptSerie == false || rptorden == false) {
-                        response.getWriter().write("false");
-                    }*/
-                    //out.println(rptorden);
+                            response.getWriter().write("true");
+                            System.out.println("MI SERIE ORDEN : ? " + rptSerie);
+                        }
+                    }
                 } catch (Exception ex) {
                     ex.getMessage();
                 }
@@ -362,13 +391,13 @@ public class SOrden extends HttpServlet {
                 pares = Integer.parseInt(serie.get("par" + i).toString());
 
                 //if (pares != 0) {
-                objSerie = new Serie(0, talla, pares, objOrden);                
+                objSerie = new Serie(0, talla, pares, objOrden);
                 rptSerie = SerieLN.Instancia().registrarSerie(objSerie, parametro);
                 //System.out.println("Registro Serie correcto? " + i + " : "+rptSerie);                
                 System.out.println("Talla: " + talla + " Pares: " + pares);
                 System.out.println("Respuesta serie: " + rptSerie);
                 //}
-            }            
+            }
             rpt = rptSerie;
             System.out.println("Respuesta final serie: " + rpt);
 

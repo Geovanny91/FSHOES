@@ -38,19 +38,55 @@ public class OrdenAD {
     private PreparedStatement pst = null;
     private ResultSet tabla = null;
         
+    public ArrayList<Orden> listarOrdenesTerminadas(String valor, String prm, Orden orden, int inicio, int fin) throws Exception{
+        cn = Conexion.Instancia().getConexion();
+        ArrayList<Orden> Lista = null;
+        try{
+            cst = cn.prepareCall("{call pa_orden(?,?,?,?,?,?,?,?,?,?)}");
+            cst.setString(1, valor);
+            cst.setString(2, prm);
+            cst.setInt(3, inicio);
+            cst.setInt(4, fin);
+            cst.setString(5, "");
+            cst.setString(6, "");
+            cst.setDate(7, (Date) orden.getFecha_emision());
+            cst.setDate(8, (Date) orden.getFecha_entrega());
+            cst.setInt(9, 0);
+            cst.setString(10, "");
+            
+            cst.execute();
+            
+            tabla = cst.executeQuery();
+            Lista = new ArrayList<Orden>();
+            while(tabla.next()){
+                Orden o = new Orden();
+                o.setCodigoorden(tabla.getString("codigoorden"));
+                o.setOrden_pedido(tabla.getString("orden_pedido"));
+                o.setFecha_entrega(tabla.getDate("fecha_entrega"));
+                o.setTotal(tabla.getInt("total"));
+                Lista.add(o);
+            }			
+        }catch(Exception e){
+                throw e;
+        }finally{close();}
+        return Lista;
+    }
+    
     public boolean registrarOrden(Orden objOrden, String prm) throws Exception{
         cn = Conexion.Instancia().getConexion();
         boolean rpt = false;
         try {
-            cst = cn.prepareCall("{call pa_orden(?,?,?,?,?,?,?,?)}");
+            cst = cn.prepareCall("{call pa_orden(?,?,?,?,?,?,?,?,?,?)}");
             cst.setString(1, "");
             cst.setString(2, prm);
-            cst.setString(3, objOrden.getCodigoorden());
-            cst.setString(4, objOrden.getOrden_pedido());
-            cst.setDate(5, (Date) objOrden.getFecha_emision());
-            cst.setDate(6, (Date) objOrden.getFecha_entrega());
-            cst.setInt(7, objOrden.getTotal());
-            cst.setString(8, objOrden.getObjFicha().getCodigoficha());
+            cst.setInt(3, 0);
+            cst.setInt(4, 0);            
+            cst.setString(5, objOrden.getCodigoorden());
+            cst.setString(6, objOrden.getOrden_pedido());
+            cst.setDate(7, (Date) objOrden.getFecha_emision());
+            cst.setDate(8, (Date) objOrden.getFecha_entrega());
+            cst.setInt(9, objOrden.getTotal());
+            cst.setString(10, objOrden.getObjFicha().getCodigoficha());
             cst.execute();
             rpt = true;
         } catch (Exception e) {
@@ -65,15 +101,17 @@ public class OrdenAD {
         cn = Conexion.Instancia().getConexion();
         ArrayList<Orden> Lista = null;
         try {
-            cst = cn.prepareCall("{call pa_orden(?,?,?,?,?,?,?,?)}");
+            cst = cn.prepareCall("{call pa_orden(?,?,?,?,?,?,?,?,?,?)}");
             cst.setString(1, valor);
             cst.setString(2, prm);
-            cst.setString(3, "");
-            cst.setString(4, "");
+            cst.setInt(3, 0);
+            cst.setInt(4, 0);
             cst.setString(5, "");
             cst.setString(6, "");
-            cst.setInt(7, 0);
+            cst.setString(7, "");
             cst.setString(8, "");
+            cst.setInt(9, 0);
+            cst.setString(10, "");
             
             tabla = cst.executeQuery();
             Lista = new ArrayList<>();
@@ -117,6 +155,34 @@ public class OrdenAD {
             close();
         }
         return Lista;
+    }
+    
+    public int obtenerTotalFilas(String valor, String prm, Orden objOrden) throws Exception{
+        int total = 0;
+        cn = Conexion.Instancia().getConexion();
+        try {
+            cst = cn.prepareCall("{call pa_orden(?,?,?,?,?,?,?,?,?,?)}");
+            cst.setString(1, valor);
+            cst.setString(2, prm);
+            cst.setInt(3, 0);
+            cst.setInt(4, 0);
+            cst.setString(5, "");
+            cst.setString(6, "");
+            cst.setDate(7, (Date) objOrden.getFecha_emision());
+            cst.setDate(8, (Date) objOrden.getFecha_entrega());
+            cst.setInt(9, 0);
+            cst.setString(10, "");
+            tabla = cst.executeQuery();
+            while(tabla.next()){
+                total = tabla.getInt("total");
+            }            
+            return total;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }finally{
+            close();
+        }       
+        return total;        
     }
     
     private void close() {

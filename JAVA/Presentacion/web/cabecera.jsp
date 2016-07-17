@@ -106,8 +106,8 @@
                                     <ul class="nav child_menu" style="display: none">
                                         <li><a href="forden/mantenedorOrden.jsp">Registrar</a>
                                         <li><a href="forden/asignarOrdenTrabajador.jsp">Asignar</a>
-                                        <li><a href="forden/exportarDatosOrden.jsp" target="_blank">Exportar</a></li>
-                                        </li>                    
+                                        <li><a href="forden/ordenesTerminadas.jsp">Verificar</a></li>
+                                        <li><a href="forden/exportarDatosOrden.jsp" target="_blank">Exportar</a></li>                                                         
                                     </ul>
                                 </li>
                                 </ul>

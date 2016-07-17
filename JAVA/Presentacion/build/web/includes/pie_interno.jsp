@@ -83,6 +83,7 @@
         comboProceso();
         asignarOrdenTrabajadorProceso();
         exportarOrden();
+        mostrarOrdenesTerminadas();
 
         listarModelosPaginacion();
         editarModelo();
@@ -98,7 +99,7 @@
     /*VARIABLES GLOBALES*/
     var total;
     var resultVal = 0.0;
-    var tabla_paginacion_material, tabla_paginacion_modelo, tabla_paginacion_cliente, tabla_paginacion_proveedor;
+    var tabla_paginacion_material, tabla_paginacion_modelo, tabla_paginacion_cliente, tabla_paginacion_orden, tabla_paginacion_proveedor;
     /*FIN VARIABLES GLOBALES*/
 
     var lenguaje_espanol = {
@@ -517,6 +518,47 @@
         //mantenedoresClientes('#listaCliente tbody', tabla_paginacion_cliente);
     }
 
+    function mostrarOrdenesTerminadas(){
+        $("#btnMostrarOrdenes").on("click", function(){
+            var f1 = $("#f_emision").val(),
+                f2 = $("#f_entrega").val();
+                
+            listarOrdenesTerminadasPaginacion(f1, f2);
+            tabla_paginacion_orden.destroy();
+        });
+    }
+
+    function listarOrdenesTerminadasPaginacion(fecha_uno, fecha_dos) {
+
+        tabla_paginacion_orden = $('#listaOrdenesTerminadas').DataTable({
+            //"scrollX": true
+            "processing": true,
+            "serverSide": true,
+            "ajax": {
+                "url": "../SOrden",
+                "type": "POST",
+                "data": {"parametro": "listarOrdenTerminadaPaginacion", "f_emision": fecha_uno, "f_entrega": fecha_dos}
+            },
+            "columnDefs": [
+                {"name": "CodigoOrden", "targets": 0, "width": "200px"},
+                {"name": "OrdenPedido", "targets": 1, "width": "100px"},
+                {"name": "FechaEmision", "targets": 2, "width": "250px"},
+                {"name": "FechaEntrega", "targets": 3, "width": "250px"},
+                {"name": "Total", "targets": 4, "width": "250px"}
+            ],
+            "columns": [
+                {"data": "codigoorden"},
+                {"data": "orden_pedido"},
+                {"data": "fecha_emision"},
+                {"data": "fecha_entrega"},
+                {"data": "total"}                
+            ],
+            language: lenguaje_espanol
+        });
+        //tabla_paginacion_orden.column(6).visible(false);
+        //mantenedoresClientes('#listaCliente tbody', tabla_paginacion_cliente);
+    }
+    
     function listarClientesPaginacion() {
 
         tabla_paginacion_cliente = $('#listaCliente').DataTable({
