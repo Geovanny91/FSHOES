@@ -29,6 +29,11 @@ and open the template in the editor.
 
         <link rel="stylesheet" type="text/css" href="css/progressbar/bootstrap-progressbar-3.3.0.css">
 
+        <!-- Include Bootstrap Datepicker -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.1/css/bootstrap-datepicker.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.1/css/bootstrap-datepicker3.min.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.1/css/bootstrap-datepicker.standalone.min.css">
+
         <!--[if lt IE 9]>
               <script src="../assets/js/ie8-responsive-file-warning.js"></script>
               <![endif]-->
@@ -84,42 +89,34 @@ and open the template in the editor.
                         <form id="frmTrabajador">
                             <h1>Nuevo Trabajador</h1>
                             <div>
-                                <input type="text" name="dni" id="dni" class="form-control" placeholder="Dni" maxlength="8"/>
+                                <input type="text" name="dni" id="dni" class="form-control" placeholder="Ingresar dni" maxlength="8" required=""/>
                             </div>            
                             <div>
-                                <input type="text" name="nombres" id="nombres" class="form-control" placeholder="Nombres" required="" />
+                                <input type="text" name="nombres" id="nombres" class="form-control" placeholder="Ingresar nombres" required="" />
                             </div>
                             <div>
-                                <input type="text" name="ape_paterno" id="ape_paterno" class="form-control" placeholder="Apellido Paterno" required="" />
+                                <input type="text" name="ape_paterno" id="ape_paterno" class="form-control" placeholder="Ingresar apellido paterno" required="" />
                             </div>
                             <div>
-                                <input type="text" name="ape_materno" id="ape_materno" class="form-control" placeholder="Apellido Materno" required="" />
+                                <input type="text" name="ape_materno" id="ape_materno" class="form-control" placeholder="Ingresar apellido materno" required="" />
                             </div>
                             <div>
-                                <input type="text" name="direccion" id="direccion" class="form-control" placeholder="Dirección" required="" />
+                                <input type="text" name="direccion" id="direccion" class="form-control" placeholder="Ingresar dirección"  />
                             </div>
                             <div>
-                                <input type="text" name="telefono" id="telefono" class="form-control" placeholder="Teléfono" required="" />
+                                <input type="text" name="telefono" id="telefono" class="form-control" placeholder="Ingresar teléfono"  />
                             </div>
                             <div>
-                                <input type="text" name="celular" id="celular" class="form-control" placeholder="Celular" required="" />
+                                <input type="text" name="celular" id="celular" class="form-control" placeholder="Ingresar celular" />
                             </div>
                             <div>
-
-
-
-
-                                <input type="text" maxlength="10" class="form-control" id="fecha_nacimiento" name="fecha_nacimiento" placeholder="Fecha. Nacimiento" required="">
-                                <div class="daterangepicker picker_2 single opensright show-calendar"></div>
-
-
-
+                                <input type="text" maxlength="10" class="form-control" name="fecha_nacimiento" id="fecha_nacimiento" data-provide="datepicker" placeholder="Ingresar fecha de nacimiento: 1990-01-30">    
                             </div>
                             <div>
-                                <input type="text" name="usuario" id="usuario" class="form-control" placeholder="Usuario" required="" />
+                                <input type="text" name="usuario" id="usuario" class="form-control" placeholder="Ingresar usuario" required="" />
                             </div>
                             <div>
-                                <input type="password" name="contrasena" id="contrasena" class="form-control" placeholder="Contraseña" required="" />
+                                <input type="password" name="contrasena" id="contrasena" class="form-control" placeholder="Ingresar contraseña" required="" />
                             </div>
                             <div>
                                 <select id="cboproceso" class="form-control">
@@ -164,6 +161,9 @@ and open the template in the editor.
         <script type="text/javascript" src="js/notify/pnotify.core.js"></script>
         <script type="text/javascript" src="js/notify/pnotify.buttons.js"></script>
         <script type="text/javascript" src="js/notify/pnotify.nonblock.js"></script>
+        <!-- Include Bootstrap Datepicker url: https://github.com/eternicode/bootstrap-datepicker/blob/master/docs/i18n.rst -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.1/js/bootstrap-datepicker.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.1/locales/bootstrap-datepicker.es.min.js" charset="UTF-8"></script>
 
         <script>
             $(function () {
@@ -245,7 +245,28 @@ and open the template in the editor.
             $(document).on("ready", function () {
                 comboProceso();
                 registrarTrabjador();
-                fechas("#fecha_nacimiento");
+                $.fn.datepicker.dates['en'] = {
+                    days: ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"],
+                    daysShort: ["Dom", "Lun", "Mar", "Mir", "Jue", "vie", "Sab"],
+                    daysMin: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"],
+                    months: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "June¿io", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
+                    monthsShort: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"],
+                    today: "Hoy",
+                    clear: "Clear",
+                    format: "yyyy-mm-dd",
+                    titleFormat: "MM yyyy", /* Leverages same syntax as 'format' */
+                    weekStart: 0
+                };
+                $.fn.datepicker.defaults.format = "yyyy-mm-dd";
+                $('.datepicker').datepicker({
+                    //format: 'yyyy-mm-dd',
+                    startDate: '-3d'
+
+                });
+                /*.on('changeDate', function (e) {//parte del datepicker para validar url: http://formvalidation.io/validators/date/
+                 // Revalidate the date field
+                 $('#eventForm').formValidation('revalidateField', 'eventDate');
+                 });*/
             });
 
             function registrarTrabjador() {
@@ -314,21 +335,6 @@ and open the template in the editor.
                         $("#cboproceso").html(data);
                     else {
                     }
-                });
-            }
-
-            function fechas(valor) {
-                $(valor).daterangepicker({
-                    singleDatePicker: true,
-                    calender_style: "picker_2",
-                    locale: {
-                        format: 'YYYY-MM-DD',
-                        daysOfWeek: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa'],
-                        monthNames: ['Enero', 'Febreri', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
-                    }
-                });
-                $(valor).on('apply.daterangepicker', function (ev, picker) {
-                    $(this).val(picker.startDate.format('YYYY-MM-DD'));
                 });
             }
 
