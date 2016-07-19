@@ -92,11 +92,11 @@ public class Scliente extends HttpServlet {
 
         switch (parametro) {
             case "listarClientePaginacion": {
-                try {                    
+                try {
                     int inicio = Integer.parseInt(request.getParameter("start")),
                             fin = Integer.parseInt(request.getParameter("length"));
                     lista = new ArrayList<>();
-                    lista = ClienteLN.Instancia().listarClientes("", parametro, inicio,(inicio + fin));
+                    lista = ClienteLN.Instancia().listarClientes("", parametro, inicio, (inicio + fin));
                     JSONArray array = new JSONArray();
                     array.addAll(lista);
                     StringWriter outjson = new StringWriter();
@@ -115,7 +115,8 @@ public class Scliente extends HttpServlet {
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
-            }break;
+            }
+            break;
             case "listarCliente": {
                 try {
                     lista = new ArrayList<>();
@@ -141,13 +142,21 @@ public class Scliente extends HttpServlet {
                             ruc = request.getParameter("ruc"),
                             direccion = request.getParameter("direccion");
                     boolean estado = Boolean.valueOf(request.getParameter("estado"));
+                    int existeCliente = 0;
 
-                    objCliente = new Cliente(0, razon_social, ruc, direccion, estado);
-                    rptCliente = ClienteLN.Instancia().registrarCliente(objCliente, parametro);
-                    
-                    if(rptCliente)  response.getWriter().write("true");
-                    else response.getWriter().write("false");
-                    
+                    existeCliente = ClienteLN.Instancia().existeCliente(ruc, "verificarCliente");
+                    if (existeCliente > 0) {
+                        response.getWriter().append("existe_cliente");
+                    } else {
+                        objCliente = new Cliente(0, razon_social, ruc, direccion, estado);
+                        rptCliente = ClienteLN.Instancia().registrarCliente(objCliente, parametro);
+
+                        if (rptCliente) {
+                            response.getWriter().write("true");
+                        } else {
+                            response.getWriter().write("false");
+                        }
+                    }
                 } catch (Exception ex) {
                     ex.getMessage();
                 }

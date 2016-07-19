@@ -49,7 +49,7 @@ public class ProveedorAD {
             Lista = new ArrayList<Proveedor>();
             while(tabla.next()){
                 Proveedor c = new Proveedor();
-                c.setIdproveedor(tabla.getInt("idproveedor"));
+                c.setIdproveedor(tabla.getLong("idproveedor"));
                 c.setRazonsocial(tabla.getString("razonsocial"));
                 c.setRuc(tabla.getString("ruc"));
                 c.setDireccion(tabla.getString("direccion"));
@@ -79,7 +79,7 @@ public class ProveedorAD {
             Lista = new ArrayList<Proveedor>();
             while(tabla.next()){
                 Proveedor c = new Proveedor();
-                c.setIdproveedor(tabla.getInt("idproveedor"));
+                c.setIdproveedor(tabla.getLong("idproveedor"));
                 c.setRazonsocial(tabla.getString("razonsocial"));
                 c.setRuc(tabla.getString("ruc"));
                 c.setDireccion(tabla.getString("direccion"));                
@@ -139,6 +139,32 @@ public class ProveedorAD {
             close();
         }       
         return total;        
+    }
+    
+    public int existeProveedor(String valor, String prm) throws Exception{
+        int existe = 0;
+        cn = Conexion.Instancia().getConexion();
+        try {
+            cst = cn.prepareCall("{call pa_proveedor(?,?,?,?,?,?,?,?)}");
+            cst.setString(1, valor);
+            cst.setString(2, prm);
+            cst.setInt(3, 0);
+            cst.setInt(4, 0);
+            cst.setString(5, "");
+            cst.setString(6, "");
+            cst.setString(7, "");
+            cst.setBoolean(8, false);
+            tabla = cst.executeQuery();
+            while(tabla.next()){
+                existe = tabla.getInt("existe");
+            }            
+            return existe;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }finally{
+            close();
+        }       
+        return existe;        
     }
     
     private void close() {

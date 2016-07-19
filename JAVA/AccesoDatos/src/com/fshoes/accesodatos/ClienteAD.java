@@ -142,6 +142,32 @@ public class ClienteAD {
         return total;        
     }
     
+    public int existeCliente(String valor, String prm) throws Exception{
+        int existe = 0;
+        cn = Conexion.Instancia().getConexion();
+        try {
+            cst = cn.prepareCall("{call pa_cliente(?,?,?,?,?,?,?,?)}");
+            cst.setString(1, valor);
+            cst.setString(2, prm);
+            cst.setInt(3, 0);
+            cst.setInt(4, 0);
+            cst.setString(5, "");
+            cst.setString(6, "");
+            cst.setString(7, "");
+            cst.setBoolean(8, false);
+            tabla = cst.executeQuery();
+            while(tabla.next()){
+                existe = tabla.getInt("existe");
+            }            
+            return existe;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }finally{
+            close();
+        }       
+        return existe;        
+    }
+    
     private void close() {
         try {
           if (tabla != null) {

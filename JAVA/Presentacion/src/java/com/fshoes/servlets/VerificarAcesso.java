@@ -89,7 +89,7 @@ public class VerificarAcesso extends HttpServlet {
                 ses.setAttribute("trabajador", t);
                 response.sendRedirect("frmPrincipal.jsp");
             }else{
-                   out.println("Usuario incorrecto");
+                   response.sendRedirect("mensajeError.jsp");
             }
         } catch (Exception ex) {
             ex.getMessage();

@@ -41,12 +41,22 @@ public class FichaTecnicaLN {
         
     public ArrayList<FichaTecnica> listarFichaTecnica(String valor, String prm, int inicio, int fin) throws Exception {
         try {
-            if(!prm.equals(""))            
+            if(!prm.equals("") && !valor.equals(""))            
                 return FichaTecnicaAD.Instancia().listarFichaTecnica(valor, prm, inicio, fin);
             else return null;
         } catch (Exception ex) {
             throw ex;
         }
+    }
+    
+    public int obtenerTotalFilas(String valor, String prm) throws Exception{
+        try {
+            if (!prm.equals("") && !valor.equals(""))
+                return FichaTecnicaAD.Instancia().obtenerTotalFilas(valor, prm);
+            else return 0;
+        } catch (Exception e) {
+            throw e;
+        }        
     }
     
     public ArrayList<FichaTecnica> listarFichaTecnica(String valor, String prm) throws Exception {

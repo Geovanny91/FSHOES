@@ -105,7 +105,15 @@ and open the template in the editor.
                                 <input type="text" name="celular" id="celular" class="form-control" placeholder="Celular" required="" />
                             </div>
                             <div>
-                                <input type="text" name="fecha_nacimiento" id="fecha_nacimiento" class="form-control" placeholder="Fecha. Nacimiento" required="" />
+
+
+
+
+                                <input type="text" maxlength="10" class="form-control" id="fecha_nacimiento" name="fecha_nacimiento" placeholder="Fecha. Nacimiento" required="">
+                                <div class="daterangepicker picker_2 single opensright show-calendar"></div>
+
+
+
                             </div>
                             <div>
                                 <input type="text" name="usuario" id="usuario" class="form-control" placeholder="Usuario" required="" />
@@ -236,39 +244,40 @@ and open the template in the editor.
         <script>
             $(document).on("ready", function () {
                 comboProceso();
-                registrarTrabjador();                
+                registrarTrabjador();
+                fechas("#fecha_nacimiento");
             });
 
             function registrarTrabjador() {
                 $("#frmTrabajador").on("submit", function (e) {
-                    e.preventDefault();                                        
-                    var proceso = $("#cboproceso option:selected").val(),                   
-                        dni = $("#dni").val(),
-                        nombres = $("#nombres").val(),
-                        ape_paterno = $("#ape_paterno").val(),
-                        ape_materno = $("#ape_materno").val(),
-                        direccion = $("#direccion").val(),
-                        telefono = $("#telefono").val(),
-                        celular = $("#celular").val(),
-                        fecha_nacimiento = $("#fecha_nacimiento").val(),
-                        usuario = $("#usuario").val(),
-                        contrasena = $("#contrasena").val();
-                    var datos = {"parametro":"registrarTrabajador", "dni":dni, "nombres":nombres, "ape_paterno":ape_paterno, "ape_materno":ape_materno, "direccion":direccion, 
-                                "telefono":telefono, "celular":celular, "fecha_nacimiento":fecha_nacimiento, "usuario":usuario, "contrasena":contrasena, 
-                                "proceso":proceso };  
+                    e.preventDefault();
+                    var proceso = $("#cboproceso option:selected").val(),
+                            dni = $("#dni").val(),
+                            nombres = $("#nombres").val(),
+                            ape_paterno = $("#ape_paterno").val(),
+                            ape_materno = $("#ape_materno").val(),
+                            direccion = $("#direccion").val(),
+                            telefono = $("#telefono").val(),
+                            celular = $("#celular").val(),
+                            fecha_nacimiento = $("#fecha_nacimiento").val(),
+                            usuario = $("#usuario").val(),
+                            contrasena = $("#contrasena").val();
+                    var datos = {"parametro": "registrarTrabajador", "dni": dni, "nombres": nombres, "ape_paterno": ape_paterno, "ape_materno": ape_materno, "direccion": direccion,
+                        "telefono": telefono, "celular": celular, "fecha_nacimiento": fecha_nacimiento, "usuario": usuario, "contrasena": contrasena,
+                        "proceso": proceso};
                     $.ajax({
-                        method:"POST",
-                        url:"Strabajador",
+                        method: "POST",
+                        url: "Strabajador",
                         data: datos
                     }).done(function (info) {
                         console.log(typeof info);
-                        if(info == "null"){                            
+                        if (info == "null") {
                             new PNotify({//ver lo de la notificación
                                 title: 'Mensaje de Advertencia',
                                 text: 'Ingrese todos los datos solicitados',
                                 hide: false
-                            });                            
-                        }else if(info){ 
+                            });
+                        } else if (info) {
                             new PNotify({//ver lo de la notificación
                                 title: 'Mensaje de éxito',
                                 text: 'Se guardaron los datos satisfactoriamente.',
@@ -279,8 +288,8 @@ and open the template in the editor.
                     });
                 });
             }
-            
-            function limpiarCampos(){
+
+            function limpiarCampos() {
                 //$("#cboproceso").val();
                 $("#dni").val("");
                 $("#nombres").val("");
@@ -293,18 +302,33 @@ and open the template in the editor.
                 $("#usuario").val("");
                 $("#contrasena").val("");
             }
-            
-            function comboProceso(){
+
+            function comboProceso() {
                 var parametro = "listarcomboProceso";
                 $.ajax({
-                   method: "POST",
-                   url: "Sproceso",
-                   data: {"parametro":parametro}
-                }).done(function(data){
-                    if(data != "")
-                        $("#cboproceso").html(data);                        
-                    else{                        
+                    method: "POST",
+                    url: "Sproceso",
+                    data: {"parametro": parametro}
+                }).done(function (data) {
+                    if (data != "")
+                        $("#cboproceso").html(data);
+                    else {
                     }
+                });
+            }
+
+            function fechas(valor) {
+                $(valor).daterangepicker({
+                    singleDatePicker: true,
+                    calender_style: "picker_2",
+                    locale: {
+                        format: 'YYYY-MM-DD',
+                        daysOfWeek: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa'],
+                        monthNames: ['Enero', 'Febreri', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
+                    }
+                });
+                $(valor).on('apply.daterangepicker', function (ev, picker) {
+                    $(this).val(picker.startDate.format('YYYY-MM-DD'));
                 });
             }
 

@@ -130,18 +130,20 @@ public class Smodelo extends HttpServlet {
                 }
             }
             break;
-            case "listarFichaTecnicaPaginacion": {//aqui con paginacion arreglart parámetro
+            case "listarFichaTecnicaPaginacion": {//aqui por modelo
                 try {
                     //lista = new ArrayList<>();
                     int inicio = Integer.parseInt(request.getParameter("start")),
-                            fin = Integer.parseInt(request.getParameter("length"));
+                            fin = Integer.parseInt(request.getParameter("length"));                    
+                    String codigo_modelo = request.getParameter("codigo_modelo");
+                    //listar por código de modelo, que irá en el parámetro valor
                     //lista = ModeloLN.Instancia().listarModelos("", parametro, inicio, (fin + inicio));//getListPersonajes(n_col, dir, inicio, fin);//base de datos
-                    listaFicha = FichaTecnicaLN.Instancia().listarFichaTecnica("", parametro, inicio, (inicio + fin));
+                    listaFicha = FichaTecnicaLN.Instancia().listarFichaTecnica(codigo_modelo, parametro, inicio, (inicio + fin));
                     JSONArray array = new JSONArray();
                     array.addAll(listaFicha);
                     StringWriter outjson = new StringWriter();
 
-                    int total = ModeloLN.Instancia().obtenerTotalFilas(valor, "obtenerTotal");
+                    int total = FichaTecnicaLN.Instancia().obtenerTotalFilas(codigo_modelo, "obtenerTotal");
                     int draw = Integer.parseInt(request.getParameter("draw"));
 
                     JSONObject json = new JSONObject();

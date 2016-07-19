@@ -63,6 +63,9 @@ public class OrdenAD {
                 o.setCodigoorden(tabla.getString("codigoorden"));
                 o.setOrden_pedido(tabla.getString("orden_pedido"));
                 o.setFecha_entrega(tabla.getDate("fecha_entrega"));
+                FichaTecnica ficha = new FichaTecnica();
+                ficha.setCodigoficha(tabla.getString("codigoficha"));
+                o.setObjFicha(ficha);
                 o.setTotal(tabla.getInt("total"));
                 Lista.add(o);
             }			
@@ -183,6 +186,34 @@ public class OrdenAD {
             close();
         }       
         return total;        
+    }
+    
+    public int existeOrden(String valor, String prm) throws Exception{
+        int existe = 0;
+        cn = Conexion.Instancia().getConexion();
+        try {
+            cst = cn.prepareCall("{call pa_orden(?,?,?,?,?,?,?,?,?,?)}");
+            cst.setString(1, valor);
+            cst.setString(2, prm);
+            cst.setInt(3, 0);
+            cst.setInt(4, 0);
+            cst.setString(5, "");
+            cst.setString(6, "");
+            cst.setString(7, "");
+            cst.setString(8, "");
+            cst.setInt(9, 0);
+            cst.setString(10, "");
+            tabla = cst.executeQuery();
+            while(tabla.next()){
+                existe = tabla.getInt("existe");
+            }            
+            return existe;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }finally{
+            close();
+        }       
+        return existe;        
     }
     
     private void close() {

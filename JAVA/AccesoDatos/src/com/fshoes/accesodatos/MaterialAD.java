@@ -114,7 +114,7 @@ public class MaterialAD {
                 m.setPreciounitario(tabla.getFloat("preciounitario"));
                 m.setTipo(tabla.getString("tipo"));
                 Proveedor p = new Proveedor();
-                p.setIdproveedor(tabla.getInt("idproveedor"));
+                p.setIdproveedor(tabla.getLong("idproveedor"));
                 p.setRazonsocial(tabla.getString("razonsocial"));
                 m.setObjProveedor(p);
                 Proceso proceso = new Proceso();
@@ -165,7 +165,7 @@ public class MaterialAD {
                 m.setPreciounitario(tabla.getFloat("preciounitario"));
                 m.setTipo(tabla.getString("tipo"));
                 Proveedor proveedor = new Proveedor();
-                proveedor.setIdproveedor(tabla.getInt("idproveedor"));
+                proveedor.setIdproveedor(tabla.getLong("idproveedor"));
                 m.setObjProveedor(proveedor);
                 Proceso proceso = new Proceso();
                 proceso.setCodigoproceso(tabla.getString("codigoproceso"));
@@ -200,7 +200,7 @@ public class MaterialAD {
             cst.setFloat(9, objMaterial.getCantidaddocena());
             cst.setFloat(10, objMaterial.getPreciounitario());
             cst.setString(11, objMaterial.getTipo());
-            cst.setInt(12, objMaterial.getObjProveedor().getIdproveedor());
+            cst.setLong(12, objMaterial.getObjProveedor().getIdproveedor());
             cst.setString(13, objMaterial.getObjProceso().getCodigoproceso());
             cst.setString(14, objMaterial.getObjFichaTecnica().getCodigoficha());
             cst.execute();
@@ -213,6 +213,35 @@ public class MaterialAD {
         return rpt;
     }
 
+    public boolean modificarMaterial(Material objMaterial, String prm) throws Exception {
+        cn = Conexion.Instancia().getConexion();
+        boolean rpt = false;
+        try {
+            cst = cn.prepareCall("{call pa_material(?,?,?,?,?,?,?,?,?,?,?,?,?,?)}");
+            cst.setString(1, "");
+            cst.setString(2, prm);
+            cst.setInt(3, 0);
+            cst.setInt(4, 0);
+            cst.setInt(5, objMaterial.getIdmaterial());
+            cst.setString(6, objMaterial.getNombre());
+            cst.setString(7, objMaterial.getDescripcion());
+            cst.setString(8, objMaterial.getUnidadmedida());
+            cst.setFloat(9, objMaterial.getCantidaddocena());
+            cst.setFloat(10, objMaterial.getPreciounitario());
+            cst.setString(11, objMaterial.getTipo());
+            cst.setLong(12, objMaterial.getObjProveedor().getIdproveedor());
+            cst.setString(13, objMaterial.getObjProceso().getCodigoproceso());
+            cst.setString(14, objMaterial.getObjFichaTecnica().getCodigoficha());
+            cst.execute();
+            rpt = true;
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            close();
+        }
+        return rpt;
+    }
+    
     public int obtenerTotalFilas(String valor, String prm) throws Exception {
         int total = 0;
         cn = Conexion.Instancia().getConexion();

@@ -19,7 +19,7 @@
         <div class="col-md-6 col-sm-6 col-xs-12">
             <div class="x_panel">
                 <div class="x_title">
-                    <h2>Formulario Asignar Orden a Trabajador <small></small></h2>
+                    <h2>Asignar orden a trabajador <small></small></h2>
                     <ul class="nav navbar-right panel_toolbox">
                         <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                         </li>
@@ -34,7 +34,7 @@
                         <br>
                         <div class="form-group">                            
                             <div class="col-md-10 col-sm-12 col-xs-12 col-md-push-1 has-feedback">                                
-                                <input type="text" name="orden" id="orden" required="" class="form-control has-feedback-left" placeholder="Ingresar Còdigo Orden" onkeypress="listarDetalleOrdenPorCodigo(this);">
+                                <input type="text" name="orden" id="orden" required="" class="form-control has-feedback-left" placeholder="Ingresar còdigo de orden" onkeypress="listarDetalleOrdenPorCodigo(this);">
                                 <span class="fa fa-file-text-o form-control-feedback left" aria-hidden="true"></span>                              
                             </div>                            
                         </div>

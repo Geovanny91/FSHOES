@@ -48,7 +48,7 @@ public class ModeloLN {
     
     public int obtenerTotalFilas(String valor, String prm) throws Exception{
         try {
-            if (!(prm.equals("")))
+            if (!prm.equals("") && !valor.equals(""))
                 return ModeloAD.Instancia().obtenerTotalFilas(valor, prm);
             else return 0;
         } catch (Exception e) {

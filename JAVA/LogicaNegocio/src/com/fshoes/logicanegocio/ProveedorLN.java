@@ -64,4 +64,14 @@ public class ProveedorLN {
             throw e;
         }        
     }
+    
+    public int existeProveedor(String valor, String prm) throws Exception{
+        try {
+            if (!(prm.equals("")) && !valor.equals(""))
+                return ProveedorAD.Instancia().existeProveedor(valor, prm);
+            else return 0;
+        } catch (Exception e) {
+            throw e;
+        }        
+    }
 }

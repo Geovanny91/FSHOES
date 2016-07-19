@@ -20,7 +20,7 @@
 
             <div class="x_panel">
                 <div class="x_title">
-                    <h2>Modelos <small>lista de modelos.</small></h2>
+                    <h2>Modelos <small>lista de fichas técnicas y su respectivo modelo.</small></h2>
                     <ul class="nav navbar-right panel_toolbox">
                         <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                         </li>
@@ -33,10 +33,27 @@
                     </ul>
                     <div class="clearfix"></div>
                 </div>
-                <div class="x_content">    
+                <div class="x_content">
+                    
+                        <div class="row">
+                        <form class="form-inline" method="POST">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-addon"><i class="fa fa-search"></i></div>
+                                    <input type="text" class="form-control" id="codigo_modelo" name="codigo_modelo" placeholder="Ingresar código de modelo" required="">                                
+                                </div>
+                            </div>                            
+                            <input type="button" value="Click" id="btnMostrarFichasPorModelo" class="btn btn-primary" />
+                        </form>
+                    </div>
+                    
+                    
+                    <br>
+                    <div class="row">                    
                     <table class="table table-striped table-bordered dt-responsive nowrap" id="listaModelos" cellspacing="0" width="100%">
                         <thead>
                             <tr>
+                                <th>Modelo</th> 
                                 <th>Ficha Técnica</th>
                                 <th>Color</th>
                                 <th>Horma</th>                                
@@ -44,13 +61,13 @@
                                 <th>Plataforma</th>                                
                                 <th>Coleccion</th>
                                 <th>Id Cliente</th>
-                                <th>Cliente</th>
-                                <th>Modelo</th> 
+                                <th>Cliente</th>                                
                                 <th></th>
-                                <th></th>
+                                <!--<th></th>-->
                             </tr>
                         </thead>            
                     </table>
+                        </div>
                 </div>
             </div>
         </div>

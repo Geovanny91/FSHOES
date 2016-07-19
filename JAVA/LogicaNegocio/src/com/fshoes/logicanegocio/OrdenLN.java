@@ -69,4 +69,14 @@ public class OrdenLN {
             throw e;
         }        
     }
+    
+     public int existeOrden(String valor, String prm) throws Exception{
+        try {
+            if (!(prm.equals("")) && !valor.equals(""))
+                return OrdenAD.Instancia().existeOrden(valor, prm);
+            else return 0;
+        } catch (Exception e) {
+            throw e;
+        }        
+    }
 }

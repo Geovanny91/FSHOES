@@ -82,7 +82,7 @@
                                                                     <th>Horma</th>                                
                                                                     <th>Taco</th>
                                                                     <th>Plataforma</th>                                                                
-                                                                    <th>Id Cliente</th>
+                                                                    <!--th>Id Cliente</th>-->
                                                                     <th>Cliente</th>
                                                                     <th>Modelo</th> 
                                                                     <th></th>
@@ -104,13 +104,13 @@
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Orden de Producciòn</label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input type="text" class="form-control" name="orden" id="orden" placeholder="Orden de Producción" >
+                                <input type="text" class="form-control" name="orden" id="orden" placeholder="Ingresar código de orden" required="">
                             </div>
                         </div>                    
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Orden de pedido</label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input type="text" class="form-control" name="pedido" id="pedido" value="" placeholder="Orden de pedido" required="">
+                                <input type="text" class="form-control" name="pedido" id="pedido" value="" placeholder="Ingresar orden de pedido" required="">
                             </div>
                         </div>
 
@@ -119,7 +119,7 @@
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Fecha emision</label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input type="text" class="form-control has-feedback-left" id="f_emision" name="f_emision" placeholder="Fecha emisión" required="">
+                                <input type="text" class="form-control has-feedback-left" id="f_emision" name="f_emision" placeholder="Ingresar fecha de emisión" required="">
                                 <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
                             </div>
                         </div>                            
@@ -130,7 +130,7 @@
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Fecha entrega</label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input type="text" class="form-control has-feedback-left" name="f_entrega" id="f_entrega" value="" placeholder="Fecha entrega" required="">
+                                <input type="text" class="form-control has-feedback-left" name="f_entrega" id="f_entrega" value="" placeholder="Ingresar fecha de entrega" required="">
                                 <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
                             </div>
                         </div>
@@ -139,20 +139,21 @@
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Total</label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input type="text" class="form-control" name="total" id="total" value="0" placeholder="Total" readonly="">
+                                <input type="text" class="form-control" name="total" id="total" value="0" placeholder="Ingresar total" readonly="">
                             </div>
                         </div>                        
                         <div class="form-group">                            
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Ficha Técnica</label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input type="text" class="form-control" name="ficha_tecnica" id="ficha_tecnica" value="" placeholder="Código ficha técnica" readonly="">                                
+                                <input type="text" class="form-control" name="ficha_tecnica" id="ficha_tecnica" value="" placeholder="Ingresar código de ficha técnica" readonly="">                                
                             </div>
                         </div>
                         <div class="ln_solid"></div>
                         <div class="form-group">                            
-                            <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">                                
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalModeloPorFicha" ><i class="fa fa-search"></i> Ficha</button>
+                            <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
                                 <button type="button" id="guardarOrden" class="btn btn-success">Guardar</button>
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalModeloPorFicha" ><i class="fa fa-search"></i> Ficha</button>
+                                
                             </div>
                         </div>                        
                     </form>
@@ -205,7 +206,7 @@
                         <div class="ln_solid"></div>
                         <div class="form-group">
                             <div class="col-md-9 col-sm-9 col-xs-12">                                
-                                <button type="button" id="generarTotal" class="btn btn-success">Generar Total</button>
+                                <button type="button" id="generarTotal" class="btn btn-primary">Generar Total</button>
                             </div>
                         </div>
                         <!--

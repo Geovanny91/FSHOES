@@ -84,17 +84,17 @@ public class Sproveedor extends HttpServlet {
         ArrayList<Proveedor> lista = null;
         boolean rptProveedor;
         Proveedor objProveedor;
-        
+
         String valor = request.getParameter("valor");
         String parametro = request.getParameter("parametro");
 
         switch (parametro) {
             case "listarProveedorPaginacion": {
-                try {                    
+                try {
                     int inicio = Integer.parseInt(request.getParameter("start")),
                             fin = Integer.parseInt(request.getParameter("length"));
                     lista = new ArrayList<Proveedor>();
-                    lista = ProveedorLN.Instancia().listarProveedores("", parametro, inicio,(inicio + fin));
+                    lista = ProveedorLN.Instancia().listarProveedores("", parametro, inicio, (inicio + fin));
                     JSONArray array = new JSONArray();
                     array.addAll(lista);
                     StringWriter outjson = new StringWriter();
@@ -113,7 +113,8 @@ public class Sproveedor extends HttpServlet {
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
-            }break;
+            }
+            break;
             case "listarProveedor": {
                 try {
                     lista = new ArrayList<Proveedor>();
@@ -132,20 +133,30 @@ public class Sproveedor extends HttpServlet {
                 } catch (Exception ex) {
                     ex.getMessage();
                 }
-            }break;
+            }
+            break;
             case "registrarProveedor": {
                 try {
                     String razon_social = request.getParameter("razon"),
-                            ruc         = request.getParameter("ruc"),
-                            direccion   = request.getParameter("direccion");
-                    boolean estado      = Boolean.valueOf(request.getParameter("estado"));
+                            ruc = request.getParameter("ruc"),
+                            direccion = request.getParameter("direccion");
+                    boolean estado = Boolean.valueOf(request.getParameter("estado"));
+                    int existeProveedor = 0;
 
-                    objProveedor = new Proveedor(0, razon_social, ruc, direccion, estado);
-                    rptProveedor = ProveedorLN.Instancia().registrarCliente(objProveedor, parametro);
-                    
-                    if(rptProveedor)    response.getWriter().write("true");
-                    else response.getWriter().write("false");
-                        
+                    existeProveedor = ProveedorLN.Instancia().existeProveedor(ruc, "verificarProveedor");
+                    if (existeProveedor > 0) {
+                        response.getWriter().append("existe_proveedor");
+                    } else {
+                        objProveedor = new Proveedor(null, razon_social, ruc, direccion, estado);
+                        rptProveedor = ProveedorLN.Instancia().registrarCliente(objProveedor, parametro);
+
+                        if (rptProveedor) {
+                            response.getWriter().write("true");
+                        } else {
+                            response.getWriter().write("false");
+                        }
+                    }
+
                 } catch (Exception ex) {
                     ex.getMessage();
                 }
@@ -154,16 +165,14 @@ public class Sproveedor extends HttpServlet {
         }
     }
 
-        /**
-         * Returns a short description of the servlet.
-         *
-         * @return a String containing servlet description
-         */
-        @Override
-        public String getServletInfo
-        
-            () {
+    /**
+     * Returns a short description of the servlet.
+     *
+     * @return a String containing servlet description
+     */
+    @Override
+    public String getServletInfo() {
         return "Short description";
-        }// </editor-fold>
+    }// </editor-fold>
 
-    }
+}

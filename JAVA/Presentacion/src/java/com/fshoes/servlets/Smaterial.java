@@ -76,8 +76,10 @@ public class Smaterial extends HttpServlet {
 
         String valor = request.getParameter("valor");
         String parametro = request.getParameter("parametro");
-        String nombre = null, descripccion = null, unidad_medida = null, cantidad_docena = null, precio_unitario = null, tipo = null, id_proveedor = null, id_proceso = null, id_ficha = null;
-        if(parametro.equals("registrarMaterial")){        
+        String nombre = null, descripccion = null, unidad_medida = null, cantidad_docena = null, precio_unitario = null,
+               tipo = null, id_proveedor = null, id_proceso = null, id_ficha = null, id_material = null;
+        
+        if(parametro.equals("registrarMaterial") || parametro.equals("modificarMaterial")){        
             nombre = request.getParameter("nombre");
             descripccion = request.getParameter("descripcion");
             unidad_medida = request.getParameter("unidad_medida").trim();
@@ -87,8 +89,9 @@ public class Smaterial extends HttpServlet {
             id_proveedor = request.getParameter("id_proveedor").trim();
             id_proceso = request.getParameter("id_proceso").trim();
             id_ficha = request.getParameter("id_fichatecnica").trim();
+            
             //Comprobar id de campos enteros
-            if(id_proveedor.equals("")) id_proveedor = "0";
+            if(id_proveedor.equals("")) id_proveedor = null;            
             if(cantidad_docena.equals("")) cantidad_docena = "0";
             if(precio_unitario.equals("")) precio_unitario = "0";
         }
@@ -104,12 +107,14 @@ public class Smaterial extends HttpServlet {
                     ArrayList<Material> lista = new ArrayList<>();
                     int inicio = Integer.parseInt(request.getParameter("start")),
                             fin = Integer.parseInt(request.getParameter("length"));
-                    lista = MaterialLN.Instancia().listarMaterial("", parametro, inicio, (fin + inicio));//getListPersonajes(n_col, dir, inicio, fin);//base de datos
+                    String ficha_tecnica = request.getParameter("ficha_tecnica");
+                    //listar por código de ficha técnica, que irá en el parámetro valor
+                    lista = MaterialLN.Instancia().listarMaterial(ficha_tecnica, parametro, inicio, (fin + inicio));//getListPersonajes(n_col, dir, inicio, fin);//base de datos
                     JSONArray array = new JSONArray();
                     array.addAll(lista);
                     StringWriter outjson = new StringWriter();
 
-                    int total = MaterialLN.Instancia().obtenerTotalFilas(valor, "obtenerTotal");
+                    int total = MaterialLN.Instancia().obtenerTotalFilas(ficha_tecnica, "obtenerTotal");
                     int draw = Integer.parseInt(request.getParameter("draw"));
 
                     JSONObject json = new JSONObject();
@@ -128,7 +133,7 @@ public class Smaterial extends HttpServlet {
             case "registrarMaterial":{
                 try {
                     objProveedor = new Proveedor();
-                    objProveedor.setIdproveedor(Integer.parseInt(id_proveedor));
+                    objProveedor.setIdproveedor(Long.parseLong(id_proveedor));
                     objProceso = new Proceso();
                     objProceso.setCodigoproceso(id_proceso);
                     objFicha = new FichaTecnica();
@@ -145,6 +150,35 @@ public class Smaterial extends HttpServlet {
                     if (rptMaterial) {
                         response.getWriter().write("true");
                         System.out.println("Respuesta modelo: " + rptMaterial);
+                    } else {
+                        response.getWriter().write("false");
+                    }
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }break;
+            case "modificarMaterial":{
+                try {
+                    
+                    id_material = request.getParameter("id_material").trim();
+                    if(id_material.equals("")) id_material = "0";
+                    
+                    objProveedor = new Proveedor();
+                    objProveedor.setIdproveedor(Long.parseLong(id_proveedor));
+                    objProceso = new Proceso();
+                    objProceso.setCodigoproceso(id_proceso);
+                    objFicha = new FichaTecnica();
+                    objFicha.setCodigoficha(id_ficha);                    
+                    
+                    objMaterial = new Material(Integer.parseInt(id_material), nombre, descripccion, unidad_medida, 
+                            Float.parseFloat(cantidad_docena), 
+                            Float.parseFloat(precio_unitario), 
+                            tipo, objProveedor, objProceso, objFicha);
+                    rptMaterial = MaterialLN.Instancia().modificararMaterial(objMaterial, parametro);
+                    System.out.println("respuesta: " + rptMaterial);                    
+                    if (rptMaterial) {
+                        response.getWriter().write("true");
+                        System.out.println("Respuesta material: " + rptMaterial);
                     } else {
                         response.getWriter().write("false");
                     }

@@ -16,13 +16,13 @@ import org.json.simple.JSONValue;
  * @author flores
  */
 public class Proveedor implements JSONStreamAware{
-    private int idproveedor;
+    private Long idproveedor;
     private String razonsocial;
     private String ruc;
     private String direccion;
     private boolean estado;
 
-    public Proveedor(int idproveedor, String razonsocial, String ruc, String direccion, boolean estado) {
+    public Proveedor(Long idproveedor, String razonsocial, String ruc, String direccion, boolean estado) {
         this.idproveedor = idproveedor;
         this.razonsocial = razonsocial;
         this.ruc = ruc;
@@ -31,16 +31,16 @@ public class Proveedor implements JSONStreamAware{
     }
 
     public Proveedor() {
-        this(0, "", "", "", false);        
+        this(new Long(0), "", "", "", false);        
     }
 
-    public int getIdproveedor() {
+    public Long getIdproveedor() {
         return idproveedor;
     }
 
-    public void setIdproveedor(int idproveedor) {
+    public void setIdproveedor(Long idproveedor) {
         this.idproveedor = idproveedor;
-    }
+    }    
 
     public String getRazonsocial() {
         return razonsocial;

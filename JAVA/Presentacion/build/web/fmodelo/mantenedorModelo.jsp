@@ -112,58 +112,58 @@
                             <div class="form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12">Modelo</label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input type="text" class="form-control" name="modelo" id="modelo" value="" required placeholder="Nuevo Modelo" required>
+                                    <input type="text" class="form-control" name="modelo" id="modelo" value="" required placeholder="Ingresar código" required>
                                 </div>
                             </div>                            
 
                             <div class="form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12">Horma</label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input type="text" class="form-control" name="horma" id="horma" value="" required placeholder="Horma">
+                                    <input type="text" class="form-control" name="horma" id="horma" value="" required placeholder="Ingresar horma">
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12">Ficha Técnica</label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input type="text" class="form-control" name="ficha_tecnica" id="ficha_tecnica" value="" required placeholder="Nueva Ficha Técnica" required>
+                                    <input type="text" class="form-control" name="ficha_tecnica" id="ficha_tecnica" value="" required placeholder="Ingresar ficha técnica" required>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12">Taco</label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input type="text" name="taco" id="taco" class="form-control" required placeholder="Taco">                        
+                                    <input type="text" name="taco" id="taco" class="form-control" required placeholder="Ingresar taco">                        
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12">Plataforma</label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input type="text" class="form-control" name="plataforma" id="plataforma" value="" required placeholder="Plataforma">
+                                    <input type="text" class="form-control" name="plataforma" id="plataforma" value="" required placeholder="Ingresar plataforma">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12">Color</label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input type="text" class="form-control" name="color" id="color" value="" required placeholder="Color">
+                                    <input type="text" class="form-control" name="color" id="color" value="" required placeholder="Ingresar color">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12">Colección</label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input type="text" class="form-control" name="coleccion" id="coleccion" value="" required placeholder="Colección">
+                                    <input type="text" class="form-control" name="coleccion" id="coleccion" value="" required placeholder="Ingresar colección">
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12">Especificación</label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input type="text" class="form-control" name="especificacion" id="especificacion" value="" required placeholder="Especificación">
+                                    <input type="text" class="form-control" name="especificacion" id="especificacion" value="" required placeholder="Ingresar especificación">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12">Cliente</label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input type="text" class="form-control" name="cliente" id="cliente" value="" required placeholder="Cliente" readonly>
+                                    <input type="text" class="form-control" name="cliente" id="cliente" value="" required placeholder="Ingresar cliente" readonly>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -179,9 +179,10 @@
                             </div>
                             <div class="ln_solid"></div>
                             <div class="form-group">
-                                <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">                                    
+                                <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
+                                    <button type="submit" id="guardarModelo" class="btn btn-success">Guardar</button>
                                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg" ><i class="fa fa-search"></i> Cliente</button>                            
-                                    <button type="submit" id="guardarModelo" class="btn btn-success">Guardar</button>                                
+                                    
                                 </div>
                             </div>
 

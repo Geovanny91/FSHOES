@@ -120,7 +120,7 @@ public class Sfichatecnica extends HttpServlet {
                                 + "<td>" + listaFicha.get(i).getObjModelo().getHorma() + "</td>"
                                 + "<td>" + listaFicha.get(i).getTaco() + "</td>"
                                 + "<td>" + listaFicha.get(i).getPlataforma() + "</td>"
-                                + "<td>" + listaFicha.get(i).getObjModelo().getObjcliente().getIdcliente() + "</td>"
+                                //+ "<td>" + listaFicha.get(i).getObjModelo().getObjcliente().getIdcliente() + "</td>"
                                 + "<td>" + listaFicha.get(i).getObjModelo().getObjcliente().getRazonsocial() + "</td>"
                                 + "<td>" + listaFicha.get(i).getObjModelo().getCodigomodelo() + "</td>"
                                 + "<td><a href='#' class=\"close\" data-dismiss=\"modal\" ><i class=\"fa fa-hand-o-left\"></i></a></td></tr>"
@@ -207,7 +207,7 @@ public class Sfichatecnica extends HttpServlet {
                         tipo = serie.get("tipo").toString(),
                         codigoficha = serie.get("codigoficha").toString(),
                         codigoproceso = serie.get("codigoproceso").toString();
-                int idproveedor = Integer.parseInt(serie.get("idproveedor").toString());
+                Long idproveedor = Long.parseLong(serie.get("idproveedor").toString());
                 float preciounitario = Float.parseFloat(serie.get("preciounitario").toString()),
                         cantidaddocena = Float.parseFloat(serie.get("cantidaddocena").toString());
 

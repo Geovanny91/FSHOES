@@ -110,43 +110,47 @@ public class SOrden extends HttpServlet {
 
         switch (parametro) {
             case "listarOrdenTerminadaPaginacion": {
-                try {                    
+                try {
                     int inicio = Integer.parseInt(request.getParameter("start")),
                             fin = Integer.parseInt(request.getParameter("length"));
-                    
+
                     String f_emision = request.getParameter("f_emision").trim(),
                             f_entrega = request.getParameter("f_entrega").trim();
 
                     /*Poner unas fecha por defecto, si los campos de fechas son vacios*/
-                        Calendar fecha = new GregorianCalendar();
-                        String año = String.valueOf(fecha.get(Calendar.YEAR));
-                        String mes = String.valueOf(fecha.get(Calendar.MONTH));
-                        String dia = String.valueOf(fecha.get(Calendar.DAY_OF_MONTH));
-                        String fecha_defecto = String.valueOf(año + "-" + mes + "-" + dia);
-                        System.out.println("Fecha por Defecto: " + fecha_defecto);
+                    Calendar fecha = new GregorianCalendar();
+                    String año = String.valueOf(fecha.get(Calendar.YEAR));
+                    String mes = String.valueOf(fecha.get(Calendar.MONTH));
+                    String dia = String.valueOf(fecha.get(Calendar.DAY_OF_MONTH));
+                    String fecha_defecto = String.valueOf(año + "-" + mes + "-" + dia);
+                    System.out.println("Fecha por Defecto: " + fecha_defecto);
 
-                        if (f_emision.equals(""))   f_emision = fecha_defecto;                    
-                        if (f_entrega.equals(""))   f_entrega = fecha_defecto;                    
+                    if (f_emision.equals("")) {
+                        f_emision = fecha_defecto;
+                    }
+                    if (f_entrega.equals("")) {
+                        f_entrega = fecha_defecto;
+                    }
                     /*Fin campos fechas vacios*/
-                    
-                    //Aquí se parsea los valores de fechas obtenidas
-                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                        Date utilDate = dateFormat.parse(f_emision);
-                        final String stringDate = dateFormat.format(utilDate);
-                        final java.sql.Date fecha_emision = java.sql.Date.valueOf(stringDate);
 
-                        Date utilDate_dos = dateFormat.parse(f_entrega);
-                        final String stringDate_dos = dateFormat.format(utilDate_dos);
-                        final java.sql.Date fecha_entrega = java.sql.Date.valueOf(stringDate_dos);                    
+                    //Aquí se parsea los valores de fechas obtenidas
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                    Date utilDate = dateFormat.parse(f_emision);
+                    final String stringDate = dateFormat.format(utilDate);
+                    final java.sql.Date fecha_emision = java.sql.Date.valueOf(stringDate);
+
+                    Date utilDate_dos = dateFormat.parse(f_entrega);
+                    final String stringDate_dos = dateFormat.format(utilDate_dos);
+                    final java.sql.Date fecha_entrega = java.sql.Date.valueOf(stringDate_dos);
                     //Fin parseo de fechas
-                    
+
                     lista = new ArrayList<Orden>();
-                    
+
                     Orden orden = new Orden();
                     orden.setFecha_emision(fecha_emision);
                     orden.setFecha_entrega(fecha_entrega);
-                    
-                    lista = OrdenLN.Instancia().listarOrdenesTerminadas("", parametro, orden, inicio,(inicio + fin));
+
+                    lista = OrdenLN.Instancia().listarOrdenesTerminadas("", parametro, orden, inicio, (inicio + fin));
                     JSONArray array = new JSONArray();
                     array.addAll(lista);
                     StringWriter outjson = new StringWriter();
@@ -169,6 +173,7 @@ public class SOrden extends HttpServlet {
             break;
             case "registrarOrden": {
                 boolean rptorden = false, rptSerie = false;
+                int existeOrden = 0;
                 try {
                     String orden = request.getParameter("orden").trim(),
                             pedido = request.getParameter("pedido").trim(),
@@ -207,19 +212,25 @@ public class SOrden extends HttpServlet {
                     final String stringDate_dos = dateFormat.format(utilDate_dos);
                     final java.sql.Date fecha_entrega = java.sql.Date.valueOf(stringDate_dos);
 
-                    Orden objOrden = new Orden(orden, pedido, fecha_emision, fecha_entrega, total, objFicha);
-                    rptorden = OrdenLN.Instancia().registrarOrden(objOrden, parametro);
-                    System.out.println("Registro Orden correcto? " + rptorden);
+                    existeOrden = OrdenLN.Instancia().existeOrden(orden, "verificarOrden");
+                    if (existeOrden > 0) {
+                        response.getWriter().append("existe_orden");
+                    } else {
 
-                    if (rptorden == false) {
-                        response.getWriter().write("false");
-                    } else if (!json_detalle_serie.equals("{\"series\":[]}")) {
-                        parametro = "registrarSerie";//modificar el parámentro
-                        rptSerie = decodicarJson(json_detalle_serie, objOrden, parametro);
+                        Orden objOrden = new Orden(orden, pedido, fecha_emision, fecha_entrega, total, objFicha);
+                        rptorden = OrdenLN.Instancia().registrarOrden(objOrden, parametro);
+                        System.out.println("Registro Orden correcto? " + rptorden);
 
-                        if (rptSerie == true) {
-                            response.getWriter().write("true");
-                            System.out.println("MI SERIE ORDEN : ? " + rptSerie);
+                        if (rptorden == false) {
+                            response.getWriter().write("false");
+                        } else if (!json_detalle_serie.equals("{\"series\":[]}")) {
+                            parametro = "registrarSerie";//modificar el parámentro
+                            rptSerie = decodicarJson(json_detalle_serie, objOrden, parametro);
+
+                            if (rptSerie == true) {
+                                response.getWriter().write("true");
+                                System.out.println("MI SERIE ORDEN : ? " + rptSerie);
+                            }
                         }
                     }
                 } catch (Exception ex) {

@@ -75,6 +75,7 @@
         fechas("#f_emision");
         fechas("#f_entrega");
 
+
         listarClientesPaginacion();
         registrarcliente();
         listarProveedoresPaginacion();
@@ -85,13 +86,15 @@
         exportarOrden();
         mostrarOrdenesTerminadas();
 
-        listarModelosPaginacion();
+        mostrarModelosYFichas();
         editarModelo();
         registrarModelo();
         validarCampos();
 
-        listarMaterialesPaginacion();
+
+        mostrarMaterialesPorFicha();
         registrarMaterial();
+        modificarMaterial();
 
         obtenerFichaTecnica();
         obtenerDatosModificarfichaTecnica();
@@ -111,8 +114,8 @@
         infoFiltered: "(filtrado de un total de _MAX_ registros)",
         infoPostFix: "",
         loadingRecords: "Cargando...",
-        zeroRecords: "Aucun &eacute;l&eacute;ment &agrave; afficher",
-        emptyTable: "Aucune donnée disponible dans le tableau",
+        zeroRecords: "No se encontraron resultados",
+        emptyTable: "No hay datos disponibles en la tabla",
         paginate: {
             first: "Primero",
             previous: "Anterior",
@@ -161,7 +164,13 @@
                             text: 'Ingrese todos los datos solicitados y también las series.',
                             hide: false
                         });
-                    }else if (info === "true") {
+                    } else if (info === "existe_orden") {
+                        new PNotify({//ver lo de la notificación
+                            title: 'Mensaje de Información',
+                            text: 'El código de orden, ya existe.',
+                            type: 'info'
+                        });
+                    } else if (info === "true") {
                         limpiarCamposOrden();
                         //location.reload();
                         new PNotify({//ver lo de la notificación
@@ -197,9 +206,9 @@
         });
 
         /*$("#btnExport").on("click", function (e) {
-            window.open('data:application/vnd.ms-excel,' + $('#dvData').html());
-            e.preventDefault();
-        });*/
+         window.open('data:application/vnd.ms-excel,' + $('#dvData').html());
+         e.preventDefault();
+         });*/
     }
     function listarDetalleOrdenPorCodigo(valor) {
         var char = event.which || event.keyCode;
@@ -467,6 +476,12 @@
                         text: 'Ingrese todos los datos solicitados',
                         hide: false
                     });
+                } else if (data === "existe_cliente") {
+                    new PNotify({//ver lo de la notificación
+                        title: 'Mensaje de Información',
+                        text: 'El número de ruc del cliente, ya existe.',
+                        type: 'info'
+                    });
                 } else if (data == "true") {
                     new PNotify({
                         title: 'Mensaje de éxito',
@@ -493,6 +508,7 @@
 
         tabla_paginacion_proveedor = $('#listaProveedor').DataTable({
             //"scrollX": true
+            "searching": false,
             "processing": true,
             "serverSide": true,
             "ajax": {
@@ -518,13 +534,13 @@
         //mantenedoresClientes('#listaCliente tbody', tabla_paginacion_cliente);
     }
 
-    function mostrarOrdenesTerminadas(){
-        $("#btnMostrarOrdenes").on("click", function(){
+    function mostrarOrdenesTerminadas() {
+        $("#btnMostrarOrdenes").on("click", function () {
             var f1 = $("#f_emision").val(),
-                f2 = $("#f_entrega").val();
-                
+                    f2 = $("#f_entrega").val();
+
             listarOrdenesTerminadasPaginacion(f1, f2);
-            tabla_paginacion_orden.destroy();
+
         });
     }
 
@@ -532,6 +548,8 @@
 
         tabla_paginacion_orden = $('#listaOrdenesTerminadas').DataTable({
             //"scrollX": true
+            "bDestroy": true,
+            "searching": false,
             "processing": true,
             "serverSide": true,
             "ajax": {
@@ -543,26 +561,27 @@
                 {"name": "CodigoOrden", "targets": 0, "width": "200px"},
                 {"name": "OrdenPedido", "targets": 1, "width": "100px"},
                 {"name": "FechaEmision", "targets": 2, "width": "250px"},
-                {"name": "FechaEntrega", "targets": 3, "width": "250px"},
+                {"name": "CodigoFicha", "targets": 3, "width": "250px"},
                 {"name": "Total", "targets": 4, "width": "250px"}
             ],
             "columns": [
                 {"data": "codigoorden"},
                 {"data": "orden_pedido"},
                 {"data": "fecha_emision"},
-                {"data": "fecha_entrega"},
-                {"data": "total"}                
+                {"data": "objFicha.codigoficha"},
+                {"data": "total"}
             ],
             language: lenguaje_espanol
         });
         //tabla_paginacion_orden.column(6).visible(false);
         //mantenedoresClientes('#listaCliente tbody', tabla_paginacion_cliente);
     }
-    
+
     function listarClientesPaginacion() {
 
         tabla_paginacion_cliente = $('#listaCliente').DataTable({
             //"scrollX": true
+            "searching": false,
             "processing": true,
             "serverSide": true,
             "ajax": {
@@ -617,32 +636,42 @@
         });
     }
 
+    function mostrarModelosYFichas() {
+        $("#btnMostrarFichasPorModelo").on("click", function (e) {
+            e.preventDefault();
+            var modelo = $("#codigo_modelo").val();
+            listarModelosPaginacion(modelo.trim());
+        });
+    }
 
-    function listarModelosPaginacion() {//listar modelos con sus fichas tecnicas
+    function listarModelosPaginacion(modelo) {//listar modelos con sus fichas tecnicas
 
         tabla_paginacion_modelo = $('#listaModelos').DataTable({
             //"scrollX": true
+            "bDestroy": true,
+            "searching": false,
             "processing": true,
             "serverSide": true,
             "ajax": {
                 "url": "../Smodelo",
                 "type": "POST",
-                "data": {"parametro": "listarFichaTecnicaPaginacion"}
+                "data": {"parametro": "listarFichaTecnicaPaginacion", "codigo_modelo": modelo}
                 //"dataSrc": "animes"
             },
             //ft.codigomodelo, horma, , , , , , c.idcliente, c.razonsocial
             "columnDefs": [
-                {"name": "codigoficha", "targets": 0, "width":"5px"},
-                {"name": "color", "targets": 1},
-                {"name": "horma", "targets": 2},
-                {"name": "taco", "targets": 3},
-                {"name": "plataforma", "targets": 4, "width":"10px"},
-                {"name": "coleccion", "targets": 5, "width":"10px"},
-                {"name": "idcliente", "targets": 6},
-                {"name": "razonsocial", "targets": 7},
-                {"name": "codigomodelo", "targets": 8}
+                {"name": "codigomodelo", "targets": 0},
+                {"name": "codigoficha", "targets": 1, "width": "5px"},
+                {"name": "color", "targets": 2},
+                {"name": "horma", "targets": 3},
+                {"name": "taco", "targets": 4},
+                {"name": "plataforma", "targets": 5, "width": "10px"},
+                {"name": "coleccion", "targets": 6, "width": "10px"},
+                {"name": "idcliente", "targets": 7},
+                {"name": "razonsocial", "targets": 8},
             ],
             "columns": [
+                {"data": "objModelo.codigomodelo"},
                 {"data": "codigoficha"},
                 {"data": "color"},
                 {"data": "objModelo.horma"},
@@ -651,17 +680,16 @@
                 {"data": "coleccion"},
                 {"data": "objModelo.objCliente.idcliente"},
                 {"data": "objModelo.objCliente.razonsocial"},
-                {"data": "objModelo.codigomodelo"},
-                {"defaultContent": "<button tipo='modificarModelo' class='btn btn-info btn-xs'><i class='fa fa-edit'></i></button>" , "width": "5px"},
-                {"defaultContent": "<button tipo='eliminarModelo' class='btn btn-danger btn-xs'><i class='fa fa-remove'></i></button>", "width":"5px"}
+                {"defaultContent": "<button tipo='modificarModelo' class='btn btn-info btn-xs'><i class='fa fa-edit'></i></button>", "width": "5px"}
+                //{"defaultContent": "<button tipo='eliminarModelo' class='btn btn-danger btn-xs'><i class='fa fa-remove'></i></button>", "width":"5px"}
             ],
             language: lenguaje_espanol
         });
-        tabla_paginacion_modelo.column(6).visible(false);
-        mantenedoresModelo('#listaModelos tbody', tabla_paginacion_modelo);
+        tabla_paginacion_modelo.column(7).visible(false);
+        obtenerDataModelo('#listaModelos tbody', tabla_paginacion_modelo);
     }
 
-    function mantenedoresModelo(lista, tabla) {
+    function obtenerDataModelo(lista, tabla) {
         $(lista).on('click', 'button', function () {
             var data = tabla.row($(this).parents('tr')).data();
             console.log(data);
@@ -779,16 +807,25 @@
         });
     }
 
+    function mostrarMaterialesPorFicha() {
+        $("#btnMostrarMaterialesPorFicha").on("click", function (e) {
+            e.preventDefault();
+            var ficha = $("#ficha_tecnica").val();
+            listarMaterialesPaginacion(ficha.trim());
+        });
+    }
 
-    function listarMaterialesPaginacion() {
+    function listarMaterialesPaginacion(ficha) {
         tabla_paginacion_material = $('#listaMateriales').DataTable({
             //"scrollX": true
+            "bDestroy": true,
+            "searching": false,
             "processing": true,
             "serverSide": true,
             "ajax": {
                 "url": "../Smaterial",
                 "type": "POST",
-                "data": {"parametro": "listarMaterialPaginacion"}
+                "data": {"parametro": "listarMaterialPaginacion", "ficha_tecnica": ficha}
                 //"dataSrc": "animes"
             },
             "columns": [
@@ -796,24 +833,112 @@
                 {"data": "nombre"},
                 {"data": "descripcion"},
                 {"data": "unidadmedida"},
-                {"data": "cantidaddocena", "width":"5px"},
+                {"data": "cantidaddocena", "width": "5px"},
                 {"data": "preciounitario"},
                 {"data": "tipo"},
                 {"data": "objProveedor.idproveedor"},
                 {"data": "objProveedor.razonsocial"},
                 {"data": "objProceso.codigoproceso"},
                 {"data": "objProceso.descripcion"},
-                {"data": "objFichaTecnica.codigoficha", "width":"5px"},
-                {"defaultContent": "<button tipo='modificarMaterial' class='btn btn-info btn-xs'><i class='fa fa-edit'></i></button>", "width": "5px"},
-                {"defaultContent": "<button tipo='eliminarMaterial' class='btn btn-danger btn-xs'><i class='fa fa-remove'></i></button>", "width": "5px"}
+                {"data": "objFichaTecnica.codigoficha", "width": "5px"},
+                {"defaultContent": "<button tipo='modificarMaterial' class='btn btn-info btn-xs rojo'><i class='fa fa-edit'></i></button>", "width": "5px"}
+                //{"defaultContent": "<button tipo='eliminarMaterial' class='btn btn-danger btn-xs'><i class='fa fa-remove'></i></button>", "width": "5px"}
             ],
             language: lenguaje_espanol
         });
         tabla_paginacion_material.column(0).visible(false);
         tabla_paginacion_material.column(7).visible(false);
         tabla_paginacion_material.column(9).visible(false);
+        obtenerDataMaterial('#listaMateriales tbody', tabla_paginacion_material);
+    }
 
-        //mantenedoresModelo('#listaModelos tbody', tabla_paginacion_material);
+    function obtenerDataMaterial(lista, tabla) {
+        $(lista).on('click', 'button', function () {
+
+            $("#oculatFrmEditarMaterial").slideDown("slow", function () {
+                $("#oculatFrmListadoMaterial").slideUp("slow");
+            });
+
+            var data = tabla.row($(this).parents('tr')).data();
+            console.log(data);
+            var parametro = $(this).attr("tipo").toString();
+            var divEditar = document.getElementById("editarMaterial");
+
+            console.log("parametro: " + parametro + " codigo: " + data.descripcion);
+            if (parametro === "modificarMaterial") {
+                var descripcion = $("#descripcion").val(data.descripcion),
+                        unidad_medida = $("#unidad_medida").val(data.unidadmedida),
+                        nombre = $("#nombre").val(data.nombre),
+                        tipo = $("#tipo").val(data.tipo),
+                        cantidad_docena = $("#cantidad_docena").val(data.cantidaddocena),
+                        precio_unitario = $("#precio_unitario").val(data.preciounitario),
+                        proceso = $("#proceso").val(data.objProceso.descripcion),
+                        proveedor = $("#proveedor").val(data.objProveedor.razonsocial),
+                        fichatecnica = $("#fichatecnica").val(data.objFichaTecnica.codigoficha),
+                        id_fichatecnica = $("#id_fichatecnica").val(data.objFichaTecnica.codigoficha),
+                        id_proceso = $("#id_proceso").val(data.objProceso.codigoproceso),
+                        id_material = $("#id_material").val(data.idmaterial),
+                        id_proveedor = $("#id_proveedor").val(data.objProveedor.idproveedor);
+                //especificacion = $("#especificacion").val(data.especificacion);
+                //estado = $("#").val();
+
+                //divEditar.style.display = 'block';
+            } /*else if (parametro == "eliminarModelo") {
+             divEditar.style.display = 'none';
+             }*/
+        });
+    }
+
+    function modificarMaterial() {
+
+        $("#btnCancelar").on("click", function () {
+            $("#oculatFrmListadoMaterial").slideDown("slow", function () {
+                $("#oculatFrmEditarMaterial").slideUp("slow");
+            });
+        });
+
+        $("#frmModificarMaterial").on("submit", function (e) {
+            e.preventDefault();
+
+            $("#oculatFrmListadoMaterial").slideDown("slow", function () {
+                $("#oculatFrmEditarMaterial").slideUp("slow");
+            });
+
+            modificar_checkbox($(this));//modificar para poder enviar su valor, cuando se utilice la función serialize(), se pasa como parámetro el id del form            
+            var frm = $(this).serialize();
+            console.log("data modificar material frm: " + frm);
+            var ficha = $("#id_fichatecnica").val();
+            console.log("ficha; " + ficha);
+            $.ajax({
+                method: "POST",
+                url: "../Smaterial",
+                data: frm
+            }).done(function (info) {
+                console.log(typeof info);
+                if (info == "false") {
+                    new PNotify({//ver lo de la notificación
+                        title: 'Mensaje de Advertencia',
+                        text: 'Ingrese todos los datos solicitados',
+                        hide: false
+                    });
+                } else if (info) {
+                    new PNotify({//ver lo de la notificación
+                        title: 'Mensaje de éxito',
+                        text: 'Se modificaron los datos satisfactoriamente.',
+                        type: 'success'
+                    });
+                    //$("#listaModelos").html("");
+                    var arreglo = ["#nombre", "#descripcion", "#unidad_medida", "#cantidad_docena", "#precio_unitario", "#tipo", "#color", "#proveedor", "#proceso", "#modelo", "#fichatecnica"];
+                    limpiar(arreglo);
+                    //$("#tabla-material").html("");//agregue esto aqui pero ver por errores.
+                    $("#tabla-proveedor").html("");
+                    $("#tabla-proceso").html("");
+                    $("#tabla-modelo").html("");
+                    console.log("ficha dentro del done: " + ficha);
+                    listarMaterialesPaginacion(ficha);
+                }
+            });
+        });
     }
 
     function registrarMaterial() {
@@ -1220,7 +1345,13 @@
                         text: 'Ingrese todos los datos solicitados',
                         hide: false
                     });
-                } else if (data == "true") {
+                }else if (data === "existe_proveedor") {
+                    new PNotify({//ver lo de la notificación
+                        title: 'Mensaje de Información',
+                        text: 'El número de ruc del proveedor, ya existe.',
+                        type: 'info'
+                    });
+                }else if (data == "true") {
                     new PNotify({
                         title: 'Mensaje de éxito',
                         text: 'Se guardaron los datos satisfactoriamente.',

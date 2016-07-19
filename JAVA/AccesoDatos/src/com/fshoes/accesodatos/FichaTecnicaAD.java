@@ -74,7 +74,7 @@ public class FichaTecnicaAD {
                 cst_material.setFloat(9, arrayMaterial.get(i).getCantidaddocena());
                 cst_material.setFloat(10, arrayMaterial.get(i).getPreciounitario());
                 cst_material.setString(11, arrayMaterial.get(i).getTipo());
-                cst_material.setInt(12, arrayMaterial.get(i).getObjProveedor().getIdproveedor());
+                cst_material.setLong(12, arrayMaterial.get(i).getObjProveedor().getIdproveedor());
                 cst_material.setString(13, arrayMaterial.get(i).getObjProceso().getCodigoproceso());
                 cst_material.setString(14, arrayMaterial.get(i).getObjFichaTecnica().getCodigoficha());
                 cst_material.executeUpdate();
@@ -99,7 +99,7 @@ public class FichaTecnicaAD {
         try{
             cst = cn.prepareCall("{call pa_ficha_tecnica(?,?,?,?,?,?,?,?,?,?,?)}");
             
-            cst.setString(1, "");
+            cst.setString(1, valor);
             cst.setString(2, prm);
             cst.setInt(3, inicio);
             cst.setInt(4, fin);
@@ -230,6 +230,35 @@ public class FichaTecnicaAD {
             tabla = cst.executeQuery();
             while(tabla.next()){
                 total = tabla.getInt("existe");
+            }            
+            return total;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }finally{
+            close();
+        }       
+        return total;        
+    }
+    
+    public int obtenerTotalFilas(String valor, String prm) throws Exception{
+        int total = 0;
+        cn = Conexion.Instancia().getConexion();
+        try {
+            cst = cn.prepareCall("{call pa_ficha_tecnica(?,?,?,?,?,?,?,?,?,?,?)}");            
+            cst.setString(1, valor);
+            cst.setString(2, prm);
+            cst.setInt(3, 0);
+            cst.setInt(4, 0);
+            cst.setString(5, "");
+            cst.setString(6, "");
+            cst.setString(7, "");
+            cst.setString(8, "");
+            cst.setString(9, "");
+            cst.setString(10, "");
+            cst.setString(11, "");
+            tabla = cst.executeQuery();
+            while(tabla.next()){
+                total = tabla.getInt("total");
             }            
             return total;
         } catch (Exception ex) {

@@ -66,4 +66,14 @@ public class ClienteLN {
             throw e;
         }        
     }
+    
+    public int existeCliente(String valor, String prm) throws Exception{
+        try {
+            if (!(prm.equals("")) && !valor.equals(""))
+                return ClienteAD.Instancia().existeCliente(valor, prm);
+            else return 0;
+        } catch (Exception e) {
+            throw e;
+        }        
+    }
 }
