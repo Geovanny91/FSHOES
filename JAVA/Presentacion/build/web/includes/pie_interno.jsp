@@ -238,6 +238,13 @@
                             type: 'info',
                             hide: false
                         });
+                    } else if (data == "noexisteorden") {
+                        new PNotify({
+                            title: 'Mensaje de Información',
+                            text: 'El código de orden introducido, no existe.',
+                            type: 'info',
+                            hide: false
+                        });
                     } else {
                         $("#tabla-detalleorden").html(data);
                     }
@@ -266,7 +273,14 @@
                         type: 'success'
                     });
                     actualizarTablaDetalleOrden(codigoorden);
-                } else {
+                } else if (data == "noexisteorden") {
+                    new PNotify({
+                        title: 'Mensaje de Información',
+                        text: 'El código de orden introducido, no existe.',
+                        type: 'info',
+                        hide: false
+                    });
+                } else if ( data == "false"){
                     new PNotify({
                         title: 'Mensaje de Información',
                         text: 'No se asignó la orden al trabajador correctamente.',
@@ -560,14 +574,14 @@
             "columnDefs": [
                 {"name": "CodigoOrden", "targets": 0, "width": "200px"},
                 {"name": "OrdenPedido", "targets": 1, "width": "100px"},
-                {"name": "FechaEmision", "targets": 2, "width": "250px"},
+                {"name": "FechaEntrega", "targets": 2, "width": "250px"},
                 {"name": "CodigoFicha", "targets": 3, "width": "250px"},
                 {"name": "Total", "targets": 4, "width": "250px"}
             ],
             "columns": [
                 {"data": "codigoorden"},
                 {"data": "orden_pedido"},
-                {"data": "fecha_emision"},
+                {"data": "fecha_entrega"},
                 {"data": "objFicha.codigoficha"},
                 {"data": "total"}
             ],
@@ -1212,6 +1226,9 @@
             parametro = "registrarMaterialesDeNuevaFichaTecnica";
 
         console.log("enviar json opcion: " + opcion + " - Id Ficha: " + id_fichatecnica);
+        /*if (id_fichatecnica === "") 
+         alert("Llena el campo con un código de ficha técnica");//podría poner una notificación,validar en el servidor
+         else{*/
         $.ajax({
             method: "POST",
             url: "../Sfichatecnica",
@@ -1229,8 +1246,15 @@
                     text: 'Se guardaron los datos satisfactoriamente.',
                     type: 'success'
                 });
+            } else if (data == "fichavacia") {
+                new PNotify({
+                    title: 'Mensaje de éxito',
+                    text: 'El campo de ficha técnica, está vacio, por favor, ingresé un código.',
+                    type: 'info'
+                });
             }
         });
+        //}
     }
 
     function modificar_checkbox(formulario) {
@@ -1345,13 +1369,13 @@
                         text: 'Ingrese todos los datos solicitados',
                         hide: false
                     });
-                }else if (data === "existe_proveedor") {
+                } else if (data === "existe_proveedor") {
                     new PNotify({//ver lo de la notificación
                         title: 'Mensaje de Información',
                         text: 'El número de ruc del proveedor, ya existe.',
                         type: 'info'
                     });
-                }else if (data == "true") {
+                } else if (data == "true") {
                     new PNotify({
                         title: 'Mensaje de éxito',
                         text: 'Se guardaron los datos satisfactoriamente.',

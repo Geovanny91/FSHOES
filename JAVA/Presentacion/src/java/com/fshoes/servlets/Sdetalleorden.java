@@ -9,6 +9,7 @@ import com.fshoes.entidades.DetalleOrden;
 import com.fshoes.entidades.Orden;
 import com.fshoes.entidades.Trabajador;
 import com.fshoes.logicanegocio.DetalleOrdenLN;
+import com.fshoes.logicanegocio.OrdenLN;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -98,26 +99,34 @@ public class Sdetalleorden extends HttpServlet {
                 try {
                     //lista = new ArrayList<DetalleOrden>();
                     String icon;
-                    lista = DetalleOrdenLN.Instancia().listarDetalleOrden(valor, parametro);
-                    if (lista.size() != 0) {
-                        for (int i = 0; i < lista.size(); i++) {
-                            if (lista.get(i).isEstado()) {
-                                icon = "<a href=\"#/smile-o\"><i class=\"fa fa-smile-o\" style=\"font-size:20px;\" ></i></a>";
-                            } else {
-                                icon = "<a href=\"#/clock-o\"><i class=\"fa fa-clock-o\" style=\"font-size:20px;\"></i></a>";
-                            }
+                    int existe_orden = 0;
+                    existe_orden = OrdenLN.Instancia().existeOrden(valor, "verificarOrden");// valor contigo código de orden
 
-                            out.println(
-                                    "<tr class=\"text-center\" ><th scope='row'>" + (i + 1) + "</th>"
-                                    + "<td>" + lista.get(i).getObjOrden().getCodigoorden() + "</td>"
-                                    + "<td>" + lista.get(i).getObjTrabajador().getNombreCompleto() + "</td>"
-                                    + "<td>" + lista.get(i).getObjTrabajador().getCodigoproceso().getDescripcion() + "</td>"
-                                    + "<td>" + icon + "</td>"
-                                    + "<td><a onclick='terminarProcesoOrden(this);' href=\"#/check\"><i class=\"fa fa-check\" style=\"font-size:20px;\" ></i></a></td></tr>"
-                            );
+                    if (existe_orden > 0) {
+
+                        lista = DetalleOrdenLN.Instancia().listarDetalleOrden(valor, parametro);
+                        if (lista.size() != 0) {
+                            for (int i = 0; i < lista.size(); i++) {
+                                if (lista.get(i).isEstado()) {
+                                    icon = "<a href=\"#/smile-o\"><i class=\"fa fa-smile-o\" style=\"font-size:20px;\" ></i></a>";
+                                } else {
+                                    icon = "<a href=\"#/clock-o\"><i class=\"fa fa-clock-o\" style=\"font-size:20px;\"></i></a>";
+                                }
+
+                                out.println(
+                                        "<tr class=\"text-center\" ><th scope='row'>" + (i + 1) + "</th>"
+                                        + "<td>" + lista.get(i).getObjOrden().getCodigoorden() + "</td>"
+                                        + "<td>" + lista.get(i).getObjTrabajador().getNombreCompleto() + "</td>"
+                                        + "<td>" + lista.get(i).getObjTrabajador().getCodigoproceso().getDescripcion() + "</td>"
+                                        + "<td>" + icon + "</td>"
+                                        + "<td><a onclick='terminarProcesoOrden(this);' href=\"#/check\"><i class=\"fa fa-check\" style=\"font-size:20px;\" ></i></a></td></tr>"
+                                );
+                            }
+                        } else {
+                            response.getWriter().append("vacio");
                         }
-                    } else {
-                        response.getWriter().append("vacio");
+                    }else{
+                        response.getWriter().write("noexisteorden");
                     }
 
                 } catch (Exception ex) {
@@ -127,16 +136,23 @@ public class Sdetalleorden extends HttpServlet {
             break;
             case "asignarOrden": {
                 try {
-                    Orden objOrden = new Orden();
-                    objOrden.setCodigoorden(codigoorden);
-                    Trabajador objTrabajador = new Trabajador();
-                    objTrabajador.setIdempleado(Integer.parseInt(idempleado));
-                    objDetalleOrden = new DetalleOrden(objOrden, objTrabajador, false);
-                    rptDetalleOrden = DetalleOrdenLN.Instancia().asignarOrden(objDetalleOrden, parametro);
-                    if (rptDetalleOrden) {
-                        response.getWriter().append("true");
+                    int existe_orden = 0;
+                    existe_orden = OrdenLN.Instancia().existeOrden(codigoorden, "verificarOrden");
+
+                    if (existe_orden > 0) {
+                        Orden objOrden = new Orden();
+                        objOrden.setCodigoorden(codigoorden);
+                        Trabajador objTrabajador = new Trabajador();
+                        objTrabajador.setIdempleado(Integer.parseInt(idempleado));
+                        objDetalleOrden = new DetalleOrden(objOrden, objTrabajador, false);
+                        rptDetalleOrden = DetalleOrdenLN.Instancia().asignarOrden(objDetalleOrden, parametro);
+                        if (rptDetalleOrden) {
+                            response.getWriter().write("true");
+                        } else {
+                            response.getWriter().write("false");
+                        }
                     } else {
-                        response.getWriter().append("false");
+                        response.getWriter().write("noexisteorden");
                     }
 
                 } catch (Exception e) {

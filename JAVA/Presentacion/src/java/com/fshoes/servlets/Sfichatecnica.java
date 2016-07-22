@@ -149,7 +149,7 @@ public class Sfichatecnica extends HttpServlet {
             }
             break;
             case "registrarMaterialesDeNuevaFichaTecnica": {
-                int existeFicha  = 0, rptFichaTecnica = 0;
+                int existeFicha = 0, rptFichaTecnica = 0;
                 ArrayList<Material> arrayMaterial = null;
                 try {
                     String json_materiales = "";
@@ -159,19 +159,28 @@ public class Sfichatecnica extends HttpServlet {
                     if (!json_materiales.equals("{\"arreglo\":[]}")) {
                         Modelo objModelo = new Modelo();
                         objModelo.setCodigomodelo(cod_modelo);
-                        //si se quiere registrar una ficha tecnica nueva, se tiene que cambiar el código, aqui validar id_fichaTecnica
-                        existeFicha = FichaTecnicaLN.Instancia().existeFichaTecnica(id_fichatecnica, "verificarFichaTecnica" );                        
-                        if(existeFicha > 0)  response.getWriter().append("existe_ficha");
-                        else{
-                            FichaTecnica objFicha = new FichaTecnica(id_fichatecnica, plataforma, taco, color, coleccion, "url", objModelo);                        
-                            arrayMaterial = new ArrayList<Material>();
-                            arrayMaterial = decodicarJson(json_materiales, objFicha);
-                            rptFichaTecnica = FichaTecnicaLN.Instancia().transaccion(objFicha, arrayMaterial);//evaluar esto no deberia registrarse ver, lo de rollback
+
+                        if (!id_fichatecnica.equals("")) {
+                            //si se quiere registrar una ficha tecnica nueva, se tiene que cambiar el código, aqui validar id_fichaTecnica
+                            existeFicha = FichaTecnicaLN.Instancia().existeFichaTecnica(id_fichatecnica, "verificarFichaTecnica");
+                            if (existeFicha > 0) {
+                                response.getWriter().append("existe_ficha");
+                            } else {
+                                FichaTecnica objFicha = new FichaTecnica(id_fichatecnica, plataforma, taco, color, coleccion, "url", objModelo);
+                                arrayMaterial = new ArrayList<Material>();
+                                arrayMaterial = decodicarJson(json_materiales, objFicha);
+                                rptFichaTecnica = FichaTecnicaLN.Instancia().transaccion(objFicha, arrayMaterial);//evaluar esto no deberia registrarse ver, lo de rollback
+                            }
+                        }else{
+                            response.getWriter().write("fichavacia");
                         }
                     }
 
-                    if ( rptFichaTecnica == 1 ) response.getWriter().write("true");
-                    
+                    if (rptFichaTecnica == 1) {
+                        response.getWriter().write("true");
+                    }
+                    //otro if para ver si la data tiene como valor cero.
+
                 } catch (Exception ex) {
                     ex.getMessage();
                 }
@@ -186,7 +195,7 @@ public class Sfichatecnica extends HttpServlet {
 
     public ArrayList<Material> decodicarJson(String cadena_json, FichaTecnica objFicha) {
         JSONParser serie_parser = new JSONParser();
-        ArrayList<Material> lstMaterial = null;        
+        ArrayList<Material> lstMaterial = null;
         try {
             System.out.println("DECODE\n");
             JSONObject objMateriales = (JSONObject) serie_parser.parse(cadena_json.toString());
@@ -216,10 +225,10 @@ public class Sfichatecnica extends HttpServlet {
                 objProceso = new Proceso();
                 objProceso.setCodigoproceso(codigoproceso);
                 objMaterial = new Material(0, nombre, descripcion, unidadmedida, preciounitario, preciounitario, tipo, objProveedor, objProceso, objFicha);
-                
+
                 lstMaterial.add(objMaterial);
             }
-             
+
         } catch (ParseException ex) {
             ex.printStackTrace();
         } catch (Exception ex) {
