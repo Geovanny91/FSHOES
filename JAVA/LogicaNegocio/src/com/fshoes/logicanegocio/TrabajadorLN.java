@@ -45,11 +45,35 @@ public class TrabajadorLN {
         }
     }
     
+    public ArrayList<Trabajador> listarTrabajadoresPaginacion(String valor, String prm) throws Exception{
+        try {
+            if(!prm.equals(""))            
+                return TrabajadorAD.Instancia().listarTrabajadoresPaginacion(valor, prm);
+            return null;
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+    
     public boolean registrarTrabajador(Trabajador objtrabajador, String prm) throws Exception{
         try {            
             if(objtrabajador != null && !(prm.equals(""))){
                 if(!objtrabajador.getDni().equals(""))
                     return TrabajadorAD.Instancia().registrarTrabajador(objtrabajador, prm);
+                else return false;
+            }else{
+                return false;
+            } 
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+    
+    public boolean modificarTrabajador(Trabajador objtrabajador, String prm) throws Exception{
+        try {            
+            if(objtrabajador != null && !(prm.equals(""))){
+                if(!objtrabajador.getDni().equals(""))
+                    return TrabajadorAD.Instancia().modificarTrabajador(objtrabajador, prm);
                 else return false;
             }else{
                 return false;

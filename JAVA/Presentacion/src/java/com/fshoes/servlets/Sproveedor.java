@@ -91,21 +91,14 @@ public class Sproveedor extends HttpServlet {
         switch (parametro) {
             case "listarProveedorPaginacion": {
                 try {
-                    int inicio = Integer.parseInt(request.getParameter("start")),
-                            fin = Integer.parseInt(request.getParameter("length"));
+                    
                     lista = new ArrayList<Proveedor>();
-                    lista = ProveedorLN.Instancia().listarProveedores("", parametro, inicio, (inicio + fin));
+                    lista = ProveedorLN.Instancia().listarProveedoresPaginacion("", parametro);
                     JSONArray array = new JSONArray();
                     array.addAll(lista);
                     StringWriter outjson = new StringWriter();
 
-                    int total = ProveedorLN.Instancia().obtenerTotalFilas(valor, "obtenerTotal");
-                    int draw = Integer.parseInt(request.getParameter("draw"));
-
-                    JSONObject json = new JSONObject();
-                    json.put("draw", draw);
-                    json.put("recordsTotal", total);
-                    json.put("recordsFiltered", total);//es cuando hay busquedas
+                    JSONObject json = new JSONObject();                    
                     json.put("data", array);
                     json.writeJSONString(outjson);
                     out.println(outjson);
@@ -148,7 +141,7 @@ public class Sproveedor extends HttpServlet {
                         response.getWriter().append("existe_proveedor");
                     } else {
                         objProveedor = new Proveedor(null, razon_social, ruc, direccion, estado);
-                        rptProveedor = ProveedorLN.Instancia().registrarCliente(objProveedor, parametro);
+                        rptProveedor = ProveedorLN.Instancia().registrarProveedor(objProveedor, parametro);
 
                         if (rptProveedor) {
                             response.getWriter().write("true");
@@ -156,6 +149,27 @@ public class Sproveedor extends HttpServlet {
                             response.getWriter().write("false");
                         }
                     }
+
+                } catch (Exception ex) {
+                    ex.getMessage();
+                }
+            }
+            break;
+            case "modificarProveedor": {
+                try {
+                    String razon_social = request.getParameter("razon"),
+                            ruc = request.getParameter("ruc"),
+                            direccion = request.getParameter("direccion");
+                    boolean estado = Boolean.valueOf(request.getParameter("estado"));
+                                    //ver si puede ir null
+                    objProveedor = new Proveedor(null, razon_social, ruc, direccion, estado);
+                    rptProveedor = ProveedorLN.Instancia().modificarProveedor(objProveedor, parametro);
+
+                    if (rptProveedor) {
+                        response.getWriter().write("true");
+                    } else {
+                        response.getWriter().write("false");
+                    }                    
 
                 } catch (Exception ex) {
                     ex.getMessage();

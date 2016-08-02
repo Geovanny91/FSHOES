@@ -56,6 +56,52 @@ public class TrabajadorAD {
             return t;
     }
     
+    public ArrayList<Trabajador> listarTrabajadoresPaginacion(String valor, String prm) throws Exception{
+        Connection cn = Conexion.Instancia().getConexion();
+        ArrayList<Trabajador> Lista = null;
+        try{
+            CallableStatement cst = cn.prepareCall("{call pa_trabajador(?,?,?,?,?,?,?,?,?,?,?,?,?,?)}");
+            cst.setString(1, valor);
+            cst.setString(2, prm);            
+            cst.setString(3, "");
+            cst.setString(4, "");
+            cst.setString(5, "");
+            cst.setString(6, "");
+            cst.setString(7, "");
+            cst.setString(8, "");
+            cst.setString(9, "");
+            cst.setString(10, "");
+            cst.setString(11, "");
+            cst.setString(12, "");            
+            cst.setBoolean(13, false);
+            cst.setString(14, "");
+            
+            ResultSet tabla = cst.executeQuery();
+            Lista = new ArrayList<Trabajador>();
+            while(tabla.next()){
+                Trabajador t = new Trabajador();
+                t.setIdempleado(tabla.getInt("idempleado"));
+                t.setNombres(tabla.getString("nombres"));
+                t.setApe_paterno(tabla.getString("ape_paterno"));
+                t.setApe_materno(tabla.getString("ape_materno"));
+                t.setDni(tabla.getString("dni"));
+                t.setDireccion(tabla.getString("direccion"));
+                t.setTelefono(tabla.getString("telefono"));
+                t.setCelular(tabla.getString("celular"));
+                t.setFecha_nacimiento(tabla.getString("fecha_nacimiento"));
+                t.setUsuario(tabla.getString("usuario"));                
+                Proceso objProceso = new Proceso();
+                objProceso.setCodigoproceso(tabla.getString("codigoproceso"));
+                objProceso.setDescripcion(tabla.getString("descripcion"));
+                t.setCodigoproceso(objProceso);                
+                Lista.add(t);
+            }			
+        }catch(Exception e){
+                throw e;
+        }finally{cn.close();}
+        return Lista;
+    }
+    
     public ArrayList<Trabajador> listarTrabajadores(String valor, String prm) throws Exception{
         Connection cn = Conexion.Instancia().getConexion();
         ArrayList<Trabajador> Lista = null;
@@ -96,6 +142,36 @@ public class TrabajadorAD {
         Connection cn = Conexion.Instancia().getConexion();
         boolean rpt = false;
         try {
+            CallableStatement cst = cn.prepareCall("{call pa_trabajador(?,?,?,?,?,?,?,?,?,?,?,?,?,?)}");
+            cst.setString(1, "");
+            cst.setString(2, prm);            
+            cst.setString(3, objTrabajador.getDni());
+            cst.setString(4, objTrabajador.getNombres());
+            cst.setString(5, objTrabajador.getApe_paterno());
+            cst.setString(6, objTrabajador.getApe_materno());
+            cst.setString(7, objTrabajador.getDireccion());
+            cst.setString(8, objTrabajador.getTelefono());
+            cst.setString(9, objTrabajador.getCelular());
+            cst.setString(10, objTrabajador.getFecha_nacimiento());
+            cst.setString(11, objTrabajador.getUsuario());
+            cst.setString(12, objTrabajador.getContrasena());            
+            cst.setBoolean(13, objTrabajador.isEstado());
+            cst.setString(14, objTrabajador.getCodigoproceso().getCodigoproceso());
+            cst.execute();
+            rpt = true;
+        } catch (Exception e) {
+            throw e;
+        }finally{
+            cn.close();            
+        }
+        return rpt;
+    }
+    
+    public boolean modificarTrabajador(Trabajador objTrabajador, String prm) throws Exception{
+        Connection cn = Conexion.Instancia().getConexion();
+        boolean rpt = false;
+        try {
+            //ver si se envia el dni del listado
             CallableStatement cst = cn.prepareCall("{call pa_trabajador(?,?,?,?,?,?,?,?,?,?,?,?,?,?)}");
             cst.setString(1, "");
             cst.setString(2, prm);            

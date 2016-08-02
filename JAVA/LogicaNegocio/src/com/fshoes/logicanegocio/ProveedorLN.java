@@ -25,10 +25,10 @@ public class ProveedorLN {
     }
     // end Singleton
         
-    public ArrayList<Proveedor> listarProveedores(String valor, String prm, int inicio, int fin) throws Exception{
+    public ArrayList<Proveedor> listarProveedoresPaginacion(String valor, String prm) throws Exception{
         try{
             if(!prm.equals(""))  
-                return ProveedorAD.Instancia().listarProveedores(valor, prm, inicio, fin);
+                return ProveedorAD.Instancia().listarProveedoresPaginacion(valor, prm);
             else return null;
         }catch(Exception ex){
             throw ex;
@@ -43,10 +43,22 @@ public class ProveedorLN {
         }        
     }
     
-    public boolean registrarCliente(Proveedor objProveedor, String prm) throws Exception{
+    public boolean registrarProveedor(Proveedor objProveedor, String prm) throws Exception{
         try {            
             if(objProveedor != null && !(prm.equals(""))){
                 return ProveedorAD.Instancia().registrarProveedor(objProveedor, prm);
+            }else{
+                return false;
+            }            
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+    
+    public boolean modificarProveedor(Proveedor objProveedor, String prm) throws Exception{
+        try {            
+            if(objProveedor != null && !(prm.equals(""))){
+                return ProveedorAD.Instancia().modificarProveedor(objProveedor, prm);
             }else{
                 return false;
             }            

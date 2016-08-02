@@ -51,7 +51,7 @@ public class TestCliente {
         try {
             System.out.println("TEST LISTAR CLIENTE PAGINACIÓN");
             int inicio = 0, fin = 3;
-            lstCliente = ClienteAD.Instancia().listarClientes("", "listarClientePaginacion", inicio, fin);
+            lstCliente = ClienteAD.Instancia().listarClientesPaginacion("", "listarClientePaginacion");
             int actual = lstCliente.size();
             int esperado = 3;
             assertEquals("El número de clientes esperado es: ",esperado, actual);

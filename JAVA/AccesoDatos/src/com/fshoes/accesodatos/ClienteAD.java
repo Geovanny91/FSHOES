@@ -62,15 +62,15 @@ public class ClienteAD {
         return Lista;
     }
     
-    public ArrayList<Cliente> listarClientes(String valor, String prm, int inicio, int fin) throws Exception{
+    public ArrayList<Cliente> listarClientesPaginacion(String valor, String prm) throws Exception{
         cn = Conexion.Instancia().getConexion();
         ArrayList<Cliente> Lista = null;
         try{
             cst = cn.prepareCall("{call pa_cliente(?,?,?,?,?,?,?,?)}");
             cst.setString(1, valor);
             cst.setString(2, prm);
-            cst.setInt(3, inicio);
-            cst.setInt(4, fin);
+            cst.setInt(3, 0);
+            cst.setInt(4, 0);
             cst.setString(5, "");
             cst.setString(6, "");
             cst.setString(7, "");
@@ -112,6 +112,30 @@ public class ClienteAD {
             throw e;
         }finally{
            close();
+        }
+        return rpt;
+    }
+    
+    public boolean modificarCliente(Cliente objCliente, String prm) throws Exception {
+        cn = Conexion.Instancia().getConexion();
+        boolean rpt = false;
+        try {
+            //enviar el id del cliente para la consulta o poner en el valor primer parámetro
+            cst = cn.prepareCall("{call pa_cliente(?,?,?,?,?,?,?,?)}");
+            cst.setString(1, "");
+            cst.setString(2, prm);
+            cst.setInt(3, 0);
+            cst.setInt(4, 0);
+            cst.setString(5, objCliente.getRazonsocial());
+            cst.setString(6, objCliente.getRuc());
+            cst.setString(7, objCliente.getDireccion());
+            cst.setBoolean(8, objCliente.isEstado());
+            cst.execute();
+            rpt = true;
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            close();
         }
         return rpt;
     }

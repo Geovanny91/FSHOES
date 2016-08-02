@@ -10,12 +10,15 @@ import com.fshoes.entidades.Trabajador;
 import com.fshoes.logicanegocio.TrabajadorLN;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 /**
  *
@@ -80,7 +83,7 @@ public class Strabajador extends HttpServlet {
 
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        ArrayList<Trabajador> lista = new ArrayList<>();
+        ArrayList<Trabajador> lista = null;
         boolean rptTrabajador;
         Trabajador objTrabajador;
 
@@ -88,23 +91,22 @@ public class Strabajador extends HttpServlet {
         String parametro = request.getParameter("parametro");
 
         switch (parametro) {
-            case "listarTrabajador": {
-                /*try {
-                    lista = ProveedorLN.Instancia().listarProveedores(valor, parametro);
-                    for (int i = 0; i < lista.size(); i++) {
-                        out.println(
-                                //"<tr id='cliente"+i+"' onclick='seleccionar(\"cliente"+i+"\");' ><th scope='row'>"+(i+1)+"</th>"+
-                                "<tr  onclick='seleccionarProveedor(this);' ><th scope='row'>" + (i + 1) + "</th>"
-                                + "<td><input class='id-proveedor' type='hidden' value='" + lista.get(i).getIdproveedor() + "' /></td>"
-                                + "<td>" + lista.get(i).getRazonsocial() + "</td>"
-                                + "<td>" + lista.get(i).getRuc() + "</td>"
-                                + "<td>" + lista.get(i).getDireccion() + "</td>"
-                                + "<td><a href='#' class=\"close\" data-dismiss=\"modal\" ><i class=\"fa fa-hand-o-left\"></i></a></td></tr>"
-                        );
-                    }
+            case "listarTrabajadorPaginacion": {
+                try {                    
+                    lista = new ArrayList<Trabajador>();
+                    lista = TrabajadorLN.Instancia().listarTrabajadoresPaginacion("", parametro);
+                    JSONArray array = new JSONArray();
+                    array.addAll(lista);
+                    StringWriter outjson = new StringWriter();
+
+                    JSONObject json = new JSONObject();                    
+                    json.put("data", array);
+                    json.writeJSONString(outjson);
+                    out.println(outjson);
+                    System.out.println(outjson);
                 } catch (Exception ex) {
-                    ex.getMessage();
-                }*/
+                    ex.printStackTrace();
+                }
             }
             break;
             case "registrarTrabajador": {
@@ -137,6 +139,38 @@ public class Strabajador extends HttpServlet {
                 }
             }
             break;
+            
+            case "modificarTrabajador": {
+                try {
+                    String dni = request.getParameter("dni"),
+                            nombres = request.getParameter("nombres"),
+                            ape_paterno = request.getParameter("ape_paterno"),
+                            ape_materno = request.getParameter("ape_materno"),
+                            direccion = request.getParameter("direccion"),
+                            telefono = request.getParameter("telefono"),
+                            celular = request.getParameter("celular"),
+                            fecha_nacimiento = request.getParameter("fecha_nacimiento"),
+                            usuario = request.getParameter("usuario"),
+                            contrasena = request.getParameter("contrasena"),
+                            codigoproceso = request.getParameter("proceso");
+                    boolean estado = true;
+
+                    Proceso objproceso = new Proceso();
+                    objproceso.setCodigoproceso(codigoproceso);
+                    //mandar el ID del trabajador
+                    objTrabajador = new Trabajador(0, dni, nombres, ape_paterno, ape_materno, direccion, telefono, celular, fecha_nacimiento, usuario, contrasena, estado, objproceso);
+                    rptTrabajador = TrabajadorLN.Instancia().modificarTrabajador(objTrabajador, parametro);
+                    if (rptTrabajador) {
+                        out.println(rptTrabajador);
+                    } else {
+                        out.append(null);
+                    }
+                } catch (Exception ex) {
+                    ex.getMessage();
+                }
+            }
+            break;
+            
             case "listarcomboTrabajador": {
                 try {
                     lista = TrabajadorLN.Instancia().listarTrabajadores(valor, parametro);

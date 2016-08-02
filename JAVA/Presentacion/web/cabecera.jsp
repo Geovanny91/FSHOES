@@ -115,7 +115,7 @@
                             <div class="menu_section">
                                 <h3>Live On</h3>
                                 <ul class="nav side-menu">
-                                    <li><a><i class="fa fa-bug"></i> Proveedor <span class="fa fa-chevron-down"></span></a>
+                                    <li><a><i class="fa fa-edit"></i> Proveedor <span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu" style="display: none">
                                             <li><a href="fproveedor/mantenedorProveedor.jsp">Registrar</a>
                                             </li>
@@ -128,6 +128,12 @@
                                             <li><a href="fcliente/mantenedorClientes.jsp">Registrar</a>
                                             </li>
                                             <li><a href="fcliente/listarCliente.jsp">Listar</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li><a><i class="fa fa-edit"></i> Trabajador <span class="fa fa-chevron-down"></span></a>
+                                        <ul class="nav child_menu" style="display: none">                                            
+                                            <li><a href="ftrabajador/listarTrabajador.jsp">Listar</a>
                                             </li>
                                         </ul>
                                     </li>

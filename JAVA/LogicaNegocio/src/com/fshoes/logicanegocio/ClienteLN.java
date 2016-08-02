@@ -25,10 +25,10 @@ public class ClienteLN {
     }
     // end Singleton
     
-    public ArrayList<Cliente> listarClientes(String valor, String prm, int inicio, int fin) throws Exception{
+    public ArrayList<Cliente> listarClientesPaginacion(String valor, String prm) throws Exception{
         try{
             if(!prm.equals(""))  
-                return ClienteAD.Instancia().listarClientes(valor, prm, inicio, fin);
+                return ClienteAD.Instancia().listarClientesPaginacion(valor, prm);
             else return null;
         }catch(Exception ex){
             throw ex;
@@ -52,6 +52,17 @@ public class ClienteLN {
             }else{
                 return false;
             }            
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+    
+    public boolean modificararCliente(Cliente objCliente, String prm) throws Exception{
+        try {
+            if(objCliente != null && !prm.equals("")){
+                return ClienteAD.Instancia().modificarCliente(objCliente, prm);
+            }else return false;
+            
         } catch (Exception e) {
             throw e;
         }

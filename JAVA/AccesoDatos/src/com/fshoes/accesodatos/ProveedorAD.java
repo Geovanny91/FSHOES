@@ -61,15 +61,15 @@ public class ProveedorAD {
         return Lista;
     }
     
-    public ArrayList<Proveedor> listarProveedores(String valor, String prm, int inicio, int fin) throws Exception{
+    public ArrayList<Proveedor> listarProveedoresPaginacion(String valor, String prm) throws Exception{
         cn = Conexion.Instancia().getConexion();
         ArrayList<Proveedor> Lista = null;
         try{
             cst = cn.prepareCall("{call pa_proveedor(?,?,?,?,?,?,?,?)}");
             cst.setString(1, valor);
             cst.setString(2, prm);
-            cst.setInt(3, inicio);
-            cst.setInt(4, fin);
+            cst.setInt(3, 0);
+            cst.setInt(4, 0);
             cst.setString(5, "");
             cst.setString(6, "");
             cst.setString(7, "");
@@ -96,6 +96,30 @@ public class ProveedorAD {
         Connection cn = Conexion.Instancia().getConexion();
         boolean rpt = false;
         try {
+            cst = cn.prepareCall("{call pa_proveedor(?,?,?,?,?,?,?,?)}");
+            cst.setString(1, "");
+            cst.setString(2, prm);
+            cst.setInt(3, 0);
+            cst.setInt(4, 0);
+            cst.setString(5, objProveedor.getRazonsocial());
+            cst.setString(6, objProveedor.getRuc());
+            cst.setString(7, objProveedor.getDireccion());
+            cst.setBoolean(8, objProveedor.isEstado());
+            cst.execute();
+            rpt = true;
+        } catch (Exception e) {
+            throw e;
+        }finally{
+            close();            
+        }
+        return rpt;
+    }
+    
+    public boolean modificarProveedor(Proveedor objProveedor, String prm) throws Exception{
+        Connection cn = Conexion.Instancia().getConexion();
+        boolean rpt = false;
+        try {
+            //enviar el id del proveedor para la consulta o poner en el valor primer parámetro
             cst = cn.prepareCall("{call pa_proveedor(?,?,?,?,?,?,?,?)}");
             cst.setString(1, "");
             cst.setString(2, prm);

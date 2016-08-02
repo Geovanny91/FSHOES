@@ -5,13 +5,18 @@
  */
 package com.fshoes.entidades;
 
+import java.io.IOException;
+import java.io.Writer;
 import java.util.Date;
+import java.util.LinkedHashMap;
+import org.json.simple.JSONStreamAware;
+import org.json.simple.JSONValue;
 
 /**
  *
  * @author Geovanny Rìos Abarca
  */
-public class Trabajador {
+public class Trabajador implements JSONStreamAware{
     
     private int idempleado;
     private String dni;
@@ -153,6 +158,25 @@ public class Trabajador {
 
     public String getNombreCompleto(){
         return (this.nombres + " " + this.ape_paterno + " " + this.ape_materno);
+    }
+
+    @Override
+    public void writeJSONString(Writer out) throws IOException {
+        LinkedHashMap obj = new LinkedHashMap();        
+        obj.put("idempleado", String.valueOf(idempleado));
+        obj.put("dni", dni);
+        obj.put("nombres", nombres);
+        obj.put("ape_paterno", ape_paterno);
+        obj.put("ape_materno", ape_materno);
+        obj.put("direccion", direccion);
+        obj.put("telefono", telefono);
+        obj.put("celular", celular);
+        obj.put("fecha_nacimiento", fecha_nacimiento);
+        obj.put("usuario", usuario);
+        obj.put("contrasena", contrasena);
+        obj.put("estado", estado);
+        obj.put("objProceso", codigoproceso);       
+        JSONValue.writeJSONString(obj, out);
     }
     
 }

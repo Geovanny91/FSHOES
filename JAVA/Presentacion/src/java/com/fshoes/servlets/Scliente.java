@@ -92,22 +92,14 @@ public class Scliente extends HttpServlet {
 
         switch (parametro) {
             case "listarClientePaginacion": {
-                try {
-                    int inicio = Integer.parseInt(request.getParameter("start")),
-                            fin = Integer.parseInt(request.getParameter("length"));
+                try {                    
                     lista = new ArrayList<>();
-                    lista = ClienteLN.Instancia().listarClientes("", parametro, inicio, (inicio + fin));
+                    lista = ClienteLN.Instancia().listarClientesPaginacion("", parametro);
                     JSONArray array = new JSONArray();
                     array.addAll(lista);
                     StringWriter outjson = new StringWriter();
 
-                    int total = ClienteLN.Instancia().obtenerTotalFilas(valor, "obtenerTotal");
-                    int draw = Integer.parseInt(request.getParameter("draw"));
-
-                    JSONObject json = new JSONObject();
-                    json.put("draw", draw);
-                    json.put("recordsTotal", total);
-                    json.put("recordsFiltered", total);//es cuando hay busquedas
+                    JSONObject json = new JSONObject();                    
                     json.put("data", array);
                     json.writeJSONString(outjson);
                     out.println(outjson);
@@ -157,6 +149,27 @@ public class Scliente extends HttpServlet {
                             response.getWriter().write("false");
                         }
                     }
+                } catch (Exception ex) {
+                    ex.getMessage();
+                }
+            }
+            break;
+            case "modificarCliente": {
+                try {
+                    String razon_social = request.getParameter("razon"),
+                            ruc = request.getParameter("ruc"),
+                            direccion = request.getParameter("direccion");
+                    boolean estado = Boolean.valueOf(request.getParameter("estado"));
+                    
+                        objCliente = new Cliente(0, razon_social, ruc, direccion, estado);
+                        rptCliente = ClienteLN.Instancia().modificararCliente(objCliente, parametro);
+                        
+                        if (rptCliente) {
+                            response.getWriter().write("true");
+                        } else {
+                            response.getWriter().write("false");
+                        }
+                    
                 } catch (Exception ex) {
                     ex.getMessage();
                 }
