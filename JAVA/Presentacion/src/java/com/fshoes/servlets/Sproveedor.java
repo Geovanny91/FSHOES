@@ -157,12 +157,13 @@ public class Sproveedor extends HttpServlet {
             break;
             case "modificarProveedor": {
                 try {
-                    String razon_social = request.getParameter("razon"),
+                    String razon_social = request.getParameter("razonsocial"),
                             ruc = request.getParameter("ruc"),
                             direccion = request.getParameter("direccion");
-                    boolean estado = Boolean.valueOf(request.getParameter("estado"));
+                    boolean estado = Boolean.valueOf(request.getParameter("estadoproveedor"));
+                    Long idproveedor = Long.parseLong(request.getParameter("idproveedor"));
                                     //ver si puede ir null
-                    objProveedor = new Proveedor(null, razon_social, ruc, direccion, estado);
+                    objProveedor = new Proveedor(idproveedor, razon_social, ruc, direccion, estado);
                     rptProveedor = ProveedorLN.Instancia().modificarProveedor(objProveedor, parametro);
 
                     if (rptProveedor) {

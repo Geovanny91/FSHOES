@@ -76,10 +76,10 @@
     fechas("#f_entrega");
     listarClientesPaginacion();
     registrarcliente();
-    //modificarCliente();
+    modificarCliente();
     listarProveedoresPaginacion();
     registrarProveedor();
-    //modificarProveedor();
+    modificarProveedor();
     orden();
     comboProceso();
     asignarOrdenTrabajadorProceso();
@@ -512,7 +512,8 @@
 
     tabla_paginacion_proveedor = $('#listaProveedor').DataTable({
     //"scrollX": true
-    "searching": false,            
+    "bDestroy": true,
+    "searching": true,            
             "ajax": {
             "url": "../Sproveedor",
                     "type": "POST",
@@ -527,13 +528,82 @@
             {"data": "razonsocial"},
             {"data": "ruc"},
             {"data": "direccion"},
-            {"defaultContent": "<button tipo='modificarProveedor' class='btn btn-info btn-xs'><i class='fa fa-edit'></i></button>", "width": "5px"},
-            {"defaultContent": "<button tipo='eliminarProveedor' class='btn btn-danger btn-xs'><i class='fa fa-remove'></i></button>", "width": "5px"}
+            {"defaultContent": "<button tipo='modificarProveedor' class='btn btn-info btn-xs'><i class='fa fa-edit'></i></button>", "width": "5px"}            
             ],
             language: lenguaje_espanol
     });
     //tabla_paginacion_cliente.column(6).visible(false);
-    //mantenedoresClientes('#listaCliente tbody', tabla_paginacion_cliente);
+    obtenerDataProveedor('#listaProveedor tbody', tabla_paginacion_proveedor);
+    }
+
+    function obtenerDataProveedor(lista, tabla) {
+    $(lista).on('click', 'button', function () {
+
+    $("#oculatFrmEditarProveedor").slideDown("slow", function () {
+    $("#oculatFrmListadoProveedor").slideUp("slow");
+    });
+    var data = tabla.row($(this).parents('tr')).data();
+    console.log(data);
+    var parametro = $(this).attr("tipo").toString();
+    
+    console.log("parametro: " + parametro + " razon social: " + data.razonsocial);
+    if (parametro === "modificarProveedor") {
+    var razon = $("#razonsocial").val(data.razonsocial),
+            ruc = $("#ruc").val(data.ruc),
+            direccion = $("#direccion").val(data.direccion),            
+            idproveedor = $("#idproveedor").val(data.idproveedor);
+    
+    if (data.estado)
+            $("#estadoproveedor").prop("checked", true);
+    else
+            $("#estadoproveedor").prop('checked', false);
+    
+    }
+    });
+    }
+    
+    function modificarProveedor() {
+
+    $("#btnCancelar").on("click", function () {
+        $("#oculatFrmListadoProveedor").slideDown("slow", function () {
+            $("#oculatFrmEditarProveedor").slideUp("slow");
+        });
+    });
+    $("#frmModificarProveedor").on("submit", function (e) {
+    e.preventDefault();
+    $("#oculatFrmListadoProveedor").slideDown("slow", function () {
+        $("#oculatFrmEditarProveedor").slideUp("slow");
+    });
+    modificar_checkbox($(this)); //modificar para poder enviar su valor, cuando se utilice la función serialize(), se pasa como parámetro el id del form            
+    var frm = $(this).serialize();
+    console.log("data modificar trabajador frm: " + frm);
+    var idproveedor = $("#idproveedor").val();
+    console.log("idproveedor: " + idproveedor);
+    $.ajax({
+    method: "POST",
+            url: "../Sproveedor",
+            data: frm
+    }).done(function (info) {
+    console.log(typeof info);
+    if (info == "false") {
+    new PNotify({//ver lo de la notificación
+    title: 'Mensaje de Advertencia',
+            text: 'Ingrese todos los datos solicitados',
+            hide: false
+    });
+    }else if (info == "true") {
+    new PNotify({//ver lo de la notificación
+    title: 'Mensaje de éxito',
+            text: 'Se modificaron los datos satisfactoriamente.',
+            type: 'success'
+    });
+    //$("#listaModelos").html("");
+    var arreglo = ["#razonsocial", "#ruc", "#direccion"];
+    limpiar(arreglo);
+    listarProveedoresPaginacion();
+    }
+    });
+    });
     }
 
     function mostrarOrdenesTerminadas() {
@@ -581,8 +651,8 @@
 
     tabla_paginacion_cliente = $('#listaCliente').DataTable({
     //"scrollX": true
-    "searching": false,
-            
+    "bDestroy": true,
+    "searching": true,            
             "ajax": {
             "url": "../Scliente",
                     "type": "POST",
@@ -597,40 +667,83 @@
             {"data": "razonsocial"},
             {"data": "ruc"},
             {"data": "direccion"},
-            {"defaultContent": "<button tipo='modificarCliente' class='btn btn-info btn-xs'><i class='fa fa-edit'></i></button>", "width": "5px"},
-            {"defaultContent": "<button tipo='eliminarCliente' class='btn btn-danger btn-xs'><i class='fa fa-remove'></i></button>", "width": "5px"}
+            {"defaultContent": "<button tipo='modificarCliente' class='btn btn-info btn-xs'><i class='fa fa-edit'></i></button>", "width": "5px"}
             ],
             language: lenguaje_espanol
     });
     //tabla_paginacion_cliente.column(6).visible(false);
-    //mantenedoresClientes('#listaCliente tbody', tabla_paginacion_cliente);
+    obtenerDataCliente('#listaCliente tbody', tabla_paginacion_cliente);
     }
 
-    function mantenedoresClientes(lista, tabla) {
+    function obtenerDataCliente(lista, tabla) {
     $(lista).on('click', 'button', function () {
+
+    $("#oculatFrmEditarCliente").slideDown("slow", function () {
+    $("#oculatFrmListadoCliente").slideUp("slow");
+    });
     var data = tabla.row($(this).parents('tr')).data();
     console.log(data);
     var parametro = $(this).attr("tipo").toString();
-    var divEditar = document.getElementById("editarModelo");
-    console.log("parametro: " + parametro + " codigo: " + data.codigoficha);
+    
+    console.log("parametro: " + parametro + " dni: " + data.dni);
     if (parametro === "modificarCliente") {
-    var idcliente = $("#idcliente").val(data.objCliente.idcliente),
-            modelo = $("#modelo").val(data.codigomodelo),
-            cliente = $("#cliente").val(data.objCliente.razonsocial),
-            horma = $("#horma").val(data.horma),
-            taco = $("#taco").val(data.taco),
-            plataforma = $("#plataforma").val(data.plataforma),
-            coleccion = $("#coleccion").val(data.coleccion),
-            especificacion = $("#especificacion").val(data.especificacion);
-    //estado = $("#").val();
+    var razon = $("#razonsocial").val(data.razonsocial),
+            ruc = $("#ruc").val(data.ruc),
+            direccion = $("#direccion").val(data.direccion),            
+            idcliente = $("#idcliente").val(data.idcliente);
+    
     if (data.estado)
             $("#estadocliente").prop("checked", true);
     else
             $("#estadocliente").prop('checked', false);
-    divEditar.style.display = 'block';
-    } else if (parametro == "eliminarCliente") {
-    divEditar.style.display = 'none';
+    
     }
+    });
+    }
+    
+    function modificarCliente() {
+
+    $("#btnCancelar").on("click", function () {
+        $("#oculatFrmListadoCliente").slideDown("slow", function () {
+            $("#oculatFrmEditarCliente").slideUp("slow");
+        });
+    });
+    $("#frmModificarCliente").on("submit", function (e) {
+    e.preventDefault();
+    $("#oculatFrmListadoCliente").slideDown("slow", function () {
+        $("#oculatFrmEditarCliente").slideUp("slow");
+    });
+    modificar_checkbox($(this)); //modificar para poder enviar su valor, cuando se utilice la función serialize(), se pasa como parámetro el id del form            
+    var frm = $(this).serialize();
+    console.log("data modificar trabajador frm: " + frm);
+    var idcliente = $("#idcliente").val();
+    console.log("id_cliente: " + idcliente);
+    $.ajax({
+    method: "POST",
+            url: "../Scliente",
+            data: frm
+    }).done(function (info) {
+    console.log(typeof info);
+    if (info == "false") {
+    new PNotify({//ver lo de la notificación
+    title: 'Mensaje de Advertencia',
+            text: 'Ingrese todos los datos solicitados',
+            hide: false
+    });
+    }else if (info == "true") {
+    new PNotify({//ver lo de la notificación
+    title: 'Mensaje de éxito',
+            text: 'Se modificaron los datos satisfactoriamente.',
+            type: 'success'
+    });
+    //$("#listaModelos").html("");
+    var arreglo = ["#nombres", "#ape_paterno", "#ape_materno", "#dni", "#direccion", "#telefono", "#celular", "#usuario", "#fecha_nacimiento", "#proceso"];
+    limpiar(arreglo);
+        
+    $("#tabla-proceso").html("");    
+    listarClientesPaginacion();
+    }
+    });
     });
     }
 
@@ -807,7 +920,7 @@
     tabla_paginacion_trabajador = $('#listaTrabajador').DataTable({
     //"scrollX": true
     "bDestroy": true,
-            "searching": false,            
+            "searching": true,            
             "ajax": {
             "url": "../Strabajador",
                     "type": "POST",
@@ -815,11 +928,11 @@
             //"dataSrc": "animes"
             },
             "columns": [
-                {"data": "idempleado"},
-                {"data": "dni"},
+                {"data": "idempleado"},                
                 {"data": "nombres"},
                 {"data": "ape_paterno"},
                 {"data": "ape_materno"},
+                {"data": "dni"},
                 {"data": "direccion"},
                 {"data": "telefono"},
                 {"data": "celular"},
@@ -834,6 +947,7 @@
             language: lenguaje_espanol
     });
     tabla_paginacion_trabajador.column(0).visible(false);
+    tabla_paginacion_trabajador.column(5).visible(false);
     tabla_paginacion_trabajador.column(8).visible(false);
     tabla_paginacion_trabajador.column(10).visible(false);//password
     tabla_paginacion_trabajador.column(11).visible(false);
@@ -850,21 +964,20 @@
     console.log(data);
     var parametro = $(this).attr("tipo").toString();
     var divEditar = document.getElementById("editarMaterial");
-    console.log("parametro: " + parametro + " codigo: " + data.descripcion);
+    console.log("parametro: " + parametro + " dni: " + data.dni);
     if (parametro === "modificarTrabajador") {
-    var descripcion = $("#descripcion").val(data.descripcion),
-            unidad_medida = $("#unidad_medida").val(data.unidadmedida),
-            nombre = $("#nombre").val(data.nombre),
-            tipo = $("#tipo").val(data.tipo),
-            cantidad_docena = $("#cantidad_docena").val(data.cantidaddocena),
-            precio_unitario = $("#precio_unitario").val(data.preciounitario),
+    var nombres = $("#nombres").val(data.nombres),
+            ape_paterno = $("#ape_paterno").val(data.ape_paterno),
+            ape_materno = $("#ape_materno").val(data.ape_materno),
+            direccion = $("#direccion").val(data.direccion),
+            telefono = $("#telefono").val(data.telefono),
+            fecha_nacimiento = $("#fecha_nacimiento").val(data.fecha_nacimiento),
+            celular = $("#celular").val(data.celular),
+            usuario = $("#usuario").val(data.usuario),
+            dni = $("#dni").val(data.dni),
             proceso = $("#proceso").val(data.objProceso.descripcion),
-            proveedor = $("#proveedor").val(data.objProveedor.razonsocial),
-            fichatecnica = $("#fichatecnica").val(data.objFichaTecnica.codigoficha),
-            id_fichatecnica = $("#id_fichatecnica").val(data.objFichaTecnica.codigoficha),
             id_proceso = $("#id_proceso").val(data.objProceso.codigoproceso),
-            id_material = $("#id_material").val(data.idmaterial),
-            id_proveedor = $("#id_proveedor").val(data.objProveedor.idproveedor);
+            id_empleado = $("#id_empleado").val(data.idempleado);            
     //especificacion = $("#especificacion").val(data.especificacion);
     //estado = $("#").val();
     }
@@ -874,23 +987,23 @@
     function modificarTrabajador() {
 
     $("#btnCancelar").on("click", function () {
-    $("#oculatFrmListadoTrabajador").slideDown("slow", function () {
-    $("#oculatFrmEditarTrabajador").slideUp("slow");
-    });
+        $("#oculatFrmListadoTrabajador").slideDown("slow", function () {
+            $("#oculatFrmEditarTrabajador").slideUp("slow");
+        });
     });
     $("#frmModificarTrabajador").on("submit", function (e) {
     e.preventDefault();
     $("#oculatFrmListadoTrabajador").slideDown("slow", function () {
-    $("#oculatFrmEditarTrabajador").slideUp("slow");
+        $("#oculatFrmEditarTrabajador").slideUp("slow");
     });
     modificar_checkbox($(this)); //modificar para poder enviar su valor, cuando se utilice la función serialize(), se pasa como parámetro el id del form            
     var frm = $(this).serialize();
-    console.log("data modificar material frm: " + frm);
-    var ficha = $("#id_fichatecnica").val();
-    console.log("ficha; " + ficha);
+    console.log("data modificar trabajador frm: " + frm);
+    var id_empleado = $("#id_empleado").val();
+    console.log("id_empleado: " + id_empleado);
     $.ajax({
     method: "POST",
-            url: "../Smaterial",
+            url: "../Strabajador",
             data: frm
     }).done(function (info) {
     console.log(typeof info);
@@ -907,12 +1020,10 @@
             type: 'success'
     });
     //$("#listaModelos").html("");
-    var arreglo = ["#nombre", "#descripcion", "#unidad_medida", "#cantidad_docena", "#precio_unitario", "#tipo", "#color", "#proveedor", "#proceso", "#modelo", "#fichatecnica"];
+    var arreglo = ["#nombres", "#ape_paterno", "#ape_materno", "#dni", "#direccion", "#telefono", "#celular", "#usuario", "#fecha_nacimiento", "#proceso"];
     limpiar(arreglo);
-    //$("#tabla-material").html("");//agregue esto aqui pero ver por errores.
-    $("#tabla-proveedor").html("");
-    $("#tabla-proceso").html("");
-    $("#tabla-modelo").html("");
+        
+    $("#tabla-proceso").html("");    
     listarTrabajadoresPaginacion();
     }
     });

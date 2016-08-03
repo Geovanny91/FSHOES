@@ -92,14 +92,14 @@ public class Scliente extends HttpServlet {
 
         switch (parametro) {
             case "listarClientePaginacion": {
-                try {                    
+                try {
                     lista = new ArrayList<>();
                     lista = ClienteLN.Instancia().listarClientesPaginacion("", parametro);
                     JSONArray array = new JSONArray();
                     array.addAll(lista);
                     StringWriter outjson = new StringWriter();
 
-                    JSONObject json = new JSONObject();                    
+                    JSONObject json = new JSONObject();
                     json.put("data", array);
                     json.writeJSONString(outjson);
                     out.println(outjson);
@@ -156,14 +156,15 @@ public class Scliente extends HttpServlet {
             break;
             case "modificarCliente": {
                 try {
-                    String razon_social = request.getParameter("razon"),
+                    String razon_social = request.getParameter("razonsocial"),
                             ruc = request.getParameter("ruc"),
                             direccion = request.getParameter("direccion");
-                    boolean estado = Boolean.valueOf(request.getParameter("estado"));
-                    
-                        objCliente = new Cliente(0, razon_social, ruc, direccion, estado);
+                    boolean estado = Boolean.valueOf(request.getParameter("estadocliente"));
+                    int idcliente = Integer.parseInt(request.getParameter("idcliente"));
+
+                        objCliente = new Cliente(idcliente, razon_social, ruc, direccion, estado);
                         rptCliente = ClienteLN.Instancia().modificararCliente(objCliente, parametro);
-                        
+
                         if (rptCliente) {
                             response.getWriter().write("true");
                         } else {

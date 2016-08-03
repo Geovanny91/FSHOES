@@ -122,7 +122,7 @@ public class ClienteAD {
         try {
             //enviar el id del cliente para la consulta o poner en el valor primer parámetro
             cst = cn.prepareCall("{call pa_cliente(?,?,?,?,?,?,?,?)}");
-            cst.setString(1, "");
+            cst.setString(1, String.valueOf(objCliente.getIdcliente()));//enviando el idcliente
             cst.setString(2, prm);
             cst.setInt(3, 0);
             cst.setInt(4, 0);

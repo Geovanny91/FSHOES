@@ -152,18 +152,19 @@ public class Strabajador extends HttpServlet {
                             fecha_nacimiento = request.getParameter("fecha_nacimiento"),
                             usuario = request.getParameter("usuario"),
                             contrasena = request.getParameter("contrasena"),
-                            codigoproceso = request.getParameter("proceso");
+                            codigoproceso = request.getParameter("id_proceso");
                     boolean estado = true;
+                    int id_empleado = Integer.parseInt(request.getParameter("id_empleado"));
 
                     Proceso objproceso = new Proceso();
                     objproceso.setCodigoproceso(codigoproceso);
                     //mandar el ID del trabajador
-                    objTrabajador = new Trabajador(0, dni, nombres, ape_paterno, ape_materno, direccion, telefono, celular, fecha_nacimiento, usuario, contrasena, estado, objproceso);
+                    objTrabajador = new Trabajador(id_empleado, dni, nombres, ape_paterno, ape_materno, direccion, telefono, celular, fecha_nacimiento, usuario, contrasena, estado, objproceso);
                     rptTrabajador = TrabajadorLN.Instancia().modificarTrabajador(objTrabajador, parametro);
                     if (rptTrabajador) {
-                        out.println(rptTrabajador);
+                        response.getWriter().write("true");
                     } else {
-                        out.append(null);
+                        response.getWriter().write("false");
                     }
                 } catch (Exception ex) {
                     ex.getMessage();

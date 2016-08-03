@@ -15,7 +15,6 @@
 <!-- page content -->
 <div class="right_col" role="main">
 
-
     <div class="row" id="oculatFrmEditarTrabajador" style="display: none;">
         <div class="col-md-12 col-sm-12 col-xs-12">
 
@@ -95,39 +94,53 @@
                         <form id="frmModificarTrabajador" action="" method="POST" class="form-horizontal form-label-left">
                             <input type="hidden" id="parametro" name="parametro" value="modificarTrabajador" />
 
-                            <input type="hidden" id="id_material" name="id_cliente">
+                            <input type="hidden" id="id_empleado" name="id_empleado">
+                            <input type="hidden" id="id_proceso" name="id_proceso">
                             
                             <div class="row">
                                 <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
-                                    <label>Nombre</label>
-                                    <input type="text" class="form-control has-feedback-left" id="nombre" name="nombre" placeholder="Ingresar nombre" required="">
+                                    <label>Nombres</label>
+                                    <input type="text" class="form-control has-feedback-left" id="nombres" name="nombres" placeholder="Ingresar nombres" required="">
                                     <span class="fa fa-edit form-control-feedback left" aria-hidden="true"></span>
                                 </div>
                                 <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
-                                    <label>Descripción</label>
-                                    <input type="text" class="form-control has-feedback-left" id="descripcion" name="descripcion" placeholder="Ingresar descripción">
+                                    <label>Apellido Paterno</label>
+                                    <input type="text" class="form-control has-feedback-left" id="ape_paterno" name="ape_paterno" required="" placeholder="Ingresar apellido">
+                                    <span class="fa fa-edit form-control-feedback left" aria-hidden="true"></span>
+                                </div><div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                    <label>Apellido Materno</label>
+                                    <input type="text" class="form-control has-feedback-left" id="ape_materno" name="ape_materno" required="" placeholder="Ingresar apellido">
+                                    <span class="fa fa-edit form-control-feedback left" aria-hidden="true"></span>
+                                </div><div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                    <label>Dirección</label>
+                                    <input type="text" class="form-control has-feedback-left" id="direccion" name="direccion" placeholder="Ingresar dirección">
                                     <span class="fa fa-edit form-control-feedback left" aria-hidden="true"></span>
                                 </div>
                                 <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
-                                    <label>Unidad de medida</label>
-                                    <input type="text" class="form-control has-feedback-left" id="unidad_medida" name="unidad_medida" placeholder="Ingresar unidad de medida">
+                                    <label>Teléfono</label>
+                                    <input type="text" class="form-control has-feedback-left" id="telefono" name="telefono" placeholder="Ingresar teléfono">
                                     <span class="fa fa-edit form-control-feedback left" aria-hidden="true"></span>
                                 </div>
                                 <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
-                                    <label>Cantidad por docena</label>
-                                    <input type="text" class="form-control has-feedback-left" id="cantidad_docena" name="cantidad_docena" placeholder="Ingresar cantidad por docena" required="">
+                                    <label>Dni</label>
+                                    <input type="text" maxlength="8" class="form-control has-feedback-left" id="dni" required="" name="dni" placeholder="Ingresar dni">
                                     <span class="fa fa-edit form-control-feedback left" aria-hidden="true"></span>
                                 </div>
                                 <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
-                                    <label>Precio unitario</label>
-                                    <input type="text" class="form-control has-feedback-left" id="precio_unitario" name="precio_unitario" placeholder="Ingresar precio unitario" required="">
+                                    <label>Célular</label>
+                                    <input type="text" class="form-control has-feedback-left" id="celular" name="celular" placeholder="Ingresar célular">
                                     <span class="fa fa-edit form-control-feedback left" aria-hidden="true"></span>
                                 </div>
                                 <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
-                                    <label>Tipo</label>
-                                    <input type="text" class="form-control has-feedback-left" id="tipo" name="tipo" placeholder="Ingresar tipo: sólido o líquido">
+                                    <label>Fecha de Nacimiento</label>
+                                    <input type="text" class="form-control has-feedback-left" id="fecha_nacimiento" name="fecha_nacimiento" required="" placeholder="Ingresar fecha de nacimiento">
                                     <span class="fa fa-edit form-control-feedback left" aria-hidden="true"></span>
-                                </div>                                
+                                </div>
+                                <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                    <label>Usuario</label>
+                                    <input type="text" class="form-control has-feedback-left" id="usuario" name="usuario" placeholder="Ingresar usuario">
+                                    <span class="fa fa-edit form-control-feedback left" aria-hidden="true"></span>
+                                </div>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                     <label>Proceso</label>
                                     <div class="input-group">                                        
@@ -138,6 +151,7 @@
                                     </div>
                                 </div>                                
                             </div>
+
                             <div class="ln_solid"></div>
 
                             <div class="form-group">                            
@@ -176,15 +190,15 @@
                 </div>
                 <div class="x_content">                    
                     <div class="row">                        
-                        
+
                         <table class="table table-striped table-bordered dt-responsive nowrap" id="listaTrabajador" cellspacing="0" width="100%">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
-                                    <th>Dni</th>
+                                    <th>ID</th>                                    
                                     <th>Nombres</th>
                                     <th>A. Paterno</th>
                                     <th>A. Materno</th>
+                                    <th>Dni</th>
                                     <th>Dirección</th>
                                     <th>Teléfono</th>
                                     <th>Celular</th>
@@ -203,170 +217,6 @@
             </div>
         </div>
     </div>
-
-    <div class="row" id="editarModelo" style="display: none;">
-        <!-- Cliente -->
-        <div class="col-md-12 col-sm-12 col-xs-12">    
-            <div class="x_panel">
-                <div class="x_title">
-                    <h2>Formulario Modelo <small>modificar datos.</small></h2>
-                    <ul class="nav navbar-right panel_toolbox">
-                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                        </li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-
-                        </li>
-                        <li><a class="close-link"><i class="fa fa-close"></i></a>
-                        </li>
-                    </ul>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="x_content">
-                    <br>
-                    <form id="frmModeloEditar" action="" method="POST" class="form-horizontal form-label-left">
-                        <!--<div class="form-group">                            
-                            <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">                                
-                                <label class="btn btn-primary btn-upload col-md-1 col-sm-1 col-xs-12" for="inputImage" title="Upload image file">                                    
-                                    <input class="sr-only form-control" id="inputImage" name="file" type="file" accept="image/*">
-                                    <span class="docs-tooltip" data-toggle="tooltip" title="" data-original-title="Importar imagen con Blob URLs">
-                                        <span class="fa fa-upload"></span>
-                                    </span>                                    
-                                </label>
-                            </div>                            
-                        </div>                    -->
-                        <div class="form-group">             
-                            <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
-                                <div class="modal-dialog modal-lg">
-                                    <div class="modal-content">
-
-                                        <div class="modal-header">
-                                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
-                                            </button>
-                                            <h2 class="modal-title" id="myModalLabel">Buscar Cliente</h2>
-                                        </div>
-                                        <div class="modal-body">
-                                            <div class="row">
-                                                <div class="form-group">
-                                                    <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
-                                                    <div class="col-md-6 col-sm-6 col-xs-12">
-                                                        <input type="text" class="form-control has-feedback-left" id="buscar-cliente" onkeyup="listarClientes(this.value);" value="" placeholder="Buscar por ruc o razón social">
-                                                        <span class="fa fa-search form-control-feedback left" aria-hidden="true"></span>
-                                                    </div>
-                                                </div>
-                                                <div class="ln_solid"></div>
-                                                <div class="col-md-12 col-sm-12 col-xs-12">
-                                                    <div class="x_panel">
-                                                        <div class="x_title">
-                                                            <h2>Clientes <small>Lista en detalle.</small></h2>
-                                                            <ul class="nav navbar-right panel_toolbox">
-                                                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                                                                </li>                                                                
-                                                                <li><a class="close-link"><i class="fa fa-close"></i></a>
-                                                                </li>
-                                                            </ul>
-                                                            <div class="clearfix"></div>
-                                                        </div>
-                                                        <div class="x_content">
-                                                            <table class="table table-hover">
-                                                                <thead>
-                                                                    <tr>
-                                                                        <th>#</th>
-                                                                        <th></th>  
-                                                                        <th>R. Social</th>
-                                                                        <th>Ruc</th>
-                                                                        <th>Dirección</th>
-                                                                        <th></th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody id="tabla-cliente">                                                                    
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!--<div class="modal-footer">
-                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                                <button type="button" class="btn btn-primary">Save changes</button>
-                                            </div>-->
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <input type="hidden" name="parametro" id="parametro" value="modificarModelo" />
-                            <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Modelo</label>
-                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input type="text" class="form-control" name="modelo" id="modelo" value="" required readonly>
-                                </div>
-                            </div>
-                            <input type="hidden" class="form-control" name="idcliente" id="idcliente">
-                            <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Cliente</label>
-                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input type="text" class="form-control" name="cliente" id="cliente" value="" required readonly>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Horma</label>
-                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input type="text" class="form-control" name="horma" id="horma" value="" required placeholder="Horma">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Taco</label>
-                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input type="text" name="taco" id="taco" class="form-control" required placeholder="Taco">                        
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Plataforma</label>
-                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input type="text" class="form-control" name="plataforma" id="plataforma" value="" required placeholder="Plataforma">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Colección</label>
-                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input type="text" class="form-control" name="coleccion" id="coleccion" value="" required placeholder="Colección">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Especificación</label>
-                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input type="text" class="form-control" name="especificacion" id="especificacion" value="" required placeholder="Especificación">
-                                </div>
-                            </div>                        
-                            <div class="form-group">
-                                <label class="col-md-3 col-sm-3 col-xs-12 control-label">Estado                        
-                                </label>
-                                <div class="col-md-9 col-sm-9 col-xs-12">
-                                    <div class="checkbox">
-                                        <label>
-                                            <input id="estadomodelo" name="estadomodelo" type="checkbox" value=""> Opción para habilitar un modelo.
-                                        </label>
-                                    </div>                        
-                                </div>
-                            </div>
-                            <div class="ln_solid"></div>
-                            <div class="form-group">
-                                <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
-                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg" ><i class="fa fa-search"></i> Cliente</button>
-                                    <button type="submit" id="btnModificarModelo" class="btn btn-success">Guardar</button>                                
-                                </div>
-                            </div>
-
-                        </div>
-                    </form>
-                </div>
-                <!-- Cliente -->
-            </div>
-        </div>
-    </div>
-
-
 
     <!-- /page content -->
     <jsp:include page="../includes/pie_interno.jsp"></jsp:include>

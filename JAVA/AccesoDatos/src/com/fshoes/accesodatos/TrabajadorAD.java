@@ -173,7 +173,7 @@ public class TrabajadorAD {
         try {
             //ver si se envia el dni del listado
             CallableStatement cst = cn.prepareCall("{call pa_trabajador(?,?,?,?,?,?,?,?,?,?,?,?,?,?)}");
-            cst.setString(1, "");
+            cst.setString(1, String.valueOf(objTrabajador.getIdempleado()));//enviando id_empleado
             cst.setString(2, prm);            
             cst.setString(3, objTrabajador.getDni());
             cst.setString(4, objTrabajador.getNombres());

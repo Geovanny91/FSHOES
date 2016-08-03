@@ -118,10 +118,9 @@ public class ProveedorAD {
     public boolean modificarProveedor(Proveedor objProveedor, String prm) throws Exception{
         Connection cn = Conexion.Instancia().getConexion();
         boolean rpt = false;
-        try {
-            //enviar el id del proveedor para la consulta o poner en el valor primer parámetro
+        try {            
             cst = cn.prepareCall("{call pa_proveedor(?,?,?,?,?,?,?,?)}");
-            cst.setString(1, "");
+            cst.setString(1, String.valueOf(objProveedor.getIdproveedor()));//enviando el idproveedor
             cst.setString(2, prm);
             cst.setInt(3, 0);
             cst.setInt(4, 0);
