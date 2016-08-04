@@ -135,6 +135,7 @@ public class OrdenAD {
                 ficha.setPlataforma(tabla.getString("plataforma"));
                 ficha.setTaco(tabla.getString("taco"));
                 ficha.setColor(tabla.getString("color"));
+                ficha.setUrlimagen(tabla.getString("urlimagen"));
                 ficha.setObjModelo(modelo);
                 
                 Orden orden = new Orden();

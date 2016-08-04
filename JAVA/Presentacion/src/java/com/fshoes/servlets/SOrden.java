@@ -275,6 +275,7 @@ public class SOrden extends HttpServlet {
                                 + "<td style='text-align: center;'>" + lstOrden.get(0).getObjFicha().getColor() + "</td>"
                                 + "<td style='text-align: center;'><b>CLIENTE</b></td>"
                                 + "<td style='text-align: center;'>" + lstOrden.get(0).getObjFicha().getObjModelo().getObjcliente().getRazonsocial() + "</td>"
+                                + "<td colspan='2' rowspan='5' style='text-align: center;'><img src='"+ lstOrden.get(0).getObjFicha().getUrlimagen() +"' height='100' width='100'></td>"
                                 + "</tr>"
                                 + "<tr>"
                                 + "<td colspan='6'></td>"

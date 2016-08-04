@@ -153,13 +153,18 @@
                                     <input type="text" class="form-control" name="coleccion" id="coleccion" value="" required placeholder="Ingresar colección">
                                 </div>
                             </div>
-
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Imagen</label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input type="text" class="form-control" name="url_imagen" id="url_imagen" value="" required placeholder="Ingresar url de la imagen">
+                                </div>
+                            </div>
                             <div class="form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12">Especificación</label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input type="text" class="form-control" name="especificacion" id="especificacion" value="" required placeholder="Ingresar especificación">
+                                    <textarea class="resizable_textarea form-control" name="especificacion" id="especificacion" value="" placeholder="Ingresar las especificaciones"></textarea>
                                 </div>
-                            </div>
+                            </div>                            
                             <div class="form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12">Cliente</label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
@@ -182,7 +187,7 @@
                                 <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
                                     <button type="submit" id="guardarModelo" class="btn btn-success">Guardar</button>
                                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg" ><i class="fa fa-search"></i> Cliente</button>                            
-                                    
+
                                 </div>
                             </div>
 
@@ -192,7 +197,15 @@
                 <!-- Cliente -->
             </div>
         </div>
+    </div>
+    <div class="row">
+        <!--INICIO EDITOR-->
 
+
+
+
+
+        <!--FIN EDITOR-->
     </div>
 
 </div>

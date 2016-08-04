@@ -32,7 +32,7 @@
         <link rel="stylesheet" href="../css/normalize.css" />
         <link rel="stylesheet" href="../css/ion.rangeSlider.css" />
         <link rel="stylesheet" href="../css/ion.rangeSlider.skinFlat.css" />
-
+        
 
         <!-- colorpicker -->
         <link href="../css/colorpicker/bootstrap-colorpicker.min.css" rel="stylesheet">
@@ -43,8 +43,7 @@
         <link href="../js/datatables/fixedHeader.bootstrap.min.css" rel="stylesheet" type="text/css" />
         <link href="../js/datatables/responsive.bootstrap.min.css" rel="stylesheet" type="text/css" />
         <link href="../js/datatables/scroller.bootstrap.min.css" rel="stylesheet" type="text/css" />
-
-
+        
 
         <!--[if lt IE 9]>
               <script src="../assets/js/ie8-responsive-file-warning.js"></script>

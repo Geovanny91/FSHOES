@@ -80,7 +80,7 @@
                         }else{
                             $("#tabla_formato").html("");
                             $("#tabla_formato").append(data);
-                            pintarTabla();//pasar como parametro en JSON para la espeecificacióneee
+                            pintarTabla( cod_orden );//pasar como parametro en JSON para la espeecificacióneee
                             $("#tabla_formato").hide();
                             $("#tabla_formato").show("medium");
                         }
@@ -88,7 +88,7 @@
                 });
             }
 
-            var pintarTabla = function () {
+            var pintarTabla = function ( cod_orden ) {
                 var hola = $("#pintarTablita tbody");
                 console.log(hola);
                 var fila_empieza_especificacion = 10;
@@ -187,21 +187,37 @@
 
                 console.log("ULTIMO N FILA D TABLA:" + numero_fila);
 
-                var table = document.getElementById("tabla");
+                var table = document.getElementById("tabla");                
                 var row = table.insertRow(62);
-                var cell = row.insertCell(0);
-                cell.innerHTML = "CORTADO";//contenido de las ESPECIFICACIONES TÉCNICAS
+                var cell = row.insertCell(0);                
+                console.log(hola[0].children[ 62 ].cells[0].setAttribute("colspan", 8));//agregando linea vacia
+                
+                row = table.insertRow(63);
+                cell = row.insertCell(0);
+                cell.innerHTML = "CORTADO O.P N° "+cod_orden;//contenido de las ESPECIFICACIONES TÉCNICAS
                 cell = row.insertCell(1);                
-                cell.innerHTML = "APARADO";                
+                cell.innerHTML = "APARADO O.P N° "+cod_orden;                
                 cell = row.insertCell(2);
-                cell.innerHTML = "ARMADO";
+                cell.innerHTML = "ARMADO O.P N° "+cod_orden;
                 cell = row.insertCell(3);                
-                cell.innerHTML = "ALISTADO";
+                cell.innerHTML = "ALISTADO O.P N°"+cod_orden;
 
-                console.log(hola[0].children[ 62 ].cells[0].setAttribute("colspan", 2));
-                console.log(hola[0].children[ 62 ].cells[1].setAttribute("colspan", 2));
-                console.log(hola[0].children[ 62 ].cells[2].setAttribute("colspan", 2));
-                console.log(hola[0].children[ 62 ].cells[3].setAttribute("colspan", 2));
+                console.log(hola[0].children[ 63 ].cells[0].setAttribute("colspan", 2));
+                console.log(hola[0].children[ 63 ].cells[1].setAttribute("colspan", 2));
+                console.log(hola[0].children[ 63 ].cells[2].setAttribute("colspan", 2));
+                console.log(hola[0].children[ 63 ].cells[3].setAttribute("colspan", 2));                
+                
+                row = table.insertRow(64);                
+                console.log(hola[0].children[ 63 ].cells[0].setAttribute("rowspan", 2));
+                console.log(hola[0].children[ 63 ].cells[1].setAttribute("rowspan", 2));
+                console.log(hola[0].children[ 63 ].cells[2].setAttribute("rowspan", 2));
+                console.log(hola[0].children[ 63 ].cells[3].setAttribute("rowspan", 2));
+                //aplicando tamaño
+                console.log(hola[0].children[ 63 ].cells[0].setAttribute("style", "font-size: 30px; text-align: center;"));
+                console.log(hola[0].children[ 63 ].cells[1].setAttribute("style", "font-size: 30px; text-align: center;"));
+                console.log(hola[0].children[ 63 ].cells[2].setAttribute("style", "font-size: 30px; text-align: center;"));
+                console.log(hola[0].children[ 63 ].cells[3].setAttribute("style", "font-size: 30px; text-align: center;"));
+                
 
             }
 

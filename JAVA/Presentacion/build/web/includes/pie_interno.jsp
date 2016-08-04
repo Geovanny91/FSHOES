@@ -17,6 +17,7 @@
 <!-- icheck -->
 <script src="../js/icheck/icheck.min.js"></script>
 <script src="../js/custom.js"></script>
+
 <!-- daterangepicker -->
 <script type="text/javascript" src="../js/moment/moment.min.js"></script>
 <script type="text/javascript" src="../js/datepicker/daterangepicker.js"></script>
@@ -910,6 +911,7 @@
             type: 'success'
     });
     $("#frmModeloRegistrar").find("input[type='text']").val("");
+    $("#especificacion").val("");
     $("#tabla-cliente").html(""); //agregue esto aqui pero ver por errores.
     }
     });

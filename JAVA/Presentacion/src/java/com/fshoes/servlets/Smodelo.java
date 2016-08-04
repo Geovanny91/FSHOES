@@ -93,6 +93,7 @@ public class Smodelo extends HttpServlet {
         String horma = request.getParameter("horma"),
                 cod_modelo = request.getParameter("modelo"),
                 especificacion = request.getParameter("especificacion"),
+                url_imagen = request.getParameter("url_imagen"),
                 idcliente = request.getParameter("idcliente"),
                 ficha_tecnica = request.getParameter("ficha_tecnica"),
                 taco = request.getParameter("taco"),
@@ -169,7 +170,7 @@ public class Smodelo extends HttpServlet {
                     objCliente = new Cliente();
                     objCliente.setIdcliente(Integer.parseInt(idcliente));
                     objModelo = new Modelo(cod_modelo, horma, especificacion, objCliente, estado);
-                    FichaTecnica objFicha = new FichaTecnica(ficha_tecnica, plataforma, taco, color, coleccion, "url_imagen", objModelo);
+                    FichaTecnica objFicha = new FichaTecnica(ficha_tecnica, plataforma, taco, color, coleccion, url_imagen, objModelo);
                     
                     //Validando si existen modelos o fichas tecnicas, antes de registrar en la BD.
                     existe_modelo = ModeloLN.Instancia().existeModelo(cod_modelo, "verificarModelo");
