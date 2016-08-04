@@ -39,8 +39,10 @@
 
   <script type="text/javascript">
     $(document).ready(function() {
-        logout();        
+        logout();
+
     });
+ 
     
     function logout() {
         $("#salir").on("click", function (){

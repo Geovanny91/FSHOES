@@ -5,24 +5,28 @@
  */
 package com.fshoes.entidades;
 
+import java.io.IOException;
+import java.io.Writer;
+import java.util.LinkedHashMap;
+import org.json.simple.JSONStreamAware;
+import org.json.simple.JSONValue;
+
 /**
  *
  * @author flores
  */
-public class Proceso {
+public class Proceso implements JSONStreamAware{
     private String codigoproceso;
-    private String descripccion;
-    private int idmateriales;
+    private String descripcion;    
 
     
-    public Proceso(String codigoproceso, String descripccion, int idmateriales) {
+    public Proceso(String codigoproceso, String descripccion) {
         this.codigoproceso = codigoproceso;
-        this.descripccion = descripccion;
-        this.idmateriales = idmateriales;
+        this.descripcion = descripccion;        
     }
     
     public Proceso() {
-        this("", "", 0);
+        this("", "");
     }
 
     public String getCodigoproceso() {
@@ -33,24 +37,20 @@ public class Proceso {
         this.codigoproceso = codigoproceso;
     }
 
-    public String getDescripccion() {
-        return descripccion;
+    public String getDescripcion() {
+        return descripcion;
     }
 
-    public void setDescripccion(String descripccion) {
-        this.descripccion = descripccion;
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 
-    public int getIdmateriales() {
-        return idmateriales;
+    @Override
+    public void writeJSONString(Writer out) throws IOException {
+        LinkedHashMap obj = new LinkedHashMap();
+        obj.put("codigoproceso", codigoproceso);
+        obj.put("descripcion", descripcion);        
+        JSONValue.writeJSONString(obj, out);
     }
-
-    public void setIdmateriales(int idmateriales) {
-        this.idmateriales = idmateriales;
-    }
-
-    
-    
-    
-    
+        
 }

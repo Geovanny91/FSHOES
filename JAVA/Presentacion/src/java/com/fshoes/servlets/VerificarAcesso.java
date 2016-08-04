@@ -86,10 +86,10 @@ public class VerificarAcesso extends HttpServlet {
             Trabajador t = TrabajadorLN.Instancia().lfVerificarAcceso(usuario, contrasena);
             if(t!=null){
                 HttpSession ses = request.getSession();
-                ses.setAttribute("trabajador", t);                    
+                ses.setAttribute("trabajador", t);
                 response.sendRedirect("frmPrincipal.jsp");
             }else{
-                   out.println("Usuario incorrecto");
+                   response.sendRedirect("mensajeError.jsp");
             }
         } catch (Exception ex) {
             ex.getMessage();

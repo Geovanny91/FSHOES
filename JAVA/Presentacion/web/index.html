@@ -7,116 +7,340 @@ and open the template in the editor.
 <!DOCTYPE html>
 <html lang="es">
 
-<head>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <!-- Meta, title, CSS, favicons, etc. -->
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <!-- Meta, title, CSS, favicons, etc. -->
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>Shoes system</title>
+        <title>FShoes system</title>
 
-  <!-- Bootstrap core CSS -->
+        <!-- Bootstrap core CSS -->
 
-  <link href="css/bootstrap.min.css" rel="stylesheet">
+        <link href="css/bootstrap.min.css" rel="stylesheet">
 
-  <link href="fonts/css/font-awesome.min.css" rel="stylesheet">
-  <link href="css/animate.min.css" rel="stylesheet">
+        <link href="fonts/css/font-awesome.min.css" rel="stylesheet">
+        <link href="css/animate.min.css" rel="stylesheet">
 
-  <!-- Custom styling plus plugins -->
-  <link href="css/custom.css" rel="stylesheet">
-  <link href="css/icheck/flat/green.css" rel="stylesheet">
+        <!-- Custom styling plus plugins -->
+        <link href="css/custom.css" rel="stylesheet">
+        <link href="css/icheck/flat/green.css" rel="stylesheet">  
 
+        <link rel="stylesheet" type="text/css" href="css/progressbar/bootstrap-progressbar-3.3.0.css">
 
-  <script src="js/jquery.min.js"></script>
+        <!-- Include Bootstrap Datepicker -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.1/css/bootstrap-datepicker.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.1/css/bootstrap-datepicker3.min.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.1/css/bootstrap-datepicker.standalone.min.css">
 
-  <!--[if lt IE 9]>
-        <script src="../assets/js/ie8-responsive-file-warning.js"></script>
-        <![endif]-->
+        <!--[if lt IE 9]>
+              <script src="../assets/js/ie8-responsive-file-warning.js"></script>
+              <![endif]-->
 
-  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-  <!--[if lt IE 9]>
-          <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-          <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-        <![endif]-->
+        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+                <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+                <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+              <![endif]-->
 
-</head>
+    </head>
 
-<body style="background:#F7F7F7;">
+    <body style="background:#F7F7F7;">
 
-  <div class="">
-    <a class="hiddenanchor" id="toregister"></a>
-    <a class="hiddenanchor" id="tologin"></a>
+        <div class="">
+            <a class="hiddenanchor" id="toregister"></a>
+            <a class="hiddenanchor" id="tologin"></a>
 
-    <div id="wrapper">
-      <div id="login" class="animate form">
-        <section class="login_content">
-            <form method="POST" action="VerificarAcesso">
-            <h1>Autenticaciòn</h1>
-            <div>
-                <input type="text" name="usuario" class="form-control" placeholder="Usuario" required="" />
+            <div id="wrapper">
+                <div id="login" class="animate form">
+                    <section class="login_content">
+                        <form method="POST" action="VerificarAcesso">
+                            <h1>Autenticaciòn</h1>
+                            <div>
+                                <input type="text" name="usuario" class="form-control" placeholder="Usuario" required="" />
+                            </div>
+                            <div>
+                                <input type="password" name="contrasena" class="form-control" placeholder="Contraseña" required="" />
+                            </div>
+                            <div>
+                                <button type="submit" class="btn btn-default submit" >Ingresar</button>
+                                <!--<a class="reset_pass" href="#">Lost your password?</a>-->
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="separator">
+
+                                <p class="change_link">¿Nuevo en el Sistema?
+                                    <a href="#toregister" class="to_register"> Registrar nuevo trabajador</a>
+                                </p>
+                                <div class="clearfix"></div>
+                                <br />
+                                <div>
+                                    <h1><i class="fa fa-paw" style="font-size: 26px;"></i> FHOES </h1>
+                                </div>
+                            </div>
+                        </form>
+                        <!-- form -->
+                    </section>
+                    <!-- content -->
+                </div>
+                <div id="register" class="animate form">
+                    <section class="login_content">
+                        <form id="frmTrabajador">
+                            <h1>Nuevo Trabajador</h1>
+                            <div>
+                                <input type="text" name="dni" id="dni" class="form-control" placeholder="Ingresar dni" maxlength="8" required=""/>
+                            </div>            
+                            <div>
+                                <input type="text" name="nombres" id="nombres" class="form-control" placeholder="Ingresar nombres" required="" />
+                            </div>
+                            <div>
+                                <input type="text" name="ape_paterno" id="ape_paterno" class="form-control" placeholder="Ingresar apellido paterno" required="" />
+                            </div>
+                            <div>
+                                <input type="text" name="ape_materno" id="ape_materno" class="form-control" placeholder="Ingresar apellido materno" required="" />
+                            </div>
+                            <div>
+                                <input type="text" name="direccion" id="direccion" class="form-control" placeholder="Ingresar dirección"  />
+                            </div>
+                            <div>
+                                <input type="text" name="telefono" id="telefono" class="form-control" placeholder="Ingresar teléfono"  />
+                            </div>
+                            <div>
+                                <input type="text" name="celular" id="celular" class="form-control" placeholder="Ingresar celular" />
+                            </div>
+                            <div>
+                                <input type="text" maxlength="10" class="form-control" name="fecha_nacimiento" id="fecha_nacimiento" data-provide="datepicker" placeholder="Ingresar fecha de nacimiento: 1990-01-30">    
+                            </div>
+                            <div>
+                                <input type="text" name="usuario" id="usuario" class="form-control" placeholder="Ingresar usuario" required="" />
+                            </div>
+                            <div>
+                                <input type="password" name="contrasena" id="contrasena" class="form-control" placeholder="Ingresar contraseña" required="" />
+                            </div>
+                            <div>
+                                <select id="cboproceso" class="form-control">
+                                </select>
+                            </div>
+                            <br>
+                            <div>
+                                <button class="btn btn-default submit" type="submit">Guardar</button>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="separator">
+
+                                <p class="change_link">¿Ya tienes cuenta?
+                                    <a href="#tologin" class="to_register"> Ingresar </a>
+                                </p>
+                                <div class="clearfix"></div>
+                                <br />
+                                <div>
+                                    <h1><i class="fa fa-paw" style="font-size: 26px;"></i> FHOES </h1>                
+                                </div>
+                            </div>
+                        </form>
+                        <!-- form -->
+                    </section>
+                    <!-- content -->
+                </div>
             </div>
-            <div>
-                <input type="password" name="contrasena" class="form-control" placeholder="Contraseña" required="" />
-            </div>
-            <div>
-                <button type="submit" class="btn btn-default submit" >Ingresar</button>
-              <!--<a class="reset_pass" href="#">Lost your password?</a>-->
-            </div>
-            <div class="clearfix"></div>
-            <div class="separator">
+        </div>
 
-              <p class="change_link">¿Nuevo en el Sistema?
-                <a href="#toregister" class="to_register"> Crear nuevo Trabajador</a>
-              </p>
-              <div class="clearfix"></div>
-              <br />
-              <div>
-                <h1><i class="fa fa-paw" style="font-size: 26px;"></i> FHOES </h1>
-              </div>
-            </div>
-          </form>
-          <!-- form -->
-        </section>
-        <!-- content -->
-      </div>
-      <div id="register" class="animate form">
-        <section class="login_content">
-          <form>
-            <h1>Crear Cuenta</h1>
-            <div>
-              <input type="text" class="form-control" placeholder="Username" required="" />
-            </div>
-            <div>
-              <input type="email" class="form-control" placeholder="Email" required="" />
-            </div>
-            <div>
-              <input type="password" class="form-control" placeholder="Password" required="" />
-            </div>
-            <div>
-              <a class="btn btn-default submit" href="index.html">Submit</a>
-            </div>
-            <div class="clearfix"></div>
-            <div class="separator">
+        <script src="js/jquery.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
 
-              <p class="change_link">¿Ya tienes cuenta?
-                <a href="#tologin" class="to_register"> Ingresar </a>
-              </p>
-              <div class="clearfix"></div>
-              <br />
-              <div>
-                <h1><i class="fa fa-paw" style="font-size: 26px;"></i> FHOES </h1>                
-              </div>
-            </div>
-          </form>
-          <!-- form -->
-        </section>
-        <!-- content -->
-      </div>
-    </div>
-  </div>
+        <!-- bootstrap progress js -->
+        <script src="js/progressbar/bootstrap-progressbar.min.js"></script>
+        <!-- icheck -->
+        <script src="js/icheck/icheck.min.js"></script>
 
-</body>
+        <script src="js/custom.js"></script>
+        <!-- pace -->
+        <script src="js/pace/pace.min.js"></script>
+        <!-- PNotify -->
+        <script type="text/javascript" src="js/notify/pnotify.core.js"></script>
+        <script type="text/javascript" src="js/notify/pnotify.buttons.js"></script>
+        <script type="text/javascript" src="js/notify/pnotify.nonblock.js"></script>
+        <!-- Include Bootstrap Datepicker url: https://github.com/eternicode/bootstrap-datepicker/blob/master/docs/i18n.rst -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.1/js/bootstrap-datepicker.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.1/locales/bootstrap-datepicker.es.min.js" charset="UTF-8"></script>
+
+        <script>
+            $(function () {
+                var cnt = 10; //$("#custom_notifications ul.notifications li").length + 1;
+                TabbedNotification = function (options) {
+                    var message = "<div id='ntf" + cnt + "' class='text alert-" + options.type + "' style='display:none'><h2><i class='fa fa-bell'></i> " + options.title +
+                            "</h2><div class='close'><a href='javascript:;' class='notification_close'><i class='fa fa-close'></i></a></div><p>" + options.text + "</p></div>";
+
+                    if (document.getElementById('custom_notifications') == null) {
+                        alert('doesnt exists');
+                    } else {
+                        $('#custom_notifications ul.notifications').append("<li><a id='ntlink" + cnt + "' class='alert-" + options.type + "' href='#ntf" + cnt + "'><i class='fa fa-bell animated shake'></i></a></li>");
+                        $('#custom_notifications #notif-group').append(message);
+                        cnt++;
+                        CustomTabs(options);
+                    }
+                }
+
+                CustomTabs = function (options) {
+                    $('.tabbed_notifications > div').hide();
+                    $('.tabbed_notifications > div:first-of-type').show();
+                    $('#custom_notifications').removeClass('dsp_none');
+                    $('.notifications a').click(function (e) {
+                        e.preventDefault();
+                        var $this = $(this),
+                                tabbed_notifications = '#' + $this.parents('.notifications').data('tabbed_notifications'),
+                                others = $this.closest('li').siblings().children('a'),
+                                target = $this.attr('href');
+                        others.removeClass('active');
+                        $this.addClass('active');
+                        $(tabbed_notifications).children('div').hide();
+                        $(target).show();
+                    });
+                }
+
+                CustomTabs();
+
+                var tabid = idname = '';
+                $(document).on('click', '.notification_close', function (e) {
+                    idname = $(this).parent().parent().attr("id");
+                    tabid = idname.substr(-2);
+                    $('#ntf' + tabid).remove();
+                    $('#ntlink' + tabid).parent().remove();
+                    $('.notifications a').first().addClass('active');
+                    $('#notif-group div').first().css('display', 'block');
+                });
+            })
+        </script>
+
+        <script type="text/javascript">
+            /*Esta alerta es la que sale al inicio en esta plantilla login*/
+            /*var permanotice, tooltip, _alert;
+             
+             $(function() {
+             new PNotify({
+             title: "PNotify",
+             type: "dark",
+             text: "Welcome. Try hovering over me. You can click things behind me, because I'm non-blocking.",
+             nonblock: {
+             nonblock: true
+             },
+             before_close: function(PNotify) {
+             // You can access the notice's options with this. It is read only.
+             //PNotify.options.text;
+             
+             // You can change the notice's options after the timer like this:
+             PNotify.update({
+             title: PNotify.options.title + " - Enjoy your Stay",
+             before_close: null
+             });
+             PNotify.queueRemove();
+             return false;
+             }
+             });
+             
+             });*/
+        </script>
+        <script>
+            $(document).on("ready", function () {
+                comboProceso();
+                registrarTrabjador();
+                $.fn.datepicker.dates['en'] = {
+                    days: ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"],
+                    daysShort: ["Dom", "Lun", "Mar", "Mir", "Jue", "vie", "Sab"],
+                    daysMin: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"],
+                    months: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "June¿io", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
+                    monthsShort: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"],
+                    today: "Hoy",
+                    clear: "Clear",
+                    format: "yyyy-mm-dd",
+                    titleFormat: "MM yyyy", /* Leverages same syntax as 'format' */
+                    weekStart: 0
+                };
+                $.fn.datepicker.defaults.format = "yyyy-mm-dd";
+                $('.datepicker').datepicker({
+                    //format: 'yyyy-mm-dd',
+                    startDate: '-3d'
+
+                });
+                /*.on('changeDate', function (e) {//parte del datepicker para validar url: http://formvalidation.io/validators/date/
+                 // Revalidate the date field
+                 $('#eventForm').formValidation('revalidateField', 'eventDate');
+                 });*/
+            });
+
+            function registrarTrabjador() {
+                $("#frmTrabajador").on("submit", function (e) {
+                    e.preventDefault();
+                    var proceso = $("#cboproceso option:selected").val(),
+                            dni = $("#dni").val(),
+                            nombres = $("#nombres").val(),
+                            ape_paterno = $("#ape_paterno").val(),
+                            ape_materno = $("#ape_materno").val(),
+                            direccion = $("#direccion").val(),
+                            telefono = $("#telefono").val(),
+                            celular = $("#celular").val(),
+                            fecha_nacimiento = $("#fecha_nacimiento").val(),
+                            usuario = $("#usuario").val(),
+                            contrasena = $("#contrasena").val();
+                    var datos = {"parametro": "registrarTrabajador", "dni": dni, "nombres": nombres, "ape_paterno": ape_paterno, "ape_materno": ape_materno, "direccion": direccion,
+                        "telefono": telefono, "celular": celular, "fecha_nacimiento": fecha_nacimiento, "usuario": usuario, "contrasena": contrasena,
+                        "proceso": proceso};
+                    $.ajax({
+                        method: "POST",
+                        url: "Strabajador",
+                        data: datos
+                    }).done(function (info) {
+                        console.log(typeof info);
+                        if (info == "null") {
+                            new PNotify({//ver lo de la notificación
+                                title: 'Mensaje de Advertencia',
+                                text: 'Ingrese todos los datos solicitados',
+                                hide: false
+                            });
+                        } else if (info) {
+                            new PNotify({//ver lo de la notificación
+                                title: 'Mensaje de éxito',
+                                text: 'Se guardaron los datos satisfactoriamente.',
+                                type: 'success'
+                            });
+                            limpiarCampos();
+                        }
+                    });
+                });
+            }
+
+            function limpiarCampos() {
+                //$("#cboproceso").val();
+                $("#dni").val("");
+                $("#nombres").val("");
+                $("#ape_paterno").val("");
+                $("#ape_materno").val("");
+                $("#direccion").val("");
+                $("#telefono").val("");
+                $("#celular").val("");
+                $("#fecha_nacimiento").val("");
+                $("#usuario").val("");
+                $("#contrasena").val("");
+            }
+
+            function comboProceso() {
+                var parametro = "listarcomboProceso";
+                $.ajax({
+                    method: "POST",
+                    url: "Sproceso",
+                    data: {"parametro": parametro}
+                }).done(function (data) {
+                    if (data != "")
+                        $("#cboproceso").html(data);
+                    else {
+                    }
+                });
+            }
+
+        </script>
+
+    </body>
 
 </html>
 

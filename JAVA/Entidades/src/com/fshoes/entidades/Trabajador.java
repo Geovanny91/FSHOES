@@ -5,13 +5,18 @@
  */
 package com.fshoes.entidades;
 
+import java.io.IOException;
+import java.io.Writer;
 import java.util.Date;
+import java.util.LinkedHashMap;
+import org.json.simple.JSONStreamAware;
+import org.json.simple.JSONValue;
 
 /**
  *
  * @author Geovanny Rìos Abarca
  */
-public class Trabajador {
+public class Trabajador implements JSONStreamAware{
     
     private int idempleado;
     private String dni;
@@ -21,13 +26,13 @@ public class Trabajador {
     private String direccion;
     private String telefono;
     private String celular;
-    private Date fecha_nacimiento;
+    private String fecha_nacimiento;
     private String usuario;
     private String contrasena;
-    private int estado;
+    private boolean estado;
     private Proceso codigoproceso;
 
-    public Trabajador(int idempleado, String dni, String nombres, String ape_paterno, String ape_materno, String direccion, String telefono, String celular, Date fecha_nacimiento, String usuario, String contrasena, int estado, Proceso codigoproceso) {
+    public Trabajador(int idempleado, String dni, String nombres, String ape_paterno, String ape_materno, String direccion, String telefono, String celular, String fecha_nacimiento, String usuario, String contrasena, boolean estado, Proceso codigoproceso) {
         this.idempleado = idempleado;
         this.dni = dni;
         this.nombres = nombres;
@@ -44,7 +49,7 @@ public class Trabajador {
     }
 
     public Trabajador() {
-        this(0, "", "", "", "", "", "", "", new Date(), "", "", 0, new Proceso());
+        this(0, "", "", "", "", "", "", "", "", "", "", false, new Proceso());
     }
 
     public int getIdempleado() {
@@ -111,13 +116,13 @@ public class Trabajador {
         this.celular = celular;
     }
 
-    public Date getFecha_nacimiento() {
+    public String getFecha_nacimiento() {
         return fecha_nacimiento;
     }
 
-    public void setFecha_nacimiento(Date fecha_nacimiento) {
+    public void setFecha_nacimiento(String fecha_nacimiento) {
         this.fecha_nacimiento = fecha_nacimiento;
-    }
+    }    
 
     public String getUsuario() {
         return usuario;
@@ -135,13 +140,13 @@ public class Trabajador {
         this.contrasena = contrasena;
     }
 
-    public int getEstado() {
+    public boolean isEstado() {
         return estado;
     }
 
-    public void setEstado(int estado) {
+    public void setEstado(boolean estado) {
         this.estado = estado;
-    }
+    }    
 
     public Proceso getCodigoproceso() {
         return codigoproceso;
@@ -154,6 +159,24 @@ public class Trabajador {
     public String getNombreCompleto(){
         return (this.nombres + " " + this.ape_paterno + " " + this.ape_materno);
     }
-    
+
+    @Override
+    public void writeJSONString(Writer out) throws IOException {
+        LinkedHashMap obj = new LinkedHashMap();        
+        obj.put("idempleado", String.valueOf(idempleado));
+        obj.put("dni", dni);
+        obj.put("nombres", nombres);
+        obj.put("ape_paterno", ape_paterno);
+        obj.put("ape_materno", ape_materno);
+        obj.put("direccion", direccion);
+        obj.put("telefono", telefono);
+        obj.put("celular", celular);
+        obj.put("fecha_nacimiento", fecha_nacimiento);
+        obj.put("usuario", usuario);
+        obj.put("contrasena", contrasena);
+        obj.put("estado", estado);
+        obj.put("objProceso", codigoproceso);       
+        JSONValue.writeJSONString(obj, out);
+    }
     
 }
