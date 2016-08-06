@@ -26,10 +26,10 @@ public class MaterialLN {
     }
     // end Singleton
     
-    public ArrayList<Material> listarMaterial(String valor, String prm, int inicio, int fin) throws Exception {
+    public ArrayList<Material> listarMaterialPaginacion(String valor, String prm) throws Exception {
         try {
             if(!prm.equals("") && !valor.equals(""))
-                return MaterialAD.Instancia().listarMaterial(valor, prm, inicio, fin);//validar con el parámetro
+                return MaterialAD.Instancia().listarMaterialPaginacion(valor, prm);//validar con el parámetro
             else return null;
         } catch (Exception ex) {
             throw ex;

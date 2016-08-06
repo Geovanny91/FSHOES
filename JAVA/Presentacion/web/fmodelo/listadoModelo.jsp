@@ -62,7 +62,7 @@
                                 <th>Coleccion</th>
                                 <th>Id Cliente</th>
                                 <th>Cliente</th>                                
-                                <th></th>
+                                
                                 <!--<th></th>-->
                             </tr>
                         </thead>            

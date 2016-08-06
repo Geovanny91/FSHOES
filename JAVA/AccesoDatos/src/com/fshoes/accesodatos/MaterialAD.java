@@ -83,15 +83,15 @@ public class MaterialAD {
         return Lista;
     }
     
-    public ArrayList<Material> listarMaterial(String valor, String prm, int inicio, int fin) throws Exception {
+    public ArrayList<Material> listarMaterialPaginacion(String valor, String prm) throws Exception {
         cn = Conexion.Instancia().getConexion();
         ArrayList<Material> Lista = null;
         try {
             cst = cn.prepareCall("{call pa_material(?,?,?,?,?,?,?,?,?,?,?,?,?,?)}");
             cst.setString(1, valor);
             cst.setString(2, prm);
-            cst.setInt(3, inicio);
-            cst.setInt(4, fin);
+            cst.setInt(3, 0);
+            cst.setInt(4, 0);
             cst.setInt(5, 0);
             cst.setString(6, "");
             cst.setString(7, "");

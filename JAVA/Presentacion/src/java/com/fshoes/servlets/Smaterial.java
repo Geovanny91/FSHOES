@@ -105,22 +105,22 @@ public class Smaterial extends HttpServlet {
             case "listarMaterialPaginacion": {
                 try {
                     ArrayList<Material> lista = new ArrayList<>();
-                    int inicio = Integer.parseInt(request.getParameter("start")),
-                            fin = Integer.parseInt(request.getParameter("length"));
+                    /*int inicio = Integer.parseInt(request.getParameter("start")),
+                            fin = Integer.parseInt(request.getParameter("length"));*/
                     String ficha_tecnica = request.getParameter("ficha_tecnica");
                     //listar por código de ficha técnica, que irá en el parámetro valor
-                    lista = MaterialLN.Instancia().listarMaterial(ficha_tecnica, parametro, inicio, (fin + inicio));//getListPersonajes(n_col, dir, inicio, fin);//base de datos
+                    lista = MaterialLN.Instancia().listarMaterialPaginacion(ficha_tecnica, parametro);//getListPersonajes(n_col, dir, inicio, fin);//base de datos
                     JSONArray array = new JSONArray();
                     array.addAll(lista);
                     StringWriter outjson = new StringWriter();
 
-                    int total = MaterialLN.Instancia().obtenerTotalFilas(ficha_tecnica, "obtenerTotal");
-                    int draw = Integer.parseInt(request.getParameter("draw"));
+                    /*int total = MaterialLN.Instancia().obtenerTotalFilas(ficha_tecnica, "obtenerTotal");
+                    int draw = Integer.parseInt(request.getParameter("draw"));*/
 
                     JSONObject json = new JSONObject();
-                    json.put("draw", draw);
+                    /*json.put("draw", draw);
                     json.put("recordsTotal", total);//consulta BD
-                    json.put("recordsFiltered", total);//es cuando hay busquedas
+                    json.put("recordsFiltered", total);//es cuando hay busquedas*/
                     json.put("data", array);
                     json.writeJSONString(outjson);
                     out.println(outjson);

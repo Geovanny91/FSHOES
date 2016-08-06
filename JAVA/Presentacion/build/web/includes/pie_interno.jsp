@@ -51,143 +51,147 @@
 <!-- Validator-->
 <script src="../js/validator/validator.js"></script>
 
+<!-- summernote editor-->
+<script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.1/summernote.js"></script>
 
 <script>
-<!-- skycons -->
+    <!-- skycons -->
     < script src = "../js/skycons/skycons.min.js" ></script>
-<script>
-            var icons = new Skycons({
+    <script>
+        var icons = new Skycons({
             "color": "#73879C"
-            }),
-            list = [
-                    "clear-day", "clear-night", "partly-cloudy-day",
-                    "partly-cloudy-night", "cloudy", "rain", "sleet", "snow", "wind",
-                    "fog"
-            ],
-            i;
-    for (i = list.length; i--; )
+        }),
+        list = [
+        "clear-day", "clear-night", "partly-cloudy-day",
+        "partly-cloudy-night", "cloudy", "rain", "sleet", "snow", "wind",
+        "fog"
+        ],
+        i;
+        for (i = list.length; i--; )
             icons.set(list[i], list[i]);
-    icons.play();</script>
+        icons.play();</script>
 
-<script type="text/javascript">
+    <script type="text/javascript">
     $(document).ready(function () {
-    logout();
-    listarClientes();
-    fechas("#f_emision");
-    fechas("#f_entrega");
-    listarClientesPaginacion();
-    registrarcliente();
-    modificarCliente();
-    listarProveedoresPaginacion();
-    registrarProveedor();
-    modificarProveedor();
-    orden();
-    comboProceso();
-    asignarOrdenTrabajadorProceso();
-    exportarOrden();
-    mostrarOrdenesTerminadas();
-    mostrarModelosYFichas();
-    editarModelo();
-    registrarModelo();
-    validarCampos();
-    mostrarMaterialesPorFicha();
-    registrarMaterial();
-    modificarMaterial();
-    listarTrabajadoresPaginacion();
-    modificarTrabajador();
-    obtenerFichaTecnica();
-    obtenerDatosModificarfichaTecnica();
+        logout();
+        listarClientes();
+        fechas("#f_emision");
+        fechas("#f_entrega");
+        listarClientesPaginacion();
+        registrarcliente();
+        modificarCliente();
+        listarProveedoresPaginacion();
+        registrarProveedor();
+        modificarProveedor();
+        orden();
+        comboProceso();
+        asignarOrdenTrabajadorProceso();
+        exportarOrden();
+        mostrarOrdenesTerminadas();
+        mostrarModelosYFichas();
+        editarModelo();
+        registrarModelo();
+        iniciar_Editor_Modelo();//para llenar el campo de especificación.
+
+        validarCampos();
+        mostrarMaterialesPorFicha();
+        registrarMaterial();
+        modificarMaterial();
+        listarTrabajadoresPaginacion();
+        modificarTrabajador();
+        obtenerFichaTecnica();
+        obtenerDatosModificarfichaTecnica();
     });
     /*VARIABLES GLOBALES*/
     var total;
     var resultVal = 0.0;
     var tabla_paginacion_material, tabla_paginacion_modelo, tabla_paginacion_cliente,
-            tabla_paginacion_orden, tabla_paginacion_proveedor, tabla_paginacion_trabajador;
+    tabla_paginacion_orden, tabla_paginacion_proveedor, tabla_paginacion_trabajador;
     /*FIN VARIABLES GLOBALES*/
 
     var lenguaje_espanol = {
-    processing: "Procesando...",
-            search: "Buscar:",
-            lengthMenu: "Mostrar _MENU_ registros",
-            info: "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-            infoEmpty: "Mostrando registros del 0 al 0 de un total de 0 registros",
-            infoFiltered: "(filtrado de un total de _MAX_ registros)",
-            infoPostFix: "",
-            loadingRecords: "Cargando...",
-            zeroRecords: "No se encontraron resultados",
-            emptyTable: "No hay datos disponibles en la tabla",
-            paginate: {
+        processing: "Procesando...",
+        search: "Buscar:",
+        lengthMenu: "Mostrar _MENU_ registros",
+        info: "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+        infoEmpty: "Mostrando registros del 0 al 0 de un total de 0 registros",
+        infoFiltered: "(filtrado de un total de _MAX_ registros)",
+        infoPostFix: "",
+        loadingRecords: "Cargando...",
+        zeroRecords: "No se encontraron resultados",
+        emptyTable: "No hay datos disponibles en la tabla",
+        paginate: {
             first: "Primero",
-                    previous: "Anterior",
-                    next: "Siguiente",
-                    last: "Anterior"
-            },
-            aria: {
+            previous: "Anterior",
+            next: "Siguiente",
+            last: "Anterior"
+        },
+        aria: {
             sortAscending: ": Activar para ordenar la columna de manera ascendente",
-                    sortDescending: ": Activar para ordenar la columna de manera descendente"
-            }
+            sortDescending: ": Activar para ordenar la columna de manera descendente"
+        }
     };
+
     function orden() {
-    $("#guardarOrden").on("click", function () {
-    //e.preventDefault();
-    var orden = $("#orden").val(),
-            pedido = $("#pedido").val(),
-            f_emision = $("#f_emision").val(),
-            f_entrega = $("#f_entrega").val(),
-            total = $("#total").val(),
-            id_fichatecnica = $("#id_fichatecnica").val();
-    var url = $("#frmOrden").attr("action");
-    var cabecera = "#tabla-general-serie thead th",
-            cuerpo = "#tabla-general-serie tbody tr";
-    /*OBETNER DATA DE LA TABLA SERIE*/
-    var data = {"series": obtenerDataTabla(cabecera, cuerpo)};
-    var objJson = JSON.stringify(data);
-    console.log("data mi detalle: " + objJson);
-    console.log(data.series[0].par0);
-    var objJson = JSON.stringify(data);
-    console.log("data Json: " + objJson);
-    console.log(data);
-    console.log(objJson);
-    $.ajax({
-    method: "POST",
+        $("#guardarOrden").on("click", function () {
+        //e.preventDefault();
+        var orden = $("#orden").val(),
+        pedido = $("#pedido").val(),
+        f_emision = $("#f_emision").val(),
+        f_entrega = $("#f_entrega").val(),
+        total = $("#total").val(),
+        id_fichatecnica = $("#id_fichatecnica").val();
+        var url = $("#frmOrden").attr("action");
+        var cabecera = "#tabla-general-serie thead th",
+        cuerpo = "#tabla-general-serie tbody tr";
+        /*OBETNER DATA DE LA TABLA SERIE*/
+        var data = {"series": obtenerDataTabla(cabecera, cuerpo)};
+        var objJson = JSON.stringify(data);
+        console.log("data mi detalle: " + objJson);
+        console.log(data.series[0].par0);
+        var objJson = JSON.stringify(data);
+        console.log("data Json: " + objJson);
+        console.log(data);
+        console.log(objJson);
+        $.ajax({
+            method: "POST",
             url: url,
             data: {"detalle": objJson, "orden": orden, "pedido": pedido, "f_emision": f_emision, "f_entrega": f_entrega, "id_fichatecnica": id_fichatecnica, "total": total, "parametro": "registrarOrden"},
             success: function (info) {
-            console.log(info);
-            console.log(typeof info);
-            if (info === "false") {
-            new PNotify({//ver lo de la notificación
-            title: 'Mensaje de Advertencia',
-                    text: 'Ingrese todos los datos solicitados y también las series.',
-                    hide: false
-            });
-            } else if (info === "existe_orden") {
-            new PNotify({//ver lo de la notificación
-            title: 'Mensaje de Información',
+                console.log(info);
+                console.log(typeof info);
+                if (info === "false") {
+                    new PNotify({//ver lo de la notificación
+                        title: 'Mensaje de Advertencia',
+                        text: 'Ingrese todos los datos solicitados y también las series.',
+                        hide: false
+                    });
+                } else if (info === "existe_orden") {
+                new PNotify({//ver lo de la notificación
+                    title: 'Mensaje de Información',
                     text: 'El código de orden, ya existe.',
                     type: 'info'
-            });
-            } else if (info === "true") {
-            limpiarCamposOrden();
-            //location.reload();
-            new PNotify({//ver lo de la notificación
-            title: 'Mensaje de éxito',
+                });
+                } else if (info === "true") {
+                    limpiarCamposOrden();
+                //location.reload();
+                new PNotify({//ver lo de la notificación
+                    title: 'Mensaje de éxito',
                     text: 'Se guardaron los datos satisfactoriamente.',
                     type: 'success'
-            });
-            url = ""; //posible soloución hacer el reload cuando se haga click en la "x" de la notificación
-            resultVal = 0; //set resultVal
-            //location.reload();
+                });
+                url = ""; //posible soloución hacer el reload cuando se haga click en la "x" de la notificación
+                resultVal = 0; //set resultVal
+                //location.reload();
+                }
             }
-            }
+        });
     });
-    });
-    }
+}
 
-    function exportarOrden() {
-
+function exportarOrden() {
     $("#btnExport").click(function (e) {
-    e.preventDefault();
+        e.preventDefault();
     //getting data from our table
     var data_type = 'data:application/vnd.ms-excel;base64'; //"base64", para los caracteres raros
     var table_div = document.getElementById('dvData');
@@ -201,91 +205,91 @@
     a.click();
     });
     /*$("#btnExport").on("click", function (e) {
-     window.open('data:application/vnd.ms-excel,' + $('#dvData').html());
-     e.preventDefault();
-     });*/
-    }
-    function listarDetalleOrdenPorCodigo(valor) {
+    window.open('data:application/vnd.ms-excel,' + $('#dvData').html());
+    e.preventDefault();
+    });*/
+}
+function listarDetalleOrdenPorCodigo(valor) {
     var char = event.which || event.keyCode;
     var cod = valor.value;
     console.log(char + " cod: " + cod);
     if (char == "13") {//enter
-    event.preventDefault();
-    if (cod == "")
+        event.preventDefault();
+        if (cod == "")
             new PNotify({
-            title: 'Mensaje de Información',
-                    text: 'Ingresar campo Código de Orden',
-                    type: 'info',
-                    hide: false
+                title: 'Mensaje de Información',
+                text: 'Ingresar campo Código de Orden',
+                type: 'info',
+                hide: false
             });
-    else {
-    //alert("bien enter");
-    $.ajax({
-    method: "POST",
-            url: "../Sdetalleorden",
-            data: {"valor": cod, "parametro": "listarDetalleOrden"}
-    }).done(function (data) {
-    console.log(data);
-    if (data == "vacio") {
-    new PNotify({
-    title: 'Mensaje de Información',
-            text: 'Aún la orden no se asignado a un proceso.',
-            type: 'info',
-            hide: false
-    });
-    } else if (data == "noexisteorden") {
-    new PNotify({
-    title: 'Mensaje de Información',
-            text: 'El código de orden introducido, no existe.',
-            type: 'info',
-            hide: false
-    });
-    } else {
-    $("#tabla-detalleorden").html(data);
+        else {
+            //alert("bien enter");
+            $.ajax({
+                method: "POST",
+                url: "../Sdetalleorden",
+                data: {"valor": cod, "parametro": "listarDetalleOrden"}
+            }).done(function (data) {
+                console.log(data);
+                if (data == "vacio") {
+                    new PNotify({
+                        title: 'Mensaje de Información',
+                        text: 'Aún la orden no se asignado a un proceso.',
+                        type: 'info',
+                        hide: false
+                    });
+                } else if (data == "noexisteorden") {
+                    new PNotify({
+                        title: 'Mensaje de Información',
+                        text: 'El código de orden introducido, no existe.',
+                        type: 'info',
+                        hide: false
+                    });
+                } else {
+                    $("#tabla-detalleorden").html(data);
+                }
+            });
+        }
     }
-    });
-    }
-    }
-    }
+}
 
-    function asignarOrdenTrabajadorProceso() {
+function asignarOrdenTrabajadorProceso() {
     $("#frmAsignarOrden").on("submit", function (e) {
-    e.preventDefault();
-    var codigoorden = $("#orden").val().trim();
-    frm = $(this).serialize();
-    console.log(frm);
-    $.ajax({
-    url: "../Sdetalleorden",
+        e.preventDefault();
+        var codigoorden = $("#orden").val().trim();
+        frm = $(this).serialize();
+        console.log(frm);
+        $.ajax({
+            url: "../Sdetalleorden",
             method: "POST",
             data: frm
-    }).done(function (data) {
-    if (data == "true") {
-    new PNotify({
-    title: 'Mensaje de Información',
-            text: 'Se asignó la orden al trabajador correctamente.',
-            type: 'success'
+        }).done(function (data) {
+            if (data == "true") {
+                new PNotify({
+                    title: 'Mensaje de Información',
+                    text: 'Se asignó la orden al trabajador correctamente.',
+                    type: 'success'
+                });
+                actualizarTablaDetalleOrden(codigoorden);
+            } else if (data == "noexisteorden") {
+                new PNotify({
+                    title: 'Mensaje de Información',
+                    text: 'El código de orden introducido, no existe.',
+                    type: 'info',
+                    hide: false
+                });
+            } else if (data == "false"){
+                new PNotify({
+                    title: 'Mensaje de Información',
+                    text: 'No se asignó la orden al trabajador correctamente.',
+                    type: 'error',
+                    hide: false
+                });
+            }
+        });
     });
-    actualizarTablaDetalleOrden(codigoorden);
-    } else if (data == "noexisteorden") {
-    new PNotify({
-    title: 'Mensaje de Información',
-            text: 'El código de orden introducido, no existe.',
-            type: 'info',
-            hide: false
-    });
-    } else if (data == "false"){
-    new PNotify({
-    title: 'Mensaje de Información',
-            text: 'No se asignó la orden al trabajador correctamente.',
-            type: 'error',
-            hide: false
-    });
-    }
-    });
-    });
-    }
+}
 
-    function terminarProcesoOrden(x) {
+function terminarProcesoOrden(x) {
     var ho = $(x).parent().css({"color": "red", "border": "2px solid red"});
     var tr = $(x).parent().parent();
     console.log(tr);
@@ -293,62 +297,62 @@
     var codigoorden = tr[0].childNodes[1].innerHTML;
     console.log("codigo proceso:" + codigoorden);
     $.ajax({
-    method: "POST",
-            url: "../Sdetalleorden",
-            data: {"orden": codigoorden, "parametro": "terminarProcesoOrden"}
+        method: "POST",
+        url: "../Sdetalleorden",
+        data: {"orden": codigoorden, "parametro": "terminarProcesoOrden"}
     }).done(function (data) {
-    actualizarTablaDetalleOrden(codigoorden);
+        actualizarTablaDetalleOrden(codigoorden);
     });
-    }
+}
 
-    function actualizarTablaDetalleOrden(cod) {
+function actualizarTablaDetalleOrden(cod) {
     //coger codigo de la orden pero la tabla
     //alert("bien enter");
     $.ajax({
-    method: "POST",
-            url: "../Sdetalleorden",
-            data: {"valor": cod, "parametro": "listarDetalleOrden"}
+        method: "POST",
+        url: "../Sdetalleorden",
+        data: {"valor": cod, "parametro": "listarDetalleOrden"}
     }).done(function (data) {
-    $("#tabla-detalleorden").html(data);
+        $("#tabla-detalleorden").html(data);
     });
-    }
+}
 
-    function cambiarTrabajadoPorProceso() {
+function cambiarTrabajadoPorProceso() {
     var idproceso = document.getElementById("cboproceso").value;
     console.log("Id proceso: " + idproceso);
     comoboTrabajadoresPorProceso(idproceso);
-    }
+}
 
 
-    function comoboTrabajadoresPorProceso(idproceso) {
-    //idproceso = $("#cboproceso option:selected").attr("value");//ID del combo proceso
-    var parametro = "listarcomboTrabajador";
-    $.ajax({
+function comoboTrabajadoresPorProceso(idproceso) {
+//idproceso = $("#cboproceso option:selected").attr("value");//ID del combo proceso
+var parametro = "listarcomboTrabajador";
+$.ajax({
     method: "POST",
-            url: "../Strabajador",
-            data: {"parametro": parametro, "valor": idproceso}
-    }).done(function (data) {
+    url: "../Strabajador",
+    data: {"parametro": parametro, "valor": idproceso}
+}).done(function (data) {
     if (data != "")
-            $("#cbotrabajador").html(data);
-    });
-    }
+        $("#cbotrabajador").html(data);
+});
+}
 
-    function comboProceso() {
+function comboProceso() {
     var parametro = "listarcomboProceso";
     $.ajax({
-    method: "POST",
-            url: "../Sproceso",
-            data: {"parametro": parametro}
+        method: "POST",
+        url: "../Sproceso",
+        data: {"parametro": parametro}
     }).done(function (data) {
-    if (data != "")
+        if (data != "")
             $("#cboproceso").html(data);
-    else {
-    alert("no hay datos");
-    }
+        else {
+            alert("no hay datos");
+        }
     });
-    }
+}
 
-    function limpiarCamposOrden() {
+function limpiarCamposOrden() {
     $("#orden").val("");
     $("#pedido").val("");
     $("#f_emision").val("");
@@ -356,214 +360,213 @@
     $("#total").val("0");
     $("#ficha_tecnica").val("");
     $("#tabla-serie tr td").children().val("0");
-    }
+}
 
-    function validarCampos() {
+function validarCampos() {
     $("#generarTotal").on("click", function () {
-    var par1 = $("#par1").val(),
-            par2 = $("#par2").val(),
-            par3 = $("#par3").val(),
-            par4 = $("#par4").val(),
-            par5 = $("#par5").val(),
-            par6 = $("#par6").val(),
-            par7 = $("#par7").val();
-    console.log("par: " + par2);
-    if ((par1 != "") && (par2 != "") && (par3 != "") && (par4 != "") && (par5 != "") && (par6 != "") && (par7 != "")) {//validar que ningun campo este vacio
+        var par1 = $("#par1").val(),
+        par2 = $("#par2").val(),
+        par3 = $("#par3").val(),
+        par4 = $("#par4").val(),
+        par5 = $("#par5").val(),
+        par6 = $("#par6").val(),
+        par7 = $("#par7").val();
+        console.log("par: " + par2);
+if ((par1 != "") && (par2 != "") && (par3 != "") && (par4 != "") && (par5 != "") && (par6 != "") && (par7 != "")) {//validar que ningun campo este vacio
     generarTotal();
-    } else
-            alert("Llenar todos los campos");
-    });
-    }
+} else
+alert("Llenar todos los campos");
+});
+}
 
-    function generarTotal() {
+function generarTotal() {
     var sum = 0;
     var quantity = 0;
     $('.cantidad').each(function () {
-    var cantidad = $(this);
-    sum += parseInt(cantidad.val());
+        var cantidad = $(this);
+        sum += parseInt(cantidad.val());
     });
     $("#total").val(sum);
     console.log($("#total").val(sum));
-    }
+}
 
-    function obtenerDataTabla(cabecera, cuerpo) {//de la table series
+function obtenerDataTabla(cabecera, cuerpo) {//de la table series
     var columna = $(cabecera).map(function () {
-    return $(this).text();
+        return $(this).text();
     });
     var tablaObjecto = $(cuerpo).map(function (i) {
-    var fila = {};
-    $(this).find('input').each(function (i) {
-    var nombre_fila = columna[i];
-    var cantidad = ("par" + i);
-    var talla = ("talla" + i)
+        var fila = {};
+        $(this).find('input').each(function (i) {
+            var nombre_fila = columna[i];
+            var cantidad = ("par" + i);
+            var talla = ("talla" + i)
             fila[cantidad] = $(this).val();
-    fila[talla] = columna[i];
-    });
-    return fila;
-    // Don't forget .get() to convert the jQuery set to a regular array. || Igual ponerlo o no, es lo mismo
-    }).get();
+            fila[talla] = columna[i];
+        });
+        return fila;
+// Don't forget .get() to convert the jQuery set to a regular array. || Igual ponerlo o no, es lo mismo
+}).get();
     return tablaObjecto;
-    //console.log(tablaObjecto); 
-    }
+//console.log(tablaObjecto); 
+}
 
-    /*function agregarSerie() {
-     var table = document.getElementById("tabla-serie");
-     var row = table.insertRow(0);
-     cell1 = row.insertCell(0),
-     cell2 = row.insertCell(1),
-     cell3 = row.insertCell(2);
-     var talla = $("#talla").val(),
-     par = $("#par").val();
-     if (talla > 33 && talla < 41) {
-     cell1.innerHTML = talla;
-     cell2.innerHTML = par;
-     cell3.innerHTML = "<a href='#' onclick='eliminar(this);' ><i class='fa fa-remove'></i></a>"
-     cacularMonto();
-     } else {
-     alert("Ingresar tallas entre 34 y 40");
-     }
-     
-     $("#talla").val("").focus();
-     $("#par").val("");
-     }*/
+/*function agregarSerie() {
+var table = document.getElementById("tabla-serie");
+var row = table.insertRow(0);
+cell1 = row.insertCell(0),
+cell2 = row.insertCell(1),
+cell3 = row.insertCell(2);
+var talla = $("#talla").val(),
+par = $("#par").val();
+if (talla > 33 && talla < 41) {
+cell1.innerHTML = talla;
+cell2.innerHTML = par;
+cell3.innerHTML = "<a href='#' onclick='eliminar(this);' ><i class='fa fa-remove'></i></a>"
+cacularMonto();
+} else {
+alert("Ingresar tallas entre 34 y 40");
+}
 
-    /*function cacularMonto() {
-     resultVal += parseInt($("#par").val());
-     console.log(resultVal);
-     total = $("#total").val(resultVal.toString());
-     //total.innerHTML = resultVal;
-     }*/
+$("#talla").val("").focus();
+$("#par").val("");
+}*/
 
-    /*function eliminar(valor) {
-     var i = valor.parentNode.parentNode.rowIndex;
-     console.log("indice de la fila: " + (i - 1));
-     var valor_menos = document.getElementById("tabla-serie").rows[i - 1].cells.item(1).innerHTML;
-     console.log("valor a restar: " + valor_menos);
-     resultVal -= parseInt(valor_menos);
-     total = $("#total").val(resultVal.toString());
-     document.getElementById("tabla-serie").deleteRow(i - 1);
-     }*/
+/*function cacularMonto() {
+resultVal += parseInt($("#par").val());
+console.log(resultVal);
+total = $("#total").val(resultVal.toString());
+//total.innerHTML = resultVal;
+}*/
 
-    function logout() {
+/*function eliminar(valor) {
+var i = valor.parentNode.parentNode.rowIndex;
+console.log("indice de la fila: " + (i - 1));
+var valor_menos = document.getElementById("tabla-serie").rows[i - 1].cells.item(1).innerHTML;
+console.log("valor a restar: " + valor_menos);
+resultVal -= parseInt(valor_menos);
+total = $("#total").val(resultVal.toString());
+document.getElementById("tabla-serie").deleteRow(i - 1);
+}*/
+
+function logout() {
     $("#salir").on("click", function () {
-    document.getElementById("formlogout").submit();
+        document.getElementById("formlogout").submit();
     });
-    }
+}
 
-    function listarClientes(valor) {
-    //$("#listaModelos").on("click", function(){
+function listarClientes(valor) {
+//$("#listaModelos").on("click", function(){
     $.ajax({
-    method: "POST",
-            url: "../Scliente",
-            data: {"valor": valor, "parametro": "listarCliente"}
+        method: "POST",
+        url: "../Scliente",
+        data: {"valor": valor, "parametro": "listarCliente"}
     }).done(function (data) {
-    $("#tabla-cliente").html(data);
+        $("#tabla-cliente").html(data);
     });
-    // });        
-    }
+// });        
+}
 
-    function registrarcliente() {
+function registrarcliente() {
     $("#frmCliente").on("submit", function (e) {
-    e.preventDefault();
-    var estado = document.getElementById("estado").checked;
-    var razon = $("#razon").val(),
-            ruc = $("#ruc").val(),
-            direccion = $("#direccion").val();
-    $.ajax({
-    method: "POST",
+        e.preventDefault();
+        var estado = document.getElementById("estado").checked;
+        var razon = $("#razon").val(),
+        ruc = $("#ruc").val(),
+        direccion = $("#direccion").val();
+        $.ajax({
+            method: "POST",
             url: "../Scliente",
             data: {"parametro": "registrarCliente", "estado": estado, "razon": razon, "ruc": ruc, "direccion": direccion}
-    }).done(function (data) {
-    console.log("Se registro" + data);
-    if (data == "false") {
-    new PNotify({
-    title: 'Mensaje de Advertencia',
-            text: 'Ingrese todos los datos solicitados',
-            hide: false
-    });
-    } else if (data === "existe_cliente") {
-    new PNotify({//ver lo de la notificación
-    title: 'Mensaje de Información',
-            text: 'El número de ruc del cliente, ya existe.',
-            type: 'info'
-    });
-    } else if (data == "true") {
-    new PNotify({
-    title: 'Mensaje de éxito',
-            text: 'Se guardaron los datos satisfactoriamente.',
-            type: 'success'
-    });
-    }
+        }).done(function (data) {
+            console.log("Se registro" + data);
+            if (data == "false") {
+                new PNotify({
+                    title: 'Mensaje de Advertencia',
+                    text: 'Ingrese todos los datos solicitados',
+                    hide: false
+                });
+            } else if (data === "existe_cliente") {
+                new PNotify({//ver lo de la notificación
+                    title: 'Mensaje de Información',
+                    text: 'El número de ruc del cliente, ya existe.',
+                    type: 'info'
+                });
+            } else if (data == "true") {
+                new PNotify({
+                    title: 'Mensaje de éxito',
+                    text: 'Se guardaron los datos satisfactoriamente.',
+                    type: 'success'
+                });
+            }
 
-    var arreglo = ["#razon", "#ruc", "#direccion"];
-    limpiar(arreglo);
-    })//cierra done
+            var arreglo = ["#razon", "#ruc", "#direccion"];
+            limpiar(arreglo);
+        })//cierra done
     });
-    }
+}
 
-    function seleccionarCliente(x) {
+function seleccionarCliente(x) {
     var id = x.childNodes[1].lastChild.value,
-            razon_social = x.childNodes[2].innerHTML;
+    razon_social = x.childNodes[2].innerHTML;
     var rz_cliente = $("#cliente").val(razon_social),
-            id_cliente = $("#idcliente").val(id);
+    id_cliente = $("#idcliente").val(id);
     console.log(x.childNodes);
-    }
+}
 
-    function listarProveedoresPaginacion() {
-
+function listarProveedoresPaginacion() {
     tabla_paginacion_proveedor = $('#listaProveedor').DataTable({
-    //"scrollX": true
-    "bDestroy": true,
-    "searching": true,            
-            "ajax": {
+        //"scrollX": true
+        "bDestroy": true,
+        "searching": true,            
+        "ajax": {
             "url": "../Sproveedor",
-                    "type": "POST",
-                    "data": {"parametro": "listarProveedorPaginacion"}
-            },
-            "columnDefs": [
+            "type": "POST",
+            "data": {"parametro": "listarProveedorPaginacion"}
+        },
+        "columnDefs": [
             {"name": "RazónSocial", "targets": 0, "width": "200px"},
             {"name": "Ruc", "targets": 1, "width": "100px"},
             {"name": "Dirección", "targets": 2, "width": "250px"}
-            ],
-            "columns": [
+        ],
+        "columns": [
             {"data": "razonsocial"},
             {"data": "ruc"},
             {"data": "direccion"},
             {"defaultContent": "<button tipo='modificarProveedor' class='btn btn-info btn-xs'><i class='fa fa-edit'></i></button>", "width": "5px"}            
-            ],
-            language: lenguaje_espanol
+        ],
+        language: lenguaje_espanol
     });
     //tabla_paginacion_cliente.column(6).visible(false);
     obtenerDataProveedor('#listaProveedor tbody', tabla_paginacion_proveedor);
-    }
+}
 
-    function obtenerDataProveedor(lista, tabla) {
+function obtenerDataProveedor(lista, tabla) {
     $(lista).on('click', 'button', function () {
 
-    $("#oculatFrmEditarProveedor").slideDown("slow", function () {
-    $("#oculatFrmListadoProveedor").slideUp("slow");
-    });
-    var data = tabla.row($(this).parents('tr')).data();
-    console.log(data);
-    var parametro = $(this).attr("tipo").toString();
-    
-    console.log("parametro: " + parametro + " razon social: " + data.razonsocial);
-    if (parametro === "modificarProveedor") {
-    var razon = $("#razonsocial").val(data.razonsocial),
+        $("#oculatFrmEditarProveedor").slideDown("slow", function () {
+            $("#oculatFrmListadoProveedor").slideUp("slow");
+        });
+        var data = tabla.row($(this).parents('tr')).data();
+        console.log(data);
+        var parametro = $(this).attr("tipo").toString();
+
+        console.log("parametro: " + parametro + " razon social: " + data.razonsocial);
+        if (parametro === "modificarProveedor") {
+            var razon = $("#razonsocial").val(data.razonsocial),
             ruc = $("#ruc").val(data.ruc),
             direccion = $("#direccion").val(data.direccion),            
             idproveedor = $("#idproveedor").val(data.idproveedor);
-    
-    if (data.estado)
-            $("#estadoproveedor").prop("checked", true);
-    else
-            $("#estadoproveedor").prop('checked', false);
-    
-    }
+
+            if (data.estado)
+                $("#estadoproveedor").prop("checked", true);
+            else
+                $("#estadoproveedor").prop('checked', false);
+
+        }
     });
-    }
-    
-    function modificarProveedor() {
+}
+
+function modificarProveedor() {
 
     $("#btnCancelar").on("click", function () {
         $("#oculatFrmListadoProveedor").slideDown("slow", function () {
@@ -571,138 +574,137 @@
         });
     });
     $("#frmModificarProveedor").on("submit", function (e) {
-    e.preventDefault();
-    $("#oculatFrmListadoProveedor").slideDown("slow", function () {
-        $("#oculatFrmEditarProveedor").slideUp("slow");
-    });
-    modificar_checkbox($(this)); //modificar para poder enviar su valor, cuando se utilice la función serialize(), se pasa como parámetro el id del form            
-    var frm = $(this).serialize();
-    console.log("data modificar trabajador frm: " + frm);
-    var idproveedor = $("#idproveedor").val();
-    console.log("idproveedor: " + idproveedor);
-    $.ajax({
-    method: "POST",
+        e.preventDefault();
+        $("#oculatFrmListadoProveedor").slideDown("slow", function () {
+            $("#oculatFrmEditarProveedor").slideUp("slow");
+        });
+        modificar_checkbox($(this)); //modificar para poder enviar su valor, cuando se utilice la función serialize(), se pasa como parámetro el id del form            
+        var frm = $(this).serialize();
+        console.log("data modificar trabajador frm: " + frm);
+        var idproveedor = $("#idproveedor").val();
+        console.log("idproveedor: " + idproveedor);
+        $.ajax({
+            method: "POST",
             url: "../Sproveedor",
             data: frm
-    }).done(function (info) {
-    console.log(typeof info);
-    if (info == "false") {
-    new PNotify({//ver lo de la notificación
-    title: 'Mensaje de Advertencia',
-            text: 'Ingrese todos los datos solicitados',
-            hide: false
-    });
-    }else if (info == "true") {
-    new PNotify({//ver lo de la notificación
-    title: 'Mensaje de éxito',
-            text: 'Se modificaron los datos satisfactoriamente.',
-            type: 'success'
-    });
-    //$("#listaModelos").html("");
-    var arreglo = ["#razonsocial", "#ruc", "#direccion"];
-    limpiar(arreglo);
-    listarProveedoresPaginacion();
-    }
-    });
-    });
-    }
+        }).done(function (info) {
+            console.log(typeof info);
+            if (info == "false") {
+                new PNotify({//ver lo de la notificación
+                    title: 'Mensaje de Advertencia',
+                    text: 'Ingrese todos los datos solicitados',
+                    hide: false
+                });
+            }else if (info == "true") {
+                new PNotify({//ver lo de la notificación
+                    title: 'Mensaje de éxito',
+                    text: 'Se modificaron los datos satisfactoriamente.',
+                    type: 'success'
+                });
+                //$("#listaModelos").html("");
+                var arreglo = ["#razonsocial", "#ruc", "#direccion"];
+                limpiar(arreglo);
+                listarProveedoresPaginacion();
+            }
+            });
+        });
+}
 
-    function mostrarOrdenesTerminadas() {
+function mostrarOrdenesTerminadas() {
     $("#btnMostrarOrdenes").on("click", function () {
-    var f1 = $("#f_emision").val(),
-            f2 = $("#f_entrega").val();
-    listarOrdenesTerminadasPaginacion(f1, f2);
+        var f1 = $("#f_emision").val(),
+        f2 = $("#f_entrega").val();
+        listarOrdenesTerminadasPaginacion(f1, f2);
     });
-    }
+}
 
-    function listarOrdenesTerminadasPaginacion(fecha_uno, fecha_dos) {
+function listarOrdenesTerminadasPaginacion(fecha_uno, fecha_dos) {
 
     tabla_paginacion_orden = $('#listaOrdenesTerminadas').DataTable({
-    //"scrollX": true
-    "bDestroy": true,
-            "searching": false,
-            "processing": true,
-            "serverSide": true,
-            "ajax": {
+        //"scrollX": true
+        "bDestroy": true,
+        "searching": false,
+        "processing": true,
+        "serverSide": true,
+        "ajax": {
             "url": "../SOrden",
-                    "type": "POST",
-                    "data": {"parametro": "listarOrdenTerminadaPaginacion", "f_emision": fecha_uno, "f_entrega": fecha_dos}
-            },
-            "columnDefs": [
+            "type": "POST",
+            "data": {"parametro": "listarOrdenTerminadaPaginacion", "f_emision": fecha_uno, "f_entrega": fecha_dos}
+        },
+        "columnDefs": [
             {"name": "CodigoOrden", "targets": 0, "width": "200px"},
             {"name": "OrdenPedido", "targets": 1, "width": "100px"},
             {"name": "FechaEntrega", "targets": 2, "width": "250px"},
             {"name": "CodigoFicha", "targets": 3, "width": "250px"},
             {"name": "Total", "targets": 4, "width": "250px"}
-            ],
-            "columns": [
+        ],
+        "columns": [
             {"data": "codigoorden"},
             {"data": "orden_pedido"},
             {"data": "fecha_entrega"},
             {"data": "objFicha.codigoficha"},
             {"data": "total"}
-            ],
-            language: lenguaje_espanol
-    });
-    //tabla_paginacion_orden.column(6).visible(false);
-    //mantenedoresClientes('#listaCliente tbody', tabla_paginacion_cliente);
-    }
+        ],
+        language: lenguaje_espanol
+        });
+        //tabla_paginacion_orden.column(6).visible(false);
+        //mantenedoresClientes('#listaCliente tbody', tabla_paginacion_cliente);
+}
 
-    function listarClientesPaginacion() {
-
+function listarClientesPaginacion() {
     tabla_paginacion_cliente = $('#listaCliente').DataTable({
-    //"scrollX": true
-    "bDestroy": true,
-    "searching": true,            
-            "ajax": {
+        //"scrollX": true
+        "bDestroy": true,
+        "searching": true,            
+        "ajax": {
             "url": "../Scliente",
-                    "type": "POST",
-                    "data": {"parametro": "listarClientePaginacion"}
-            },
-            "columnDefs": [
+            "type": "POST",
+            "data": {"parametro": "listarClientePaginacion"}
+        },
+        "columnDefs": [
             {"name": "RazónSocial", "targets": 0, "width": "200px"},
             {"name": "Ruc", "targets": 1, "width": "100px"},
             {"name": "Dirección", "targets": 2, "width": "250px"}
-            ],
-            "columns": [
+        ],
+        "columns": [
             {"data": "razonsocial"},
             {"data": "ruc"},
             {"data": "direccion"},
             {"defaultContent": "<button tipo='modificarCliente' class='btn btn-info btn-xs'><i class='fa fa-edit'></i></button>", "width": "5px"}
-            ],
-            language: lenguaje_espanol
-    });
-    //tabla_paginacion_cliente.column(6).visible(false);
-    obtenerDataCliente('#listaCliente tbody', tabla_paginacion_cliente);
-    }
+        ],
+        language: lenguaje_espanol
+        });
+        //tabla_paginacion_cliente.column(6).visible(false);
+        obtenerDataCliente('#listaCliente tbody', tabla_paginacion_cliente);
+}
 
-    function obtenerDataCliente(lista, tabla) {
+function obtenerDataCliente(lista, tabla) {
     $(lista).on('click', 'button', function () {
 
-    $("#oculatFrmEditarCliente").slideDown("slow", function () {
-    $("#oculatFrmListadoCliente").slideUp("slow");
-    });
-    var data = tabla.row($(this).parents('tr')).data();
-    console.log(data);
-    var parametro = $(this).attr("tipo").toString();
-    
-    console.log("parametro: " + parametro + " dni: " + data.dni);
-    if (parametro === "modificarCliente") {
-    var razon = $("#razonsocial").val(data.razonsocial),
+        $("#oculatFrmEditarCliente").slideDown("slow", function () {
+            $("#oculatFrmListadoCliente").slideUp("slow");
+        });
+        var data = tabla.row($(this).parents('tr')).data();
+        console.log(data);
+        var parametro = $(this).attr("tipo").toString();
+
+        console.log("parametro: " + parametro + " dni: " + data.dni);
+        if (parametro === "modificarCliente") {
+            var razon = $("#razonsocial").val(data.razonsocial),
             ruc = $("#ruc").val(data.ruc),
             direccion = $("#direccion").val(data.direccion),            
             idcliente = $("#idcliente").val(data.idcliente);
-    
-    if (data.estado)
-            $("#estadocliente").prop("checked", true);
-    else
-            $("#estadocliente").prop('checked', false);
-    
-    }
+
+            if (data.estado)
+                $("#estadocliente").prop("checked", true);
+            else
+                $("#estadocliente").prop('checked', false);
+
+        }
     });
-    }
-    
-    function modificarCliente() {
+}
+
+function modificarCliente() {
 
     $("#btnCancelar").on("click", function () {
         $("#oculatFrmListadoCliente").slideDown("slow", function () {
@@ -710,68 +712,68 @@
         });
     });
     $("#frmModificarCliente").on("submit", function (e) {
-    e.preventDefault();
-    $("#oculatFrmListadoCliente").slideDown("slow", function () {
-        $("#oculatFrmEditarCliente").slideUp("slow");
-    });
-    modificar_checkbox($(this)); //modificar para poder enviar su valor, cuando se utilice la función serialize(), se pasa como parámetro el id del form            
-    var frm = $(this).serialize();
-    console.log("data modificar trabajador frm: " + frm);
-    var idcliente = $("#idcliente").val();
-    console.log("id_cliente: " + idcliente);
-    $.ajax({
+        e.preventDefault();
+        $("#oculatFrmListadoCliente").slideDown("slow", function () {
+            $("#oculatFrmEditarCliente").slideUp("slow");
+        });
+modificar_checkbox($(this)); //modificar para poder enviar su valor, cuando se utilice la función serialize(), se pasa como parámetro el id del form            
+var frm = $(this).serialize();
+console.log("data modificar trabajador frm: " + frm);
+var idcliente = $("#idcliente").val();
+console.log("id_cliente: " + idcliente);
+$.ajax({
     method: "POST",
-            url: "../Scliente",
-            data: frm
-    }).done(function (info) {
+    url: "../Scliente",
+    data: frm
+}).done(function (info) {
     console.log(typeof info);
     if (info == "false") {
-    new PNotify({//ver lo de la notificación
+new PNotify({//ver lo de la notificación
     title: 'Mensaje de Advertencia',
-            text: 'Ingrese todos los datos solicitados',
-            hide: false
-    });
-    }else if (info == "true") {
-    new PNotify({//ver lo de la notificación
+    text: 'Ingrese todos los datos solicitados',
+    hide: false
+});
+}else if (info == "true") {
+new PNotify({//ver lo de la notificación
     title: 'Mensaje de éxito',
-            text: 'Se modificaron los datos satisfactoriamente.',
-            type: 'success'
-    });
-    //$("#listaModelos").html("");
-    var arreglo = ["#nombres", "#ape_paterno", "#ape_materno", "#dni", "#direccion", "#telefono", "#celular", "#usuario", "#fecha_nacimiento", "#proceso"];
-    limpiar(arreglo);
-        
-    $("#tabla-proceso").html("");    
-    listarClientesPaginacion();
-    }
-    });
-    });
-    }
+    text: 'Se modificaron los datos satisfactoriamente.',
+    type: 'success'
+});
+//$("#listaModelos").html("");
+var arreglo = ["#nombres", "#ape_paterno", "#ape_materno", "#dni", "#direccion", "#telefono", "#celular", "#usuario", "#fecha_nacimiento", "#proceso"];
+limpiar(arreglo);
 
-    function mostrarModelosYFichas() {
+$("#tabla-proceso").html("");    
+listarClientesPaginacion();
+}
+});
+});
+}
+
+function mostrarModelosYFichas() {
     $("#btnMostrarFichasPorModelo").on("click", function (e) {
-    e.preventDefault();
-    var modelo = $("#codigo_modelo").val();
-    listarModelosPaginacion(modelo.trim());
+        e.preventDefault();
+        var modelo = $("#codigo_modelo").val();
+        listarModelosPaginacion(modelo.trim());
     });
-    }
+}
 
-    function listarModelosPaginacion(modelo) {//listar modelos con sus fichas tecnicas
+function listarModelosPaginacion(modelo) {//listar modelos con sus fichas tecnicas
 
     tabla_paginacion_modelo = $('#listaModelos').DataTable({
-    //"scrollX": true
-    "bDestroy": true,
-            "searching": false,
-            "processing": true,
-            "serverSide": true,
-            "ajax": {
+        //"scrollX": true
+        "bDestroy": true,
+        "searching": false,
+        "processing": true,
+        "serverSide": true,
+        "ajax": {
             "url": "../Smodelo",
-                    "type": "POST",
-                    "data": {"parametro": "listarFichaTecnicaPaginacion", "codigo_modelo": modelo}
-            //"dataSrc": "animes"
-            },
-            //ft.codigomodelo, horma, , , , , , c.idcliente, c.razonsocial
-            "columnDefs": [
+            "type": "POST",
+            "data": {"parametro": "listarFichaTecnicaPaginacion", "codigo_modelo": modelo}
+        //"dataSrc": "animes"
+        },
+        //ft.codigomodelo, horma, , , , , , c.idcliente, c.razonsocial
+        "columnDefs": [
             {"name": "codigomodelo", "targets": 0},
             {"name": "codigoficha", "targets": 1, "width": "5px"},
             {"name": "color", "targets": 2},
@@ -781,8 +783,8 @@
             {"name": "coleccion", "targets": 6, "width": "10px"},
             {"name": "idcliente", "targets": 7},
             {"name": "razonsocial", "targets": 8},
-            ],
-            "columns": [
+        ],
+        "columns": [
             {"data": "objModelo.codigomodelo"},
             {"data": "codigoficha"},
             {"data": "color"},
@@ -791,25 +793,25 @@
             {"data": "plataforma"},
             {"data": "coleccion"},
             {"data": "objModelo.objCliente.idcliente"},
-            {"data": "objModelo.objCliente.razonsocial"},
-            {"defaultContent": "<button tipo='modificarModelo' class='btn btn-info btn-xs'><i class='fa fa-edit'></i></button>", "width": "5px"}
-            //{"defaultContent": "<button tipo='eliminarModelo' class='btn btn-danger btn-xs'><i class='fa fa-remove'></i></button>", "width":"5px"}
-            ],
-            language: lenguaje_espanol
-    });
-    tabla_paginacion_modelo.column(7).visible(false);
-    obtenerDataModelo('#listaModelos tbody', tabla_paginacion_modelo);
-    }
+            {"data": "objModelo.objCliente.razonsocial"}
+        //{"defaultContent": "<button tipo='modificarModelo' class='btn btn-info btn-xs'><i class='fa fa-edit'></i></button>", "width": "5px"}
+        //{"defaultContent": "<button tipo='eliminarModelo' class='btn btn-danger btn-xs'><i class='fa fa-remove'></i></button>", "width":"5px"}
+        ],
+        language: lenguaje_espanol
+        });
+        tabla_paginacion_modelo.column(7).visible(false);
+        obtenerDataModelo('#listaModelos tbody', tabla_paginacion_modelo);
+}
 
-    function obtenerDataModelo(lista, tabla) {
+function obtenerDataModelo(lista, tabla) {
     $(lista).on('click', 'button', function () {
-    var data = tabla.row($(this).parents('tr')).data();
-    console.log(data);
-    var parametro = $(this).attr("tipo").toString();
-    var divEditar = document.getElementById("editarModelo");
-    console.log("parametro: " + parametro + " codigo: " + data.codigoficha);
-    if (parametro === "modificarModelo") {
-    var idcliente = $("#idcliente").val(data.objCliente.idcliente),
+        var data = tabla.row($(this).parents('tr')).data();
+        console.log(data);
+        var parametro = $(this).attr("tipo").toString();
+        var divEditar = document.getElementById("editarModelo");
+        console.log("parametro: " + parametro + " codigo: " + data.codigoficha);
+        if (parametro === "modificarModelo") {
+            var idcliente = $("#idcliente").val(data.objCliente.idcliente),
             modelo = $("#modelo").val(data.codigomodelo),
             cliente = $("#cliente").val(data.objCliente.razonsocial),
             horma = $("#horma").val(data.horma),
@@ -817,136 +819,159 @@
             plataforma = $("#plataforma").val(data.plataforma),
             coleccion = $("#coleccion").val(data.coleccion),
             especificacion = $("#especificacion").val(data.especificacion);
-    //estado = $("#").val();
-    if (data.estado)
-            $("#estadomodelo").prop("checked", true);
-    else
-            $("#estadomodelo").prop('checked', false);
-    divEditar.style.display = 'block';
-    } else if (parametro == "eliminarModelo") {
-    divEditar.style.display = 'none';
-    }
+            //estado = $("#").val();
+            if (data.estado)
+                $("#estadomodelo").prop("checked", true);
+            else
+                $("#estadomodelo").prop('checked', false);
+            divEditar.style.display = 'block';
+            } else if (parametro == "eliminarModelo") {
+                divEditar.style.display = 'none';
+            }
     });
-    }
+}
 
-    function editarModelo() {
+function editarModelo() {
     $("#frmModeloEditar").on("submit", function (e) {
-    e.preventDefault();
-    modificar_checkbox($(this)); //modificar para poder enviar su valor, cuando se utilice la función serialize(), se pasa como parámetro el id del form            
-    var frm = $(this).serialize();
-    console.log("data frm: " + frm);
-    $.ajax({
-    method: "POST",
+        e.preventDefault();
+        modificar_checkbox($(this)); //modificar para poder enviar su valor, cuando se utilice la función serialize(), se pasa como parámetro el id del form            
+        var frm = $(this).serialize();
+        console.log("data frm: " + frm);
+        $.ajax({
+            method: "POST",
             url: "../Smodelo",
             data: frm
-    }).done(function (info) {
-    console.log(typeof info);
-    if (info == "false") {
-    new PNotify({//ver lo de la notificación
-    title: 'Mensaje de Advertencia',
-            text: 'Ingrese todos los datos solicitados',
-            hide: false
+        }).done(function (info) {
+            console.log(typeof info);
+            if (info == "false") {
+                new PNotify({//ver lo de la notificación
+                    title: 'Mensaje de Advertencia',
+                    text: 'Ingrese todos los datos solicitados',
+                    hide: false
+                });
+            } else if (info) {
+                new PNotify({//ver lo de la notificación
+                    title: 'Mensaje de éxito',
+                    text: 'Se modificaron los datos satisfactoriamente.',
+                    type: 'success'
+                });
+                //$("#listaModelos").html("");
+                tabla_paginacion_modelo.destroy();
+                listarModelosPaginacion();
+            }
+        });
     });
-    } else if (info) {
-    new PNotify({//ver lo de la notificación
-    title: 'Mensaje de éxito',
-            text: 'Se modificaron los datos satisfactoriamente.',
-            type: 'success'
-    });
-    //$("#listaModelos").html("");
-    tabla_paginacion_modelo.destroy();
-    listarModelosPaginacion();
-    }
-    });
-    });
-    }
+}
 
-    function registrarModelo() {
+function iniciar_Editor_Modelo(){
+    $("#especificacion_editor").summernote({
+        height: 100,
+        toolbar: false,
+        placeholder: 'Ingresar especificaciones.',
+        hint: {
+            words: ['CORTADO', 'APARADO', 'ARMADO', 'ALISTADO'],
+            match: /\b(\w{1,})$/,
+            search: function (keyword, callback) {
+                callback($.grep(this.words, function (item) {
+                    return item.indexOf(keyword) === 0;
+                }));
+            }
+        }
+    });
+}
+
+function registrarModelo() {
     $("#frmModeloRegistrar").on("submit", function (e) {
-    e.preventDefault();
-    /*var idcliente = $("#idcliente").val(),
-     modelo = $("#modelo").val(),
-     horma = $("#horma").val(),
-     ficha_tecnica = $("#ficha_tecnica").val(),
-     taco = $("#taco").val(),
-     plataforma = $("#plataforma").val(),
-     coleccion = $("#coleccion").val(),
-     especificacion = $("#especificacion").val(),
-     estadomodelo = $("#estadomodelo").prop("checked");
-     console.log(idcliente, " ", modelo, " estado: " + estadomodelo);*/
-    modificar_checkbox($(this));
-    var frm = $(this).serialize();
-    console.log(frm);
-    $.ajax({
-    method: "POST",
+        e.preventDefault();
+        /*var idcliente = $("#idcliente").val(),
+        modelo = $("#modelo").val(),
+        horma = $("#horma").val(),
+        ficha_tecnica = $("#ficha_tecnica").val(),
+        taco = $("#taco").val(),
+        plataforma = $("#plataforma").val(),
+        coleccion = $("#coleccion").val(),
+        especificacion = $("#especificacion").val(),
+        estadomodelo = $("#estadomodelo").prop("checked");
+        console.log(idcliente, " ", modelo, " estado: " + estadomodelo);*/
+
+        var texto_editor = $("#especificacion_editor").summernote("code");
+        var especificacion = $("#especificacion").val( texto_editor );
+
+
+        modificar_checkbox($(this));
+        var frm = $(this).serialize();
+        console.log(frm);
+        $.ajax({
+            method: "POST",
             url: "../Smodelo",
             data: frm
-            //data: {"parametro": "registrarModelo", "idcliente": idcliente, "ficha_tecnica": ficha_tecnica , "modelo": modelo, "horma": horma, "taco": taco, "plataforma": plataforma, "coleccion": coleccion, "especificacion": especificacion, "estadomodelo": estadomodelo}
-    }).done(function (info) {
-    console.log(typeof info);
-    console.log(info);
-    if (info == "existe_ficha") {
-    new PNotify({
-    title: 'Mensaje de Advertencia',
-            text: 'Ficha Técnica, ya existe.',
-            type: 'info'
+        //data: {"parametro": "registrarModelo", "idcliente": idcliente, "ficha_tecnica": ficha_tecnica , "modelo": modelo, "horma": horma, "taco": taco, "plataforma": plataforma, "coleccion": coleccion, "especificacion": especificacion, "estadomodelo": estadomodelo}
+        }).done(function (info) {
+            console.log(typeof info);
+            console.log(info);
+            if (info == "existe_ficha") {
+                new PNotify({
+                    title: 'Mensaje de Advertencia',
+                    text: 'Ficha Técnica, ya existe.',
+                    type: 'info'
+                });
+            }
+            if (info == "existe") {
+                new PNotify({
+                    title: 'Mensaje de Advertencia',
+                    text: 'Código Modelo, ya existe.',
+                    type: 'info'
+                });
+            } else if (info == "false") {
+                new PNotify({
+                    title: 'Mensaje de Advertencia',
+                    text: 'Ingrese todos los datos solicitados',
+                    hide: false
+                });
+            } else if (info == "true") {
+                new PNotify({
+                    title: 'Mensaje de éxito',
+                    text: 'Se guardaron los datos satisfactoriamente.',
+                    type: 'success'
+                });
+                $("#frmModeloRegistrar").find("input[type='text']").val("");
+                $("#especificacion").val("");//aqui ver espeficicacion_modelo
+                $("#especificacion_editor").summernote("code", "");//limpiar
+                $("#tabla-cliente").html(""); //agregue esto aqui pero ver por errores.
+            }
+        });
     });
-    }
-    if (info == "existe") {
-    new PNotify({
-    title: 'Mensaje de Advertencia',
-            text: 'Código Modelo, ya existe.',
-            type: 'info'
-    });
-    } else if (info == "false") {
-    new PNotify({
-    title: 'Mensaje de Advertencia',
-            text: 'Ingrese todos los datos solicitados',
-            hide: false
-    });
-    } else if (info == "true") {
-    new PNotify({
-    title: 'Mensaje de éxito',
-            text: 'Se guardaron los datos satisfactoriamente.',
-            type: 'success'
-    });
-    $("#frmModeloRegistrar").find("input[type='text']").val("");
-    $("#especificacion").val("");
-    $("#tabla-cliente").html(""); //agregue esto aqui pero ver por errores.
-    }
-    });
-    });
-    }
+}
 
-    function listarTrabajadoresPaginacion() {
+function listarTrabajadoresPaginacion() {
     tabla_paginacion_trabajador = $('#listaTrabajador').DataTable({
-    //"scrollX": true
-    "bDestroy": true,
-            "searching": true,            
-            "ajax": {
+        //"scrollX": true
+        "bDestroy": true,
+        "searching": true,            
+        "ajax": {
             "url": "../Strabajador",
-                    "type": "POST",
-                    "data": {"parametro": "listarTrabajadorPaginacion"}
-            //"dataSrc": "animes"
-            },
-            "columns": [
-                {"data": "idempleado"},                
-                {"data": "nombres"},
-                {"data": "ape_paterno"},
-                {"data": "ape_materno"},
-                {"data": "dni"},
-                {"data": "direccion"},
-                {"data": "telefono"},
-                {"data": "celular"},
-                {"data": "fecha_nacimiento"},
-                {"data": "usuario"},
-                {"data": "contrasena"},
-                {"data": "estado"},
-                {"data": "objProceso.descripcion"},
+            "type": "POST",
+            "data": {"parametro": "listarTrabajadorPaginacion"}
+        //"dataSrc": "animes"
+        },
+        "columns": [
+            {"data": "idempleado"},
+            {"data": "nombres"},
+            {"data": "ape_paterno"},
+            {"data": "ape_materno"},
+            {"data": "dni"},
+            {"data": "direccion"},
+            {"data": "telefono"},
+            {"data": "celular"},
+            {"data": "fecha_nacimiento"},
+            {"data": "usuario"},
+            {"data": "contrasena"},
+            {"data": "estado"},
+            {"data": "objProceso.descripcion"},
             {"defaultContent": "<button tipo='modificarTrabajador' class='btn btn-info btn-xs rojo'><i class='fa fa-edit'></i></button>", "width": "5px"}
-            //{"defaultContent": "<button tipo='eliminarMaterial' class='btn btn-danger btn-xs'><i class='fa fa-remove'></i></button>", "width": "5px"}
-            ],
-            language: lenguaje_espanol
+        //{"defaultContent": "<button tipo='eliminarMaterial' class='btn btn-danger btn-xs'><i class='fa fa-remove'></i></button>", "width": "5px"}
+        ],
+        language: lenguaje_espanol
     });
     tabla_paginacion_trabajador.column(0).visible(false);
     tabla_paginacion_trabajador.column(5).visible(false);
@@ -954,21 +979,21 @@
     tabla_paginacion_trabajador.column(10).visible(false);//password
     tabla_paginacion_trabajador.column(11).visible(false);
     obtenerDataTrabajador('#listaTrabajador tbody', tabla_paginacion_trabajador);
-    }
+}
 
-    function obtenerDataTrabajador(lista, tabla) {
+function obtenerDataTrabajador(lista, tabla) {
     $(lista).on('click', 'button', function () {
 
-    $("#oculatFrmEditarTrabajador").slideDown("slow", function () {
-    $("#oculatFrmListadoTrabajador").slideUp("slow");
-    });
-    var data = tabla.row($(this).parents('tr')).data();
-    console.log(data);
-    var parametro = $(this).attr("tipo").toString();
-    var divEditar = document.getElementById("editarMaterial");
-    console.log("parametro: " + parametro + " dni: " + data.dni);
-    if (parametro === "modificarTrabajador") {
-    var nombres = $("#nombres").val(data.nombres),
+        $("#oculatFrmEditarTrabajador").slideDown("slow", function () {
+            $("#oculatFrmListadoTrabajador").slideUp("slow");
+        });
+        var data = tabla.row($(this).parents('tr')).data();
+        console.log(data);
+        var parametro = $(this).attr("tipo").toString();
+        var divEditar = document.getElementById("editarMaterial");
+        console.log("parametro: " + parametro + " dni: " + data.dni);
+        if (parametro === "modificarTrabajador") {
+            var nombres = $("#nombres").val(data.nombres),
             ape_paterno = $("#ape_paterno").val(data.ape_paterno),
             ape_materno = $("#ape_materno").val(data.ape_materno),
             direccion = $("#direccion").val(data.direccion),
@@ -980,13 +1005,13 @@
             proceso = $("#proceso").val(data.objProceso.descripcion),
             id_proceso = $("#id_proceso").val(data.objProceso.codigoproceso),
             id_empleado = $("#id_empleado").val(data.idempleado);            
-    //especificacion = $("#especificacion").val(data.especificacion);
-    //estado = $("#").val();
-    }
+        //especificacion = $("#especificacion").val(data.especificacion);
+        //estado = $("#").val();
+        }
     });
-    }
+}
 
-    function modificarTrabajador() {
+function modificarTrabajador() {
 
     $("#btnCancelar").on("click", function () {
         $("#oculatFrmListadoTrabajador").slideDown("slow", function () {
@@ -994,66 +1019,64 @@
         });
     });
     $("#frmModificarTrabajador").on("submit", function (e) {
-    e.preventDefault();
-    $("#oculatFrmListadoTrabajador").slideDown("slow", function () {
-        $("#oculatFrmEditarTrabajador").slideUp("slow");
-    });
-    modificar_checkbox($(this)); //modificar para poder enviar su valor, cuando se utilice la función serialize(), se pasa como parámetro el id del form            
-    var frm = $(this).serialize();
-    console.log("data modificar trabajador frm: " + frm);
-    var id_empleado = $("#id_empleado").val();
-    console.log("id_empleado: " + id_empleado);
-    $.ajax({
-    method: "POST",
+        e.preventDefault();
+        $("#oculatFrmListadoTrabajador").slideDown("slow", function () {
+            $("#oculatFrmEditarTrabajador").slideUp("slow");
+        });
+        modificar_checkbox($(this)); //modificar para poder enviar su valor, cuando se utilice la función serialize(), se pasa como parámetro el id del form            
+        var frm = $(this).serialize();
+        console.log("data modificar trabajador frm: " + frm);
+        var id_empleado = $("#id_empleado").val();
+        console.log("id_empleado: " + id_empleado);
+        $.ajax({
+            method: "POST",
             url: "../Strabajador",
             data: frm
-    }).done(function (info) {
-    console.log(typeof info);
-    if (info == "false") {
-    new PNotify({//ver lo de la notificación
-    title: 'Mensaje de Advertencia',
-            text: 'Ingrese todos los datos solicitados',
-            hide: false
-    });
-    } else if (info) {
-    new PNotify({//ver lo de la notificación
-    title: 'Mensaje de éxito',
-            text: 'Se modificaron los datos satisfactoriamente.',
-            type: 'success'
-    });
-    //$("#listaModelos").html("");
-    var arreglo = ["#nombres", "#ape_paterno", "#ape_materno", "#dni", "#direccion", "#telefono", "#celular", "#usuario", "#fecha_nacimiento", "#proceso"];
-    limpiar(arreglo);
-        
-    $("#tabla-proceso").html("");    
-    listarTrabajadoresPaginacion();
-    }
-    });
-    });
-    }
+        }).done(function (info) {
+            console.log(typeof info);
+            if (info == "false") {
+                new PNotify({//ver lo de la notificación
+                    title: 'Mensaje de Advertencia',
+                    text: 'Ingrese todos los datos solicitados',
+                    hide: false
+                });
+            } else if (info) {
+                new PNotify({//ver lo de la notificación
+                    title: 'Mensaje de éxito',
+                    text: 'Se modificaron los datos satisfactoriamente.',
+                    type: 'success'
+                });
+                //$("#listaModelos").html("");
+                var arreglo = ["#nombres", "#ape_paterno", "#ape_materno", "#dni", "#direccion", "#telefono", "#celular", "#usuario", "#fecha_nacimiento", "#proceso"];
+                limpiar(arreglo);
 
-    function mostrarMaterialesPorFicha() {
+                $("#tabla-proceso").html("");    
+                listarTrabajadoresPaginacion();
+            }
+        });
+    });
+}
+
+function mostrarMaterialesPorFicha() {
     $("#btnMostrarMaterialesPorFicha").on("click", function (e) {
-    e.preventDefault();
-    var ficha = $("#ficha_tecnica").val();
-    listarMaterialesPaginacion(ficha.trim());
+        e.preventDefault();
+        var ficha = $("#ficha_tecnica").val();
+        listarMaterialesPaginacion(ficha.trim());
     });
-    }
+}
 
-    function listarMaterialesPaginacion(ficha) {
+function listarMaterialesPaginacion(ficha) {
     tabla_paginacion_material = $('#listaMateriales').DataTable({
-    //"scrollX": true
-    "bDestroy": true,
-            "searching": false,
-            "processing": true,
-            "serverSide": true,
-            "ajax": {
+        //"scrollX": true
+        "bDestroy": true,
+        "searching": true,        
+        "ajax": {
             "url": "../Smaterial",
-                    "type": "POST",
-                    "data": {"parametro": "listarMaterialPaginacion", "ficha_tecnica": ficha}
-            //"dataSrc": "animes"
-            },
-            "columns": [
+            "type": "POST",
+            "data": {"parametro": "listarMaterialPaginacion", "ficha_tecnica": ficha}
+        //"dataSrc": "animes"
+        },
+        "columns": [
             {"data": "idmaterial"},
             {"data": "nombre"},
             {"data": "descripcion"},
@@ -1068,28 +1091,28 @@
             {"data": "objFichaTecnica.codigoficha", "width": "5px"},
             {"defaultContent": "<button tipo='modificarMaterial' class='btn btn-info btn-xs rojo'><i class='fa fa-edit'></i></button>", "width": "5px"}
             //{"defaultContent": "<button tipo='eliminarMaterial' class='btn btn-danger btn-xs'><i class='fa fa-remove'></i></button>", "width": "5px"}
-            ],
-            language: lenguaje_espanol
-    });
-    tabla_paginacion_material.column(0).visible(false);
-    tabla_paginacion_material.column(7).visible(false);
-    tabla_paginacion_material.column(9).visible(false);
-    obtenerDataMaterial('#listaMateriales tbody', tabla_paginacion_material);
-    }
+        ],
+        language: lenguaje_espanol
+        });
+        tabla_paginacion_material.column(0).visible(false);
+        tabla_paginacion_material.column(7).visible(false);
+        tabla_paginacion_material.column(9).visible(false);
+        obtenerDataMaterial('#listaMateriales tbody', tabla_paginacion_material);
+}
 
-    function obtenerDataMaterial(lista, tabla) {
+function obtenerDataMaterial(lista, tabla) {
     $(lista).on('click', 'button', function () {
 
-    $("#oculatFrmEditarMaterial").slideDown("slow", function () {
-    $("#oculatFrmListadoMaterial").slideUp("slow");
-    });
-    var data = tabla.row($(this).parents('tr')).data();
-    console.log(data);
-    var parametro = $(this).attr("tipo").toString();
-    var divEditar = document.getElementById("editarMaterial");
-    console.log("parametro: " + parametro + " codigo: " + data.descripcion);
-    if (parametro === "modificarMaterial") {
-    var descripcion = $("#descripcion").val(data.descripcion),
+        $("#oculatFrmEditarMaterial").slideDown("slow", function () {
+            $("#oculatFrmListadoMaterial").slideUp("slow");
+        });
+        var data = tabla.row($(this).parents('tr')).data();
+        console.log(data);
+        var parametro = $(this).attr("tipo").toString();
+        var divEditar = document.getElementById("editarMaterial");
+        console.log("parametro: " + parametro + " codigo: " + data.descripcion);
+        if (parametro === "modificarMaterial") {
+            var descripcion = $("#descripcion").val(data.descripcion),
             unidad_medida = $("#unidad_medida").val(data.unidadmedida),
             nombre = $("#nombre").val(data.nombre),
             tipo = $("#tipo").val(data.tipo),
@@ -1102,205 +1125,205 @@
             id_proceso = $("#id_proceso").val(data.objProceso.codigoproceso),
             id_material = $("#id_material").val(data.idmaterial),
             id_proveedor = $("#id_proveedor").val(data.objProveedor.idproveedor);
-    //especificacion = $("#especificacion").val(data.especificacion);
-    //estado = $("#").val();
+//especificacion = $("#especificacion").val(data.especificacion);
+//estado = $("#").val();
 
-    //divEditar.style.display = 'block';
-    } /*else if (parametro == "eliminarModelo") {
-     divEditar.style.display = 'none';
-     }*/
-    });
-    }
+//divEditar.style.display = 'block';
+} /*else if (parametro == "eliminarModelo") {
+divEditar.style.display = 'none';
+}*/
+});
+}
 
-    function modificarMaterial() {
+function modificarMaterial() {
 
     $("#btnCancelar").on("click", function () {
-    $("#oculatFrmListadoMaterial").slideDown("slow", function () {
-    $("#oculatFrmEditarMaterial").slideUp("slow");
-    });
+        $("#oculatFrmListadoMaterial").slideDown("slow", function () {
+            $("#oculatFrmEditarMaterial").slideUp("slow");
+        });
     });
     $("#frmModificarMaterial").on("submit", function (e) {
-    e.preventDefault();
-    $("#oculatFrmListadoMaterial").slideDown("slow", function () {
-    $("#oculatFrmEditarMaterial").slideUp("slow");
-    });
-    modificar_checkbox($(this)); //modificar para poder enviar su valor, cuando se utilice la función serialize(), se pasa como parámetro el id del form            
-    var frm = $(this).serialize();
-    console.log("data modificar material frm: " + frm);
-    var ficha = $("#id_fichatecnica").val();
-    console.log("ficha; " + ficha);
-    $.ajax({
-    method: "POST",
+        e.preventDefault();
+        $("#oculatFrmListadoMaterial").slideDown("slow", function () {
+            $("#oculatFrmEditarMaterial").slideUp("slow");
+        });
+        modificar_checkbox($(this)); //modificar para poder enviar su valor, cuando se utilice la función serialize(), se pasa como parámetro el id del form            
+        var frm = $(this).serialize();
+        console.log("data modificar material frm: " + frm);
+        var ficha = $("#id_fichatecnica").val();
+        console.log("ficha; " + ficha);
+        $.ajax({
+            method: "POST",
             url: "../Smaterial",
             data: frm
-    }).done(function (info) {
-    console.log(typeof info);
-    if (info == "false") {
-    new PNotify({//ver lo de la notificación
-    title: 'Mensaje de Advertencia',
-            text: 'Ingrese todos los datos solicitados',
-            hide: false
+        }).done(function (info) {
+            console.log(typeof info);
+            if (info == "false") {
+                new PNotify({//ver lo de la notificación
+                    title: 'Mensaje de Advertencia',
+                    text: 'Ingrese todos los datos solicitados',
+                    hide: false
+                });
+            } else if (info) {
+                new PNotify({//ver lo de la notificación
+                    title: 'Mensaje de éxito',
+                    text: 'Se modificaron los datos satisfactoriamente.',
+                    type: 'success'
+                });
+                //$("#listaModelos").html("");
+                var arreglo = ["#nombre", "#descripcion", "#unidad_medida", "#cantidad_docena", "#precio_unitario", "#tipo", "#color", "#proveedor", "#proceso", "#modelo", "#fichatecnica"];
+                limpiar(arreglo);
+                //$("#tabla-material").html("");//agregue esto aqui pero ver por errores.
+                $("#tabla-proveedor").html("");
+                $("#tabla-proceso").html("");
+                $("#tabla-modelo").html("");
+                console.log("ficha dentro del done: " + ficha);
+                listarMaterialesPaginacion(ficha);
+            }
+        });
     });
-    } else if (info) {
-    new PNotify({//ver lo de la notificación
-    title: 'Mensaje de éxito',
-            text: 'Se modificaron los datos satisfactoriamente.',
-            type: 'success'
-    });
-    //$("#listaModelos").html("");
-    var arreglo = ["#nombre", "#descripcion", "#unidad_medida", "#cantidad_docena", "#precio_unitario", "#tipo", "#color", "#proveedor", "#proceso", "#modelo", "#fichatecnica"];
-    limpiar(arreglo);
-    //$("#tabla-material").html("");//agregue esto aqui pero ver por errores.
-    $("#tabla-proveedor").html("");
-    $("#tabla-proceso").html("");
-    $("#tabla-modelo").html("");
-    console.log("ficha dentro del done: " + ficha);
-    listarMaterialesPaginacion(ficha);
-    }
-    });
-    });
-    }
+}
 
-    function registrarMaterial() {
+function registrarMaterial() {
     $("#frmMaterial").on("submit", function (e) {
-    e.preventDefault();
-    modificar_checkbox($(this));
-    var frm = $(this).serialize();
-    console.log("frm: " + frm);
-    $.ajax({
-    method: "POST",
+        e.preventDefault();
+        modificar_checkbox($(this));
+        var frm = $(this).serialize();
+        console.log("frm: " + frm);
+        $.ajax({
+            method: "POST",
             url: "../Smaterial",
             data: frm
-    }).done(function (info) {
-    console.log(typeof info);
-    if (info == "false") {
-    new PNotify({
-    title: 'Mensaje de Advertencia',
-            text: 'Ingrese todos los datos solicitados',
-            hide: false
+        }).done(function (info) {
+            console.log(typeof info);
+            if (info == "false") {
+                new PNotify({
+                    title: 'Mensaje de Advertencia',
+                    text: 'Ingrese todos los datos solicitados',
+                    hide: false
+                });
+            } else if (info) {
+                new PNotify({
+                    title: 'Mensaje de éxito',
+                    text: 'Se guardaron los datos satisfactoriamente.',
+                    type: 'success'
+                });
+                //$("#frmMaterial").find("input").val("");//esto borra todo incluso el valor del parámetro por eso no registra
+                var arreglo = ["#nombre", "#descripcion", "#unidad_medida", "#cantidad_docena", "#precio_unitario", "#tipo", "#color", "#proveedor", "#proceso", "#modelo", "#fichatecnica"];
+                limpiar(arreglo);
+                //$("#tabla-material").html("");//agregue esto aqui pero ver por errores.
+                $("#tabla-proveedor").html("");
+                $("#tabla-proceso").html("");
+                $("#tabla-modelo").html("");
+            }
+        });
     });
-    } else if (info) {
-    new PNotify({
-    title: 'Mensaje de éxito',
-            text: 'Se guardaron los datos satisfactoriamente.',
-            type: 'success'
-    });
-    //$("#frmMaterial").find("input").val("");//esto borra todo incluso el valor del parámetro por eso no registra
-    var arreglo = ["#nombre", "#descripcion", "#unidad_medida", "#cantidad_docena", "#precio_unitario", "#tipo", "#color", "#proveedor", "#proceso", "#modelo", "#fichatecnica"];
-    limpiar(arreglo);
-    //$("#tabla-material").html("");//agregue esto aqui pero ver por errores.
-    $("#tabla-proveedor").html("");
-    $("#tabla-proceso").html("");
-    $("#tabla-modelo").html("");
-    }
-    });
-    });
-    }
+}
 
-    function obtenerFichaTecnica() {
+function obtenerFichaTecnica() {
     $("#btnFichaTecnica").on("click", function () {
-    var valor = $("#id_fichatecnica").val();
-    var parametro = "obtenerFichaTecnica";
-    console.log(parametro + " - " + valor);
-    $.ajax({
-    method: "POST",
+        var valor = $("#id_fichatecnica").val();
+        var parametro = "obtenerFichaTecnica";
+        console.log(parametro + " - " + valor);
+        $.ajax({
+            method: "POST",
             url: "../Sfichatecnica",
             data: {"parametro": parametro, "valor": valor}
-    }).done(function (json) {
-    var objFicha = JSON.parse(json);
-    var plataforma = objFicha.data[0].plataforma,
+        }).done(function (json) {
+            var objFicha = JSON.parse(json);
+            var plataforma = objFicha.data[0].plataforma,
             taco = objFicha.data[0].taco,
             color = objFicha.data[0].color,
             coleccion = objFicha.data[0].coleccion,
             cod_modelo = objFicha.data[0].objModelo.codigomodelo;
-    $("#plataforma").val(plataforma);
-    $("#taco").val(taco);
-    $("#color").val(color);
-    $("#coleccion").val(coleccion);
-    $("#modelo").val(cod_modelo);
-    var codigo_ficha = objFicha.data[0].codigoficha;
-    obtenerMaterialesPorFichaTecnica(codigo_ficha);
+            $("#plataforma").val(plataforma);
+            $("#taco").val(taco);
+            $("#color").val(color);
+            $("#coleccion").val(coleccion);
+            $("#modelo").val(cod_modelo);
+            var codigo_ficha = objFicha.data[0].codigoficha;
+            obtenerMaterialesPorFichaTecnica(codigo_ficha);
+        });
     });
-    });
-    }
+}
 
-    function obtenerMaterialesPorFichaTecnica(codigoFicha) {
+function obtenerMaterialesPorFichaTecnica(codigoFicha) {
     $.ajax({
-    method: "POST",
-            url: "../Smaterial",
-            data: {"parametro": "obtenerMaterialesPorFichaTecnica", "valor": codigoFicha}
+        method: "POST",
+        url: "../Smaterial",
+        data: {"parametro": "obtenerMaterialesPorFichaTecnica", "valor": codigoFicha}
     }).done(function (json) {
-    //console.log(json);
-    var objMaterial = JSON.parse(json);
-    var procesos = ["Corte", "Aparado", "Armado", "Alistado"];
-    console.log(objMaterial);
-    var cad = pintarTablasPorProceso(procesos);
-    $(".contenedor-materiales-procesos").html("");
-    $(".contenedor-materiales-procesos").append(cad);
-    pintarMaterialesPorProceso(objMaterial, procesos);
+        //console.log(json);
+        var objMaterial = JSON.parse(json);
+        var procesos = ["Corte", "Aparado", "Armado", "Alistado"];
+        console.log(objMaterial);
+        var cad = pintarTablasPorProceso(procesos);
+        $(".contenedor-materiales-procesos").html("");
+        $(".contenedor-materiales-procesos").append(cad);
+        pintarMaterialesPorProceso(objMaterial, procesos);
     });
-    }
+}
 
-    function pintarMaterialesPorProceso(objMaterial, procesos) {
+function pintarMaterialesPorProceso(objMaterial, procesos) {
     for (var i = 0; i < objMaterial.data.length; i++) {
-    var cad = "";
-    cad += "<tr>"
-            if (objMaterial.data[i].objProceso.descripcion === procesos[0]) {
-    console.log(objMaterial.data[i].objProceso.descripcion);
-    cad += "<td><input class='form-control' type='text' name='nombre' value='" + objMaterial.data[i].nombre + "'/></td>";
-    cad += "<td><input class='form-control' type='text' name='descripcion' value='" + objMaterial.data[i].descripcion + "' /></td>";
-    cad += "<td><input class='form-control' type='text' name='unidadmedida' value='" + objMaterial.data[i].unidadmedida + "' /></td>";
-    cad += "<td><input class='form-control' type='text' name='cantidaddocena' value='" + objMaterial.data[i].cantidaddocena + "' /></td>";
-    cad += "<td hidden ><input class='form-control' name='preciounitario' value='" + objMaterial.data[i].preciounitario + "' /></td>";
-    cad += "<td hidden ><input class='form-control' name='tipo' value='" + objMaterial.data[i].tipo + "' /></td>";
-    cad += "<td hidden ><input class='form-control' name='idproveedor' value='" + objMaterial.data[i].objProveedor.idproveedor + "' /></td>";
-    cad += "<td hidden ><input class='form-control' name='codigoproceso' value='" + objMaterial.data[i].objProceso.codigoproceso + "' /></td>";
-    cad += "<td hidden ><input class='form-control' name='codigoficha' value='" + objMaterial.data[i].objFichaTecnica.codigoficha + "' /></td>";
-    $("#" + procesos[0]).append(cad);
-    } else if (objMaterial.data[i].objProceso.descripcion === procesos[1]) {
-    cad += "<td><input class='form-control' type='text' name='nombre' value='" + objMaterial.data[i].nombre + "'/></td>";
-    cad += "<td><input class='form-control' type='text' name='descripcion' value='" + objMaterial.data[i].descripcion + "' /></td>";
-    cad += "<td><input class='form-control' type='text' name='unidadmedida' value='" + objMaterial.data[i].unidadmedida + "' /></td>";
-    cad += "<td><input class='form-control' type='text' name='cantidaddocena' value='" + objMaterial.data[i].cantidaddocena + "' /></td>";
-    cad += "<td hidden ><input class='form-control' name='preciounitario' value='" + objMaterial.data[i].preciounitario + "' /></td>";
-    cad += "<td hidden ><input class='form-control' name='tipo' value='" + objMaterial.data[i].tipo + "' /></td>";
-    cad += "<td hidden ><input class='form-control' name='idproveedor' value='" + objMaterial.data[i].objProveedor.idproveedor + "' /></td>";
-    cad += "<td hidden ><input class='form-control' name='codigoproceso' value='" + objMaterial.data[i].objProceso.codigoproceso + "' /></td>";
-    cad += "<td hidden ><input class='form-control' name='codigoficha' value='" + objMaterial.data[i].objFichaTecnica.codigoficha + "' /></td>";
-    $("#" + procesos[1]).append(cad);
-    } else if (objMaterial.data[i].objProceso.descripcion === procesos[2]) {
-    cad += "<td><input class='form-control' type='text' name='nombre' value='" + objMaterial.data[i].nombre + "'/></td>";
-    cad += "<td><input class='form-control' type='text' name='descripcion' value='" + objMaterial.data[i].descripcion + "' /></td>";
-    cad += "<td><input class='form-control' type='text' name='unidadmedida' value='" + objMaterial.data[i].unidadmedida + "' /></td>";
-    cad += "<td><input class='form-control' type='text' name='cantidaddocena' value='" + objMaterial.data[i].cantidaddocena + "' /></td>";
-    cad += "<td hidden ><input class='form-control' name='preciounitario' value='" + objMaterial.data[i].preciounitario + "' /></td>";
-    cad += "<td hidden ><input class='form-control' name='tipo' value='" + objMaterial.data[i].tipo + "' /></td>";
-    cad += "<td hidden ><input class='form-control' name='idproveedor' value='" + objMaterial.data[i].objProveedor.idproveedor + "' /></td>";
-    cad += "<td hidden ><input class='form-control' name='codigoproceso' value='" + objMaterial.data[i].objProceso.codigoproceso + "' /></td>";
-    cad += "<td hidden ><input class='form-control' name='codigoficha' value='" + objMaterial.data[i].objFichaTecnica.codigoficha + "' /></td>";
-    $("#" + procesos[2]).append(cad);
-    } else if (objMaterial.data[i].objProceso.descripcion === procesos[3]) {
-    cad += "<td><input class='form-control' type='text' name='nombre' value='" + objMaterial.data[i].nombre + "'/></td>";
-    cad += "<td><input class='form-control' type='text' name='descripcion' value='" + objMaterial.data[i].descripcion + "' /></td>";
-    cad += "<td><input class='form-control' type='text' name='unidadmedida' value='" + objMaterial.data[i].unidadmedida + "' /></td>";
-    cad += "<td><input class='form-control' type='text' name='cantidaddocena' value='" + objMaterial.data[i].cantidaddocena + "' /></td>";
-    cad += "<td hidden ><input class='form-control' name='preciounitario' value='" + objMaterial.data[i].preciounitario + "' /></td>";
-    cad += "<td hidden ><input class='form-control' name='tipo' value='" + objMaterial.data[i].tipo + "' /></td>";
-    cad += "<td hidden ><input class='form-control' name='idproveedor' value='" + objMaterial.data[i].objProveedor.idproveedor + "' /></td>";
-    cad += "<td hidden ><input class='form-control' name='codigoproceso' value='" + objMaterial.data[i].objProceso.codigoproceso + "' /></td>";
-    cad += "<td hidden ><input class='form-control' name='codigoficha' value='" + objMaterial.data[i].objFichaTecnica.codigoficha + "' /></td>";
-    $("#" + procesos[3]).append(cad);
+        var cad = "";
+        cad += "<tr>"
+        if (objMaterial.data[i].objProceso.descripcion === procesos[0]) {
+            console.log(objMaterial.data[i].objProceso.descripcion);
+            cad += "<td><input class='form-control' type='text' name='nombre' value='" + objMaterial.data[i].nombre + "'/></td>";
+            cad += "<td><input class='form-control' type='text' name='descripcion' value='" + objMaterial.data[i].descripcion + "' /></td>";
+            cad += "<td><input class='form-control' type='text' name='unidadmedida' value='" + objMaterial.data[i].unidadmedida + "' /></td>";
+            cad += "<td><input class='form-control' type='text' name='cantidaddocena' value='" + objMaterial.data[i].cantidaddocena + "' /></td>";
+            cad += "<td hidden ><input class='form-control' name='preciounitario' value='" + objMaterial.data[i].preciounitario + "' /></td>";
+            cad += "<td hidden ><input class='form-control' name='tipo' value='" + objMaterial.data[i].tipo + "' /></td>";
+            cad += "<td hidden ><input class='form-control' name='idproveedor' value='" + objMaterial.data[i].objProveedor.idproveedor + "' /></td>";
+            cad += "<td hidden ><input class='form-control' name='codigoproceso' value='" + objMaterial.data[i].objProceso.codigoproceso + "' /></td>";
+            cad += "<td hidden ><input class='form-control' name='codigoficha' value='" + objMaterial.data[i].objFichaTecnica.codigoficha + "' /></td>";
+            $("#" + procesos[0]).append(cad);
+        } else if (objMaterial.data[i].objProceso.descripcion === procesos[1]) {
+            cad += "<td><input class='form-control' type='text' name='nombre' value='" + objMaterial.data[i].nombre + "'/></td>";
+            cad += "<td><input class='form-control' type='text' name='descripcion' value='" + objMaterial.data[i].descripcion + "' /></td>";
+            cad += "<td><input class='form-control' type='text' name='unidadmedida' value='" + objMaterial.data[i].unidadmedida + "' /></td>";
+            cad += "<td><input class='form-control' type='text' name='cantidaddocena' value='" + objMaterial.data[i].cantidaddocena + "' /></td>";
+            cad += "<td hidden ><input class='form-control' name='preciounitario' value='" + objMaterial.data[i].preciounitario + "' /></td>";
+            cad += "<td hidden ><input class='form-control' name='tipo' value='" + objMaterial.data[i].tipo + "' /></td>";
+            cad += "<td hidden ><input class='form-control' name='idproveedor' value='" + objMaterial.data[i].objProveedor.idproveedor + "' /></td>";
+            cad += "<td hidden ><input class='form-control' name='codigoproceso' value='" + objMaterial.data[i].objProceso.codigoproceso + "' /></td>";
+            cad += "<td hidden ><input class='form-control' name='codigoficha' value='" + objMaterial.data[i].objFichaTecnica.codigoficha + "' /></td>";
+            $("#" + procesos[1]).append(cad);
+        } else if (objMaterial.data[i].objProceso.descripcion === procesos[2]) {
+            cad += "<td><input class='form-control' type='text' name='nombre' value='" + objMaterial.data[i].nombre + "'/></td>";
+            cad += "<td><input class='form-control' type='text' name='descripcion' value='" + objMaterial.data[i].descripcion + "' /></td>";
+            cad += "<td><input class='form-control' type='text' name='unidadmedida' value='" + objMaterial.data[i].unidadmedida + "' /></td>";
+            cad += "<td><input class='form-control' type='text' name='cantidaddocena' value='" + objMaterial.data[i].cantidaddocena + "' /></td>";
+            cad += "<td hidden ><input class='form-control' name='preciounitario' value='" + objMaterial.data[i].preciounitario + "' /></td>";
+            cad += "<td hidden ><input class='form-control' name='tipo' value='" + objMaterial.data[i].tipo + "' /></td>";
+            cad += "<td hidden ><input class='form-control' name='idproveedor' value='" + objMaterial.data[i].objProveedor.idproveedor + "' /></td>";
+            cad += "<td hidden ><input class='form-control' name='codigoproceso' value='" + objMaterial.data[i].objProceso.codigoproceso + "' /></td>";
+            cad += "<td hidden ><input class='form-control' name='codigoficha' value='" + objMaterial.data[i].objFichaTecnica.codigoficha + "' /></td>";
+            $("#" + procesos[2]).append(cad);
+        } else if (objMaterial.data[i].objProceso.descripcion === procesos[3]) {
+            cad += "<td><input class='form-control' type='text' name='nombre' value='" + objMaterial.data[i].nombre + "'/></td>";
+            cad += "<td><input class='form-control' type='text' name='descripcion' value='" + objMaterial.data[i].descripcion + "' /></td>";
+            cad += "<td><input class='form-control' type='text' name='unidadmedida' value='" + objMaterial.data[i].unidadmedida + "' /></td>";
+            cad += "<td><input class='form-control' type='text' name='cantidaddocena' value='" + objMaterial.data[i].cantidaddocena + "' /></td>";
+            cad += "<td hidden ><input class='form-control' name='preciounitario' value='" + objMaterial.data[i].preciounitario + "' /></td>";
+            cad += "<td hidden ><input class='form-control' name='tipo' value='" + objMaterial.data[i].tipo + "' /></td>";
+            cad += "<td hidden ><input class='form-control' name='idproveedor' value='" + objMaterial.data[i].objProveedor.idproveedor + "' /></td>";
+            cad += "<td hidden ><input class='form-control' name='codigoproceso' value='" + objMaterial.data[i].objProceso.codigoproceso + "' /></td>";
+            cad += "<td hidden ><input class='form-control' name='codigoficha' value='" + objMaterial.data[i].objFichaTecnica.codigoficha + "' /></td>";
+            $("#" + procesos[3]).append(cad);
+        }
+        cad += "</tr>";
     }
-    cad += "</tr>";
-    }
-    }
+}
 
-    function pintarTablasPorProceso(procesos) {
+function pintarTablasPorProceso(procesos) {
     var cad = "";
     for (var i = 0; i < procesos.length; i++) {
-    if (i % 2 == 0) {
-    cad += "<div class='row'>";
-    cad += "<div class='col-md-6 col-sm-6 col-xs-12'>" +
+        if (i % 2 == 0) {
+            cad += "<div class='row'>";
+            cad += "<div class='col-md-6 col-sm-6 col-xs-12'>" +
             "<div class='x_panel'>" +
             "<div class='x_title'>" +
             "<h2>" + procesos[i] + "</h2>" +
@@ -1325,8 +1348,8 @@
             "</table>" +
             "</div>" + //cierre x_content
             "</div></div>"; //cierra el col
-    } else {
-    cad += "<div class='col-md-6 col-sm-6 col-xs-12'>" +
+        } else {
+            cad += "<div class='col-md-6 col-sm-6 col-xs-12'>" +
             "<div class='x_panel'>" +
             "<div class='x_title'>" +
             "<h2>" + procesos[i] + "</h2>" +
@@ -1351,262 +1374,262 @@
             "</table>" +
             "</div>" + //cierre x_content                        
             "</div></div></div>"; //cierra el row este último div
+            }
     }
-    }
-    return cad;
-    }
+return cad;
+}
 
-    function obtenerDatosModificarfichaTecnica() {
-    $("#frmAsignarMateriales button").on("click", function (e) {//click en el boton de modificar
+function obtenerDatosModificarfichaTecnica() {
+$("#frmAsignarMateriales button").on("click", function (e) {//click en el boton de modificar
     e.preventDefault();
-    var opcion = $(this).attr("id"); //devuelve el id del boton pulsado, pude ser para crear o modificar            
+var opcion = $(this).attr("id"); //devuelve el id del boton pulsado, pude ser para crear o modificar            
 
-    var arr = [];
-    $("table tbody tr").each(function (index) {
+var arr = [];
+$("table tbody tr").each(function (index) {
     var campo1, campo2, campo3, campo4, campo5, campo6, campo7, campo8, campo9;
     var json;
     $(this).children("td").children("input").each(function (index2)
     {
-    switch (index2)
-    {
-    case 0:
+        switch (index2)
+        {
+            case 0:
             campo1 = $(this).val();
-    break;
-    case 1:
+            break;
+            case 1:
             campo2 = $(this).val();
-    break;
-    case 2:
+            break;
+            case 2:
             campo3 = $(this).val();
-    break;
-    case 3:
+            break;
+            case 3:
             campo4 = $(this).val();
-    break;
-    case 4:
+            break;
+            case 4:
             campo5 = $(this).val();
-    break;
-    case 5:
+            break;
+            case 5:
             campo6 = $(this).val();
-    break;
-    case 6:
+            break;
+            case 6:
             campo7 = $(this).val();
-    break;
-    case 7:
+            break;
+            case 7:
             campo8 = $(this).val();
-    break;
-    case 8:
+            break;
+            case 8:
             campo9 = $(this).val();
-    break;
-    }
-    $(this).css("background-color", "#ECF8E0");
+            break;
+        }
+        $(this).css("background-color", "#ECF8E0");
     })
-            json = {"nombre": campo1, "descripcion": campo2, "unidadmedida": campo3, "cantidaddocena": campo4, "preciounitario": campo5, "tipo": campo6, "idproveedor": campo7, "codigoproceso": campo8, "codigoficha": campo9};
+    json = {"nombre": campo1, "descripcion": campo2, "unidadmedida": campo3, "cantidaddocena": campo4, "preciounitario": campo5, "tipo": campo6, "idproveedor": campo7, "codigoproceso": campo8, "codigoficha": campo9};
     arr.push(json);
     console.log(campo1 + ', ' + campo2 + ", " + campo3 + ", " + campo4 + ", " + campo9);
-    });
-    var materialesJSON = {"arreglo": arr};
-    //console.log(materialesJSON);
-    //console.log(materialesJSON.arreglo[0].descripcion);
-    registrarMaterialesNuevaFichaTecnica(materialesJSON, opcion);
-    })
-    }
+});
+var materialesJSON = {"arreglo": arr};
+//console.log(materialesJSON);
+//console.log(materialesJSON.arreglo[0].descripcion);
+registrarMaterialesNuevaFichaTecnica(materialesJSON, opcion);
+})
+}
 
-    function registrarMaterialesNuevaFichaTecnica(json, opcion) {
+function registrarMaterialesNuevaFichaTecnica(json, opcion) {
     var data = JSON.stringify(json);
     var parametro = "";
     var id_fichatecnica = $("#id_fichatecnica").val(),
-            taco = $("#taco").val(),
-            plataforma = $("#plataforma").val(),
-            color = $("#color").val(),
-            modelo = $("#modelo").val(),
-            coleccion = $("#coleccion").val(),
-            especificacion = $("#especificacion").val();
+    taco = $("#taco").val(),
+    plataforma = $("#plataforma").val(),
+    color = $("#color").val(),
+    modelo = $("#modelo").val(),
+    coleccion = $("#coleccion").val(),
+    especificacion = $("#especificacion").val();
     if (opcion === "btnModificarFicha")
-            parametro = "modificarMaterialesDeFichaTecnica";
+        parametro = "modificarMaterialesDeFichaTecnica";
     else if (opcion === "btnCrearFicha")
-            parametro = "registrarMaterialesDeNuevaFichaTecnica";
+        parametro = "registrarMaterialesDeNuevaFichaTecnica";
     console.log("enviar json opcion: " + opcion + " - Id Ficha: " + id_fichatecnica);
-    /*if (id_fichatecnica === "") 
-     alert("Llena el campo con un código de ficha técnica");//podría poner una notificación,validar en el servidor
-     else{*/
+/*if (id_fichatecnica === "") 
+alert("Llena el campo con un código de ficha técnica");//podría poner una notificación,validar en el servidor
+else{*/
     $.ajax({
-    method: "POST",
-            url: "../Sfichatecnica",
-            data: {"datos": data, "parametro": parametro, "id_fichatecnica": id_fichatecnica, "taco": taco, "plataforma": plataforma, "color": color, "modelo": modelo, "coleccion": coleccion, "especificacion": especificacion}
+        method: "POST",
+        url: "../Sfichatecnica",
+        data: {"datos": data, "parametro": parametro, "id_fichatecnica": id_fichatecnica, "taco": taco, "plataforma": plataforma, "color": color, "modelo": modelo, "coleccion": coleccion, "especificacion": especificacion}
     }).done(function (data) {
-    if (data == "existe_ficha") {
-    new PNotify({
-    title: 'Mensaje de Advertencia',
-            text: 'Código de ficha técnica, ya existe.',
-            hide: false
+        if (data == "existe_ficha") {
+            new PNotify({
+                title: 'Mensaje de Advertencia',
+                text: 'Código de ficha técnica, ya existe.',
+                hide: false
+            });
+        } else if (data == "true") {
+            new PNotify({
+                title: 'Mensaje de éxito',
+                text: 'Se guardaron los datos satisfactoriamente.',
+                type: 'success'
+            });
+        } else if (data == "fichavacia") {
+            new PNotify({
+                title: 'Mensaje de éxito',
+                text: 'El campo de ficha técnica, está vacio, por favor, ingresé un código.',
+                type: 'info'
+            });
+        }
     });
-    } else if (data == "true") {
-    new PNotify({
-    title: 'Mensaje de éxito',
-            text: 'Se guardaron los datos satisfactoriamente.',
-            type: 'success'
-    });
-    } else if (data == "fichavacia") {
-    new PNotify({
-    title: 'Mensaje de éxito',
-            text: 'El campo de ficha técnica, está vacio, por favor, ingresé un código.',
-            type: 'info'
-    });
-    }
-    });
-    //}
-    }
+//}
+}
 
-    function modificar_checkbox(formulario) {
+function modificar_checkbox(formulario) {
     var checkboxes = $(formulario).find('input[type="checkbox"]');
     $.each(checkboxes, function (key, value) {
-    if (value.checked === false) {
-    value.value = false;
-    } else {
-    value.value = true;
-    }
-    //$(value).attr('type', 'hidden');
-    });
-    }
+        if (value.checked === false) {
+            value.value = false;
+        } else {
+            value.value = true;
+        }
+//$(value).attr('type', 'hidden');
+});
+}
 
-    function listarProveedores(valor) {
+function listarProveedores(valor) {
     $.ajax({
-    method: "POST",
-            url: "../Sproveedor",
-            data: {"valor": valor, "parametro": "listarProveedor"}
+        method: "POST",
+        url: "../Sproveedor",
+        data: {"valor": valor, "parametro": "listarProveedor"}
     }).done(function (data) {
-    $("#tabla-proveedor").html(data);
+        $("#tabla-proveedor").html(data);
     });
-    }
+}
 
-    function listarProcesos(valor) {
+function listarProcesos(valor) {
     $.ajax({
-    method: "POST",
-            url: "../Sproceso",
-            data: {"valor": valor, "parametro": "listarProceso"}
+        method: "POST",
+        url: "../Sproceso",
+        data: {"valor": valor, "parametro": "listarProceso"}
     }).done(function (data) {
-    $("#tabla-proceso").html(data);
+        $("#tabla-proceso").html(data);
     });
-    }
+}
 
-    function listarModelos(valor) {
+function listarModelos(valor) {
     $.ajax({
-    method: "POST",
-            url: "../Smodelo",
-            data: {"valor": valor, "parametro": "listarModelo"}
+        method: "POST",
+        url: "../Smodelo",
+        data: {"valor": valor, "parametro": "listarModelo"}
     }).done(function (data) {
-    $("#tabla-modelo").html(data);
+        $("#tabla-modelo").html(data);
     });
-    }
+}
 
-    function listarFichaTecnica(valor) {
+function listarFichaTecnica(valor) {
     console.log(valor);
     $.ajax({
-    method: "POST",
-            url: "../Sfichatecnica",
-            data: {"valor": valor, "parametro": "listarFichaTecnica"}
+        method: "POST",
+        url: "../Sfichatecnica",
+        data: {"valor": valor, "parametro": "listarFichaTecnica"}
     }).done(function (data) {
-    $("#tabla-fichatecnica").html(data);
+        $("#tabla-fichatecnica").html(data);
     });
-    }
+}
 
-    function seleccionarProveedor(x) {
+function seleccionarProveedor(x) {
     var id = x.childNodes[1].lastChild.value,
-            razon_social = x.childNodes[2].innerHTML;
+    razon_social = x.childNodes[2].innerHTML;
     var rz_cliente = $("#proveedor").val(razon_social),
-            id_proveedor = $("#id_proveedor").val(id);
+    id_proveedor = $("#id_proveedor").val(id);
     console.log(x.childNodes);
-    }
+}
 
-    function seleccionarProceso(x) {
+function seleccionarProceso(x) {
     var id = x.childNodes[2].innerHTML,
-            razon_social = x.childNodes[3].innerHTML;
+    razon_social = x.childNodes[3].innerHTML;
     var rz_cliente = $("#proceso").val(razon_social),
-            id_proceso = $("#id_proceso").val(id);
+    id_proceso = $("#id_proceso").val(id);
     console.log("id proceoso: " + id)
-            console.log(x.childNodes);
-    }
+    console.log(x.childNodes);
+}
 
-    function seleccionarModelo(x) {
+function seleccionarModelo(x) {
     var id = x.childNodes[1].lastChild.value,
-            razon_social = x.childNodes[1].lastChild.value;
+    razon_social = x.childNodes[1].lastChild.value;
     var rz_cliente = $("#modelo").val(razon_social),
-            id_proceso = $("#id_modelo").val(id);
+    id_proceso = $("#id_modelo").val(id);
     console.log("id modelo " + id)
-            console.log(x.childNodes);
-    }
+    console.log(x.childNodes);
+}
 
-    function seleccionarFichaTecnica(x) {
+function seleccionarFichaTecnica(x) {
     var id = x.childNodes[1].lastChild.value,
-            razon_social = x.childNodes[1].lastChild.value,
-            modelo = x.childNodes[9].innerHTML;
+    razon_social = x.childNodes[1].lastChild.value,
+    modelo = x.childNodes[9].innerHTML;
     var rz_cliente = $("#fichatecnica").val(razon_social),
-            id_proceso = $("#id_fichatecnica").val(id),
-            id_ficha = $("#id_fichatecnica").val(id);
+    id_proceso = $("#id_fichatecnica").val(id),
+    id_ficha = $("#id_fichatecnica").val(id);
     $("#ficha_tecnica").val(id);
     console.log("id f. técnica " + id);
     console.log("modelo: " + modelo);
     console.log(x.childNodes);
-    }
+}
 
-    function registrarProveedor() {
+function registrarProveedor() {
     $("#frmProveedor").on("submit", function (e) {
-    e.preventDefault();
-    var estado = document.getElementById("estado").checked;
-    var razon = $("#razon").val(),
-            ruc = $("#ruc").val(),
-            direccion = $("#direccion").val();
-    $.ajax({
-    method: "POST",
+        e.preventDefault();
+        var estado = document.getElementById("estado").checked;
+        var razon = $("#razon").val(),
+        ruc = $("#ruc").val(),
+        direccion = $("#direccion").val();
+        $.ajax({
+            method: "POST",
             url: "../Sproveedor",
             data: {"parametro": "registrarProveedor", "estado": estado, "razon": razon, "ruc": ruc, "direccion": direccion}
-    }).done(function (data) {
-    console.log("Se registro" + data);
-    if (data == "false") {
-    new PNotify({
-    title: 'Mensaje de Advertencia',
-            text: 'Ingrese todos los datos solicitados',
-            hide: false
-    });
-    } else if (data === "existe_proveedor") {
-    new PNotify({//ver lo de la notificación
+        }).done(function (data) {
+            console.log("Se registro" + data);
+            if (data == "false") {
+                new PNotify({
+                    title: 'Mensaje de Advertencia',
+                    text: 'Ingrese todos los datos solicitados',
+                    hide: false
+                });
+            } else if (data === "existe_proveedor") {
+new PNotify({//ver lo de la notificación
     title: 'Mensaje de Información',
-            text: 'El número de ruc del proveedor, ya existe.',
-            type: 'info'
-    });
-    } else if (data == "true") {
+    text: 'El número de ruc del proveedor, ya existe.',
+    type: 'info'
+});
+} else if (data == "true") {
     new PNotify({
-    title: 'Mensaje de éxito',
-            text: 'Se guardaron los datos satisfactoriamente.',
-            type: 'success'
+        title: 'Mensaje de éxito',
+        text: 'Se guardaron los datos satisfactoriamente.',
+        type: 'success'
     });
-    }
+}
 
-    var arreglo = ["#razon", "#ruc", "#direccion"];
-    limpiar(arreglo);
-    })
+var arreglo = ["#razon", "#ruc", "#direccion"];
+limpiar(arreglo);
+})
     });
-    }
+}
 
-    function fechas(valor) {
+function fechas(valor) {
     $(valor).daterangepicker({
-    singleDatePicker: true,
-            calender_style: "picker_2",
-            locale: {
+        singleDatePicker: true,
+        calender_style: "picker_2",
+        locale: {
             format: 'YYYY-MM-DD',
-                    daysOfWeek: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa'],
-                    monthNames: ['Enero', 'Febreri', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
-            }
+            daysOfWeek: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa'],
+            monthNames: ['Enero', 'Febreri', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
+        }
     });
     $(valor).on('apply.daterangepicker', function (ev, picker) {
-    $(this).val(picker.startDate.format('YYYY-MM-DD'));
+        $(this).val(picker.startDate.format('YYYY-MM-DD'));
     });
-    }
+}
 
-    function limpiar(arr) {
+function limpiar(arr) {
     for (var i = 0; i < arr.length; i++) {
-    $(arr[i]).val("");
+        $(arr[i]).val("");
     }
-    }
+}
 
 </script>
 <script>

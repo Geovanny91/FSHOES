@@ -44,6 +44,8 @@
         <link href="../js/datatables/responsive.bootstrap.min.css" rel="stylesheet" type="text/css" />
         <link href="../js/datatables/scroller.bootstrap.min.css" rel="stylesheet" type="text/css" />
         
+        <!-- summernote editor-->
+        <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.1/summernote.css" rel="stylesheet">
 
         <!--[if lt IE 9]>
               <script src="../assets/js/ie8-responsive-file-warning.js"></script>

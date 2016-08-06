@@ -162,7 +162,8 @@
                             <div class="form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12">Especificación</label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <textarea class="resizable_textarea form-control" name="especificacion" id="especificacion" value="" placeholder="Ingresar las especificaciones"></textarea>
+                                    <input type="hidden" id="especificacion" name="especificacion" value="">
+                                    <div id="especificacion_editor"><p>Cortado</p></div>
                                 </div>
                             </div>                            
                             <div class="form-group">
