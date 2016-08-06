@@ -52,7 +52,7 @@
 <script src="../js/validator/validator.js"></script>
 
 <!-- summernote editor-->
-<script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.1/summernote.js"></script>
+<script src="../js/summernote.min.js"></script>
 
 <script>
     <!-- skycons -->
