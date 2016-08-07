@@ -22,6 +22,10 @@
 <script type="text/javascript" src="../js/moment/moment.min.js"></script>
 <script type="text/javascript" src="../js/datepicker/daterangepicker.js"></script>
 
+<!-- Include Bootstrap Datepicker url: https://github.com/eternicode/bootstrap-datepicker/blob/master/docs/i18n.rst -->
+<script src="../js/datepicker/bootstrap-datepicker.min.js"></script>
+<!--<script src="../js/datepicker/bootstrap-datepicker.es.min.js" charset="UTF-8"></script>-->
+
 <!-- range slider -->
 <script src="../js/ion_range/ion.rangeSlider.min.js"></script>
 <!-- color picker -->
@@ -72,11 +76,32 @@
         icons.play();</script>
 
     <script type="text/javascript">
-    $(document).ready(function () {
+    $(document).on("ready", function () {
+        
+        $.fn.datepicker.dates['en'] = {
+            days: ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"],
+            daysShort: ["Dom", "Lun", "Mar", "Mir", "Jue", "vie", "Sab"],
+            daysMin: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"],
+            months: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
+            monthsShort: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"],
+            today: "Hoy",
+            clear: "Clear",
+            format: "yyyy-mm-dd",
+            titleFormat: "MM yyyy",
+            weekStart: 0
+        };
+        
+        $.fn.datepicker.defaults.format = "yyyy-mm-dd";
+        $('.datepicker').datepicker({
+            format: 'yyyy-mm-dd',            
+            startDate: '-3d'
+        });
+        
+        
         logout();
         listarClientes();
-        fechas("#f_emision");
-        fechas("#f_entrega");
+        //fechas("#f_emision");
+        //fechas("#f_entrega");
         listarClientesPaginacion();
         registrarcliente();
         modificarCliente();
@@ -101,7 +126,8 @@
         modificarTrabajador();
         obtenerFichaTecnica();
         obtenerDatosModificarfichaTecnica();
-    });
+    });    
+    
     /*VARIABLES GLOBALES*/
     var total;
     var resultVal = 0.0;
@@ -131,6 +157,7 @@
             sortDescending: ": Activar para ordenar la columna de manera descendente"
         }
     };
+    
 
     function orden() {
         $("#guardarOrden").on("click", function () {
@@ -274,6 +301,19 @@ function asignarOrdenTrabajadorProceso() {
                 new PNotify({
                     title: 'Mensaje de Información',
                     text: 'El código de orden introducido, no existe.',
+                    type: 'info',
+                    hide: false
+                });
+            } else if (data == "proceso_no_adeacudo"){
+                new PNotify({
+                    title: 'Mensaje de Información',
+                    text: 'Los procesos adecuados para una orden, son: corte, aparado, armado, alistado.',                    
+                    hide: false
+                });
+            } else if (data == "existe_proceso_en_detalleorden"){
+                new PNotify({
+                    title: 'Mensaje de Información',
+                    text: 'El proceso que eligió, ya esta registrado en la orden.',
                     type: 'info',
                     hide: false
                 });
@@ -716,45 +756,63 @@ function modificarCliente() {
         $("#oculatFrmListadoCliente").slideDown("slow", function () {
             $("#oculatFrmEditarCliente").slideUp("slow");
         });
-modificar_checkbox($(this)); //modificar para poder enviar su valor, cuando se utilice la función serialize(), se pasa como parámetro el id del form            
-var frm = $(this).serialize();
-console.log("data modificar trabajador frm: " + frm);
-var idcliente = $("#idcliente").val();
-console.log("id_cliente: " + idcliente);
-$.ajax({
-    method: "POST",
-    url: "../Scliente",
-    data: frm
-}).done(function (info) {
-    console.log(typeof info);
-    if (info == "false") {
-new PNotify({//ver lo de la notificación
-    title: 'Mensaje de Advertencia',
-    text: 'Ingrese todos los datos solicitados',
-    hide: false
-});
-}else if (info == "true") {
-new PNotify({//ver lo de la notificación
-    title: 'Mensaje de éxito',
-    text: 'Se modificaron los datos satisfactoriamente.',
-    type: 'success'
-});
-//$("#listaModelos").html("");
-var arreglo = ["#nombres", "#ape_paterno", "#ape_materno", "#dni", "#direccion", "#telefono", "#celular", "#usuario", "#fecha_nacimiento", "#proceso"];
-limpiar(arreglo);
+        modificar_checkbox($(this)); //modificar para poder enviar su valor, cuando se utilice la función serialize(), se pasa como parámetro el id del form            
+        var frm = $(this).serialize();
+        console.log("data modificar trabajador frm: " + frm);
+        var idcliente = $("#idcliente").val();
+        console.log("id_cliente: " + idcliente);
+        $.ajax({
+            method: "POST",
+            url: "../Scliente",
+            data: frm
+        }).done(function (info) {
+            console.log(typeof info);
+            if (info == "false") {
+                new PNotify({//ver lo de la notificación
+                    title: 'Mensaje de Advertencia',
+                    text: 'Ingrese todos los datos solicitados',
+                    hide: false
+                });
+            }else if (info == "true") {
+                new PNotify({//ver lo de la notificación
+                    title: 'Mensaje de éxito',
+                    text: 'Se modificaron los datos satisfactoriamente.',
+                    type: 'success'
+                });
+                //$("#listaModelos").html("");
+                var arreglo = ["#nombres", "#ape_paterno", "#ape_materno", "#dni", "#direccion", "#telefono", "#celular", "#usuario", "#fecha_nacimiento", "#proceso"];
+                limpiar(arreglo);
 
-$("#tabla-proceso").html("");    
-listarClientesPaginacion();
-}
-});
-});
+                $("#tabla-proceso").html("");    
+                listarClientesPaginacion();
+            }
+        });
+    });
 }
 
 function mostrarModelosYFichas() {
     $("#btnMostrarFichasPorModelo").on("click", function (e) {
         e.preventDefault();
         var modelo = $("#codigo_modelo").val();
-        listarModelosPaginacion(modelo.trim());
+        
+        $.ajax({
+           url: "../Smodelo",
+           method: "POST",
+           data: {"codigo_modelo" : modelo, "parametro": "listarFichaTecnicaPaginacion"}
+        }).done( function ( info ){
+            
+            if( info == "no_existe_modelo"){
+                new PNotify({//ver lo de la notificación
+                    title: 'Mensaje de éxito',
+                    text: 'El código de modelo no existe.',
+                    type: 'info'
+                });
+            }else{                
+                listarModelosPaginacion(modelo.trim());
+            }
+        });
+        
+        
     });
 }
 
@@ -765,12 +823,12 @@ function listarModelosPaginacion(modelo) {//listar modelos con sus fichas tecnic
         "bDestroy": true,
         "searching": false,
         "processing": true,
-        "serverSide": true,
+        "serverSide": true,        
         "ajax": {
             "url": "../Smodelo",
             "type": "POST",
             "data": {"parametro": "listarFichaTecnicaPaginacion", "codigo_modelo": modelo}
-        //"dataSrc": "animes"
+        
         },
         //ft.codigomodelo, horma, , , , , , c.idcliente, c.razonsocial
         "columnDefs": [
@@ -1061,7 +1119,23 @@ function mostrarMaterialesPorFicha() {
     $("#btnMostrarMaterialesPorFicha").on("click", function (e) {
         e.preventDefault();
         var ficha = $("#ficha_tecnica").val();
-        listarMaterialesPaginacion(ficha.trim());
+        
+        
+        $.ajax({
+           url: "../Smaterial",
+           method: "POST",
+           data: {"ficha_tecnica" : ficha, "parametro": "listarMaterialPaginacion"}
+        }).done( function ( info ){            
+            if( info == "no_existe_ficha"){
+                new PNotify({//ver lo de la notificación
+                    title: 'Mensaje de éxito',
+                    text: 'El código de ficha técnica no existe.',
+                    type: 'info'
+                });
+            }else{                
+                listarMaterialesPaginacion(ficha.trim());
+            }
+        });        
     });
 }
 

@@ -114,6 +114,29 @@ public class DetalleOrdenAD {
         return Lista;
     }
     
+    public int existeProcesosEnDetalleOrden(String cod_proceso, String cod_orden, String prm) throws Exception{
+        int existe = 0;
+        cn = Conexion.Instancia().getConexion();
+        try {
+            cst = cn.prepareCall("{call pa_detalle_orden(?,?,?,?,?)}");
+            cst.setString(1, cod_proceso);            
+            cst.setString(2, prm);
+            cst.setString(3, cod_orden);
+            cst.setString(4, "");
+            cst.setString(5, "");            
+            tabla = cst.executeQuery();
+            while(tabla.next()){
+                existe = tabla.getInt("existe");
+            }            
+            return existe;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }finally{
+            close();
+        }       
+        return existe;        
+    }
+    
     private void close() {
         try {
           if (tabla != null) {

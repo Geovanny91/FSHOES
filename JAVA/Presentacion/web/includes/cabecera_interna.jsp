@@ -46,6 +46,10 @@
         
         <!-- summernote editor-->
         <link href="../css/summernote.css" rel="stylesheet">
+        
+        <!-- Include Bootstrap Datepicker -->
+        <link rel="stylesheet" href="../css/datepicker/bootstrap-datepicker.css" />
+        
 
         <!--[if lt IE 9]>
               <script src="../assets/js/ie8-responsive-file-warning.js"></script>

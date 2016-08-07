@@ -57,4 +57,14 @@ public class DetalleOrdenLN {
             throw e;
         }
     }
+    
+    public int existeProcesosEnDetalleOrden(String cod_proceso, String cod_orden, String prm) throws Exception{
+        try {
+            if (!(prm.equals("")) && !cod_proceso.equals("") && !cod_orden.equals(""))
+                return DetalleOrdenAD.Instancia().existeProcesosEnDetalleOrden(cod_proceso, cod_orden, prm);
+            else return 0;
+        } catch (Exception e) {
+            throw e;
+        }        
+    }
 }

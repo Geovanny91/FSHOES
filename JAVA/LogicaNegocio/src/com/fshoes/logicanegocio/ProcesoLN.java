@@ -40,4 +40,14 @@ public class ProcesoLN {
             throw ex;
         }        
     }
+    
+    public int evaluarRangoProcesos(String valor, String prm) throws Exception{
+        try {
+            if (!(prm.equals("")) && !valor.equals(""))
+                return ProcesoAD.Instancia().evaluarRangoProcesos(valor, prm);
+            else return 0;
+        } catch (Exception e) {
+            throw e;
+        }        
+    }
 }

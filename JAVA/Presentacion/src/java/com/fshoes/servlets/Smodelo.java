@@ -133,28 +133,35 @@ public class Smodelo extends HttpServlet {
             break;
             case "listarFichaTecnicaPaginacion": {//aqui por modelo
                 try {
-                    //lista = new ArrayList<>();
-                    int inicio = Integer.parseInt(request.getParameter("start")),
-                            fin = Integer.parseInt(request.getParameter("length"));                    
                     String codigo_modelo = request.getParameter("codigo_modelo");
-                    //listar por código de modelo, que irá en el parámetro valor
-                    //lista = ModeloLN.Instancia().listarModelos("", parametro, inicio, (fin + inicio));//getListPersonajes(n_col, dir, inicio, fin);//base de datos
-                    listaFicha = FichaTecnicaLN.Instancia().listarFichaTecnica(codigo_modelo, parametro, inicio, (inicio + fin));
-                    JSONArray array = new JSONArray();
-                    array.addAll(listaFicha);
-                    StringWriter outjson = new StringWriter();
+                    int existe_modelo = 0;
+                    existe_modelo = ModeloLN.Instancia().existeModelo(codigo_modelo, "verificarModelo");
+                    
+                    if( existe_modelo > 0 ){                    
+                        int inicio = Integer.parseInt(request.getParameter("start")),
+                            fin = Integer.parseInt(request.getParameter("length"));                    
 
-                    int total = FichaTecnicaLN.Instancia().obtenerTotalFilas(codigo_modelo, "obtenerTotal");
-                    int draw = Integer.parseInt(request.getParameter("draw"));
+                        //listar por código de modelo, que irá en el parámetro valor
+                        //lista = ModeloLN.Instancia().listarModelos("", parametro, inicio, (fin + inicio));//getListPersonajes(n_col, dir, inicio, fin);//base de datos
+                        listaFicha = FichaTecnicaLN.Instancia().listarFichaTecnica(codigo_modelo, parametro, inicio, (inicio + fin));
+                        JSONArray array = new JSONArray();
+                        array.addAll(listaFicha);
+                        StringWriter outjson = new StringWriter();
 
-                    JSONObject json = new JSONObject();
-                    json.put("draw", draw);
-                    json.put("recordsTotal", total);//consulta BD
-                    json.put("recordsFiltered", total);//es cuando hay busquedas
-                    json.put("data", array);
-                    json.writeJSONString(outjson);
-                    out.println(outjson);
-                    System.out.println(outjson);
+                        int total = FichaTecnicaLN.Instancia().obtenerTotalFilas(codigo_modelo, "obtenerTotal");
+                        int draw = Integer.parseInt(request.getParameter("draw"));
+
+                        JSONObject json = new JSONObject();
+                        json.put("draw", draw);
+                        json.put("recordsTotal", total);//consulta BD
+                        json.put("recordsFiltered", total);//es cuando hay busquedas
+                        json.put("data", array);
+                        json.writeJSONString(outjson);
+                        out.println(outjson);
+                        System.out.println(outjson);
+                    }else{
+                        response.getWriter().write("no_existe_modelo");
+                    }
                 } catch (Exception ex) {
                     Logger.getLogger(Smodelo.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -174,7 +181,7 @@ public class Smodelo extends HttpServlet {
                     
                     //Validando si existen modelos o fichas tecnicas, antes de registrar en la BD.
                     existe_modelo = ModeloLN.Instancia().existeModelo(cod_modelo, "verificarModelo");
-                    existe_ficha = FichaTecnicaLN.Instancia().existeFichaTecnica(ficha_tecnica, "verificarFichaTecnica");                    
+                    existe_ficha = FichaTecnicaLN.Instancia().existeFichaTecnica(ficha_tecnica, "verificarFichaTecnicoa");                    
                     
                     if (existe_modelo == 1) {
                         response.getWriter().write("existe");

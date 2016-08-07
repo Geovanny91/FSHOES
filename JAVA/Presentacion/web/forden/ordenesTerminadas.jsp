@@ -47,16 +47,17 @@
                             <div class="form-group">
                                 <div class="input-group">
                                     <div class="input-group-addon"><i class="fa fa-calendar-o"></i></div>
-                                    <input type="text" maxlength="10" class="form-control" id="f_emision" name="f_emision" placeholder="Ingresar fecha" required="">
-                                <div class="daterangepicker picker_2 single opensright show-calendar"></div>
+                                    <input type="text" maxlength="10" class="form-control" id="f_emision" name="f_emision" data-provide="datepicker" placeholder="Ingresar fecha" required="">
+                                    
+                                
                                 </div>
                             </div>
                             
                             <div class="form-group">                                
                                 <div class="input-group">
                                     <div class="input-group-addon"><i class="fa fa-calendar-o"></i></div>
-                                    <input type="text" class="form-control" name="f_entrega" id="f_entrega" value="" placeholder="Ingresar fecha" required="">
-                                    <div class="daterangepicker picker_2 single opensright show-calendar"></div>
+                                    <input type="text" maxlength="10" class="form-control" name="f_entrega" id="f_entrega" data-provide="datepicker" placeholder="Ingresar fecha" required="">
+                                    
                                 </div>
                             </div>
                             <input type="button" value="Click" id="btnMostrarOrdenes" class="btn btn-primary" />

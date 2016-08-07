@@ -10,6 +10,7 @@ import com.fshoes.entidades.Orden;
 import com.fshoes.entidades.Trabajador;
 import com.fshoes.logicanegocio.DetalleOrdenLN;
 import com.fshoes.logicanegocio.OrdenLN;
+import com.fshoes.logicanegocio.ProcesoLN;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -86,7 +87,8 @@ public class Sdetalleorden extends HttpServlet {
 
         /*Parámetros*/
         String codigoorden = request.getParameter("orden"),
-                idempleado = request.getParameter("cbotrabajador");
+                idempleado = request.getParameter("cbotrabajador"),
+                codigoproceso = request.getParameter("cboproceso");
         //estado = request.getParameter("estado");
         /*Fin Parámetros*/
 
@@ -125,7 +127,7 @@ public class Sdetalleorden extends HttpServlet {
                         } else {
                             response.getWriter().append("vacio");
                         }
-                    }else{
+                    } else {
                         response.getWriter().write("noexisteorden");
                     }
 
@@ -136,21 +138,33 @@ public class Sdetalleorden extends HttpServlet {
             break;
             case "asignarOrden": {
                 try {
-                    int existe_orden = 0;
+                    int existe_orden = 0, evaluar_rango_procesos = 0, existe_proceso_en_detalleorden = 0;
                     existe_orden = OrdenLN.Instancia().existeOrden(codigoorden, "verificarOrden");
+                    // ya esta listo el codigo de proceso, solo mandar como parámetro.
 
                     if (existe_orden > 0) {
-                        Orden objOrden = new Orden();
-                        objOrden.setCodigoorden(codigoorden);
-                        Trabajador objTrabajador = new Trabajador();
-                        objTrabajador.setIdempleado(Integer.parseInt(idempleado));
-                        objDetalleOrden = new DetalleOrden(objOrden, objTrabajador, false);
-                        rptDetalleOrden = DetalleOrdenLN.Instancia().asignarOrden(objDetalleOrden, parametro);
-                        if (rptDetalleOrden) {
-                            response.getWriter().write("true");
+                        evaluar_rango_procesos = ProcesoLN.Instancia().evaluarRangoProcesos(codigoproceso, "evaluarRangoProcesos");
+                        if (evaluar_rango_procesos > 0) {
+                            existe_proceso_en_detalleorden = DetalleOrdenLN.Instancia().existeProcesosEnDetalleOrden(codigoproceso, codigoorden, "verificarProcesosOrden");
+                            if (existe_proceso_en_detalleorden > 0) {
+                                response.getWriter().write("existe_proceso_en_detalleorden");
+                            } else {
+                                Orden objOrden = new Orden();
+                                objOrden.setCodigoorden(codigoorden);
+                                Trabajador objTrabajador = new Trabajador();
+                                objTrabajador.setIdempleado(Integer.parseInt(idempleado));
+                                objDetalleOrden = new DetalleOrden(objOrden, objTrabajador, false);
+                                rptDetalleOrden = DetalleOrdenLN.Instancia().asignarOrden(objDetalleOrden, parametro);
+                                if (rptDetalleOrden) {
+                                    response.getWriter().write("true");
+                                } else {
+                                    response.getWriter().write("false");
+                                }
+                            }
                         } else {
-                            response.getWriter().write("false");
+                            response.getWriter().write("proceso_no_adeacudo");
                         }
+
                     } else {
                         response.getWriter().write("noexisteorden");
                     }

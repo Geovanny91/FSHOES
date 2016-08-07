@@ -9,6 +9,7 @@ import com.fshoes.entidades.FichaTecnica;
 import com.fshoes.entidades.Material;
 import com.fshoes.entidades.Proceso;
 import com.fshoes.entidades.Proveedor;
+import com.fshoes.logicanegocio.FichaTecnicaLN;
 import com.fshoes.logicanegocio.MaterialLN;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -105,26 +106,26 @@ public class Smaterial extends HttpServlet {
             case "listarMaterialPaginacion": {
                 try {
                     ArrayList<Material> lista = new ArrayList<>();
-                    /*int inicio = Integer.parseInt(request.getParameter("start")),
-                            fin = Integer.parseInt(request.getParameter("length"));*/
+                    
                     String ficha_tecnica = request.getParameter("ficha_tecnica");
                     //listar por código de ficha técnica, que irá en el parámetro valor
-                    lista = MaterialLN.Instancia().listarMaterialPaginacion(ficha_tecnica, parametro);//getListPersonajes(n_col, dir, inicio, fin);//base de datos
-                    JSONArray array = new JSONArray();
-                    array.addAll(lista);
-                    StringWriter outjson = new StringWriter();
+                    int existe_ficha = 0;
+                    existe_ficha = FichaTecnicaLN.Instancia().existeFichaTecnica(ficha_tecnica, "verificarFichaTecnica");
+                    
+                    if( existe_ficha > 0 ){                    
+                        lista = MaterialLN.Instancia().listarMaterialPaginacion(ficha_tecnica, parametro);//getListPersonajes(n_col, dir, inicio, fin);//base de datos
+                        JSONArray array = new JSONArray();
+                        array.addAll(lista);
+                        StringWriter outjson = new StringWriter();
 
-                    /*int total = MaterialLN.Instancia().obtenerTotalFilas(ficha_tecnica, "obtenerTotal");
-                    int draw = Integer.parseInt(request.getParameter("draw"));*/
-
-                    JSONObject json = new JSONObject();
-                    /*json.put("draw", draw);
-                    json.put("recordsTotal", total);//consulta BD
-                    json.put("recordsFiltered", total);//es cuando hay busquedas*/
-                    json.put("data", array);
-                    json.writeJSONString(outjson);
-                    out.println(outjson);
-                    System.out.println(outjson);
+                        JSONObject json = new JSONObject();                    
+                        json.put("data", array);
+                        json.writeJSONString(outjson);
+                        out.println(outjson);
+                        System.out.println(outjson);
+                    }else{
+                        response.getWriter().write("no_existe_ficha");
+                    }
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }

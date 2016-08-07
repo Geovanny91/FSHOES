@@ -76,6 +76,26 @@ public class ProcesoAD {
         return Lista;
     }
     
+    public int evaluarRangoProcesos(String valor, String prm) throws Exception{
+        int valor_bd = 0;
+        cn = Conexion.Instancia().getConexion();
+        try {
+            cst = cn.prepareCall("{call pa_proceso(?,?)}");
+            cst.setString(1, valor);
+            cst.setString(2, prm);   
+            tabla = cst.executeQuery();            
+            while(tabla.next()){
+                valor_bd = tabla.getInt("valor");
+            }            
+            return valor_bd;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }finally{
+            close();
+        }       
+        return valor_bd;        
+    }
+    
     private void close() {
         try {
           if (tabla != null) {
