@@ -119,22 +119,21 @@
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Fecha emision</label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input type="text" class="form-control has-feedback-left" id="f_emision" name="f_emision" placeholder="Ingresar fecha de emisión" required="">
+                                <input type="text" maxlength="10" class="form-control has-feedback-left" id="f_emision" name="f_emision" data-provide="datepicker" placeholder="Ingresar fecha de emisión" required="">
                                 <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
                             </div>
-                        </div>                            
-                        <div class="daterangepicker picker_2 single opensright show-calendar"></div>
+                        </div>                        
 
                         <!--FIN-->
 
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Fecha entrega</label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input type="text" class="form-control has-feedback-left" name="f_entrega" id="f_entrega" value="" placeholder="Ingresar fecha de entrega" required="">
+                                <input type="text" maxlength="10" class="form-control has-feedback-left" name="f_entrega" id="f_entrega" value="" data-provide="datepicker" placeholder="Ingresar fecha de entrega" required="">
                                 <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
                             </div>
                         </div>
-                        <div class="daterangepicker picker_2 single opensright show-calendar"></div>
+                        
 
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Total</label>
