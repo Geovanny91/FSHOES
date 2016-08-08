@@ -663,9 +663,7 @@ function listarOrdenesTerminadasPaginacion(fecha_uno, fecha_dos) {
     tabla_paginacion_orden = $('#listaOrdenesTerminadas').DataTable({
         //"scrollX": true
         "bDestroy": true,
-        "searching": false,
-        "processing": true,
-        "serverSide": true,
+        "searching": false,        
         "ajax": {
             "url": "../SOrden",
             "type": "POST",
@@ -673,22 +671,24 @@ function listarOrdenesTerminadasPaginacion(fecha_uno, fecha_dos) {
         },
         "columnDefs": [
             {"name": "CodigoOrden", "targets": 0, "width": "200px"},
-            {"name": "OrdenPedido", "targets": 1, "width": "100px"},
-            {"name": "FechaEntrega", "targets": 2, "width": "250px"},
-            {"name": "CodigoFicha", "targets": 3, "width": "250px"},
-            {"name": "Total", "targets": 4, "width": "250px"}
+            {"name": "OrdenPedido", "targets": 1, "width": "200px"},
+            {"name": "FechaEntrega", "targets": 2, "width": "200px"},
+            {"name": "Modelo", "targets": 3, "width": "250px"},
+            {"name": "CodigoFicha", "targets": 4, "width": "200px"},
+            {"name": "Color", "targets": 5, "width": "250px"},
+            {"name": "Total", "targets": 6, "width": "150px"}
         ],
         "columns": [
             {"data": "codigoorden"},
             {"data": "orden_pedido"},
             {"data": "fecha_entrega"},
+            {"data": "objFicha.objModelo.codigomodelo"},            
             {"data": "objFicha.codigoficha"},
+            {"data": "objFicha.color"},
             {"data": "total"}
         ],
         language: lenguaje_espanol
-        });
-        //tabla_paginacion_orden.column(6).visible(false);
-        //mantenedoresClientes('#listaCliente tbody', tabla_paginacion_cliente);
+        });        
 }
 
 function listarClientesPaginacion() {

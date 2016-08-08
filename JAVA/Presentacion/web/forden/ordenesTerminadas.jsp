@@ -72,8 +72,10 @@
                                 <tr>
                                     <th>Orden</th>
                                     <th>Pedido</th>
-                                    <th>Fecha Entrega</th>                                 
+                                    <th>Fecha Entrega</th>
+                                    <th>Modelo</th>
                                     <th>Ficha Técnica</th>
+                                    <th>Color</th>
                                     <th>Total</th>
 
                                 </tr>

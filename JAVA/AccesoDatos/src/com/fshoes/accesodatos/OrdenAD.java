@@ -38,15 +38,15 @@ public class OrdenAD {
     private PreparedStatement pst = null;
     private ResultSet tabla = null;
         
-    public ArrayList<Orden> listarOrdenesTerminadas(String valor, String prm, Orden orden, int inicio, int fin) throws Exception{
+    public ArrayList<Orden> listarOrdenesTerminadas(String valor, String prm, Orden orden) throws Exception{
         cn = Conexion.Instancia().getConexion();
         ArrayList<Orden> Lista = null;
         try{
             cst = cn.prepareCall("{call pa_orden(?,?,?,?,?,?,?,?,?,?)}");
             cst.setString(1, valor);
             cst.setString(2, prm);
-            cst.setInt(3, inicio);
-            cst.setInt(4, fin);
+            cst.setInt(3, 0);
+            cst.setInt(4, 0);
             cst.setString(5, "");
             cst.setString(6, "");
             cst.setDate(7, (Date) orden.getFecha_emision());
@@ -65,6 +65,10 @@ public class OrdenAD {
                 o.setFecha_entrega(tabla.getDate("fecha_entrega"));
                 FichaTecnica ficha = new FichaTecnica();
                 ficha.setCodigoficha(tabla.getString("codigoficha"));
+                ficha.setColor(tabla.getString("color"));
+                Modelo modelo = new Modelo();
+                modelo.setCodigomodelo(tabla.getString("codigomodelo"));                
+                ficha.setObjModelo(modelo);
                 o.setObjFicha(ficha);
                 o.setTotal(tabla.getInt("total"));
                 Lista.add(o);

@@ -25,10 +25,10 @@ public class OrdenLN {
     }
     // end Singleton
     
-    public ArrayList<Orden> listarOrdenesTerminadas(String valor, String prm, Orden objOrden, int inicio, int fin) throws Exception{
+    public ArrayList<Orden> listarOrdenesTerminadas(String valor, String prm, Orden objOrden) throws Exception{
     try{
             if(!prm.equals("") && objOrden != null)  
-                return OrdenAD.Instancia().listarOrdenesTerminadas(valor, prm, objOrden, inicio, fin);
+                return OrdenAD.Instancia().listarOrdenesTerminadas(valor, prm, objOrden);
             else return null;
         }catch(Exception ex){
             throw ex;

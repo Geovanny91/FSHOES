@@ -111,9 +111,6 @@ public class SOrden extends HttpServlet {
         switch (parametro) {
             case "listarOrdenTerminadaPaginacion": {
                 try {
-                    int inicio = Integer.parseInt(request.getParameter("start")),
-                            fin = Integer.parseInt(request.getParameter("length"));
-
                     String f_emision = request.getParameter("f_emision").trim(),
                             f_entrega = request.getParameter("f_entrega").trim();
 
@@ -150,18 +147,12 @@ public class SOrden extends HttpServlet {
                     orden.setFecha_emision(fecha_emision);
                     orden.setFecha_entrega(fecha_entrega);
 
-                    lista = OrdenLN.Instancia().listarOrdenesTerminadas("", parametro, orden, inicio, (inicio + fin));
+                    lista = OrdenLN.Instancia().listarOrdenesTerminadas("", parametro, orden);
                     JSONArray array = new JSONArray();
                     array.addAll(lista);
                     StringWriter outjson = new StringWriter();
 
-                    int total = OrdenLN.Instancia().obtenerTotalFilas(valor, "obtenerTotal", orden);
-                    int draw = Integer.parseInt(request.getParameter("draw"));
-
-                    JSONObject json = new JSONObject();
-                    json.put("draw", draw);
-                    json.put("recordsTotal", total);
-                    json.put("recordsFiltered", total);//es cuando hay busquedas
+                    JSONObject json = new JSONObject();                    
                     json.put("data", array);
                     json.writeJSONString(outjson);
                     out.println(outjson);
